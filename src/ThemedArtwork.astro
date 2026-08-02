@@ -1,0 +1,23 @@
+---
+type Props = {
+  light: string;
+  dark: string;
+  lightMobile?: string;
+  darkMobile?: string;
+  lightAlt: string;
+  darkAlt: string;
+  class?: string;
+  position?: string;
+};
+const { light, dark, lightMobile, darkMobile, lightAlt, darkAlt, class: className = "", position = "center" } = Astro.props;
+const style = [`--gw-art-light:url('${light}')`, `--gw-art-dark:url('${dark}')`, lightMobile && `--gw-art-light-mobile:url('${lightMobile}')`, darkMobile && `--gw-art-dark-mobile:url('${darkMobile}')`, `--gw-art-position:${position}`].filter(Boolean).join(";");
+---
+<div class:list={["gw-themed-artwork", className]} style={style} role="img" aria-label={lightAlt} data-light-alt={lightAlt} data-dark-alt={darkAlt}></div>
+<script>
+  const updateArtworkLabels = () => {
+    const dark = document.documentElement.dataset.theme === "dark";
+    document.querySelectorAll<HTMLElement>(".gw-themed-artwork").forEach((art) => art.setAttribute("aria-label", dark ? art.dataset.darkAlt || "" : art.dataset.lightAlt || ""));
+  };
+  updateArtworkLabels();
+  window.addEventListener("gw-theme-change", updateArtworkLabels);
+</script>

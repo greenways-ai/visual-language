@@ -1,0 +1,15 @@
+---
+type Project = "greenways" | "hoplite" | "hestia" | "historian";
+type Props = { project?: Project; label?: string; class?: string };
+const { project = "greenways", label = project, class: className = "" } = Astro.props;
+const patterns: Record<Project, string[]> = {
+  greenways: ["0001000","0011100","0010100","0111110","0101010","1111111","1010101"],
+  hoplite: ["0010100","0111110","1111111","0111110","0011100","0111110","1101011"],
+  hestia: ["0001100","0011110","0110100","1100100","1001110","0111110","0011100"],
+  historian: ["0011000","0111100","1111110","0111011","0011110","0011100","0111110"]
+};
+const cells = patterns[project].join("").split("");
+---
+<span class:list={["gw-mosaic-logo", `gw-mosaic-logo--${project}`, className]} role="img" aria-label={`${label} mosaic mark`}>
+  {cells.map((cell, index) => <i data-on={cell === "1" ? "true" : "false"} style={`--gw-tone:${index % 5}`} />)}
+</span>

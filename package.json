@@ -1,0 +1,19 @@
+{
+  "name": "@greenways-ai/visual-language",
+  "version": "1.0.0",
+  "description": "Adaptive mosaic visual language for Greenways sites.",
+  "type": "module",
+  "license": "Apache-2.0",
+  "files": ["src", "BRAND-ASSETS.md", "NOTICE"],
+  "exports": {
+    "./theme.css": "./src/theme.css",
+    "./theme.js": "./src/theme.js",
+    "./ThemeToggle.astro": "./src/ThemeToggle.astro",
+    "./MosaicLogo.astro": "./src/MosaicLogo.astro",
+    "./ThemedArtwork.astro": "./src/ThemedArtwork.astro"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "engines": { "node": ">=22" }
+}

@@ -1,0 +1,25 @@
+<div class="gw-theme-toggle" data-theme-control>
+  <button class="gw-theme-toggle__button" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="Choose appearance"><span data-theme-icon aria-hidden="true">◐</span></button>
+  <div class="gw-theme-toggle__menu" role="menu" hidden>
+    <button type="button" role="menuitemradio" data-theme-choice="auto">Auto</button>
+    <button type="button" role="menuitemradio" data-theme-choice="light">Light</button>
+    <button type="button" role="menuitemradio" data-theme-choice="dark">Dark</button>
+  </div>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>("[data-theme-control]").forEach((control) => {
+    if (control.dataset.ready) return;
+    control.dataset.ready = "true";
+    const trigger = control.querySelector<HTMLButtonElement>(".gw-theme-toggle__button")!;
+    const menu = control.querySelector<HTMLElement>(".gw-theme-toggle__menu")!;
+    const choices = [...control.querySelectorAll<HTMLButtonElement>("[data-theme-choice]")];
+    const sync = () => choices.forEach((choice) => choice.setAttribute("aria-checked", String(choice.dataset.themeChoice === document.documentElement.dataset.themePreference)));
+    const close = () => { menu.hidden = true; trigger.setAttribute("aria-expanded", "false"); };
+    trigger.addEventListener("click", () => { const open = menu.hidden; menu.hidden = !open; trigger.setAttribute("aria-expanded", String(open)); if (open) choices[0]?.focus(); });
+    choices.forEach((choice) => choice.addEventListener("click", () => { window.GreenwaysTheme?.apply(choice.dataset.themeChoice, true); sync(); close(); trigger.focus(); }));
+    control.addEventListener("keydown", (event) => { if (event.key === "Escape") { close(); trigger.focus(); } });
+    document.addEventListener("click", (event) => { if (!control.contains(event.target as Node)) close(); });
+    window.addEventListener("gw-theme-change", sync);
+    sync();
+  });
+</script>
