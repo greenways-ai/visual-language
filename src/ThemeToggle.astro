@@ -16,7 +16,7 @@
     const sync = () => choices.forEach((choice) => choice.setAttribute("aria-checked", String(choice.dataset.themeChoice === document.documentElement.dataset.themePreference)));
     const close = () => { menu.hidden = true; trigger.setAttribute("aria-expanded", "false"); };
     trigger.addEventListener("click", () => { const open = menu.hidden; menu.hidden = !open; trigger.setAttribute("aria-expanded", String(open)); if (open) choices[0]?.focus(); });
-    choices.forEach((choice) => choice.addEventListener("click", () => { window.GreenwaysTheme?.apply(choice.dataset.themeChoice, true); sync(); close(); trigger.focus(); }));
+    choices.forEach((choice) => choice.addEventListener("click", () => { (window as any).GreenwaysTheme?.apply(choice.dataset.themeChoice, true); sync(); close(); trigger.focus(); }));
     control.addEventListener("keydown", (event) => { if (event.key === "Escape") { close(); trigger.focus(); } });
     document.addEventListener("click", (event) => { if (!control.contains(event.target as Node)) close(); });
     window.addEventListener("gw-theme-change", sync);
