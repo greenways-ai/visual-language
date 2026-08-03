@@ -4,4 +4,5 @@ document.querySelector("[data-mark]").replaceChildren(...cells);
 const button=document.querySelector("[data-theme-button]");
 const labels={auto:"Auto",light:"Light",dark:"Dark"};
 const update=()=>button.textContent=labels[document.documentElement.dataset.themePreference||"auto"];
-button.addEventListener("click",()=>setTimeout(update));update();
+button.addEventListener("click",(event)=>{const resolved=document.documentElement.dataset.theme||"light";window.GreenwaysTheme?.apply(event.shiftKey?"auto":resolved==="dark"?"light":"dark",true);});
+window.addEventListener("gw-theme-change",update);update();
