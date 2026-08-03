@@ -4,17 +4,27 @@
   "description": "Adaptive mosaic visual language for Greenways sites.",
   "type": "module",
   "license": "Apache-2.0",
-  "files": ["src", "assets", "bin", "BRAND-ASSETS.md", "NOTICE"],
+  "files": [
+    "src",
+    "assets",
+    "bin",
+    "HARA-VISUAL-IDENTITY.md",
+    "BRAND-ASSETS.md",
+    "NOTICE"
+  ],
   "exports": {
     "./theme.css": "./src/theme.css",
+    "./hara.css": "./src/hara.css",
     "./theme.js": "./src/theme.js",
     "./ThemeToggle.astro": "./src/ThemeToggle.astro",
     "./ThemeMenu.astro": "./src/ThemeMenu.astro",
     "./SharedHeader.astro": "./src/SharedHeader.astro",
     "./Sigil.astro": "./src/Sigil.astro",
+    "./HaraBackdrop.astro": "./src/HaraBackdrop.astro",
     "./projects.js": "./src/projects.js",
     "./MosaicLogo.astro": "./src/MosaicLogo.astro",
-    "./ThemedArtwork.astro": "./src/ThemedArtwork.astro"
+    "./ThemedArtwork.astro": "./src/ThemedArtwork.astro",
+    "./assets/hara/*": "./assets/hara/*"
   },
   "bin": {
     "gw-visual-audit": "./bin/gw-visual-audit.mjs",
@@ -26,5 +36,7 @@
     "build:site": "node bin/build-site.mjs",
     "test": "node --test test/*.test.mjs"
   },
-  "engines": { "node": ">=22" }
+  "engines": {
+    "node": ">=22"
+  }
 }
