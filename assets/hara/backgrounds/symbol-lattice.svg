@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" preserveAspectRatio="xMidYMid slice" role="img" aria-labelledby="title desc">
+  <title id="title">Hara symbol lattice</title>
+  <desc id="desc">A repeating lattice of interlocking Hara evaluation knots, overlaid with a subtle dataflow trace and central spectral glow.</desc>
+
+  <defs>
+    <linearGradient id="spectrum" x1="480" y1="240" x2="3360" y2="1920" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#36F1DE"/><stop offset=".48" stop-color="#35A8FF"/><stop offset="1" stop-color="#A23CFF"/></linearGradient>
+    <linearGradient id="spectrumLocal" x1="110" y1="90" x2="540" y2="870" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#36F1DE"/><stop offset=".48" stop-color="#35A8FF"/><stop offset="1" stop-color="#A23CFF"/></linearGradient>
+    <filter id="softGlow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="18" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <linearGradient id="tileSpectrum" x1="80" y1="40" x2="560" y2="440" gradientUnits="userSpaceOnUse"><stop stop-color="#36F1DE"/><stop offset=".5" stop-color="#35A8FF"/><stop offset="1" stop-color="#A23CFF"/></linearGradient>
+    <pattern id="knotLattice" width="640" height="480" patternUnits="userSpaceOnUse">
+      <path d="M0 0H640V480H0Z" fill="none" stroke="var(--grid)" stroke-width="2" opacity=".14"/>
+      <g transform="translate(180 38) scale(.44)" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity=".72">
+        <path stroke="var(--ground)" stroke-width="82" d="M320 84C140 84 92 238 207 357c87 90 98 151 0 246C92 722 140 876 320 876"/><path stroke="url(#tileSpectrum)" stroke-width="34" d="M320 84C140 84 92 238 207 357c87 90 98 151 0 246C92 722 140 876 320 876"/>
+        <path stroke="var(--ground)" stroke-width="82" d="M320 84c180 0 228 154 113 273-87 90-98 151 0 246 115 119 67 273-113 273"/><path stroke="url(#tileSpectrum)" stroke-width="34" d="M320 84c180 0 228 154 113 273-87 90-98 151 0 246 115 119 67 273-113 273"/>
+        <path stroke="var(--ground)" stroke-width="82" d="M151 302c86-92 252-92 338 0"/><path stroke="url(#tileSpectrum)" stroke-width="34" d="M151 302c86-92 252-92 338 0"/>
+        <path stroke="var(--ground)" stroke-width="82" d="M151 658c86 92 252 92 338 0"/><path stroke="url(#tileSpectrum)" stroke-width="34" d="M151 658c86 92 252 92 338 0"/>
+        <path stroke="var(--ground)" stroke-width="82" d="M320 188v584"/><path stroke="url(#tileSpectrum)" stroke-width="34" d="M320 188v584"/>
+      </g>
+    </pattern>
+    <radialGradient id="spot" cx=".5" cy=".48" r=".55"><stop stop-color="#35A8FF" stop-opacity=".28"/><stop offset=".55" stop-color="#36F1DE" stop-opacity=".08"/><stop offset="1" stop-color="#A23CFF" stop-opacity="0"/></radialGradient>
+    <style>:root{--ground:#eef8f7;--surface:#dbeceb;--ink:#092632;--grid:#0f6d78;--line:#146f88;--quiet:#3b6470}@media(prefers-color-scheme:dark){:root{--ground:#05070e;--surface:#0a1220;--ink:#e8fffc;--grid:#36F1DE;--line:#35A8FF;--quiet:#8aa5b8}}</style>
+  </defs>
+
+  <rect width="3840" height="2160" fill="var(--ground)"/>
+  <rect width="3840" height="2160" fill="url(#knotLattice)"/>
+  <rect width="3840" height="2160" fill="url(#spot)"/>
+  <g fill="none" stroke="url(#spectrum)" opacity=".62" stroke-linecap="round"><path d="M-100 1820C680 1390 1100 1670 1780 1180s1330-500 2180 40" stroke-width="18"/><path d="M-100 1900C720 1480 1120 1770 1840 1270s1290-420 2160 10" stroke-width="4"/></g>
+  <g transform="translate(1600 600)" opacity=".28" filter="url(#softGlow)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke="var(--ground)" stroke-width="78" d="M320 84C140 84 92 238 207 357c87 90 98 151 0 246C92 722 140 876 320 876"/><path stroke="url(#spectrumLocal)" stroke-width="48" d="M320 84C140 84 92 238 207 357c87 90 98 151 0 246C92 722 140 876 320 876"/>
+    <path stroke="var(--ground)" stroke-width="78" d="M320 84c180 0 228 154 113 273-87 90-98 151 0 246 115 119 67 273-113 273"/><path stroke="url(#spectrumLocal)" stroke-width="48" d="M320 84c180 0 228 154 113 273-87 90-98 151 0 246 115 119 67 273-113 273"/>
+    <path stroke="var(--ground)" stroke-width="78" d="M151 302c86-92 252-92 338 0"/><path stroke="url(#spectrumLocal)" stroke-width="48" d="M151 302c86-92 252-92 338 0"/>
+    <path stroke="var(--ground)" stroke-width="78" d="M151 658c86 92 252 92 338 0"/><path stroke="url(#spectrumLocal)" stroke-width="48" d="M151 658c86 92 252 92 338 0"/>
+    <path stroke="var(--ground)" stroke-width="78" d="M320 188v584"/><path stroke="url(#spectrumLocal)" stroke-width="48" d="M320 188v584"/><circle cx="320" cy="480" r="23" fill="var(--ground)" stroke="url(#spectrumLocal)" stroke-width="12"/>
+  </g>
+</svg>
