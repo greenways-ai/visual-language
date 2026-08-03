@@ -1,0 +1,17 @@
+<details class="gw-theme-menu" data-theme-menu>
+  <summary class="gw-control" aria-label="Choose appearance"><span data-theme-icon>◐</span><span class="gw-control__label">Theme</span></summary>
+  <div class="gw-popover gw-theme-menu__popover" role="menu" aria-label="Appearance">
+    {[["auto","Automatic"],["light","Light"],["dark","Dark"]].map(([value,label]) => <button type="button" role="menuitemradio" data-theme-choice={value}><span>{label}</span><span aria-hidden="true" data-theme-check={value}>✓</span></button>)}
+  </div>
+</details>
+<script>
+  document.querySelectorAll<HTMLElement>("[data-theme-menu]").forEach((menu) => {
+    if (menu.dataset.ready) return; menu.dataset.ready = "true";
+    const sync = () => {
+      const current = document.documentElement.dataset.themePreference || "auto";
+      menu.querySelectorAll<HTMLButtonElement>("[data-theme-choice]").forEach((button) => button.setAttribute("aria-checked", String(button.dataset.themeChoice === current)));
+    };
+    menu.querySelectorAll<HTMLButtonElement>("[data-theme-choice]").forEach((button) => button.addEventListener("click", () => { (window as any).GreenwaysTheme?.apply(button.dataset.themeChoice, true); menu.removeAttribute("open"); }));
+    window.addEventListener("gw-theme-change", sync); sync();
+  });
+</script>

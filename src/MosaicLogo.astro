@@ -1,18 +1,8 @@
 ---
-type Project = "greenways" | "hoplite" | "hestia" | "historia" | "historian" | "visual-language";
+import Sigil from "./Sigil.astro";
+type Project = "greenways" | "hoplite" | "hestia" | "historia" | "historian" | "hodos" | "visual-language";
 type Props = { project?: Project; label?: string; class?: string };
 const { project = "greenways", label = project, class: className = "" } = Astro.props;
-const sourcePatterns: Record<Project, string[]> = {
-  greenways: ["0011100","0100010","1000001","1001111","1000001","0100010","0011100"],
-  hoplite: ["0010100","0010100","0011100","0111110","1111110","0111100","0100110"],
-  hestia: ["0000110","0001111","1111110","1111010","0100110","0100100","1100110"],
-  historia: ["0001000","0011111","0111100","1111110","1111100","0011000","0100100"],
-  historian: ["0001000","0011111","0111100","1111110","1111100","0011000","0100100"],
-  "visual-language": ["1000001","0100010","0010100","0001000","0010100","0100010","1000001"]
-};
-const pattern = sourcePatterns[project];
-const cells = pattern.join("").split("");
+const resolved = project === "visual-language" ? "greenways" : project;
 ---
-<span class:list={["gw-mosaic-logo", `gw-mosaic-logo--${project}`, className]} role="img" aria-label={`${label} mosaic mark`}>
-  {cells.map((cell, index) => <i data-on={cell === "1" ? "true" : "false"} style={`--gw-tone:${(Math.floor(index / 7) + index) % 5}`} />)}
-</span>
+<Sigil project={resolved} label={label} class={className} />

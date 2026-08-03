@@ -1,0 +1,40 @@
+---
+import Sigil from "./Sigil.astro";
+import ThemeMenu from "./ThemeMenu.astro";
+import { projectLinks } from "./projects.js";
+type NavItem = { label: string; href: string };
+type Props = { project?: "greenways"|"hestia"|"hoplite"|"historia"|"hodos"; title: string; homeHref?: string; nav?: NavItem[]; githubHref?: string; cta?: NavItem; searchBase?: string };
+const { project="greenways", title, homeHref="/", nav=[], githubHref, cta, searchBase="" } = Astro.props;
+---
+<header class="gw-header" data-gw-header>
+  <a class="gw-brand" href={homeHref}><Sigil project={project}/><span>{title}</span></a>
+  <button class="gw-search-trigger" type="button" data-search-open><span aria-hidden="true">⌕</span><span>Search</span><kbd>⌘ K</kbd></button>
+  <nav class="gw-header__desktop" aria-label="Primary">
+    {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+    <details class="gw-project-menu"><summary>Projects</summary><div class="gw-popover">{projectLinks.map((item) => <a href={item.href}>{item.label}</a>)}</div></details>
+    {githubHref && <a href={githubHref} aria-label={`${title} on GitHub`}>GitHub ↗</a>}
+    {cta && <a class="gw-header__cta" href={cta.href}>{cta.label}</a>}
+  </nav>
+  <ThemeMenu />
+  <button class="gw-control gw-menu-trigger" type="button" data-menu-open aria-label="Open navigation">☰</button>
+</header>
+<dialog class="gw-dialog gw-search-dialog" data-search-dialog data-search-base={searchBase} aria-label="Search this site">
+  <form method="dialog" class="gw-dialog__bar"><label><span>Search</span><input type="search" data-search-input autocomplete="off" placeholder={`Search ${title}`} /></label><button class="gw-control" value="close">Close</button></form>
+  <div class="gw-search-results" data-search-results aria-live="polite"><p>Begin typing to search this site.</p></div>
+</dialog>
+<dialog class="gw-dialog gw-menu-dialog" data-menu-dialog aria-label="Navigation">
+  <form method="dialog"><button class="gw-control" value="close">Close</button></form>
+  <nav>{nav.map((item) => <a href={item.href}>{item.label}</a>)}{projectLinks.map((item) => <a href={item.href}>{item.label}</a>)}{githubHref && <a href={githubHref}>GitHub ↗</a>}{cta && <a href={cta.href}>{cta.label}</a>}</nav>
+</dialog>
+<script>
+  const openDialog = (dialog: HTMLDialogElement | null) => { dialog?.showModal(); requestAnimationFrame(() => dialog?.querySelector<HTMLElement>("input,button,a")?.focus()); };
+  document.querySelectorAll<HTMLElement>("[data-gw-header]").forEach((header) => {
+    const search = header.parentElement?.querySelector<HTMLDialogElement>("[data-search-dialog]") || document.querySelector<HTMLDialogElement>("[data-search-dialog]");
+    const menu = header.parentElement?.querySelector<HTMLDialogElement>("[data-menu-dialog]") || document.querySelector<HTMLDialogElement>("[data-menu-dialog]");
+    header.querySelector("[data-search-open]")?.addEventListener("click", () => openDialog(search));
+    header.querySelector("[data-menu-open]")?.addEventListener("click", () => openDialog(menu));
+    const input = search?.querySelector<HTMLInputElement>("[data-search-input]"); const results = search?.querySelector<HTMLElement>("[data-search-results]"); let engine: any;
+    input?.addEventListener("input", async () => { const term=input.value.trim(); if(!results) return; if(term.length<2){results.innerHTML="<p>Type at least two characters.</p>";return;} try { if(!engine){const base=search?.dataset.searchBase?.replace(/\/$/,"")||""; const mod=await import(/* @vite-ignore */ `${base}/pagefind/pagefind.js`); engine=mod;} const found=await engine.search(term); const entries=await Promise.all(found.results.slice(0,8).map((r:any)=>r.data())); results.replaceChildren(...entries.map((entry:any)=>{const a=document.createElement("a");a.href=entry.url;a.innerHTML=`<strong>${entry.meta.title||"Result"}</strong><span>${entry.excerpt||""}</span>`;return a;})); if(!entries.length)results.innerHTML="<p>No results found.</p>";} catch {results.innerHTML="<p>Search is unavailable in this preview.</p>";} });
+    window.addEventListener("keydown", (event) => { if((event.metaKey||event.ctrlKey)&&event.key.toLowerCase()==="k"){event.preventDefault();openDialog(search);} });
+  });
+</script>

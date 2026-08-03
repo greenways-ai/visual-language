@@ -8,9 +8,13 @@ type Props = {
   darkAlt: string;
   class?: string;
   position?: string;
+  lightPosition?: string;
+  darkPosition?: string;
+  lightMobilePosition?: string;
+  darkMobilePosition?: string;
 };
-const { light, dark, lightMobile, darkMobile, lightAlt, darkAlt, class: className = "", position = "center" } = Astro.props;
-const style = [`--gw-art-light:url('${light}')`, `--gw-art-dark:url('${dark}')`, lightMobile && `--gw-art-light-mobile:url('${lightMobile}')`, darkMobile && `--gw-art-dark-mobile:url('${darkMobile}')`, `--gw-art-position:${position}`].filter(Boolean).join(";");
+const { light, dark, lightMobile, darkMobile, lightAlt, darkAlt, class: className = "", position = "center", lightPosition = position, darkPosition = position, lightMobilePosition = lightPosition, darkMobilePosition = darkPosition } = Astro.props;
+const style = [`--gw-art-light:url('${light}')`, `--gw-art-dark:url('${dark}')`, lightMobile && `--gw-art-light-mobile:url('${lightMobile}')`, darkMobile && `--gw-art-dark-mobile:url('${darkMobile}')`, `--gw-art-light-position:${lightPosition}`, `--gw-art-dark-position:${darkPosition}`, `--gw-art-light-mobile-position:${lightMobilePosition}`, `--gw-art-dark-mobile-position:${darkMobilePosition}`].filter(Boolean).join(";");
 ---
 <div class:list={["gw-themed-artwork", className]} style={style} role="img" aria-label={lightAlt} data-light-alt={lightAlt} data-dark-alt={darkAlt}></div>
 <script>
