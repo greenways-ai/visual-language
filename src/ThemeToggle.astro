@@ -1,21 +1,21 @@
-<button class="gw-theme-toggle__button" data-theme-toggle type="button" aria-label="Appearance: automatic. Activate for light mode" title="Appearance: automatic"><span data-theme-icon aria-hidden="true">A</span></button>
+<button class="gw-theme-toggle__button" data-theme-toggle type="button" aria-label="Appearance: automatic. Activate to switch theme; Shift-click restores automatic mode" title="Appearance: automatic · Shift-click for automatic"><span data-theme-icon aria-hidden="true">A</span></button>
 <script>
   document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]").forEach((trigger) => {
     if (trigger.dataset.ready) return;
     trigger.dataset.ready = "true";
-    const preferences = ["auto", "light", "dark"] as const;
     const labels = { auto: "automatic", light: "light", dark: "dark" } as const;
     const icons = { auto: "A", light: "☀", dark: "◐" } as const;
     const sync = () => {
       const current = (document.documentElement.dataset.themePreference || "auto") as keyof typeof labels;
-      const next = preferences[(preferences.indexOf(current) + 1) % preferences.length];
+      const resolved = document.documentElement.dataset.theme || "light";
+      const next = resolved === "dark" ? "light" : "dark";
       trigger.querySelector<HTMLElement>("[data-theme-icon]")!.textContent = icons[current];
-      trigger.title = `Appearance: ${labels[current]}`;
-      trigger.setAttribute("aria-label", `Appearance: ${labels[current]}. Activate for ${labels[next]} mode`);
+      trigger.title = `Appearance: ${labels[current]} · Shift-click for automatic`;
+      trigger.setAttribute("aria-label", `Appearance: ${labels[current]}. Activate for ${labels[next]} mode; Shift-click restores automatic mode`);
     };
-    trigger.addEventListener("click", () => {
-      const current = (document.documentElement.dataset.themePreference || "auto") as typeof preferences[number];
-      const next = preferences[(preferences.indexOf(current) + 1) % preferences.length];
+    trigger.addEventListener("click", (event) => {
+      const resolved = document.documentElement.dataset.theme || "light";
+      const next = event.shiftKey ? "auto" : resolved === "dark" ? "light" : "dark";
       (window as any).GreenwaysTheme?.apply(next, true);
     });
     window.addEventListener("gw-theme-change", sync);
