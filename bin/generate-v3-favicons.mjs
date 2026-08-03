@@ -1,4 +1,5 @@
 import { mkdir, writeFile } from "node:fs/promises";
+
 const projects = {
   greenways: {
     light: ["#123e34", "#1f6552", "#2c8b69", "#61ad82", "#cfb66a"],
@@ -9,6 +10,18 @@ const projects = {
       "m44 41 9 12-17-3-2-15Z",
       "m30 35-2 15-17 3 9-12Z",
       "M20 39 7 30l13-8 10 10Z",
+    ],
+  },
+  hara: {
+    light: ["#0b4e5d", "#36f1de", "#35a8ff", "#6e74ff", "#a23cff"],
+    dark: ["#12394a", "#36f1de", "#35a8ff", "#7b6dff", "#c45cff"],
+    ground: { light: "#eef8f7", dark: "#05070e" },
+    strokes: [
+      "M32 5C18 5 11 14 17 23c5 7 9 9 3 18-7 10-2 18 12 18",
+      "M32 5c14 0 21 9 15 18-5 7-9 9-3 18 7 10 2 18-12 18",
+      "M16 21c8-8 24-8 32 0",
+      "M16 43c8 8 24 8 32 0",
+      "M32 13v38",
     ],
   },
   hestia: {
@@ -54,21 +67,39 @@ const projects = {
     ],
   },
 };
+
 projects.historian = projects.historia;
 projects["visual-language"] = projects.greenways;
+
 await mkdir(new URL("../assets/favicons/", import.meta.url), {
   recursive: true,
 });
-for (const [name, p] of Object.entries(projects)) {
-  const vars = (colors) => colors.map((c, i) => `--c${i + 1}:${c}`).join(";");
-  const paths = p.paths
-    .map((d) => `<path fill="url(#mosaic)" d="${d}"/>`)
-    .join("");
+
+for (const [name, project] of Object.entries(projects)) {
+  const vars = (colors) =>
+    colors.map((color, index) => `--c${index + 1}:${color}`).join(";");
   const pattern = `<pattern id="mosaic" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" fill="var(--grout)"/><rect x="1" y="1" width="6" height="6" rx=".7" fill="var(--c1)"/><rect x="9" y="1" width="6" height="6" rx=".7" fill="var(--c2)"/><rect x="1" y="9" width="6" height="6" rx=".7" fill="var(--c3)"/><rect x="9" y="9" width="6" height="6" rx=".7" fill="var(--c5)"/></pattern>`;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><style>:root{--ground:#f7f3e9;--grout:#d5d0c5;${vars(p.light)}}@media(prefers-color-scheme:dark){:root{--ground:#0b1410;--grout:#111a16;${vars(p.dark)}}}path{stroke:var(--grout);stroke-width:1.5;stroke-linejoin:round}</style><defs>${pattern}</defs><rect x="1" y="1" width="62" height="62" rx="11" fill="var(--ground)"/>${paths}</svg>\n`;
+  const haraGradient = project.strokes
+    ? `<linearGradient id="hara-spectrum" x1="13" y1="7" x2="51" y2="57" gradientUnits="userSpaceOnUse"><stop stop-color="#36f1de"/><stop offset=".48" stop-color="#35a8ff"/><stop offset="1" stop-color="#a23cff"/></linearGradient>`
+    : "";
+  const artwork = project.strokes
+    ? `${project.strokes
+        .map(
+          (path) =>
+            `<path class="cut" d="${path}"/><path class="strand" d="${path}"/>`,
+        )
+        .join("")}<circle class="node" cx="32" cy="32" r="3.4"/>`
+    : project.paths
+        .map((path) => `<path class="shape" fill="url(#mosaic)" d="${path}"/>`)
+        .join("");
+  const groundLight = project.ground?.light ?? "#f7f3e9";
+  const groundDark = project.ground?.dark ?? "#0b1410";
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><style>:root{--ground:${groundLight};--grout:#d5d0c5;${vars(project.light)}}@media(prefers-color-scheme:dark){:root{--ground:${groundDark};--grout:#111a16;${vars(project.dark)}}}.shape{stroke:var(--grout);stroke-width:1.5;stroke-linejoin:round}.cut{fill:none;stroke:var(--ground);stroke-width:9;stroke-linecap:round;stroke-linejoin:round}.strand{fill:none;stroke:url(#hara-spectrum);stroke-width:5.25;stroke-linecap:round;stroke-linejoin:round}.node{fill:var(--ground);stroke:var(--c3);stroke-width:2}</style><defs>${pattern}${haraGradient}</defs><rect x="1" y="1" width="62" height="62" rx="11" fill="var(--ground)"/>${artwork}</svg>\n`;
+
   await writeFile(
     new URL(`../assets/favicons/${name}.svg`, import.meta.url),
     svg,
   );
 }
-console.log(`generated ${Object.keys(projects).length} adaptive mosaic sigils`);
+
+console.log(`generated ${Object.keys(projects).length} adaptive project sigils`);
