@@ -1,24 +1,23 @@
-<div class="gw-theme-toggle" data-theme-control>
-  <button class="gw-theme-toggle__button" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="Choose appearance"><span data-theme-icon aria-hidden="true">◐</span></button>
-  <div class="gw-theme-toggle__menu" role="menu" hidden>
-    <button type="button" role="menuitemradio" data-theme-choice="auto">Auto</button>
-    <button type="button" role="menuitemradio" data-theme-choice="light">Light</button>
-    <button type="button" role="menuitemradio" data-theme-choice="dark">Dark</button>
-  </div>
-</div>
+<button class="gw-theme-toggle__button" data-theme-toggle type="button" aria-label="Appearance: automatic. Activate for light mode" title="Appearance: automatic"><span data-theme-icon aria-hidden="true">A</span></button>
 <script>
-  document.querySelectorAll<HTMLElement>("[data-theme-control]").forEach((control) => {
-    if (control.dataset.ready) return;
-    control.dataset.ready = "true";
-    const trigger = control.querySelector<HTMLButtonElement>(".gw-theme-toggle__button")!;
-    const menu = control.querySelector<HTMLElement>(".gw-theme-toggle__menu")!;
-    const choices = [...control.querySelectorAll<HTMLButtonElement>("[data-theme-choice]")];
-    const sync = () => choices.forEach((choice) => choice.setAttribute("aria-checked", String(choice.dataset.themeChoice === document.documentElement.dataset.themePreference)));
-    const close = () => { menu.hidden = true; trigger.setAttribute("aria-expanded", "false"); };
-    trigger.addEventListener("click", () => { const open = menu.hidden; menu.hidden = !open; trigger.setAttribute("aria-expanded", String(open)); if (open) choices[0]?.focus(); });
-    choices.forEach((choice) => choice.addEventListener("click", () => { (window as any).GreenwaysTheme?.apply(choice.dataset.themeChoice, true); sync(); close(); trigger.focus(); }));
-    control.addEventListener("keydown", (event) => { if (event.key === "Escape") { close(); trigger.focus(); } });
-    document.addEventListener("click", (event) => { if (!control.contains(event.target as Node)) close(); });
+  document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]").forEach((trigger) => {
+    if (trigger.dataset.ready) return;
+    trigger.dataset.ready = "true";
+    const preferences = ["auto", "light", "dark"] as const;
+    const labels = { auto: "automatic", light: "light", dark: "dark" } as const;
+    const icons = { auto: "A", light: "☀", dark: "◐" } as const;
+    const sync = () => {
+      const current = (document.documentElement.dataset.themePreference || "auto") as keyof typeof labels;
+      const next = preferences[(preferences.indexOf(current) + 1) % preferences.length];
+      trigger.querySelector<HTMLElement>("[data-theme-icon]")!.textContent = icons[current];
+      trigger.title = `Appearance: ${labels[current]}`;
+      trigger.setAttribute("aria-label", `Appearance: ${labels[current]}. Activate for ${labels[next]} mode`);
+    };
+    trigger.addEventListener("click", () => {
+      const current = (document.documentElement.dataset.themePreference || "auto") as typeof preferences[number];
+      const next = preferences[(preferences.indexOf(current) + 1) % preferences.length];
+      (window as any).GreenwaysTheme?.apply(next, true);
+    });
     window.addEventListener("gw-theme-change", sync);
     sync();
   });

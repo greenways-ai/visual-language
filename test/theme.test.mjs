@@ -15,12 +15,12 @@ test("the shared cookie is scoped only on Greenways production hosts", () => {
   assert.doesNotMatch(themeCookie("light", "localhost"), /Domain=/);
 });
 
-test("all four logo patterns remain fixed seven by seven grids", async () => {
+test("all four logo patterns resolve to fixed twenty by twenty grids", async () => {
   const source = await import("node:fs/promises").then((fs) => fs.readFile(new URL("../src/MosaicLogo.astro", import.meta.url), "utf8"));
   for (const project of ["greenways", "hoplite", "hestia", "historian"]) {
     const match = source.match(new RegExp(`${project}: \\[(.*?)\\]`));
-    const rows = match?.[1].match(/[01]{7}/g) || [];
-    assert.equal(rows.length, 7, `${project} must have seven rows`);
-    assert.equal(rows.join("").length, 49, `${project} must have 49 cells`);
+    const rows = match?.[1].match(/[01]{10}/g) || [];
+    assert.equal(rows.length, 10, `${project} must have ten authored rows`);
+    assert.equal(rows.join("").length, 100, `${project} must have 100 authored cells that expand to 400 tesserae`);
   }
 });

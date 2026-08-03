@@ -2,14 +2,21 @@
 type Project = "greenways" | "hoplite" | "hestia" | "historian";
 type Props = { project?: Project; label?: string; class?: string };
 const { project = "greenways", label = project, class: className = "" } = Astro.props;
-const patterns: Record<Project, string[]> = {
-  greenways: ["0001000","0011100","0010100","0111110","0101010","1111111","1010101"],
-  hoplite: ["0010100","0111110","1111111","0111110","0011100","0111110","1101011"],
-  hestia: ["0001100","0011110","0110100","1100100","1001110","0111110","0011100"],
-  historian: ["0011000","0111100","1111110","0111011","0011110","0011100","0111110"]
+const sourcePatterns: Record<Project, string[]> = {
+  greenways: ["0011001100","0111111110","0110000110","1101100111","1101111111","1100000111","0111011110","0011011000","0011111000","0001100000"],
+  hoplite: ["0011111100","0111111110","1111111111","1101101011","1111111111","0111111110","0011111100","0110110110","1101101011","1101101011"],
+  hestia: ["0001111000","0011111100","0110011110","1100001110","1100111110","0111111100","0011111000","0011011000","0110011000","1100011000"],
+  historian: ["0001110000","0011111000","0111111100","1110111110","1111110111","0111111110","0011111100","0011011000","0111111100","1100001110"]
 };
-const cells = patterns[project].join("").split("");
+// Each authored 10×10 silhouette becomes a crisp 20×20 tessera field. Keeping
+// the source at half resolution makes the marks legible at favicon scale while
+// guaranteeing that every division lands on the shared 20×20 system.
+const pattern = sourcePatterns[project].flatMap((row) => {
+  const doubled = [...row].map((cell) => cell + cell).join("");
+  return [doubled, doubled];
+});
+const cells = pattern.join("").split("");
 ---
 <span class:list={["gw-mosaic-logo", `gw-mosaic-logo--${project}`, className]} role="img" aria-label={`${label} mosaic mark`}>
-  {cells.map((cell, index) => <i data-on={cell === "1" ? "true" : "false"} style={`--gw-tone:${index % 5}`} />)}
+  {cells.map((cell, index) => <i data-on={cell === "1" ? "true" : "false"} style={`--gw-tone:${(Math.floor(index / 20) + index) % 5}`} />)}
 </span>
