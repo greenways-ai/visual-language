@@ -1,17 +1,18 @@
 ---
-type Project = "greenways" | "hoplite" | "hestia" | "historian" | "visual-language";
+type Project = "greenways" | "hoplite" | "hestia" | "historia" | "historian" | "visual-language";
 type Props = { project?: Project; label?: string; class?: string };
 const { project = "greenways", label = project, class: className = "" } = Astro.props;
 const sourcePatterns: Record<Project, string[]> = {
-  greenways: ["001101100","011111110","010000010","110110111","110111111","110000111","011101110","001111100","000110000"],
-  hoplite: ["001111100","011111110","111111111","110101011","111111111","011111110","001111100","010101010","110101011"],
-  hestia: ["000111100","001111110","011001110","110000110","110011110","011111100","001111000","001011000","110011000"],
-  historian: ["000111000","001111100","011111110","110111110","111110111","011111110","001111100","001011000","110000110"],
-  "visual-language": ["100000001","010000010","001000100","000101000","000010000","000101000","001000100","010000010","100000001"]
+  greenways: ["0011100","0100010","1000001","1001111","1000001","0100010","0011100"],
+  hoplite: ["0010100","0010100","0011100","0111110","1111110","0111100","0100110"],
+  hestia: ["0000110","0001111","1111110","1111010","0100110","0100100","1100110"],
+  historia: ["0001000","0011111","0111100","1111110","1111100","0011000","0100100"],
+  historian: ["0001000","0011111","0111100","1111110","1111100","0011000","0100100"],
+  "visual-language": ["1000001","0100010","0010100","0001000","0010100","0100010","1000001"]
 };
 const pattern = sourcePatterns[project];
 const cells = pattern.join("").split("");
 ---
 <span class:list={["gw-mosaic-logo", `gw-mosaic-logo--${project}`, className]} role="img" aria-label={`${label} mosaic mark`}>
-  {cells.map((cell, index) => <i data-on={cell === "1" ? "true" : "false"} style={`--gw-tone:${(Math.floor(index / 9) + index) % 5}`} />)}
+  {cells.map((cell, index) => <i data-on={cell === "1" ? "true" : "false"} style={`--gw-tone:${(Math.floor(index / 7) + index) % 5}`} />)}
 </span>

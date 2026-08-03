@@ -9,7 +9,7 @@ const favicon = resolve(root, args["--favicon"] || "public/favicon.svg");
 const failures = [];
 const expected = await readFile(new URL(`../assets/favicons/${project}.svg`, import.meta.url), "utf8");
 const actual = await readFile(favicon, "utf8").catch(() => "");
-if (actual.trim() !== expected.trim()) failures.push(`${favicon} is not the canonical ${project} 9x9 favicon`);
+if (actual.trim() !== expected.trim()) failures.push(`${favicon} is not the canonical ${project} 7x7 adaptive favicon`);
 
 async function walk(directory) {
   const entries = await readdir(directory, { withFileTypes: true }).catch(() => []);
@@ -29,4 +29,4 @@ if (failures.length) {
   console.error(failures.map((failure) => `visual-integrity: ${failure}`).join("\n"));
   process.exit(1);
 }
-console.log(`visual-integrity: ${project} uses the canonical 9x9 mark`);
+console.log(`visual-integrity: ${project} uses the canonical 7x7 adaptive mark`);
