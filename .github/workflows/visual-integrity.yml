@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: greenways-ai/visual-language
-          ref: v1.2.0
+          ref: v1.3.0
           path: visual-language
       - uses: actions/setup-node@v4
         with: { node-version: 24 }

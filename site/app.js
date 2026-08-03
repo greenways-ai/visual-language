@@ -1,4 +1,4 @@
-const pattern=["1000000001","0100000010","0010000100","0001001000","0000110000","0000110000","0001001000","0010000100","0100000010","1000000001"].join("");
+const pattern=["100000001","010000010","001000100","000101000","000010000","000101000","001000100","010000010","100000001"].join("");
 const cells=[...pattern].map((cell)=>{const node=document.createElement("i");node.dataset.on=cell==="1"?"true":"false";return node;});
 document.querySelector("[data-mark]").replaceChildren(...cells);
 const button=document.querySelector("[data-theme-button]");

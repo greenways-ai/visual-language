@@ -9,7 +9,7 @@ const favicon = resolve(root, args["--favicon"] || "public/favicon.svg");
 const failures = [];
 const expected = await readFile(new URL(`../assets/favicons/${project}.svg`, import.meta.url), "utf8");
 const actual = await readFile(favicon, "utf8").catch(() => "");
-if (actual.trim() !== expected.trim()) failures.push(`${favicon} is not the canonical ${project} 10x10 favicon`);
+if (actual.trim() !== expected.trim()) failures.push(`${favicon} is not the canonical ${project} 9x9 favicon`);
 
 async function walk(directory) {
   const entries = await readdir(directory, { withFileTypes: true }).catch(() => []);
@@ -22,11 +22,11 @@ async function walk(directory) {
 for (const file of await walk(root)) {
   if (!/\.(astro|css|html|js|mjs|svg)$/.test(file)) continue;
   const source = await readFile(file, "utf8");
-  if (/repeat\(20\s*,\s*1fr\)|viewBox=["']0 0 20 20["']|twenty by twenty|20×20/.test(source)) failures.push(`${file} contains a forbidden 20x20 visual mark`);
+  if (/repeat\((?:10|20)\s*,\s*1fr\)|viewBox=["']0 0 (?:10|20) (?:10|20)["']|(?:ten|twenty) by (?:ten|twenty)|(?:10|20)×(?:10|20)/.test(source)) failures.push(`${file} contains a forbidden legacy visual mark`);
 }
 
 if (failures.length) {
   console.error(failures.map((failure) => `visual-integrity: ${failure}`).join("\n"));
   process.exit(1);
 }
-console.log(`visual-integrity: ${project} uses the canonical 10x10 mark`);
+console.log(`visual-integrity: ${project} uses the canonical 9x9 mark`);
