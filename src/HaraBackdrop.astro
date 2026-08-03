@@ -1,0 +1,59 @@
+---
+type Variant = "aurora" | "ast" | "lattice" | "orbit" | "kernel";
+type Density = "quiet" | "balanced" | "dense";
+type Props = {
+  variant?: Variant;
+  density?: Density;
+  motion?: boolean;
+  label?: string;
+  class?: string;
+};
+
+const {
+  variant = "aurora",
+  density = "balanced",
+  motion = true,
+  label,
+  class: className = "",
+} = Astro.props;
+
+const decorative = !label;
+const gradientId = `gw-hara-spectrum-${Math.random().toString(36).slice(2, 10)}`;
+---
+
+<div
+  class:list={["gw-hara-backdrop", className]}
+  data-variant={variant}
+  data-density={density}
+  data-motion={motion ? "on" : "off"}
+  role={decorative ? undefined : "img"}
+  aria-hidden={decorative ? "true" : undefined}
+  aria-label={label}
+>
+  <span class="gw-hara-backdrop__field"></span>
+  <span class="gw-hara-backdrop__grid"></span>
+  <span class="gw-hara-backdrop__trace"></span>
+  <span class="gw-hara-backdrop__nodes"></span>
+  <svg class="gw-hara-backdrop__mark" viewBox="0 0 640 960" aria-hidden="true">
+    <defs>
+      <linearGradient id={gradientId} x1="110" y1="90" x2="540" y2="870" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#36F1DE" />
+        <stop offset=".48" stop-color="#35A8FF" />
+        <stop offset="1" stop-color="#A23CFF" />
+      </linearGradient>
+    </defs>
+    <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path class="gw-hara-backdrop__mark-cut" d="M320 84C140 84 92 238 207 357c87 90 98 151 0 246C92 722 140 876 320 876" />
+      <path stroke={`url(#${gradientId})`} stroke-width="48" d="M320 84C140 84 92 238 207 357c87 90 98 151 0 246C92 722 140 876 320 876" />
+      <path class="gw-hara-backdrop__mark-cut" d="M320 84c180 0 228 154 113 273-87 90-98 151 0 246 115 119 67 273-113 273" />
+      <path stroke={`url(#${gradientId})`} stroke-width="48" d="M320 84c180 0 228 154 113 273-87 90-98 151 0 246 115 119 67 273-113 273" />
+      <path class="gw-hara-backdrop__mark-cut" d="M151 302c86-92 252-92 338 0" />
+      <path stroke={`url(#${gradientId})`} stroke-width="48" d="M151 302c86-92 252-92 338 0" />
+      <path class="gw-hara-backdrop__mark-cut" d="M151 658c86 92 252 92 338 0" />
+      <path stroke={`url(#${gradientId})`} stroke-width="48" d="M151 658c86 92 252 92 338 0" />
+      <path class="gw-hara-backdrop__mark-cut" d="M320 188v584" />
+      <path stroke={`url(#${gradientId})`} stroke-width="48" d="M320 188v584" />
+    </g>
+    <circle cx="320" cy="480" r="23" fill="var(--gw-hara-ground)" stroke={`url(#${gradientId})`} stroke-width="12" />
+  </svg>
+</div>
