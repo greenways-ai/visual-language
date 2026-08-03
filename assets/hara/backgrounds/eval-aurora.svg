@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" preserveAspectRatio="xMidYMid slice" role="img" aria-labelledby="title desc">
+  <title id="title">Hara evaluation aurora</title>
+  <desc id="desc">A high-resolution vector background of an aurora spectrum crossing an AST grid with a large interlocking evaluation knot.</desc>
+
+  <defs>
+    <linearGradient id="spectrum" x1="480" y1="240" x2="3360" y2="1920" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#36F1DE"/>
+      <stop offset=".48" stop-color="#35A8FF"/>
+      <stop offset="1" stop-color="#A23CFF"/>
+    </linearGradient>
+    <linearGradient id="spectrumLocal" x1="110" y1="90" x2="540" y2="870" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#36F1DE"/>
+      <stop offset=".48" stop-color="#35A8FF"/>
+      <stop offset="1" stop-color="#A23CFF"/>
+    </linearGradient>
+    <radialGradient id="veil">
+      <stop offset="0" stop-color="#35A8FF" stop-opacity=".36"/>
+      <stop offset=".48" stop-color="#36F1DE" stop-opacity=".12"/>
+      <stop offset="1" stop-color="#A23CFF" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="96" height="96" patternUnits="userSpaceOnUse">
+      <path d="M96 0H0V96" fill="none" stroke="var(--grid)" stroke-width="2" opacity=".22"/>
+      <circle cx="0" cy="0" r="4" fill="var(--grid)" opacity=".28"/>
+    </pattern>
+    <filter id="blur120" x="-30%" y="-50%" width="160%" height="200%">
+      <feGaussianBlur stdDeviation="120"/>
+    </filter>
+    <filter id="blur48" x="-30%" y="-50%" width="160%" height="200%">
+      <feGaussianBlur stdDeviation="48"/>
+    </filter>
+    <filter id="softGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="18" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    
+    <style>
+      :root {
+        --ground:#eef8f7;
+        --surface:#dbeceb;
+        --ink:#092632;
+        --grid:#0f6d78;
+        --line:#146f88;
+        --quiet:#3b6470;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --ground:#05070e;
+          --surface:#0a1220;
+          --ink:#e8fffc;
+          --grid:#36F1DE;
+          --line:#35A8FF;
+          --quiet:#8aa5b8;
+        }
+      }
+    </style>
+  </defs>
+
+  <rect width="3840" height="2160" fill="var(--ground)"/>
+  <rect width="3840" height="2160" fill="url(#grid)"/>
+  <ellipse cx="850" cy="1160" rx="1180" ry="760" fill="#36F1DE" opacity=".18" filter="url(#blur120)"/>
+  <ellipse cx="2050" cy="870" rx="1320" ry="690" fill="#35A8FF" opacity=".22" filter="url(#blur120)"/>
+  <ellipse cx="3270" cy="1180" rx="1020" ry="820" fill="#A23CFF" opacity=".22" filter="url(#blur120)"/>
+  <g fill="none" stroke-linecap="round">
+    <path d="M-260 1580C520 810 980 1900 1780 980S3050 340 4120 970" stroke="url(#spectrum)" stroke-width="300" opacity=".24" filter="url(#blur48)"/>
+    <path d="M-180 1530C520 880 1030 1780 1800 950s1240-470 2180 20" stroke="url(#spectrum)" stroke-width="34" opacity=".82"/>
+    <path d="M-120 1690C700 1070 1190 1880 2050 1110s1180-300 1940 170" stroke="url(#spectrum)" stroke-width="9" opacity=".68"/>
+    <path d="M100 520C930 1180 1430 210 2210 860s960 650 1750 110" stroke="url(#spectrum)" stroke-width="5" opacity=".38"/>
+  </g>
+  <g fill="var(--ink)" opacity=".78">
+    <circle cx="630" cy="1370" r="12"/><circle cx="1040" cy="1110" r="9"/><circle cx="1590" cy="1250" r="11"/>
+    <circle cx="2160" cy="810" r="10"/><circle cx="2760" cy="720" r="8"/><circle cx="3270" cy="890" r="12"/>
+  </g>
+  <g transform="translate(2770 390) scale(.92)" opacity=".74" filter="url(#softGlow)">
+    
+<g fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="var(--ground)" stroke-width="78" d="M320 84C140 84 92 238 207 357c87 90 98 151 0 246C92 722 140 876 320 876"/>
+  <path stroke="url(#spectrumLocal)" stroke-width="48" d="M320 84C140 84 92 238 207 357c87 90 98 151 0 246C92 722 140 876 320 876"/>
+  <path stroke="var(--ground)" stroke-width="78" d="M320 84c180 0 228 154 113 273-87 90-98 151 0 246 115 119 67 273-113 273"/>
+  <path stroke="url(#spectrumLocal)" stroke-width="48" d="M320 84c180 0 228 154 113 273-87 90-98 151 0 246 115 119 67 273-113 273"/>
+  <path stroke="var(--ground)" stroke-width="78" d="M151 302c86-92 252-92 338 0"/>
+  <path stroke="url(#spectrumLocal)" stroke-width="48" d="M151 302c86-92 252-92 338 0"/>
+  <path stroke="var(--ground)" stroke-width="78" d="M151 658c86 92 252 92 338 0"/>
+  <path stroke="url(#spectrumLocal)" stroke-width="48" d="M151 658c86 92 252 92 338 0"/>
+  <path stroke="var(--ground)" stroke-width="78" d="M320 188v584"/>
+  <path stroke="url(#spectrumLocal)" stroke-width="48" d="M320 188v584"/>
+</g>
+<circle cx="320" cy="480" r="23" fill="var(--ground)" stroke="url(#spectrumLocal)" stroke-width="12"/>
+
+  </g>
+  <g transform="translate(182 170)" fill="none" stroke="var(--ink)" opacity=".3" stroke-width="4">
+    <path d="M0 0h470M0 42h300M0 84h380"/>
+    <circle cx="510" cy="0" r="8" fill="var(--ink)" stroke="none"/>
+  </g>
+
+</svg>
