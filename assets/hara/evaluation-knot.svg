@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 960" role="img" aria-labelledby="title desc">
+  <title id="title">Hara interlocking evaluation knot</title>
+  <desc id="desc">Five interwoven strands forming paired parentheses, a central spine, and two evaluation bridges in the Hara teal, blue, and violet spectrum.</desc>
+  <defs>
+    <linearGradient id="spectrum" x1="110" y1="90" x2="540" y2="870" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#36F1DE"/>
+      <stop offset=".48" stop-color="#35A8FF"/>
+      <stop offset="1" stop-color="#A23CFF"/>
+    </linearGradient>
+    <filter id="glow" x="-80%" y="-60%" width="260%" height="220%">
+      <feGaussianBlur stdDeviation="18" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0.20  0 1 0 0 0.58  0 0 1 0 1  0 0 0 .65 0"/>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      :root { --hara-ground:#f3fbfa; --hara-edge:#0b3140; }
+      @media (prefers-color-scheme: dark) { :root { --hara-ground:#05070e; --hara-edge:#d9fffb; } }
+    </style>
+  </defs>
+  <rect width="640" height="960" rx="96" fill="var(--hara-ground)"/>
+  <g opacity=".24" filter="url(#glow)" fill="none" stroke="url(#spectrum)" stroke-width="54" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M320 84C140 84 92 238 207 357c87 90 98 151 0 246C92 722 140 876 320 876"/>
+    <path d="M320 84c180 0 228 154 113 273-87 90-98 151 0 246 115 119 67 273-113 273"/>
+    <path d="M151 302c86-92 252-92 338 0"/>
+    <path d="M151 658c86 92 252 92 338 0"/>
+    <path d="M320 188v584"/>
+  </g>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke="var(--hara-ground)" stroke-width="78" d="M320 84C140 84 92 238 207 357c87 90 98 151 0 246C92 722 140 876 320 876"/>
+    <path stroke="url(#spectrum)" stroke-width="48" d="M320 84C140 84 92 238 207 357c87 90 98 151 0 246C92 722 140 876 320 876"/>
+    <path stroke="var(--hara-ground)" stroke-width="78" d="M320 84c180 0 228 154 113 273-87 90-98 151 0 246 115 119 67 273-113 273"/>
+    <path stroke="url(#spectrum)" stroke-width="48" d="M320 84c180 0 228 154 113 273-87 90-98 151 0 246 115 119 67 273-113 273"/>
+    <path stroke="var(--hara-ground)" stroke-width="78" d="M151 302c86-92 252-92 338 0"/>
+    <path stroke="url(#spectrum)" stroke-width="48" d="M151 302c86-92 252-92 338 0"/>
+    <path stroke="var(--hara-ground)" stroke-width="78" d="M151 658c86 92 252 92 338 0"/>
+    <path stroke="url(#spectrum)" stroke-width="48" d="M151 658c86 92 252 92 338 0"/>
+    <path stroke="var(--hara-ground)" stroke-width="78" d="M320 188v584"/>
+    <path stroke="url(#spectrum)" stroke-width="48" d="M320 188v584"/>
+  </g>
+  <circle cx="320" cy="480" r="23" fill="var(--hara-ground)" stroke="url(#spectrum)" stroke-width="12"/>
+</svg>
