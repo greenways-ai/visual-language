@@ -1,0 +1,8 @@
+import { copyFile, cp, mkdir, rm } from "node:fs/promises";
+const output=new URL("../.pages/",import.meta.url);
+await rm(output,{recursive:true,force:true});await cp(new URL("../site/",import.meta.url),output,{recursive:true});
+await mkdir(new URL("assets/",output),{recursive:true});
+await copyFile(new URL("../src/theme.css",import.meta.url),new URL("assets/theme.css",output));
+await copyFile(new URL("../src/theme.js",import.meta.url),new URL("assets/theme.js",output));
+await copyFile(new URL("../assets/favicons/visual-language.svg",import.meta.url),new URL("favicon.svg",output));
+await copyFile(new URL("../assets/favicons/visual-language.svg",import.meta.url),new URL("../site/favicon.svg",import.meta.url));

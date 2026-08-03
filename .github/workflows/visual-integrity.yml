@@ -1,0 +1,24 @@
+name: visual-integrity
+
+on:
+  workflow_call:
+    inputs:
+      project: { required: true, type: string }
+      site-root: { required: false, type: string, default: . }
+      favicon: { required: false, type: string, default: public/favicon.svg }
+
+jobs:
+  visual-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { path: project }
+      - uses: actions/checkout@v4
+        with:
+          repository: greenways-ai/visual-language
+          ref: v1.2.0
+          path: visual-language
+      - uses: actions/setup-node@v4
+        with: { node-version: 24 }
+      - name: Audit canonical visual language
+        run: node visual-language/bin/gw-visual-audit.mjs --project=${{ inputs.project }} --root=project/${{ inputs.site-root }} --favicon=${{ inputs.favicon }}
