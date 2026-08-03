@@ -1,5 +1,6 @@
 export const projects = {
   greenways: { label: "Greenways", motif: "Peacock", accent: "green" },
+  hara: { label: "Hara", motif: "Evaluation knot", accent: "spectrum" },
   hestia: { label: "Hestia", motif: "Fire", accent: "red" },
   hoplite: { label: "Hoplite", motif: "Air", accent: "yellow" },
   historia: { label: "Historia", motif: "Eye", accent: "blue" },
