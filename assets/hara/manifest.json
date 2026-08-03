@@ -1,0 +1,50 @@
+{
+  "name": "Hara visual identity",
+  "version": 1,
+  "spectrum": [
+    "#36F1DE",
+    "#35A8FF",
+    "#A23CFF"
+  ],
+  "ground": {
+    "light": "#EEF8F7",
+    "dark": "#05070E"
+  },
+  "motif": {
+    "file": "evaluation-knot.svg",
+    "viewBox": "0 0 640 960",
+    "role": "secondary field motif and adaptive project sigil"
+  },
+  "backgrounds": [
+    {
+      "id": "eval-aurora",
+      "file": "backgrounds/eval-aurora.svg",
+      "viewBox": "0 0 3840 2160",
+      "use": "hero and ambient field"
+    },
+    {
+      "id": "ast-field",
+      "file": "backgrounds/ast-field.svg",
+      "viewBox": "0 0 3840 2160",
+      "use": "compiler and macroexpansion"
+    },
+    {
+      "id": "symbol-lattice",
+      "file": "backgrounds/symbol-lattice.svg",
+      "viewBox": "0 0 3840 2160",
+      "use": "section texture and covers"
+    },
+    {
+      "id": "dataflow-orbit",
+      "file": "backgrounds/dataflow-orbit.svg",
+      "viewBox": "0 0 3840 2160",
+      "use": "state and orchestration"
+    },
+    {
+      "id": "kernel-depth",
+      "file": "backgrounds/kernel-depth.svg",
+      "viewBox": "0 0 3840 2160",
+      "use": "runtime and WASM"
+    }
+  ]
+}
