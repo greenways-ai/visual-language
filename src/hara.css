@@ -257,7 +257,7 @@
   stroke-width: 78;
 }
 
-.gw-hara-backdrop__mark {
+.gw-hara-backdrop[data-motion="on"] .gw-hara-backdrop__mark {
   animation: gw-hara-breathe 7.2s ease-in-out infinite;
 }
 
