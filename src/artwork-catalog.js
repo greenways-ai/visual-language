@@ -1,9 +1,9 @@
 export const artworkCatalog = {
-  greenways: ["celestial-promenade","peacock-garden","jeweled-sky-temple","floating-lotus-court","cosmic-ocean-terrace","iridescent-observatory","living-architecture","constellation-orchard","aurora-pavilion","planetary-threshold"],
-  hestia: ["sovereign-hearth","protected-threshold","recovery-room","household-archive","secure-correspondence","provision-chamber","sheltered-courtyard","watchful-window","private-sanctuary","fireside-rest"],
-  hoplite: ["rabbit-courtyard","open-gate","branching-paths","wind-arcade","rapid-garden-route","interconnected-habitats","distributed-pavilions","open-horizon","lightweight-infrastructure","moonlit-resting-ground"],
-  historia: ["raven-library","evidence-chamber","index-gallery","inquiry-desk","archive-vault","constellation-of-sources","comparison-corridor","illuminated-manuscript-room","observation-balcony","nocturnal-roost"],
-  hodos: ["moth-theatre","mirrored-passage","veiled-stage","optical-garden","impossible-staircase","lantern-chamber","shadow-gallery","reflecting-pool","hidden-doorway","transformation-pavilion"],
+  greenways: ["celestial-promenade","peacock-garden","jeweled-sky-temple","floating-lotus-court"],
+  hestia: ["sovereign-hearth","protected-threshold","recovery-room","household-archive"],
+  hoplite: ["rabbit-courtyard","open-gate","branching-paths","wind-arcade"],
+  historia: ["raven-library","evidence-chamber","index-gallery","inquiry-desk"],
+  hodos: ["moth-theatre","mirrored-passage","veiled-stage","optical-garden"],
 };
 
 export const artworkThemes = {
