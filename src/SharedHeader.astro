@@ -3,7 +3,7 @@ import Sigil from "./Sigil.astro";
 import ThemeMenu from "./ThemeMenu.astro";
 import { projectLinks } from "./projects.js";
 type NavItem = { label: string; href: string };
-type Props = { project?: "greenways"|"hestia"|"hoplite"|"historia"|"hodos"; title: string; homeHref?: string; nav?: NavItem[]; githubHref?: string; cta?: NavItem; searchBase?: string };
+type Props = { project?: "greenways"|"hara"|"hestia"|"hoplite"|"historia"|"hodos"; title: string; homeHref?: string; nav?: NavItem[]; githubHref?: string; cta?: NavItem; searchBase?: string };
 const { project="greenways", title, homeHref="/", nav=[], githubHref, cta, searchBase="" } = Astro.props;
 ---
 <header class="gw-header" data-gw-header>
