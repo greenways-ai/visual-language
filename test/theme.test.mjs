@@ -22,10 +22,11 @@ test("project logos delegate to the semantic inline sigil", async () => {
   assert.doesNotMatch(source, /sourcePatterns/);
 });
 
-test("favicons provide grout and adaptive shaded palettes", async () => {
+test("favicons provide groutless smalti beds and adaptive shaded palettes", async () => {
   const source = await import("node:fs/promises").then((fs) => fs.readFile(new URL("../bin/generate-v3-favicons.mjs", import.meta.url), "utf8"));
   assert.match(source, /prefers-color-scheme:dark/);
-  assert.match(source, /--grout/);
+  assert.match(source, /voronoiBed/);
+  assert.doesNotMatch(source, /--grout/);
   assert.match(source, /hodos/);
   assert.match(source, /historia/);
 });
