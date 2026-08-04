@@ -1,6 +1,6 @@
 {
   "name": "@greenways-ai/visual-language",
-  "version": "4.6.0",
+  "version": "4.6.1",
   "description": "Adaptive mosaic visual language for Greenways sites.",
   "type": "module",
   "license": "Apache-2.0",
@@ -13,6 +13,7 @@
   ],
   "exports": {
     "./theme.css": "./src/theme.css",
+    "./typography.css": "./src/typography.css",
     "./theme.js": "./src/theme.js",
     "./ThemeToggle.astro": "./src/ThemeToggle.astro",
     "./ThemeMenu.astro": "./src/ThemeMenu.astro",
