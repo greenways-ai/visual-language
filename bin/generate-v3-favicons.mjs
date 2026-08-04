@@ -72,19 +72,53 @@ const bbox = (d) => {
   const xs = pts.map((p) => p[0]), ys = pts.map((p) => p[1]);
   return [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)];
 };
-
-const tesserae = (d, region, rand) => {
-  const [x0, y0, x1, y1] = bbox(d).map((v) => v * SCALE);
-  const out = [];
-  for (let y = Math.floor(y0 / PITCH) * PITCH; y < y1 + PITCH; y += PITCH) {
-    for (let x = Math.floor(x0 / PITCH) * PITCH; x < x1 + PITCH; x += PITCH) {
-      const cx = x + PITCH / 2 + (rand() * 10 - 5), cy = y + PITCH / 2 + (rand() * 10 - 5);
-      const size = 29 + rand() * 7, rot = (rand() * 16 - 8).toFixed(1), rx = (4 + rand() * 3).toFixed(1);
-      const shade = Math.floor(rand() * 5);
-      out.push(`<rect x="${(cx - size / 2).toFixed(1)}" y="${(cy - size / 2).toFixed(1)}" width="${size.toFixed(1)}" height="${size.toFixed(1)}" rx="${rx}" fill="var(--g${region}${shade})" transform="rotate(${rot} ${cx.toFixed(1)} ${cy.toFixed(1)})"/>`);
+// Irregular interlocking tesserae: a jittered-seed Voronoi bed shared by the
+// whole canvas and clipped per region. Pieces touch edge to edge — true
+// smalti have no grout. Each polygon is stroked with its own fill to hide
+// anti-aliasing hairlines between neighbours.
+const voronoiBed = (rand, pitch = 38) => {
+  const seeds = [];
+  for (let y = 0; y < CANVAS + pitch; y += pitch) {
+    for (let x = 0; x < CANVAS + pitch; x += pitch) {
+      seeds.push([x - pitch / 2 + rand() * pitch * 0.8, y - pitch / 2 + rand() * pitch * 0.8]);
     }
   }
-  return out.join("");
+  const clip = (poly, a, b) => {
+    const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2;
+    const dx = b[0] - a[0], dy = b[1] - a[1];
+    const side = (pt) => (pt[0] - mx) * dx + (pt[1] - my) * dy;
+    const out = [];
+    for (let k = 0; k < poly.length; k++) {
+      const p = poly[k], q = poly[(k + 1) % poly.length];
+      const sp = side(p), sq = side(q);
+      if (sp <= 0) out.push(p);
+      if ((sp < 0 && sq > 0) || (sp > 0 && sq < 0)) {
+        const t = sp / (sp - sq);
+        out.push([p[0] + (q[0] - p[0]) * t, p[1] + (q[1] - p[1]) * t]);
+      }
+    }
+    return out;
+  };
+  return seeds.map((a) => {
+    let poly = [[-80, -80], [CANVAS + 80, -80], [CANVAS + 80, CANVAS + 80], [-80, CANVAS + 80]];
+    for (const b of seeds) {
+      if (b === a) continue;
+      poly = clip(poly, a, b);
+      if (poly.length === 0) break;
+    }
+    return { seed: a, poly };
+  }).filter((c) => c.poly.length > 2);
+};
+
+const pieces = (d, region, cells, cellShade) => {
+  const pad = 48;
+  const [x0, y0, x1, y1] = bbox(d).map((v) => v * SCALE);
+  return cells.map((c, ci) => {
+    if (c.seed[0] < x0 - pad || c.seed[0] > x1 + pad || c.seed[1] < y0 - pad || c.seed[1] > y1 + pad) return "";
+    const pts = c.poly.map((pt) => `${pt[0].toFixed(1)},${pt[1].toFixed(1)}`).join(" ");
+    const fill = `var(--g${region}${cellShade[ci]})`;
+    return `<polygon points="${pts}" fill="${fill}" stroke="${fill}" stroke-width="1.5" stroke-linejoin="round"/>`;
+  }).join("");
 };
 
 await mkdir(new URL("../assets/favicons/", import.meta.url), { recursive: true });
@@ -96,12 +130,14 @@ for (const [name, p] of Object.entries(projects)) {
   }));
   const vars = (mode) => regionShades.map((r, i) => r[mode].map((c, k) => `--g${i}${k}:${c}`).join(";")).join(";");
   const flat = new Set(p.flat ?? []);
+  const cells = voronoiBed(rand);
+  const cellShade = cells.map(() => Math.floor(rand() * 5));
   const clips = p.paths.map((d, i) => `<clipPath id="r${i}"><path d="${d}" transform="scale(${SCALE})"/></clipPath>`).join("");
   const regions = p.paths.map((d, i) => {
-    if (flat.has(i)) return `<path fill="var(--g${i}2)" d="${d}" transform="scale(${SCALE})" stroke="var(--grout)" stroke-width="6"/>`;
-    return `<path fill="var(--grout)" d="${d}" transform="scale(${SCALE})"/><g clip-path="url(#r${i})">${tesserae(d, i, rand)}</g>`;
+    if (flat.has(i)) return `<path fill="var(--g${i}2)" d="${d}" transform="scale(${SCALE})"/>`;
+    return `<g clip-path="url(#r${i})">${pieces(d, i, cells, cellShade)}</g>`;
   }).join("");
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${CANVAS} ${CANVAS}"><style>:root{--ground:#f7f3e9;--grout:#d5d0c5;${vars("light")}}@media(prefers-color-scheme:dark){:root{--ground:#0b1410;--grout:#111a16;${vars("dark")}}}</style><defs>${clips}</defs><rect x="8" y="8" width="${CANVAS - 16}" height="${CANVAS - 16}" rx="82" fill="var(--ground)"/>${regions}</svg>\n`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${CANVAS} ${CANVAS}"><style>:root{--ground:#f7f3e9;${vars("light")}}@media(prefers-color-scheme:dark){:root{--ground:#0b1410;${vars("dark")}}}</style><defs>${clips}</defs><rect x="8" y="8" width="${CANVAS - 16}" height="${CANVAS - 16}" rx="82" fill="var(--ground)"/>${regions}</svg>\n`;
   await writeFile(new URL(`../assets/favicons/${name}.svg`, import.meta.url), svg);
 }
-console.log(`generated ${Object.keys(projects).length} adaptive smalti sigils at ${CANVAS}x${CANVAS}`);
+console.log(`generated ${Object.keys(projects).length} adaptive groutless smalti sigils at ${CANVAS}x${CANVAS}`);
