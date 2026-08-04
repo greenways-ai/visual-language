@@ -76,7 +76,10 @@ test("canonical sigils adopt the named project motifs", async () => {
     ["historia", "mountain-pair"],
     ["hodos", "ring-double"],
     ["visual-language", "lotus-three"],
-  ]) assert.match(gen, new RegExp(`${project.replace("-", "\\-")}["']?\\s*:\\s*\\{ study: "${study}"`));
+  ]) {
+    const key = project.includes("-") ? `"${project}"` : project;
+    assert.ok(gen.includes(`${key}: { study: "${study}"`), project);
+  }
   assert.match(gen, /#20c7df/);
   assert.doesNotMatch(gen, /#b78a22|#d7b64e/);
 
