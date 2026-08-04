@@ -20,7 +20,11 @@
     "./Sigil.astro": "./src/Sigil.astro",
     "./projects.js": "./src/projects.js",
     "./MosaicLogo.astro": "./src/MosaicLogo.astro",
-    "./ThemedArtwork.astro": "./src/ThemedArtwork.astro"
+    "./ThemedArtwork.astro": "./src/ThemedArtwork.astro",
+    "./statstrade.css": "./src/statstrade.css",
+    "./statstrade-world.js": "./src/statstrade-world.js",
+    "./StatstradeS.astro": "./src/StatstradeS.astro",
+    "./StatstradeGateway.astro": "./src/StatstradeGateway.astro"
   },
   "bin": {
     "gw-visual-audit": "./bin/gw-visual-audit.mjs",
