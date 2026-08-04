@@ -1,0 +1,9 @@
+.artwork-grid picture { display: block; }
+.artwork-open { display: block; padding: 0; cursor: zoom-in; background: none; border: 0; }
+.artwork-lightbox { width: min(1500px, calc(100% - 28px)); max-width: none; height: min(94vh, 1050px); padding: 14px; }
+.artwork-lightbox form { display: flex; justify-content: flex-end; }
+.artwork-lightbox figure { height: calc(100% - 106px); margin: 8px 0; }
+.artwork-lightbox figure img { width: 100%; height: calc(100% - 30px); object-fit: contain; }
+.artwork-lightbox figcaption { text-align: center; text-transform: capitalize; }
+.artwork-lightbox nav { display: flex; justify-content: space-between; }
+.artwork-lightbox nav button { padding: 12px 18px; color: inherit; background: var(--gw-canvas); border: 1px solid var(--gw-line-strong); border-radius: 9px; }
