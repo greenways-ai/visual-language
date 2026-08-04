@@ -1,6 +1,6 @@
 {
   "name": "@greenways-ai/visual-language",
-  "version": "4.2.0",
+  "version": "4.3.0",
   "description": "Adaptive mosaic visual language for Greenways sites.",
   "type": "module",
   "license": "Apache-2.0",
@@ -33,7 +33,8 @@
     "artwork:raster": "node bin/build-raster-artwork.mjs",
     "artwork": "node bin/generate-artwork.mjs",
     "build:site": "node bin/build-site.mjs",
-    "test": "node --test test/*.test.mjs"
+    "test": "node --test test/*.test.mjs",
+    "og": "node bin/generate-og-images.mjs"
   },
   "engines": {
     "node": ">=22"

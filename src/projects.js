@@ -1,9 +1,9 @@
 export const projects = {
-  greenways: { label: "Greenways", motif: "Peacock", accent: "green" },
-  hestia: { label: "Hestia", motif: "Fire", accent: "red" },
-  hoplite: { label: "Hoplite", motif: "Air", accent: "yellow" },
-  historia: { label: "Historia", motif: "Eye", accent: "blue" },
-  hodos: { label: "Hodos", motif: "Moth", accent: "green" },
+  greenways: { label: "Greenways", motif: "Peacock eye", accent: "green" },
+  hestia: { label: "Hestia", motif: "Star", accent: "red" },
+  hoplite: { label: "Hoplite", motif: "Compass", accent: "cyan" },
+  historia: { label: "Historia", motif: "Mountain", accent: "blue" },
+  hodos: { label: "Hodos", motif: "Ring", accent: "green" },
 };
 
 export const projectLinks = [
