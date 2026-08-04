@@ -1,10 +1,138 @@
-import test from "node:test";import assert from "node:assert/strict";import {readdir,readFile} from "node:fs/promises";
-test("v3 exports shared interface components",async()=>{const pkg=JSON.parse(await readFile(new URL("../package.json",import.meta.url)));for(const name of ["./SharedHeader.astro","./ThemeMenu.astro","./Sigil.astro","./ThemedArtwork.astro"])assert.ok(pkg.exports[name],name);});
-test("six worlds have eight responsive raster day and night scenes",async()=>{for(const project of ["greenways","hestia","hoplite","historia","hodos","www"]){const files=(await readdir(new URL(`../site/artwork/${project}/`,import.meta.url))).filter(f=>f.endsWith(".webp"));assert.equal(files.length,32,project);assert.equal(files.filter(f=>f.includes("-mobile.webp")).length,16,project);}});
-test("scene language assigns space-led behavior and sparse sigils",async()=>{const {scenes}=await import("../src/scene-language.js");assert.equal(scenes.length,48);assert.equal(scenes.filter(scene=>scene.sigil).length,6);for(const scene of scenes){assert.ok(scene.affordance);assert.ok(scene.day);assert.ok(scene.night);assert.ok(["left","center","right"].includes(scene.focus));}});
-test("canonical sigils adopt exploration studies and hoplite turns cyan",async()=>{const gen=await readFile(new URL("../bin/generate-v3-favicons.mjs",import.meta.url),"utf8");for(const [project,study] of [["greenways","peacock-eye-shield"],["hestia","star-eight"],["hoplite","star-compass"],["historia","mountain-sun"],["hodos","ring-double"]])assert.match(gen,new RegExp(`${project}: \\{ study: "${study}"`));assert.match(gen,/#20c7df/);assert.doesNotMatch(gen,/#b78a22|#d7b64e/);const sigil=await readFile(new URL("../src/Sigil.astro",import.meta.url),"utf8");assert.match(sigil,/gw-sigil__iris/);assert.match(sigil,/resolved === "greenways"/);const css=await readFile(new URL("../src/theme.css",import.meta.url),"utf8");assert.match(css,/data-project="hoplite"\]\{--gw-accent-1:#0b3a44/);});
-test("og image cards exist at 1200x630",async()=>{for(const name of ["greenways","hestia","hoplite","historia","hodos","visual-language"]){const buf=await readFile(new URL(`../site/assets/og-${name}.png`,import.meta.url));assert.equal(buf[0],0x89,`${name} png magic`);assert.equal(buf.readUInt32BE(16),1200,`${name} width`);assert.equal(buf.readUInt32BE(20),630,`${name} height`);}});
-test("semantic controls and project palettes are present",async()=>{const css=await readFile(new URL("../src/theme.css",import.meta.url),"utf8");for(const project of ["hestia","hoplite","historia","hodos"])assert.match(css,new RegExp(`data-project=["']${project}`));for(const token of ["--gw-control-bg","--gw-control-text","--gw-control-hover","--gw-art-veil","--gw-sigil-ground","--gw-sigil-grout"])assert.match(css,new RegExp(token));});
-const luminance=(hex)=>{const c=hex.match(/[\da-f]{2}/gi).map(v=>parseInt(v,16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);return .2126*c[0]+.7152*c[1]+.0722*c[2]};const contrast=(a,b)=>{const [hi,lo]=[luminance(a),luminance(b)].sort((x,y)=>y-x);return(hi+.05)/(lo+.05)};
-test("essential foreground and background pairs meet WCAG AA",()=>{for(const [foreground,background] of [["#101612","#f4f2ec"],["#101612","#fbfaf6"],["#58615c","#fbfaf6"],["#f7f5ef","#050a08"],["#f7f5ef","#0b1410"],["#adb5af","#0b1410"]])assert.ok(contrast(foreground,background)>=4.5,`${foreground} on ${background}`);});
-test("sigil exploration lab publishes sixty adaptive smalti studies with light/dark pairs",async()=>{const manifest=JSON.parse(await readFile(new URL("../site/sigils/manifest.json",import.meta.url)));assert.equal(manifest.length,60);for(const entry of manifest){const svg=await readFile(new URL(`../site/sigils/${entry.id}.svg`,import.meta.url),"utf8");assert.match(svg,/viewBox="0 0 480 480"/,entry.id);assert.match(svg,/prefers-color-scheme:dark/,entry.id);for(const mode of ["light","dark"]){const fixed=await readFile(new URL(`../site/sigils/${entry.id}-${mode}.svg`,import.meta.url),"utf8");assert.match(fixed,/viewBox="0 0 480 480"/,`${entry.id}-${mode}`);assert.doesNotMatch(fixed,/prefers-color-scheme/,`${entry.id}-${mode}`);}}});
+import test from "node:test";
+import assert from "node:assert/strict";
+import { readdir, readFile } from "node:fs/promises";
+
+test("v3 exports shared interface components", async () => {
+  const pkg = JSON.parse(await readFile(new URL("../package.json", import.meta.url)));
+  for (const name of [
+    "./SharedHeader.astro",
+    "./DocumentationHeader.astro",
+    "./DocumentationSearch.astro",
+    "./ProjectSwitcher.astro",
+    "./CodePanel.astro",
+    "./DocumentationCard.astro",
+    "./ThemeMenu.astro",
+    "./Sigil.astro",
+    "./ThemedArtwork.astro",
+  ]) assert.ok(pkg.exports[name], name);
+});
+
+test("documentation components encode the shared interaction contracts", async () => {
+  const search = await readFile(new URL("../src/DocumentationSearch.astro", import.meta.url), "utf8");
+  assert.match(search, /inset: 50% auto auto 50%/);
+  assert.match(search, /translate\(-50%, -50%\)/);
+  assert.match(search, /pagefind\/pagefind\.js/);
+
+  const header = await readFile(new URL("../src/DocumentationHeader.astro", import.meta.url), "utf8");
+  assert.match(header, /ProjectSwitcher/);
+  assert.match(header, /docsLabel = "Docs"/);
+  assert.doesNotMatch(header, /GitHub/);
+
+  const panel = await readFile(new URL("../src/CodePanel.astro", import.meta.url), "utf8");
+  assert.match(panel, /astro:components/);
+  assert.match(panel, /github-dark/);
+
+  const card = await readFile(new URL("../src/DocumentationCard.astro", import.meta.url), "utf8");
+  assert.match(card, /Why it matters/);
+  assert.match(card, /CodePanel/);
+});
+
+test("project switcher links every named world through its sigil", async () => {
+  const { projectLinks } = await import("../src/projects.js");
+  for (const project of ["greenways", "hestia", "hoplite", "historia", "hodos", "statstrade"]) {
+    assert.ok(projectLinks.some((item) => item.project === project), project);
+  }
+  const source = await readFile(new URL("../src/ProjectSwitcher.astro", import.meta.url), "utf8");
+  assert.match(source, /data-gw-project-switcher/);
+  assert.match(source, /Switch project/);
+});
+
+test("six worlds have eight responsive raster day and night scenes", async () => {
+  for (const project of ["greenways", "hestia", "hoplite", "historia", "hodos", "www"]) {
+    const files = (await readdir(new URL(`../site/artwork/${project}/`, import.meta.url))).filter((file) => file.endsWith(".webp"));
+    assert.equal(files.length, 32, project);
+    assert.equal(files.filter((file) => file.includes("-mobile.webp")).length, 16, project);
+  }
+});
+
+test("scene language assigns space-led behavior and sparse sigils", async () => {
+  const { scenes } = await import("../src/scene-language.js");
+  assert.equal(scenes.length, 48);
+  assert.equal(scenes.filter((scene) => scene.sigil).length, 6);
+  for (const scene of scenes) {
+    assert.ok(scene.affordance);
+    assert.ok(scene.day);
+    assert.ok(scene.night);
+    assert.ok(["left", "center", "right"].includes(scene.focus));
+  }
+});
+
+test("canonical sigils adopt exploration studies and hoplite turns cyan", async () => {
+  const gen = await readFile(new URL("../bin/generate-v3-favicons.mjs", import.meta.url), "utf8");
+  for (const [project, study] of [
+    ["greenways", "peacock-eye-shield"],
+    ["hestia", "star-eight"],
+    ["hoplite", "star-compass"],
+    ["historia", "mountain-sun"],
+    ["hodos", "ring-double"],
+  ]) assert.match(gen, new RegExp(`${project}: \\{ study: "${study}"`));
+  assert.match(gen, /#20c7df/);
+  assert.doesNotMatch(gen, /#b78a22|#d7b64e/);
+  const sigil = await readFile(new URL("../src/Sigil.astro", import.meta.url), "utf8");
+  assert.match(sigil, /gw-sigil__iris/);
+  assert.match(sigil, /resolved === "greenways"/);
+  const css = await readFile(new URL("../src/theme.css", import.meta.url), "utf8");
+  assert.match(css, /data-project="hoplite"\]\{--gw-accent-1:#0b3a44/);
+});
+
+test("og image cards exist at 1200x630", async () => {
+  for (const name of ["greenways", "hestia", "hoplite", "historia", "hodos", "visual-language"]) {
+    const buffer = await readFile(new URL(`../site/assets/og-${name}.png`, import.meta.url));
+    assert.equal(buffer[0], 0x89, `${name} png magic`);
+    assert.equal(buffer.readUInt32BE(16), 1200, `${name} width`);
+    assert.equal(buffer.readUInt32BE(20), 630, `${name} height`);
+  }
+});
+
+test("semantic controls and project palettes are present", async () => {
+  const css = await readFile(new URL("../src/theme.css", import.meta.url), "utf8");
+  for (const project of ["hestia", "hoplite", "historia", "hodos"]) assert.match(css, new RegExp(`data-project=["']${project}`));
+  for (const token of ["--gw-control-bg", "--gw-control-text", "--gw-control-hover", "--gw-art-veil", "--gw-sigil-ground", "--gw-sigil-grout"]) assert.match(css, new RegExp(token));
+});
+
+const luminance = (hex) => {
+  const components = hex.match(/[\da-f]{2}/gi)
+    .map((value) => parseInt(value, 16) / 255)
+    .map((value) => value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4);
+  return .2126 * components[0] + .7152 * components[1] + .0722 * components[2];
+};
+const contrast = (a, b) => {
+  const [high, low] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  return (high + .05) / (low + .05);
+};
+
+test("essential foreground and background pairs meet WCAG AA", () => {
+  for (const [foreground, background] of [
+    ["#101612", "#f4f2ec"],
+    ["#101612", "#fbfaf6"],
+    ["#58615c", "#fbfaf6"],
+    ["#f7f5ef", "#050a08"],
+    ["#f7f5ef", "#0b1410"],
+    ["#adb5af", "#0b1410"],
+  ]) assert.ok(contrast(foreground, background) >= 4.5, `${foreground} on ${background}`);
+});
+
+test("sigil exploration lab publishes sixty adaptive smalti studies with light/dark pairs", async () => {
+  const manifest = JSON.parse(await readFile(new URL("../site/sigils/manifest.json", import.meta.url)));
+  assert.equal(manifest.length, 60);
+  for (const entry of manifest) {
+    const svg = await readFile(new URL(`../site/sigils/${entry.id}.svg`, import.meta.url), "utf8");
+    assert.match(svg, /viewBox="0 0 480 480"/, entry.id);
+    assert.match(svg, /prefers-color-scheme:dark/, entry.id);
+    for (const mode of ["light", "dark"]) {
+      const fixed = await readFile(new URL(`../site/sigils/${entry.id}-${mode}.svg`, import.meta.url), "utf8");
+      assert.match(fixed, /viewBox="0 0 480 480"/, `${entry.id}-${mode}`);
+      assert.doesNotMatch(fixed, /prefers-color-scheme/, `${entry.id}-${mode}`);
+    }
+  }
+});

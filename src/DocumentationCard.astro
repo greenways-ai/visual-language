@@ -1,0 +1,107 @@
+---
+import CodePanel from "./CodePanel.astro";
+
+interface Props {
+  href: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  code: string;
+  lang?: string;
+  codeTitle?: string;
+  why: string;
+  action?: string;
+}
+
+const {
+  href,
+  eyebrow,
+  title,
+  description,
+  code,
+  lang = "text",
+  codeTitle = "Example",
+  why,
+  action = "Open section →",
+} = Astro.props;
+---
+
+<article class="gw-documentation-card">
+  <div class="gw-documentation-card__copy">
+    <small>{eyebrow}</small>
+    <h3>{title}</h3>
+    <p>{description}</p>
+  </div>
+
+  <CodePanel code={code} lang={lang} title={codeTitle} compact />
+
+  <div class="gw-documentation-card__why">
+    <strong>Why it matters</strong>
+    <p>{why}</p>
+  </div>
+
+  <a href={href}>{action}</a>
+</article>
+
+<style>
+  .gw-documentation-card {
+    min-width: 0;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    gap: 18px;
+    padding: clamp(20px, 2.5vw, 30px);
+    color: var(--gw-text);
+    background: color-mix(in srgb, var(--gw-surface) 88%, transparent);
+    border: 1px solid var(--gw-line);
+  }
+
+  .gw-documentation-card__copy > small {
+    color: var(--gw-accent-3);
+    font: 600 .58rem ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+  }
+
+  .gw-documentation-card h3 {
+    margin: 14px 0 8px;
+    color: var(--gw-text);
+    font: 400 clamp(1.7rem, 2.5vw, 2.25rem)/1.05 "Marcellus", Georgia, serif;
+  }
+
+  .gw-documentation-card p {
+    margin: 0;
+    color: var(--gw-text-muted);
+    font-size: .88rem;
+    line-height: 1.65;
+  }
+
+  .gw-documentation-card__why {
+    align-self: end;
+    padding-top: 16px;
+    border-top: 1px solid var(--gw-line);
+  }
+
+  .gw-documentation-card__why strong {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--gw-text);
+    font: 700 .62rem ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .gw-documentation-card > a {
+    width: fit-content;
+    color: var(--gw-accent-3);
+    text-decoration: none;
+    font: 700 .62rem ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  .gw-documentation-card > a:hover { text-decoration: underline; }
+  .gw-documentation-card > a:focus-visible {
+    outline: 3px solid var(--gw-focus);
+    outline-offset: 3px;
+  }
+</style>

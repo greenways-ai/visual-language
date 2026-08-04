@@ -1,0 +1,155 @@
+---
+import DocumentationSearch from "./DocumentationSearch.astro";
+import ProjectSwitcher from "./ProjectSwitcher.astro";
+import ThemeButton from "./ThemeButton.astro";
+
+type Project = "greenways" | "hestia" | "hoplite" | "historia" | "hodos" | "statstrade";
+interface Props {
+  project?: Project;
+  title: string;
+  homeHref?: string;
+  docsHref: string;
+  docsLabel?: string;
+  searchBase?: string;
+  searchLabel?: string;
+}
+
+const {
+  project = "greenways",
+  title,
+  homeHref = "/",
+  docsHref,
+  docsLabel = "Docs",
+  searchBase = "",
+  searchLabel = `Search ${title} documentation`,
+} = Astro.props;
+const searchSelector = `[data-gw-documentation-search-open="${project}"]`;
+---
+
+<header class="gw-documentation-header" data-gw-documentation-header>
+  <div class="gw-documentation-header__brand">
+    <ProjectSwitcher project={project} label={title} />
+    <a href={homeHref}>{title}</a>
+  </div>
+
+  <nav aria-label={`${title} documentation navigation`}>
+    <a href={docsHref}>{docsLabel}</a>
+  </nav>
+
+  <button
+    class="gw-documentation-header__control"
+    type="button"
+    data-gw-documentation-search-open={project}
+    aria-label={searchLabel}
+    title={`${searchLabel} (⌘K)`}
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="11" cy="11" r="6.5" />
+      <path d="m16 16 4.25 4.25" />
+    </svg>
+  </button>
+
+  <ThemeButton />
+</header>
+
+<DocumentationSearch
+  id={`gw-${project}-documentation-search`}
+  label={searchLabel}
+  placeholder={searchLabel}
+  searchBase={searchBase}
+  opener={searchSelector}
+/>
+
+<style>
+  .gw-documentation-header {
+    position: sticky;
+    z-index: 70;
+    top: 0;
+    min-height: 76px;
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    gap: clamp(10px, 1.5vw, 22px);
+    padding: 12px clamp(16px, 3vw, 46px);
+    color: var(--gw-text);
+    background: var(--gw-header);
+    border-block: 1px solid var(--gw-line);
+    backdrop-filter: blur(18px);
+  }
+
+  .gw-documentation-header__brand {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .gw-documentation-header__brand > a {
+    overflow: hidden;
+    color: inherit;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font: 400 clamp(1.25rem, 2vw, 1.85rem) "Marcellus", Georgia, serif;
+    letter-spacing: .075em;
+    text-decoration: none;
+  }
+
+  .gw-documentation-header nav {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .gw-documentation-header nav a {
+    color: inherit;
+    font: 700 .68rem "Manrope", system-ui, sans-serif;
+    letter-spacing: .08em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .gw-documentation-header nav a:hover { color: var(--gw-accent-3); }
+
+  .gw-documentation-header__control {
+    width: 48px;
+    height: 48px;
+    display: inline-grid;
+    place-items: center;
+    padding: 0;
+    color: var(--gw-control-text);
+    background: var(--gw-control-bg);
+    border: 1px solid var(--gw-line-strong);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .gw-documentation-header__control:hover { background: var(--gw-control-hover); }
+  .gw-documentation-header__control:focus-visible,
+  .gw-documentation-header a:focus-visible {
+    outline: 3px solid var(--gw-focus);
+    outline-offset: 3px;
+  }
+
+  .gw-documentation-header__control svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  @media (max-width: 560px) {
+    .gw-documentation-header {
+      min-height: 68px;
+      gap: 8px;
+      padding: 9px 10px;
+    }
+
+    .gw-documentation-header__brand { gap: 9px; }
+    .gw-documentation-header__brand > a { font-size: 1.05rem; }
+    .gw-documentation-header nav a { font-size: .61rem; }
+    .gw-documentation-header__control { width: 44px; height: 44px; }
+  }
+</style>
