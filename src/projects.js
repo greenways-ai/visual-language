@@ -8,9 +8,10 @@ export const projects = {
 };
 
 export const projectLinks = [
-  { label: "Greenways", href: "https://greenways.ai/" },
-  { label: "Hestia", href: "https://oss.greenways.ai/hestia/" },
-  { label: "Hoplite", href: "https://oss.greenways.ai/hoplite/" },
-  { label: "Historia", href: "https://oss.greenways.ai/historia/" },
-  { label: "Statstrade", href: "https://statstrade.io/" },
+  { project: "greenways", label: "Greenways", href: "https://greenways.ai/" },
+  { project: "hestia", label: "Hestia", href: "https://oss.greenways.ai/hestia/" },
+  { project: "hoplite", label: "Hoplite", href: "https://oss.greenways.ai/hoplite/" },
+  { project: "historia", label: "Historia", href: "https://oss.greenways.ai/historia/" },
+  { project: "hodos", label: "Hodos", href: "https://oss.greenways.ai/hodos/" },
+  { project: "statstrade", label: "Statstrade", href: "https://statstrade.io/" },
 ];

@@ -1,0 +1,160 @@
+---
+import Sigil from "./Sigil.astro";
+import { projectLinks, projects } from "./projects.js";
+
+type Project = "greenways" | "hestia" | "hoplite" | "historia" | "hodos" | "statstrade";
+interface Props {
+  project?: Project;
+  label?: string;
+  class?: string;
+}
+
+const {
+  project = "greenways",
+  label = projects[project]?.label || project,
+  class: className,
+} = Astro.props;
+---
+
+<details class:list={["gw-project-switcher", className]} data-gw-project-switcher>
+  <summary aria-label={`Switch from ${label} to another Greenways project`} title="Switch project">
+    <Sigil project={project} label={label} />
+  </summary>
+  <div class="gw-project-switcher__menu" role="menu" aria-label="Greenways projects">
+    {projectLinks.map((item) => (
+      <a
+        href={item.href}
+        role="menuitem"
+        aria-current={item.project === project ? "page" : undefined}
+      >
+        <Sigil project={item.project as Project} label={item.label} />
+        <span>
+          <strong>{item.label}</strong>
+          <small>{projects[item.project]?.motif}</small>
+        </span>
+        {item.project === project && <i>Current</i>}
+      </a>
+    ))}
+  </div>
+</details>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-gw-project-switcher]").forEach((switcher) => {
+    if (switcher.dataset.initialised === "true") return;
+    switcher.dataset.initialised = "true";
+
+    switcher.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => switcher.removeAttribute("open"));
+    });
+
+    document.addEventListener("pointerdown", (event) => {
+      if (!switcher.contains(event.target as Node)) switcher.removeAttribute("open");
+    });
+
+    switcher.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        switcher.removeAttribute("open");
+        switcher.querySelector<HTMLElement>("summary")?.focus();
+      }
+    });
+  });
+</script>
+
+<style>
+  .gw-project-switcher {
+    position: relative;
+    flex: 0 0 auto;
+  }
+
+  .gw-project-switcher > summary {
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    list-style: none;
+    border-radius: 11px;
+    cursor: pointer;
+  }
+
+  .gw-project-switcher > summary::-webkit-details-marker { display: none; }
+  .gw-project-switcher > summary :global(.gw-sigil) { width: 48px; height: 48px; }
+  .gw-project-switcher > summary:hover { filter: brightness(1.06); }
+  .gw-project-switcher > summary:focus-visible {
+    outline: 3px solid var(--gw-focus);
+    outline-offset: 3px;
+  }
+
+  .gw-project-switcher__menu {
+    position: absolute;
+    z-index: 90;
+    top: calc(100% + 12px);
+    left: 0;
+    width: min(330px, calc(100vw - 24px));
+    display: grid;
+    gap: 5px;
+    padding: 9px;
+    color: var(--gw-text);
+    background: var(--gw-surface);
+    border: 1px solid var(--gw-line-strong);
+    border-radius: 14px;
+    box-shadow: 0 28px 80px rgba(0, 0, 0, .28);
+  }
+
+  .gw-project-switcher__menu a {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    color: inherit;
+    border-radius: 10px;
+    text-decoration: none;
+  }
+
+  .gw-project-switcher__menu a:hover,
+  .gw-project-switcher__menu a[aria-current="page"] {
+    background: var(--gw-control-hover);
+  }
+
+  .gw-project-switcher__menu a:focus-visible {
+    outline: 3px solid var(--gw-focus);
+    outline-offset: 1px;
+  }
+
+  .gw-project-switcher__menu :global(.gw-sigil) {
+    width: 40px;
+    height: 40px;
+  }
+
+  .gw-project-switcher__menu span { min-width: 0; display: grid; gap: 2px; }
+  .gw-project-switcher__menu strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font: 700 .75rem "Manrope", system-ui, sans-serif;
+    letter-spacing: .04em;
+  }
+  .gw-project-switcher__menu small {
+    color: var(--gw-text-muted);
+    font-size: .68rem;
+  }
+  .gw-project-switcher__menu i {
+    color: var(--gw-accent-3);
+    font: normal 600 .55rem ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 560px) {
+    .gw-project-switcher > summary,
+    .gw-project-switcher > summary :global(.gw-sigil) {
+      width: 42px;
+      height: 42px;
+    }
+    .gw-project-switcher__menu {
+      position: fixed;
+      top: 70px;
+      left: 10px;
+    }
+  }
+</style>

@@ -1,6 +1,6 @@
 {
   "name": "@greenways-ai/visual-language",
-  "version": "4.4.0",
+  "version": "4.5.0",
   "description": "Adaptive mosaic visual language for Greenways sites.",
   "type": "module",
   "license": "Apache-2.0",
@@ -17,6 +17,11 @@
     "./ThemeToggle.astro": "./src/ThemeToggle.astro",
     "./ThemeMenu.astro": "./src/ThemeMenu.astro",
     "./SharedHeader.astro": "./src/SharedHeader.astro",
+    "./DocumentationHeader.astro": "./src/DocumentationHeader.astro",
+    "./DocumentationSearch.astro": "./src/DocumentationSearch.astro",
+    "./ProjectSwitcher.astro": "./src/ProjectSwitcher.astro",
+    "./CodePanel.astro": "./src/CodePanel.astro",
+    "./DocumentationCard.astro": "./src/DocumentationCard.astro",
     "./Sigil.astro": "./src/Sigil.astro",
     "./projects.js": "./src/projects.js",
     "./MosaicLogo.astro": "./src/MosaicLogo.astro",
@@ -39,6 +44,14 @@
     "build:site": "node bin/build-site.mjs",
     "test": "node --test test/*.test.mjs",
     "og": "node bin/generate-og-images.mjs"
+  },
+  "peerDependencies": {
+    "astro": ">=5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "astro": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">=22"
