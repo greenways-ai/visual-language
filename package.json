@@ -1,10 +1,16 @@
 {
   "name": "@greenways-ai/visual-language",
-  "version": "4.0.2",
+  "version": "4.1.0",
   "description": "Adaptive mosaic visual language for Greenways sites.",
   "type": "module",
   "license": "Apache-2.0",
-  "files": ["src", "assets", "bin", "BRAND-ASSETS.md", "NOTICE"],
+  "files": [
+    "src",
+    "assets",
+    "bin",
+    "BRAND-ASSETS.md",
+    "NOTICE"
+  ],
   "exports": {
     "./theme.css": "./src/theme.css",
     "./theme.js": "./src/theme.js",
@@ -22,11 +28,14 @@
   },
   "scripts": {
     "assets": "node bin/generate-v3-favicons.mjs",
+    "sigils": "node bin/generate-sigil-explorations.mjs",
     "prompts": "node bin/compose-scene-prompts.mjs",
     "artwork:raster": "node bin/build-raster-artwork.mjs",
     "artwork": "node bin/generate-artwork.mjs",
     "build:site": "node bin/build-site.mjs",
     "test": "node --test test/*.test.mjs"
   },
-  "engines": { "node": ">=22" }
+  "engines": {
+    "node": ">=22"
+  }
 }

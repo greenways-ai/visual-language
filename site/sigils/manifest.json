@@ -1,0 +1,242 @@
+[
+  {
+    "id": "heart-plain",
+    "label": "Heart · plain emerald"
+  },
+  {
+    "id": "heart-eye-cyan",
+    "label": "Heart · cyan eye"
+  },
+  {
+    "id": "heart-eye-gold",
+    "label": "Heart · gold eye"
+  },
+  {
+    "id": "heart-eye-peacock",
+    "label": "Heart · peacock eye"
+  },
+  {
+    "id": "heart-split",
+    "label": "Heart · split halves"
+  },
+  {
+    "id": "heart-ring",
+    "label": "Heart · open outline"
+  },
+  {
+    "id": "heart-twin",
+    "label": "Heart · intertwined"
+  },
+  {
+    "id": "peacock-eye-vertical",
+    "label": "Peacock eye · vertical"
+  },
+  {
+    "id": "peacock-eye-horizontal",
+    "label": "Peacock eye · horizontal"
+  },
+  {
+    "id": "peacock-eye-round",
+    "label": "Peacock eye · medallion"
+  },
+  {
+    "id": "peacock-eye-shield",
+    "label": "Peacock eye · shield"
+  },
+  {
+    "id": "peacock-eye-amethyst",
+    "label": "Peacock eye · amethyst"
+  },
+  {
+    "id": "peacock-feather",
+    "label": "Peacock feather · with stem"
+  },
+  {
+    "id": "flame-single",
+    "label": "Flame · single"
+  },
+  {
+    "id": "flame-double",
+    "label": "Flame · inner light"
+  },
+  {
+    "id": "flame-triple",
+    "label": "Flame · triple core"
+  },
+  {
+    "id": "eye-cyan",
+    "label": "Eye · cyan iris"
+  },
+  {
+    "id": "eye-gold",
+    "label": "Eye · gold iris"
+  },
+  {
+    "id": "eye-vertical-pupil",
+    "label": "Eye · vertical pupil"
+  },
+  {
+    "id": "eye-rings",
+    "label": "Eye · concentric rings"
+  },
+  {
+    "id": "ring-open",
+    "label": "Ring · open"
+  },
+  {
+    "id": "ring-closed",
+    "label": "Ring · closed"
+  },
+  {
+    "id": "ring-ouroboros",
+    "label": "Ring · ouroboros"
+  },
+  {
+    "id": "ring-double",
+    "label": "Ring · double"
+  },
+  {
+    "id": "ring-keyhole",
+    "label": "Ring · keyhole gap"
+  },
+  {
+    "id": "ribbons-three",
+    "label": "Ribbons · three"
+  },
+  {
+    "id": "ribbons-two",
+    "label": "Ribbons · two"
+  },
+  {
+    "id": "ribbons-cross",
+    "label": "Ribbons · crossing"
+  },
+  {
+    "id": "wave-single",
+    "label": "Wave · single"
+  },
+  {
+    "id": "crescent",
+    "label": "Crescent · malachite"
+  },
+  {
+    "id": "crescent-star",
+    "label": "Crescent · with star"
+  },
+  {
+    "id": "star-five",
+    "label": "Star · five point"
+  },
+  {
+    "id": "star-six",
+    "label": "Star · six point"
+  },
+  {
+    "id": "star-eight",
+    "label": "Star · eight point"
+  },
+  {
+    "id": "star-compass",
+    "label": "Star · compass"
+  },
+  {
+    "id": "drop-lagoon",
+    "label": "Drop · lagoon"
+  },
+  {
+    "id": "drop-core",
+    "label": "Drop · inner core"
+  },
+  {
+    "id": "mountain-pair",
+    "label": "Mountain · pair"
+  },
+  {
+    "id": "mountain-sun",
+    "label": "Mountain · with sun"
+  },
+  {
+    "id": "comma",
+    "label": "Comma · tomoe"
+  },
+  {
+    "id": "comma-twin",
+    "label": "Comma · twin"
+  },
+  {
+    "id": "spiral-ring",
+    "label": "Spiral · ring and dot"
+  },
+  {
+    "id": "key",
+    "label": "Key · bronze"
+  },
+  {
+    "id": "key-gilt",
+    "label": "Key · gilt"
+  },
+  {
+    "id": "gate-arch",
+    "label": "Gate · arch"
+  },
+  {
+    "id": "gate-twin",
+    "label": "Gate · twin arches"
+  },
+  {
+    "id": "gate-emerald",
+    "label": "Gate · emerald"
+  },
+  {
+    "id": "leaf",
+    "label": "Leaf · single"
+  },
+  {
+    "id": "leaf-pair",
+    "label": "Leaf · pair"
+  },
+  {
+    "id": "tree-pine",
+    "label": "Tree · pine"
+  },
+  {
+    "id": "tree-round",
+    "label": "Tree · round"
+  },
+  {
+    "id": "gem-diamond",
+    "label": "Gem · diamond"
+  },
+  {
+    "id": "gem-emerald-cut",
+    "label": "Gem · emerald cut"
+  },
+  {
+    "id": "sun-rays",
+    "label": "Sun · eight rays"
+  },
+  {
+    "id": "sun-horizon",
+    "label": "Sun · horizon"
+  },
+  {
+    "id": "lotus-three",
+    "label": "Lotus · three petals"
+  },
+  {
+    "id": "lotus-coral",
+    "label": "Lotus · coral"
+  },
+  {
+    "id": "bridge-arch",
+    "label": "Bridge · arch"
+  },
+  {
+    "id": "tower-beam",
+    "label": "Tower · beacon"
+  },
+  {
+    "id": "shell-fan",
+    "label": "Shell · scallop fan"
+  }
+]
