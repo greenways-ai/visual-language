@@ -1,7 +1,7 @@
 ---
 import DocumentationSearch from "./DocumentationSearch.astro";
 import ProjectSwitcher from "./ProjectSwitcher.astro";
-import ThemeMenu from "./ThemeMenu.astro";
+import ThemeButton from "./ThemeButton.astro";
 
 type Project = "greenways" | "hestia" | "hoplite" | "historia" | "hodos" | "statstrade";
 interface Props {
@@ -49,7 +49,7 @@ const searchSelector = `[data-gw-documentation-search-open="${project}"]`;
     </svg>
   </button>
 
-  <ThemeMenu />
+  <ThemeButton />
 </header>
 
 <DocumentationSearch

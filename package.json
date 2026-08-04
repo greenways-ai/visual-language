@@ -16,6 +16,7 @@
     "./theme.js": "./src/theme.js",
     "./ThemeToggle.astro": "./src/ThemeToggle.astro",
     "./ThemeMenu.astro": "./src/ThemeMenu.astro",
+    "./ThemeButton.astro": "./src/ThemeButton.astro",
     "./SharedHeader.astro": "./src/SharedHeader.astro",
     "./DocumentationHeader.astro": "./src/DocumentationHeader.astro",
     "./DocumentationSearch.astro": "./src/DocumentationSearch.astro",
