@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "id": "arena-of-conviction",
+  "surface": "world",
+  "content": "./world/arena/lod-meta.json",
+  "poster": "./assets/arena-splat-concept.svg",
+  "viewer": {
+    "implementation": "@playcanvas/supersplat-viewer",
+    "selfHostedPath": "./viewer/index.html",
+    "camera": "orbit",
+    "fallback": "poster"
+  },
+  "contentPolicy": {
+    "humanWorld": true,
+    "forbid": ["robots", "androids", "mechs", "AI avatars", "cyberpunk machinery"]
+  }
+}
