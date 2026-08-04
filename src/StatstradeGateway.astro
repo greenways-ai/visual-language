@@ -1,0 +1,27 @@
+---
+import StatstradeS from "./StatstradeS.astro";
+type Props = {
+  feedHref?: string;
+  worldHref?: string;
+  worldPoster?: string;
+  active?: "feed" | "world";
+  title?: string;
+};
+const {
+  feedHref = "/",
+  worldHref = "/world/",
+  worldPoster = "/statstrade/assets/arena-splat-concept.svg",
+  active = "feed",
+  title = "Statstrade",
+} = Astro.props;
+---
+<section class:list={["st-gateway", `st-gateway--${active}`]} data-statstrade-surface={active}>
+  <header class="st-gateway__header">
+    <a class="st-gateway__brand" href={feedHref}><StatstradeS detailed/><span>{title}</span></a>
+    <nav aria-label="Statstrade surfaces">
+      <a aria-current={active === "feed" ? "page" : undefined} href={feedHref}>Feed</a>
+      <a aria-current={active === "world" ? "page" : undefined} href={worldHref}>Enter world</a>
+    </nav>
+  </header>
+  {active === "feed" ? <div class="st-gateway__feed"><slot /></div> : <div class="st-gateway__world" style={`--st-world-poster:url('${worldPoster}')`}><slot /></div>}
+</section>

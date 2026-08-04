@@ -1,6 +1,6 @@
 ---
 import Sigil from "./Sigil.astro";
-type Project = "greenways" | "hoplite" | "hestia" | "historia" | "historian" | "hodos" | "visual-language";
+type Project = "greenways" | "hoplite" | "hestia" | "historia" | "historian" | "hodos" | "statstrade" | "visual-language";
 type Props = { project?: Project; label?: string; class?: string };
 const { project = "greenways", label = project, class: className = "" } = Astro.props;
 const resolved = project === "visual-language" ? "greenways" : project;

@@ -1,0 +1,39 @@
+:root[data-project="statstrade"] {
+  --st-red-1:#4a0911;
+  --st-red-2:#710f1b;
+  --st-red-3:#9e1726;
+  --st-red-4:#c72636;
+  --st-red-5:#ec4b52;
+  --st-ink:#121011;
+  --st-paper:#f5f0e8;
+  --st-stone:#d8c8ae;
+  --st-bronze:#9d704d;
+  --gw-accent-1:var(--st-red-1);
+  --gw-accent-2:var(--st-red-2);
+  --gw-accent-3:var(--st-red-3);
+  --gw-accent-4:var(--st-red-4);
+  --gw-accent-5:var(--st-red-5);
+  --gw-focus:var(--st-red-3);
+  --gw-control-hover:#f4e1df;
+}
+:root[data-theme="dark"][data-project="statstrade"] {
+  --st-ink:#f6eee7;
+  --st-paper:#080708;
+  --st-stone:#3a2d29;
+  --st-bronze:#c08b63;
+  --gw-accent-1:#64101a;
+  --gw-accent-2:#921727;
+  --gw-accent-3:#c52337;
+  --gw-accent-4:#ef4854;
+  --gw-accent-5:#ff8079;
+  --gw-focus:#ff8079;
+  --gw-control-hover:#2b1116;
+}
+.st-s{display:block;width:1em;height:1em;overflow:visible}.st-s__flat{fill:var(--gw-accent-4,#c72636)}.st-s__dark{fill:var(--gw-accent-2,#710f1b)}.st-s__mid{fill:var(--gw-accent-4,#c72636)}.st-s__light{fill:var(--gw-accent-5,#ec4b52)}
+.st-gateway{min-height:100%;color:var(--gw-text,#121011);background:var(--gw-canvas,#f5f0e8)}
+.st-gateway__header{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:12px clamp(16px,4vw,56px);border-bottom:1px solid var(--gw-line,rgba(64,16,20,.16));background:var(--gw-header,rgba(245,240,232,.94));backdrop-filter:blur(18px)}
+.st-gateway__brand{display:flex;align-items:center;gap:10px;color:inherit;text-decoration:none;font:600 1.15rem Georgia,serif;letter-spacing:.05em}.st-gateway__brand .st-s{width:34px;height:35px}
+.st-gateway nav{display:flex;align-items:center;gap:4px}.st-gateway nav a{padding:10px 12px;color:inherit;text-decoration:none;font:700 .7rem/1 ui-monospace,SFMono-Regular,monospace;letter-spacing:.11em;text-transform:uppercase;border:1px solid transparent}.st-gateway nav a[aria-current="page"]{border-color:var(--gw-line-strong,rgba(64,16,20,.34));background:var(--gw-surface,#fff)}
+.st-gateway__feed{min-height:calc(100vh - 69px)}
+.st-gateway__world{min-height:calc(100vh - 69px);background:#070607 var(--st-world-poster) center/cover no-repeat;color:#f6eee7}
+@media(max-width:560px){.st-gateway__header{padding:10px 12px}.st-gateway__brand span{display:none}.st-gateway nav a{padding:9px 8px}}
