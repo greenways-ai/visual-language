@@ -39,7 +39,7 @@ test("documentation components encode the shared interaction contracts", async (
 
 test("project switcher links every named world through its sigil", async () => {
   const { projectLinks } = await import("../src/projects.js");
-  for (const project of ["greenways", "hestia", "hoplite", "historia", "hodos", "statstrade"]) {
+  for (const project of ["greenways", "hestia", "hoplite", "historia", "hodos", "visual-language", "statstrade"]) {
     assert.ok(projectLinks.some((item) => item.project === project), project);
   }
   const source = await readFile(new URL("../src/ProjectSwitcher.astro", import.meta.url), "utf8");
@@ -67,20 +67,31 @@ test("scene language assigns space-led behavior and sparse sigils", async () => 
   }
 });
 
-test("canonical sigils adopt exploration studies and hoplite turns cyan", async () => {
+test("canonical sigils adopt the named project motifs", async () => {
   const gen = await readFile(new URL("../bin/generate-v3-favicons.mjs", import.meta.url), "utf8");
   for (const [project, study] of [
     ["greenways", "peacock-eye-shield"],
     ["hestia", "star-eight"],
     ["hoplite", "star-compass"],
-    ["historia", "mountain-sun"],
+    ["historia", "mountain-pair"],
     ["hodos", "ring-double"],
-  ]) assert.match(gen, new RegExp(`${project}: \\{ study: "${study}"`));
+    ["visual-language", "lotus-three"],
+  ]) {
+    const key = project.includes("-") ? `"${project}"` : project;
+    assert.ok(gen.includes(`${key}: { study: "${study}"`), project);
+  }
   assert.match(gen, /#20c7df/);
   assert.doesNotMatch(gen, /#b78a22|#d7b64e/);
+
+  const { projects } = await import("../src/projects.js");
+  assert.equal(projects.historia.motif, "Mountains");
+  assert.equal(projects["visual-language"].motif, "Lotus · three petals");
+
   const sigil = await readFile(new URL("../src/Sigil.astro", import.meta.url), "utf8");
   assert.match(sigil, /gw-sigil__iris/);
   assert.match(sigil, /resolved === "greenways"/);
+  assert.match(sigil, /resolved === "visual-language"/);
+  assert.match(sigil, /resolved === "historia"/);
   const css = await readFile(new URL("../src/theme.css", import.meta.url), "utf8");
   assert.match(css, /data-project="hoplite"\]\{--gw-accent-1:#0b3a44/);
 });

@@ -1,5 +1,13 @@
 ---
-type Project = "greenways" | "hestia" | "hoplite" | "historia" | "historian" | "hodos" | "statstrade";
+type Project =
+  | "greenways"
+  | "hestia"
+  | "hoplite"
+  | "historia"
+  | "historian"
+  | "hodos"
+  | "visual-language"
+  | "statstrade";
 type Props = { project?: Project; label?: string; class?: string };
 const { project = "greenways", label = project, class: className = "" } = Astro.props;
 const resolved = project === "historian" ? "historia" : project;
@@ -8,8 +16,9 @@ const resolved = project === "historian" ? "historia" : project;
   <rect class="gw-sigil__ground" x="1" y="1" width="62" height="62" rx="11" />
   {resolved === "hestia" && <g class="gw-sigil__tiles"><path class="gw-sigil__c2" d="M32 10.7 36.9 22.2 48.5 17.5 43.8 29.1 55.3 34 43.8 38.9 48.5 50.5 36.9 45.8 32 57.3 27.1 45.8 15.5 50.5 20.2 38.9 8.7 34 20.2 29.1 15.5 17.5 27.1 22.2Z"/><path class="gw-sigil__eye" d="M25.1 34a6.9 6.9 0 1 0 13.9 0 6.9 6.9 0 1 0-13.9 0Z"/></g>}
   {resolved === "hoplite" && <g class="gw-sigil__tiles"><path class="gw-sigil__c3" d="M32 9.3 36 30 56.7 34 36 38 32 58.7 28 38 7.3 34 28 30Z"/><path class="gw-sigil__eye" d="M26.1 34a5.9 5.9 0 1 0 11.7 0 5.9 5.9 0 1 0-11.7 0Z"/></g>}
-  {resolved === "historia" && <g class="gw-sigil__tiles"><path class="gw-sigil__iris" d="M35.7 20a8.3 8.3 0 1 0 16.5 0 8.3 8.3 0 1 0-16.5 0Z"/><path class="gw-sigil__c2" d="M6.7 52 24 21.3 41.3 52Z"/><path class="gw-sigil__c3" d="M28 52 42.7 29.3 57.3 52Z"/></g>}
+  {resolved === "historia" && <g class="gw-sigil__tiles"><path class="gw-sigil__c2" d="M5.5 53 23.5 19 41.5 53Z"/><path class="gw-sigil__c3" d="M24 53 42 27 59 53Z"/></g>}
   {resolved === "hodos" && <g class="gw-sigil__tiles"><path class="gw-sigil__c2" fill-rule="evenodd" d="M8.7 33.3a23.3 23.3 0 1 0 46.7 0 23.3 23.3 0 1 0-46.7 0ZM13.1 33.3a18.9 18.9 0 1 0 37.9 0 18.9 18.9 0 1 0-37.9 0Z"/><path class="gw-sigil__c4" fill-rule="evenodd" d="M18.7 33.3a13.3 13.3 0 1 0 26.7 0 13.3 13.3 0 1 0-26.7 0ZM23.2 33.3a8.8 8.8 0 1 0 17.6 0 8.8 8.8 0 1 0-17.6 0Z"/></g>}
+  {resolved === "visual-language" && <g class="gw-sigil__tiles"><path class="gw-sigil__c2" d="M31 54C19 53 10 45 8 28c15 2 23 11 23 26Z"/><path class="gw-sigil__c3" d="M32 55C22 48 19 36 32 17c13 19 10 31 0 38Z"/><path class="gw-sigil__c4" d="M33 54c12-1 21-9 23-26-15 2-23 11-23 26Z"/></g>}
   {resolved === "statstrade" && <g class="gw-sigil__tiles" transform="translate(5.5 5.4) scale(.68)"><path class="gw-sigil__c4" d="M18.8177 0.159851H68.8281C69.4874 0.159851 69.9663 0.786772 69.7928 1.42289L64.782 19.8013C64.6634 20.2364 64.2682 20.5382 63.8173 20.5382H46.4022C45.7269 20.5382 45.2457 19.8826 45.4483 19.2383L46.3983 16.2165C46.6009 15.5723 46.1197 14.9166 45.4443 14.9166H34.1335C33.6848 14.9166 33.291 15.2155 33.1703 15.6476L30.7854 24.1882C30.6073 24.8257 31.0866 25.4571 31.7485 25.4571H75.2024C75.8582 25.4571 76.3365 26.0778 76.1694 26.7119L72.808 39.4687C72.6923 39.9079 72.2952 40.2139 71.841 40.2139H60.1214C59.6679 40.2139 59.2711 40.5191 59.1548 40.9574L49.4787 77.4164C49.3624 77.8547 48.9657 78.1599 48.5122 78.1599H30.8038C30.1419 78.1599 29.6626 77.5282 29.8407 76.8907L32.6663 66.7804C32.8444 66.1428 32.3651 65.5112 31.7032 65.5112H1.80465C1.14669 65.5112 0.668036 64.8867 0.839002 64.2514L5.78431 45.873C5.90181 45.4363 6.29775 45.1328 6.74996 45.1328H23.8168C24.468 45.1328 24.9455 45.7453 24.7866 46.3768L23.9983 49.5105C23.8395 50.142 24.3169 50.7544 24.9681 50.7544H36.1384C36.5927 50.7544 36.9899 50.4482 37.1055 50.0088L39.3519 41.4683C39.5187 40.8342 39.0404 40.2139 38.3848 40.2139H8.52276C7.86423 40.2139 7.38549 39.5884 7.55746 38.9528L17.8524 0.898705C17.9703 0.46267 18.3659 0.159851 18.8177 0.159851Z"/></g>}
   {resolved === "greenways" && <g class="gw-sigil__tiles"><path class="gw-sigil__c1" d="M32 12C52.7 24.3 52.7 43.7 32 56 11.3 43.7 11.3 24.3 32 12Z"/><path class="gw-sigil__c3" d="M32 18C46.5 27 46.5 41 32 50 17.5 41 17.5 27 32 18Z"/><path class="gw-sigil__c4" d="M32 23.7C41.1 29.5 41.1 38.5 32 44.3 22.9 38.5 22.9 29.5 32 23.7Z"/><path class="gw-sigil__iris" d="M32 28.9C36.3 31.8 36.3 36.2 32 39.1 27.7 36.2 27.7 31.8 32 28.9Z"/></g>}
 </svg>
