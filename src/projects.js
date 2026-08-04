@@ -2,8 +2,13 @@ export const projects = {
   greenways: { label: "Greenways", motif: "Peacock eye", accent: "green" },
   hestia: { label: "Hestia", motif: "Star", accent: "red" },
   hoplite: { label: "Hoplite", motif: "Compass", accent: "cyan" },
-  historia: { label: "Historia", motif: "Mountain", accent: "blue" },
+  historia: { label: "Historia", motif: "Mountains", accent: "blue" },
   hodos: { label: "Hodos", motif: "Ring", accent: "green" },
+  "visual-language": {
+    label: "Visual Language",
+    motif: "Lotus · three petals",
+    accent: "green",
+  },
   statstrade: { label: "Statstrade", motif: "Angular S", accent: "red" },
 };
 
@@ -13,5 +18,10 @@ export const projectLinks = [
   { project: "hoplite", label: "Hoplite", href: "https://oss.greenways.ai/hoplite/" },
   { project: "historia", label: "Historia", href: "https://oss.greenways.ai/historia/" },
   { project: "hodos", label: "Hodos", href: "https://oss.greenways.ai/hodos/" },
+  {
+    project: "visual-language",
+    label: "Visual Language",
+    href: "https://oss.greenways.ai/visual-language/",
+  },
   { project: "statstrade", label: "Statstrade", href: "https://statstrade.io/" },
 ];
