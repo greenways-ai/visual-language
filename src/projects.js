@@ -4,6 +4,7 @@ export const projects = {
   hoplite: { label: "Hoplite", motif: "Compass", accent: "cyan" },
   historia: { label: "Historia", motif: "Mountain", accent: "blue" },
   hodos: { label: "Hodos", motif: "Ring", accent: "green" },
+  statstrade: { label: "Statstrade", motif: "Angular S", accent: "red" },
 };
 
 export const projectLinks = [
@@ -11,4 +12,5 @@ export const projectLinks = [
   { label: "Hestia", href: "https://oss.greenways.ai/hestia/" },
   { label: "Hoplite", href: "https://oss.greenways.ai/hoplite/" },
   { label: "Historia", href: "https://oss.greenways.ai/historia/" },
+  { label: "Statstrade", href: "https://statstrade.io/" },
 ];
