@@ -41,15 +41,20 @@ test("project sigils ship detailed and small variants in light/dark pairs", asyn
     const detailed = await fs.readFile(new URL(`../assets/favicons/${name}.svg`, import.meta.url), "utf8");
     assert.match(detailed, /prefers-color-scheme:dark/, name);
     assert.match(detailed, /<polygon/, name);
+    assert.doesNotMatch(detailed, /<rect/, `${name} should be transparent (no ground tile)`);
+    assert.match(detailed, /<g transform="translate/, `${name} should be fitted to fill the canvas`);
     for (const mode of ["light", "dark"]) {
       const fixed = await fs.readFile(new URL(`../assets/favicons/${name}-${mode}.svg`, import.meta.url), "utf8");
       assert.doesNotMatch(fixed, /prefers-color-scheme/, `${name}-${mode}`);
+      assert.doesNotMatch(fixed, /<rect/, `${name}-${mode} should be transparent`);
       const small = await fs.readFile(new URL(`../assets/favicons/${name}-small-${mode}.svg`, import.meta.url), "utf8");
       assert.doesNotMatch(small, /prefers-color-scheme/, `${name}-small-${mode}`);
       assert.doesNotMatch(small, /<polygon/, `${name}-small-${mode} should be flat for small sizes`);
+      assert.doesNotMatch(small, /<rect/, `${name}-small-${mode} should be transparent`);
     }
     const smallAdaptive = await fs.readFile(new URL(`../assets/favicons/${name}-small.svg`, import.meta.url), "utf8");
     assert.match(smallAdaptive, /prefers-color-scheme:dark/, `${name}-small`);
     assert.doesNotMatch(smallAdaptive, /<polygon/, `${name}-small should be flat for small sizes`);
+    assert.doesNotMatch(smallAdaptive, /<rect/, `${name}-small should be transparent`);
   }
 });

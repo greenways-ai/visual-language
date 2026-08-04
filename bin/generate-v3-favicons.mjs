@@ -4,14 +4,15 @@ import { GROUND, SEED, studies } from "./sigil-studies.mjs";
 
 // Canonical project sigils: each project adopts one study from the shared
 // exploration table (bin/sigil-studies.mjs) and re-colors it with the
-// project's own palette. Each project ships a variant set: `<name>.svg`
-// detailed Voronoi adaptive (media query), `<name>-light.svg` /
+// project's own palette. Marks render on a transparent background (no ground
+// tile) and are fitted to fill the canvas. Each project ships a variant set:
+// `<name>.svg` detailed Voronoi adaptive (media query), `<name>-light.svg` /
 // `<name>-dark.svg` detailed fixed-mode for page pairing, `<name>-small.svg`
 // flat adaptive for tab favicons, and `<name>-small-light.svg` /
 // `<name>-small-dark.svg` flat fixed-mode for header brand and other <=48px
 // uses where a fine Voronoi bed turns to mush.
 
-const CANVAS = 480;
+const CANVAS = 480, FIT = 24;
 
 const byId = Object.fromEntries(studies.map((s) => [s.id, s]));
 
@@ -46,7 +47,7 @@ for (const [name, p] of Object.entries(projects)) {
     }
     if (flag === "flat") flat.push(i);
   }
-  const base = { paths, light, dark, flat, groundCuts, seed: SEED, canvas: CANVAS };
+  const base = { paths, light, dark, flat, groundCuts, seed: SEED, canvas: CANVAS, ground: null, fit: FIT };
   const allFlat = paths.map((_, i) => i);
   const variants = {
     [`${name}.svg`]: renderSigil(base),

@@ -57,6 +57,58 @@ export const pathBBox = (d) => {
   return [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)];
 };
 
+// Arc-aware bounding box: converts A commands to center parameterization
+// (SVG spec F.6.5) and samples the swept angle, so full ellipses yield exact
+// bounds. Used for fit-to-canvas layout; pathBBox stays for tile culling.
+export const pathTrueBBox = (d) => {
+  const tokens = d.match(/[a-zA-Z]|-?(?:\d*\.)?\d+(?:e-?\d+)?/gi);
+  const pts = [];
+  let i = 0, cx = 0, cy = 0, sx = 0, sy = 0, cmd = null;
+  const num = () => parseFloat(tokens[i++]);
+  const arcSamples = (x1, y1, rx, ry, phi, largeArc, sweep, x2, y2) => {
+    const rad = (phi * Math.PI) / 180, cosP = Math.cos(rad), sinP = Math.sin(rad);
+    const dx = (x1 - x2) / 2, dy = (y1 - y2) / 2;
+    const x1p = cosP * dx + sinP * dy, y1p = -sinP * dx + cosP * dy;
+    const lam = x1p * x1p / (rx * rx) + y1p * y1p / (ry * ry);
+    if (lam > 1) { rx *= Math.sqrt(lam); ry *= Math.sqrt(lam); }
+    const sign = largeArc !== sweep ? 1 : -1;
+    const numr = Math.max(0, rx * rx * ry * ry - rx * rx * y1p * y1p - ry * ry * x1p * x1p);
+    const den = rx * rx * y1p * y1p + ry * ry * x1p * x1p;
+    const coef = den === 0 ? 0 : sign * Math.sqrt(numr / den);
+    const cxp = (coef * rx * y1p) / ry, cyp = (-coef * ry * x1p) / rx;
+    const ccx = cosP * cxp - sinP * cyp + (x1 + x2) / 2, ccy = sinP * cxp + cosP * cyp + (y1 + y2) / 2;
+    const angle = (ux, uy, vx, vy) => {
+      const dot = ux * vx + uy * vy, len = Math.hypot(ux, uy) * Math.hypot(vx, vy);
+      const a = Math.acos(Math.min(1, Math.max(-1, len === 0 ? 1 : dot / len)));
+      return ux * vy - uy * vx < 0 ? -a : a;
+    };
+    const t1 = angle(1, 0, (x1p - cxp) / rx, (y1p - cyp) / ry);
+    let dt = angle((x1p - cxp) / rx, (y1p - cyp) / ry, (-x1p - cxp) / rx, (-y1p - cyp) / ry);
+    if (!sweep && dt > 0) dt -= 2 * Math.PI;
+    if (sweep && dt < 0) dt += 2 * Math.PI;
+    for (let k = 0; k <= 24; k++) {
+      const t = t1 + (dt * k) / 24;
+      pts.push([ccx + rx * Math.cos(t) * cosP - ry * Math.sin(t) * sinP, ccy + rx * Math.cos(t) * sinP + ry * Math.sin(t) * cosP]);
+    }
+  };
+  while (i < tokens.length) {
+    if (/[a-zA-Z]/.test(tokens[i])) cmd = tokens[i++];
+    const rel = cmd === cmd.toLowerCase(), C = cmd.toUpperCase();
+    if (C === "Z") { cx = sx; cy = sy; continue; }
+    const point = () => { let x = num(), y = num(); if (rel) { x += cx; y += cy; } return [x, y]; };
+    if (C === "M") { [cx, cy] = point(); sx = cx; sy = cy; pts.push([cx, cy]); cmd = rel ? "l" : "L"; continue; }
+    if (C === "L" || C === "T") { [cx, cy] = point(); pts.push([cx, cy]); continue; }
+    if (C === "H") { let x = num(); if (rel) x += cx; cx = x; pts.push([cx, cy]); continue; }
+    if (C === "V") { let y = num(); if (rel) y += cy; cy = y; pts.push([cx, cy]); continue; }
+    if (C === "C") { for (let k = 0; k < 3; k++) { const p = point(); pts.push(p); if (k === 2) [cx, cy] = p; } continue; }
+    if (C === "S" || C === "Q") { for (let k = 0; k < 2; k++) { const p = point(); pts.push(p); if (k === 1) [cx, cy] = p; } continue; }
+    if (C === "A") { const rx = num(), ry = num(), rot = num(), laf = num(), swf = num(); const p = point(); arcSamples(cx, cy, rx, ry, rot, laf, swf, p[0], p[1]); [cx, cy] = p; continue; }
+    throw new Error(`unsupported path command ${cmd}`);
+  }
+  const xs = pts.map((p) => p[0]), ys = pts.map((p) => p[1]);
+  return [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)];
+};
+
 // Irregular interlocking tesserae: a jittered-seed Voronoi bed. Pieces touch
 // edge to edge — true smalti have no grout. Each polygon is stroked with its
 // own fill to hide anti-aliasing hairlines between neighbours.
@@ -102,7 +154,10 @@ export const voronoiBed = (rand, canvas = 480, pitch = 38) => {
 // indexes are punched back to the ground color. `mode` controls theming:
 // "adaptive" (default) embeds a prefers-color-scheme media query; "light" and
 // "dark" emit a single fixed palette with no media query (page pairing).
-export const renderSigil = ({ paths, light, dark, flat = [], groundCuts = [], scale = 1, seed = 1, canvas = 480, pitch = 38, ground = ["#f7f3e9", "#0b1410"], groundRx, mode = "adaptive" }) => {
+// `ground: null` omits the ground rect for a transparent background. `fit`
+// (a margin in px) scales and centers the union of all regions to fill the
+// canvas, using the arc-aware pathTrueBBox.
+export const renderSigil = ({ paths, light, dark, flat = [], groundCuts = [], scale = 1, seed = 1, canvas = 480, pitch = 38, ground = ["#f7f3e9", "#0b1410"], groundRx, mode = "adaptive", fit = null }) => {
   const rand = mulberry32(seed);
   const regionShades = paths.map((_, i) => ({
     light: smaltiShades(light[i % light.length], rand),
@@ -132,10 +187,22 @@ export const renderSigil = ({ paths, light, dark, flat = [], groundCuts = [], sc
     }).join("");
     return `<g clip-path="url(#r${i})">${pieces}</g>`;
   }).join("");
+  const fitted = fit == null ? regions : (() => {
+    let [x0, y0, x1, y1] = [Infinity, Infinity, -Infinity, -Infinity];
+    for (const p of paths) {
+      const b = pathTrueBBox(pathOf(p).d).map((v) => v * scale);
+      x0 = Math.min(x0, b[0]); y0 = Math.min(y0, b[1]); x1 = Math.max(x1, b[2]); y1 = Math.max(y1, b[3]);
+    }
+    const w = x1 - x0, h = y1 - y0, s = (canvas - 2 * fit) / Math.max(w, h);
+    const ox = (canvas - w * s) / 2 - x0 * s, oy = (canvas - h * s) / 2 - y0 * s;
+    return `<g transform="translate(${ox.toFixed(1)} ${oy.toFixed(1)}) scale(${s.toFixed(4)})">${regions}</g>`;
+  })();
   const rx = groundRx ?? Math.round(canvas * 0.17);
   const inset = Math.round(canvas / 60);
+  const groundCols = ground ?? ["#f7f3e9", "#0b1410"];
   const style = mode === "adaptive"
-    ? `:root{--ground:${ground[0]};${vars("light")}}@media(prefers-color-scheme:dark){:root{--ground:${ground[1]};${vars("dark")}}}`
-    : `:root{--ground:${mode === "dark" ? ground[1] : ground[0]};${vars(mode === "dark" ? "dark" : "light")}}`;
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${canvas} ${canvas}"><style>${style}</style><defs>${clips}</defs><rect x="${inset}" y="${inset}" width="${canvas - inset * 2}" height="${canvas - inset * 2}" rx="${rx}" fill="var(--ground)"/>${regions}</svg>\n`;
+    ? `:root{--ground:${groundCols[0]};${vars("light")}}@media(prefers-color-scheme:dark){:root{--ground:${groundCols[1]};${vars("dark")}}}`
+    : `:root{--ground:${mode === "dark" ? groundCols[1] : groundCols[0]};${vars(mode === "dark" ? "dark" : "light")}}`;
+  const groundRect = ground == null ? "" : `<rect x="${inset}" y="${inset}" width="${canvas - inset * 2}" height="${canvas - inset * 2}" rx="${rx}" fill="var(--ground)"/>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${canvas} ${canvas}"><style>${style}</style><defs>${clips}</defs>${groundRect}${fitted}</svg>\n`;
 };
