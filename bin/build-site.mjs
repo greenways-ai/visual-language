@@ -5,6 +5,6 @@ await mkdir(new URL("assets/",output),{recursive:true});
 await cp(new URL("../assets/favicons/",import.meta.url),new URL("favicons/",output),{recursive:true});
 await copyFile(new URL("../src/theme.css",import.meta.url),new URL("assets/theme.css",output));
 await copyFile(new URL("../src/theme.js",import.meta.url),new URL("assets/theme.js",output));
-await copyFile(new URL("../assets/favicons/visual-language.svg",import.meta.url),new URL("favicon.svg",output));
-await copyFile(new URL("../assets/favicons/visual-language.svg",import.meta.url),new URL("../site/favicon.svg",import.meta.url));
+await copyFile(new URL("../assets/favicons/visual-language-small.svg",import.meta.url),new URL("favicon.svg",output));
+await copyFile(new URL("../assets/favicons/visual-language-small.svg",import.meta.url),new URL("../site/favicon.svg",import.meta.url));
 await copyFile(new URL("../site/lab.html",import.meta.url),new URL("index.html",output));

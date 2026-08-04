@@ -28,8 +28,28 @@ test("favicons provide groutless smalti beds and adaptive shaded palettes", asyn
   const source = await fs.readFile(new URL("../bin/generate-v3-favicons.mjs", import.meta.url), "utf8");
   assert.match(engine, /prefers-color-scheme:dark/);
   assert.match(engine, /voronoiBed/);
+  assert.match(engine, /mode = "adaptive"/);
   assert.doesNotMatch(engine, /--grout/);
   assert.match(source, /renderSigil/);
   assert.match(source, /hodos/);
   assert.match(source, /historia/);
+});
+
+test("project sigils ship detailed and small variants in light/dark pairs", async () => {
+  const fs = await import("node:fs/promises");
+  for (const name of ["greenways", "hestia", "hoplite", "historia", "historian", "hodos", "visual-language"]) {
+    const detailed = await fs.readFile(new URL(`../assets/favicons/${name}.svg`, import.meta.url), "utf8");
+    assert.match(detailed, /prefers-color-scheme:dark/, name);
+    assert.match(detailed, /<polygon/, name);
+    for (const mode of ["light", "dark"]) {
+      const fixed = await fs.readFile(new URL(`../assets/favicons/${name}-${mode}.svg`, import.meta.url), "utf8");
+      assert.doesNotMatch(fixed, /prefers-color-scheme/, `${name}-${mode}`);
+      const small = await fs.readFile(new URL(`../assets/favicons/${name}-small-${mode}.svg`, import.meta.url), "utf8");
+      assert.doesNotMatch(small, /prefers-color-scheme/, `${name}-small-${mode}`);
+      assert.doesNotMatch(small, /<polygon/, `${name}-small-${mode} should be flat for small sizes`);
+    }
+    const smallAdaptive = await fs.readFile(new URL(`../assets/favicons/${name}-small.svg`, import.meta.url), "utf8");
+    assert.match(smallAdaptive, /prefers-color-scheme:dark/, `${name}-small`);
+    assert.doesNotMatch(smallAdaptive, /<polygon/, `${name}-small should be flat for small sizes`);
+  }
 });

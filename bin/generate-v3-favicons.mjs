@@ -2,8 +2,12 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { renderSigil } from "./smalti.mjs";
 
 // Canonical project sigils: flat smalti tesserae composed on a 480x480
-// canvas from 64-grid region outlines. Palettes stay adaptive for light
-// and dark mode.
+// canvas from 64-grid region outlines. Each project ships a variant set:
+// `<name>.svg` detailed Voronoi adaptive (media query), `<name>-light.svg` /
+// `<name>-dark.svg` detailed fixed-mode for page pairing, `<name>-small.svg`
+// flat adaptive for tab favicons, and `<name>-small-light.svg` /
+// `<name>-small-dark.svg` flat fixed-mode for header brand and other <=48px
+// uses where a fine Voronoi bed turns to mush.
 
 const SCALE = 7.5, CANVAS = 480;
 const SEED = 20260804;
@@ -19,8 +23,21 @@ projects.historian = projects.historia;
 projects["visual-language"] = projects.greenways;
 
 await mkdir(new URL("../assets/favicons/", import.meta.url), { recursive: true });
+let count = 0;
 for (const [name, p] of Object.entries(projects)) {
-  const svg = renderSigil({ paths: p.paths, light: p.light, dark: p.dark, flat: p.flat, scale: SCALE, seed: SEED, canvas: CANVAS });
-  await writeFile(new URL(`../assets/favicons/${name}.svg`, import.meta.url), svg);
+  const base = { paths: p.paths, light: p.light, dark: p.dark, flat: p.flat, scale: SCALE, seed: SEED, canvas: CANVAS };
+  const allFlat = p.paths.map((_, i) => i);
+  const variants = {
+    [`${name}.svg`]: renderSigil(base),
+    [`${name}-light.svg`]: renderSigil({ ...base, mode: "light" }),
+    [`${name}-dark.svg`]: renderSigil({ ...base, mode: "dark" }),
+    [`${name}-small.svg`]: renderSigil({ ...base, flat: allFlat }),
+    [`${name}-small-light.svg`]: renderSigil({ ...base, flat: allFlat, mode: "light" }),
+    [`${name}-small-dark.svg`]: renderSigil({ ...base, flat: allFlat, mode: "dark" }),
+  };
+  for (const [file, svg] of Object.entries(variants)) {
+    await writeFile(new URL(`../assets/favicons/${file}`, import.meta.url), svg);
+    count++;
+  }
 }
-console.log(`generated ${Object.keys(projects).length} adaptive groutless smalti sigils at ${CANVAS}x${CANVAS}`);
+console.log(`generated ${count} groutless smalti sigil variants (detailed + small, adaptive + light/dark) at ${CANVAS}x${CANVAS}`);

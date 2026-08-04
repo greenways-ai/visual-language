@@ -160,8 +160,10 @@ for (const [index, study] of studies.entries()) {
     }
     if (flag === "flat") flat.push(i);
   }
-  const svg = renderSigil({ paths, light, dark, flat, groundCuts, seed: SEED + index * 7919, pitch: study.pitch ?? 38 });
-  await writeFile(new URL(`../site/sigils/${study.id}.svg`, import.meta.url), svg);
+  const base = { paths, light, dark, flat, groundCuts, seed: SEED + index * 7919, pitch: study.pitch ?? 38 };
+  await writeFile(new URL(`../site/sigils/${study.id}.svg`, import.meta.url), renderSigil(base));
+  await writeFile(new URL(`../site/sigils/${study.id}-light.svg`, import.meta.url), renderSigil({ ...base, mode: "light" }));
+  await writeFile(new URL(`../site/sigils/${study.id}-dark.svg`, import.meta.url), renderSigil({ ...base, mode: "dark" }));
   manifest.push({ id: study.id, label: study.label });
 }
 await writeFile(new URL("../site/sigils/manifest.json", import.meta.url), JSON.stringify(manifest, null, 2) + "\n");

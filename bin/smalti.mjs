@@ -94,19 +94,21 @@ export const voronoiBed = (rand, canvas = 480, pitch = 38) => {
   }).filter((c) => c.poly.length > 2);
 };
 
-// Renders a complete adaptive smalti sigil SVG. `paths` are region outlines
-// in path coordinates (a string, or { d, rule: "evenodd" } for ring shapes);
-// `scale` maps them onto the canvas. Region i takes its base color from
+// Renders a complete smalti sigil SVG. `paths` are region outlines in path
+// coordinates (a string, or { d, rule: "evenodd" } for ring shapes); `scale`
+// maps them onto the canvas. Region i takes its base color from
 // palettes[i % palettes.length]. `flat` region indexes are drawn as a single
 // solid piece (for details smaller than one tessera); `groundCuts` region
-// indexes are punched back to the ground color.
-export const renderSigil = ({ paths, light, dark, flat = [], groundCuts = [], scale = 1, seed = 1, canvas = 480, pitch = 38, ground = ["#f7f3e9", "#0b1410"], groundRx }) => {
+// indexes are punched back to the ground color. `mode` controls theming:
+// "adaptive" (default) embeds a prefers-color-scheme media query; "light" and
+// "dark" emit a single fixed palette with no media query (page pairing).
+export const renderSigil = ({ paths, light, dark, flat = [], groundCuts = [], scale = 1, seed = 1, canvas = 480, pitch = 38, ground = ["#f7f3e9", "#0b1410"], groundRx, mode = "adaptive" }) => {
   const rand = mulberry32(seed);
   const regionShades = paths.map((_, i) => ({
     light: smaltiShades(light[i % light.length], rand),
     dark: smaltiShades(dark[i % dark.length], rand),
   }));
-  const vars = (mode) => regionShades.map((r, i) => r[mode].map((c, k) => `--g${i}${k}:${c}`).join(";")).join(";");
+  const vars = (m) => regionShades.map((r, i) => r[m].map((c, k) => `--g${i}${k}:${c}`).join(";")).join(";");
   const flatSet = new Set(flat);
   const cutSet = new Set(groundCuts);
   const cells = voronoiBed(rand, canvas, pitch);
@@ -132,5 +134,8 @@ export const renderSigil = ({ paths, light, dark, flat = [], groundCuts = [], sc
   }).join("");
   const rx = groundRx ?? Math.round(canvas * 0.17);
   const inset = Math.round(canvas / 60);
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${canvas} ${canvas}"><style>:root{--ground:${ground[0]};${vars("light")}}@media(prefers-color-scheme:dark){:root{--ground:${ground[1]};${vars("dark")}}}</style><defs>${clips}</defs><rect x="${inset}" y="${inset}" width="${canvas - inset * 2}" height="${canvas - inset * 2}" rx="${rx}" fill="var(--ground)"/>${regions}</svg>\n`;
+  const style = mode === "adaptive"
+    ? `:root{--ground:${ground[0]};${vars("light")}}@media(prefers-color-scheme:dark){:root{--ground:${ground[1]};${vars("dark")}}}`
+    : `:root{--ground:${mode === "dark" ? ground[1] : ground[0]};${vars(mode === "dark" ? "dark" : "light")}}`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${canvas} ${canvas}"><style>${style}</style><defs>${clips}</defs><rect x="${inset}" y="${inset}" width="${canvas - inset * 2}" height="${canvas - inset * 2}" rx="${rx}" fill="var(--ground)"/>${regions}</svg>\n`;
 };
