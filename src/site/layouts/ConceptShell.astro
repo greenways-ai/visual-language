@@ -1,0 +1,130 @@
+---
+import DocumentationHeader from "../../DocumentationHeader.astro";
+import GreenwaysThemeProvider from "../components/GreenwaysThemeProvider.astro";
+import "../styles/custom.css";
+import "../styles/site-overrides.css";
+import "../styles/concept-page.css";
+
+type ConceptLink = {
+  href: string;
+  label: string;
+  eyebrow?: string;
+};
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow?: string;
+  worldLabel?: string;
+  kind?: string;
+  position?: string;
+  backHref?: string;
+  backLabel?: string;
+  previous?: ConceptLink;
+  next?: ConceptLink;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description,
+  eyebrow = "Visual concept",
+  worldLabel = "Visual Language",
+  kind = "Concept art",
+  position,
+  backHref,
+  backLabel = "Back to catalogue",
+  previous,
+  next,
+  ogImage,
+} = Astro.props;
+
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+const origin = Astro.site ?? new URL(Astro.url.origin);
+const canonical = new URL(Astro.url.pathname, origin).toString();
+const socialImage = ogImage ? new URL(ogImage, origin).toString() : undefined;
+---
+
+<!doctype html>
+<html lang="en" data-project="visual-language">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={`${base}favicon.svg`} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={`${title} · Visual Language`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {socialImage && <meta property="og:image" content={socialImage} />}
+    {socialImage && <meta name="twitter:card" content="summary_large_image" />}
+    {socialImage && <meta name="twitter:image" content={socialImage} />}
+    <title>{title} · Visual Language</title>
+    <GreenwaysThemeProvider />
+  </head>
+  <body class="concept-document">
+    <DocumentationHeader
+      project="visual-language"
+      title="Visual Language"
+      homeHref={base}
+      docsHref={`${base}foundations/principles/`}
+      docsLabel="Docs"
+      nav={[
+        { label: "Concepts", href: `${base}concepts/` },
+        { label: "Day & night", href: `${base}identity/day-night/` },
+        { label: "Case studies", href: `${base}case-studies/` },
+      ]}
+      searchBase={base.replace(/\/$/, "")}
+      searchLabel="Search Visual Language documentation"
+      logoAssetBase={`${base}favicons`}
+      logoAssetVersion="lotus-concepts-20260805"
+    />
+
+    <main class="concept-page">
+      <nav class="concept-breadcrumb" aria-label="Breadcrumb">
+        <a href={`${base}concepts/`}>Concepts</a>
+        <span aria-hidden="true">/</span>
+        <span>{worldLabel}</span>
+      </nav>
+
+      <header class="concept-page__hero">
+        <div>
+          <p class="concept-page__eyebrow">{eyebrow}</p>
+          <h1>{title}</h1>
+          <p class="concept-page__description">{description}</p>
+          {backHref && <a class="concept-page__back" href={backHref}>← {backLabel}</a>}
+        </div>
+        <dl>
+          <div><dt>World</dt><dd>{worldLabel}</dd></div>
+          <div><dt>Type</dt><dd>{kind}</dd></div>
+          {position && <div><dt>Position</dt><dd>{position}</dd></div>}
+        </dl>
+      </header>
+
+      <slot />
+
+      {(previous || next) && (
+        <nav class="concept-pagination" aria-label="Adjacent concepts">
+          {previous ? (
+            <a rel="prev" href={previous.href}>
+              <small>{previous.eyebrow ?? "Previous concept"}</small>
+              <strong>← {previous.label}</strong>
+            </a>
+          ) : <span></span>}
+          {next && (
+            <a rel="next" href={next.href}>
+              <small>{next.eyebrow ?? "Next concept"}</small>
+              <strong>{next.label} →</strong>
+            </a>
+          )}
+        </nav>
+      )}
+    </main>
+
+    <footer class="concept-footer">
+      <span>GREENWAYS VISUAL LANGUAGE</span>
+      <a href="https://github.com/greenways-ai/visual-language">Source ↗</a>
+    </footer>
+  </body>
+</html>

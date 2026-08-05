@@ -1,0 +1,81 @@
+---
+import ConceptShell from "../../../site/layouts/ConceptShell.astro";
+import DayNightExplorer from "../../../site/components/DayNightExplorer.astro";
+
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+const day = `${base}statstrade/assets/arena-day-study.svg`;
+const night = `${base}statstrade/assets/arena-night-study.svg`;
+---
+
+<ConceptShell
+  title="Arena of Conviction"
+  description="The opt-in Statstrade world: a human Roman civic arena where posts, communities, and live positions become spatial markers."
+  eyebrow="Statstrade · World concept"
+  worldLabel="Statstrade"
+  kind="Gaussian-splat environment"
+  position="02 / 02"
+  backHref={`${base}case-studies/statstrade/`}
+  backLabel="Back to Statstrade case study"
+  previous={{ href: `${base}concepts/statstrade/feed/`, label: "Statstrade Feed", eyebrow: "Previous Statstrade concept" }}
+  ogImage={night}
+>
+  <section class="concept-page__art">
+    <DayNightExplorer
+      title="Arena of Conviction"
+      eyebrow="Statstrade world art"
+      day={day}
+      night={night}
+      dayAlt="The intact Roman civic Statstrade arena in daylight with red standards and an angular S mosaic floor mark"
+      nightAlt="The same Statstrade arena at night with moonlight, practical signal fires, red standards, and the same S mosaic floor"
+      dayCaption="Travertine, public orientation, readable routes, and the crowd as a civic body."
+      nightCaption="Basalt, moonlight, practical signal fires, reflection, and live pressure without cyberpunk machinery."
+      locked={[
+        "Camera, amphitheatre geometry, seating rings, standards, arena floor, and embedded angular S",
+        "The relationship between threshold, tribune, crowd, and marked positions",
+      ]}
+      changes={[
+        "Sunlight becomes moonlight, fire, signal light, and red smalti reflection",
+        "Public orientation becomes monitoring, anticipation, and quieter movement",
+      ]}
+    />
+  </section>
+
+  <section class="concept-spec-grid">
+    <article class="concept-spec">
+      <h2>Concept specification</h2>
+      <dl>
+        <div><dt>World</dt><dd>An intact Roman civic-military amphitheatre, maintained and operational rather than archaeological.</dd></div>
+        <div><dt>Materials</dt><dd>Travertine, black basalt, porphyry, weathered bronze, oxblood cloth, red glass smalti, and dark leather.</dd></div>
+        <div><dt>Human scale</dt><dd>Real crowds, operators, attendants, standard-bearers, and public movement at believable scale.</dd></div>
+        <div><dt>Product grammar</dt><dd>Communities become standards or districts; live positions become marked floor sectors; resolutions become sealed or lowered civic states.</dd></div>
+        <div><dt>Camera bookmarks</dt><dd>Muster Gate, Command Tribune, and Arena Floor.</dd></div>
+        <div><dt>Runtime</dt><dd>A real Gaussian-splat capture or render exported as compact .sog content or a streamed LOD bundle.</dd></div>
+      </dl>
+    </article>
+
+    <div>
+      <article class="concept-rationale">
+        <small>Why this concept exists</small>
+        <h2>The world is entered, not imposed.</h2>
+        <p>The arena gives collective conviction a spatial form while the feed remains the everyday product. It is another projection of the same identity, comments, community, and market data—not a separate game database.</p>
+        <ul>
+          <li>The angular red S is embedded in floors, standards, thresholds, and wayfinding.</li>
+          <li>Militarism comes from discipline, hierarchy, logistics, and engineered precision rather than violence.</li>
+          <li>The camera route carries the selected feed post or market into the scene.</li>
+          <li>Return to feed restores discussion context.</li>
+          <li>No robots, androids, mechs, AI avatars, chrome heads, synthetic gladiators, or blue hologram control rooms.</li>
+        </ul>
+      </article>
+      <article class="concept-master-panel">
+        <small>Artwork masters</small>
+        <h2>Open the arena plates.</h2>
+        <p>These are same-geometry art-direction plates and loading fallbacks. The final spatial asset remains a trained Gaussian splat.</p>
+        <div class="concept-master-links">
+          <a href={day} target="_blank" rel="noreferrer">Day arena plate <span>↗</span></a>
+          <a href={night} target="_blank" rel="noreferrer">Night arena plate <span>↗</span></a>
+          <a href={`${base}statstrade/assets/arena-splat-concept.svg`} target="_blank" rel="noreferrer">Splat concept poster <span>↗</span></a>
+        </div>
+      </article>
+    </div>
+  </section>
+</ConceptShell>

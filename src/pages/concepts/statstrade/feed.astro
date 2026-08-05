@@ -1,0 +1,50 @@
+---
+import ConceptShell from "../../../site/layouts/ConceptShell.astro";
+import StatstradeFeedArt from "../../../site/components/StatstradeFeedArt.astro";
+
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+---
+
+<ConceptShell
+  title="Statstrade Feed"
+  description="The everyday Statstrade surface: a fast community feed for discussion, evidence, live predictions, and resolved outcomes."
+  eyebrow="Statstrade · Product concept"
+  worldLabel="Statstrade"
+  kind="Community feed"
+  position="01 / 02"
+  backHref={`${base}case-studies/statstrade/`}
+  backLabel="Back to Statstrade case study"
+  next={{ href: `${base}concepts/statstrade/arena/`, label: "Arena of Conviction", eyebrow: "Next Statstrade concept" }}
+  ogImage={`${base}assets/og-statstrade.png`}
+>
+  <section class="concept-page__art">
+    <StatstradeFeedArt />
+  </section>
+
+  <section class="concept-spec-grid">
+    <article class="concept-spec">
+      <h2>Concept specification</h2>
+      <dl>
+        <div><dt>Role</dt><dd>The default and fully functional Statstrade surface.</dd></div>
+        <div><dt>Information model</dt><dd>Ranked posts, communities, nested discussion, evidence, live predictions, resolutions, moderation, provenance, and receipts.</dd></div>
+        <div><dt>Visual structure</dt><dd>Flat mineral surfaces, compact spacing, dense readable typography, square media, thin borders, and red reserved for commitment or active state.</dd></div>
+        <div><dt>Entry to world</dt><dd>A post or live market exposes an explicit Enter arena action without turning every card into a game interface.</dd></div>
+        <div><dt>Mobile rule</dt><dd>The centre feed works first. Community and live-arena rails collapse into sheets and core participation never depends on WebGL.</dd></div>
+        <div><dt>Identity</dt><dd>The existing angular red S; no Roman mascot, helmet, shield replacement, or crypto-exchange gradient.</dd></div>
+      </dl>
+    </article>
+
+    <article class="concept-rationale">
+      <small>Why this concept exists</small>
+      <h2>Familiar enough to use immediately.</h2>
+      <p>The feed borrows the useful information architecture of Reddit without copying its brand. It keeps participation social, legible, and fast while preserving a clear threshold into the spatial world.</p>
+      <ul>
+        <li>Discussion and evidence remain ordinary web content.</li>
+        <li>Prediction modules stay compact inside posts.</li>
+        <li>The Roman civic world is entered intentionally rather than imposed as a background.</li>
+        <li>Returning from the arena restores the post and scroll context.</li>
+        <li>AI is infrastructure; no robot or synthetic-assistant character appears in the feed.</li>
+      </ul>
+    </article>
+  </section>
+</ConceptShell>

@@ -1,5 +1,6 @@
 ---
 import DayNightExplorer from "./DayNightExplorer.astro";
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
 ---
 <section class="home-section" id="day-night">
   <header>
@@ -18,5 +19,7 @@ import DayNightExplorer from "./DayNightExplorer.astro";
     nightCaption="The same geography becomes a field of lanterns, reflections, roosts, and quiet movement."
     locked={["Camera, horizon, rivers, bridges, districts, and mosaic patterns", "The relationship between civic, cultivated, and wild space"]}
     changes={["Natural light, practical light, reflections, weather, and atmosphere", "Credible day activity and nocturnal rest or movement"]}
+    href={`${base}concepts/www/world-confluence/`}
+    linkLabel="Open concept page"
   />
 </section>

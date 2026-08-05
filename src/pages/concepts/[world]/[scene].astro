@@ -1,0 +1,159 @@
+---
+import ConceptShell from "../../../site/layouts/ConceptShell.astro";
+import DayNightExplorer from "../../../site/components/DayNightExplorer.astro";
+import { scenes, worlds } from "../../../scene-language.js";
+
+type SceneConcept = {
+  world: string;
+  id: string;
+  place: string;
+  affordance: string;
+  day: string;
+  night: string;
+  camera: string;
+  focus: "left" | "center" | "right";
+  sigil?: string;
+};
+
+type WorldDefinition = {
+  label: string;
+  animal: string;
+  palette: string;
+  materials: string;
+};
+
+type AdjacentConcept = { world: string; id: string };
+
+interface Props {
+  concept: SceneConcept;
+  worldDefinition: WorldDefinition;
+  position: number;
+  total: number;
+  previous?: AdjacentConcept;
+  next?: AdjacentConcept;
+}
+
+const humanize = (value: string) => value
+  .split("-")
+  .map((part) => part[0].toUpperCase() + part.slice(1))
+  .join(" ");
+
+export function getStaticPaths() {
+  const sceneEntries = scenes as SceneConcept[];
+  const worldDefinitions = worlds as Record<string, WorldDefinition>;
+
+  return sceneEntries.map((concept) => {
+    const group = sceneEntries.filter((entry) => entry.world === concept.world);
+    const index = group.findIndex((entry) => entry.id === concept.id);
+    return {
+      params: { world: concept.world, scene: concept.id },
+      props: {
+        concept,
+        worldDefinition: worldDefinitions[concept.world],
+        position: index + 1,
+        total: group.length,
+        previous: index > 0 ? { world: group[index - 1].world, id: group[index - 1].id } : undefined,
+        next: index < group.length - 1 ? { world: group[index + 1].world, id: group[index + 1].id } : undefined,
+      },
+    };
+  });
+}
+
+const { concept, worldDefinition, position, total, previous, next } = Astro.props as Props;
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+const title = humanize(concept.id);
+const daySrc = `${base}artwork/${concept.world}/${concept.id}-day.webp`;
+const nightSrc = `${base}artwork/${concept.world}/${concept.id}-night.webp`;
+const dayMobileSrc = `${base}artwork/${concept.world}/${concept.id}-day-mobile.webp`;
+const nightMobileSrc = `${base}artwork/${concept.world}/${concept.id}-night-mobile.webp`;
+const previousLink = previous ? {
+  href: `${base}concepts/${previous.world}/${previous.id}/`,
+  label: humanize(previous.id),
+  eyebrow: `Previous ${worldDefinition.label} concept`,
+} : undefined;
+const nextLink = next ? {
+  href: `${base}concepts/${next.world}/${next.id}/`,
+  label: humanize(next.id),
+  eyebrow: `Next ${worldDefinition.label} concept`,
+} : undefined;
+const description = `${title} is a ${worldDefinition.label} world concept built as a locked day-and-night mosaic place.`;
+---
+
+<ConceptShell
+  title={title}
+  description={description}
+  eyebrow={`${worldDefinition.label} · Scene concept`}
+  worldLabel={worldDefinition.label}
+  kind="Day / night environment"
+  position={`${String(position).padStart(2, "0")} / ${String(total).padStart(2, "0")}`}
+  backHref={`${base}identity/artwork-worlds/`}
+  backLabel="Back to artwork catalogue"
+  previous={previousLink}
+  next={nextLink}
+  ogImage={daySrc}
+>
+  <section class="concept-page__art" aria-label={`${title} artwork`}>
+    <DayNightExplorer
+      title={title}
+      eyebrow={`${worldDefinition.label} concept art`}
+      world={concept.world}
+      scene={concept.id}
+      dayAlt={`${title} by day: ${concept.day}`}
+      nightAlt={`${title} by night: ${concept.night}`}
+      dayCaption={concept.day}
+      nightCaption={concept.night}
+      locked={[
+        `Place: ${concept.place}`,
+        `Camera: ${concept.camera}`,
+        `Affordance: ${concept.affordance}`,
+        `Responsive focus remains ${concept.focus}`,
+      ]}
+      changes={[
+        "Directional daylight becomes physically located moonlight and practical light",
+        "Reflections, weather, peripheral activity, and natural behaviour may change",
+      ]}
+    />
+  </section>
+
+  <section class="concept-spec-grid">
+    <article class="concept-spec">
+      <h2>Concept specification</h2>
+      <dl>
+        <div><dt>Place</dt><dd>{concept.place}</dd></div>
+        <div><dt>Affordance</dt><dd>{concept.affordance}</dd></div>
+        <div><dt>Camera</dt><dd>{concept.camera}</dd></div>
+        <div><dt>Living subject</dt><dd>{worldDefinition.animal}</dd></div>
+        <div><dt>Day behaviour</dt><dd>{concept.day}</dd></div>
+        <div><dt>Night behaviour</dt><dd>{concept.night}</dd></div>
+        <div><dt>Palette</dt><dd>{worldDefinition.palette}</dd></div>
+        <div><dt>Materials</dt><dd>{worldDefinition.materials}</dd></div>
+        {concept.sigil && <div><dt>Architectural sigil</dt><dd>{concept.sigil}</dd></div>}
+      </dl>
+    </article>
+
+    <div>
+      <article class="concept-rationale">
+        <small>Why this concept exists</small>
+        <h2>Place drives behaviour.</h2>
+        <p>{concept.affordance}. The day and night states therefore express two credible uses of one environment rather than two unrelated illustrations.</p>
+        <ul>
+          <li>The accepted day master establishes geometry, scale, crop, and material logic.</li>
+          <li>The night master edits that accepted composition instead of rebuilding the scene.</li>
+          <li>The subject remains anatomically natural and behaves because of the place.</li>
+          <li>The project identity appears through material, palette, and sparse architecture—not logo wallpaper.</li>
+        </ul>
+      </article>
+      <article class="concept-master-panel">
+        <small>Artwork masters</small>
+        <h2>Open the art directly.</h2>
+        <p>The concept page is the editorial home. These links expose the underlying desktop and mobile masters for inspection.</p>
+        <div class="concept-master-links">
+          <a href={daySrc} target="_blank" rel="noreferrer">Day master <span>↗</span></a>
+          <a href={nightSrc} target="_blank" rel="noreferrer">Night master <span>↗</span></a>
+          <a href={dayMobileSrc} target="_blank" rel="noreferrer">Day mobile crop <span>↗</span></a>
+          <a href={nightMobileSrc} target="_blank" rel="noreferrer">Night mobile crop <span>↗</span></a>
+        </div>
+      </article>
+    </div>
+  </section>
+</ConceptShell>

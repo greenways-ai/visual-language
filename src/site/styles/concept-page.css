@@ -1,0 +1,350 @@
+* { box-sizing: border-box; }
+
+html { min-height: 100%; }
+
+body.concept-document {
+  min-height: 100%;
+  margin: 0;
+  color: var(--sl-color-gray-1);
+  background: var(--sl-color-bg);
+  font-family: "Manrope", system-ui, sans-serif;
+}
+
+.concept-document a { color: inherit; }
+
+.concept-page {
+  width: min(100% - 3rem, 1480px);
+  margin: 0 auto;
+  padding: 2rem 0 7rem;
+}
+
+.concept-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  margin-bottom: 2rem;
+  color: var(--sl-color-gray-3);
+  font: .58rem "IBM Plex Mono", monospace;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.concept-breadcrumb a { text-decoration: none; }
+.concept-breadcrumb a:hover { color: var(--visual-purple); }
+
+.concept-page__hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(240px, .7fr);
+  gap: clamp(2rem, 7vw, 8rem);
+  align-items: end;
+  padding: 1rem 0 3.5rem;
+  border-bottom: 1px solid var(--visual-line);
+}
+
+.concept-page__eyebrow {
+  margin: 0;
+  color: var(--visual-purple);
+  font: .62rem "IBM Plex Mono", monospace;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+.concept-page__hero h1 {
+  max-width: 1000px;
+  margin: .8rem 0 1.2rem;
+  color: var(--sl-color-white);
+  font: 400 clamp(3.4rem, 8vw, 8.2rem)/.92 "Marcellus", Georgia, serif;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+
+.concept-page__description {
+  max-width: 760px;
+  margin: 0;
+  color: var(--sl-color-gray-2);
+  font-size: clamp(.98rem, 1.6vw, 1.2rem);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+.concept-page__back {
+  display: inline-flex;
+  margin-top: 1.5rem;
+  color: var(--visual-purple);
+  font: 700 .6rem "IBM Plex Mono", monospace;
+  letter-spacing: .09em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.concept-page__hero dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  border-top: 1px solid var(--visual-line);
+  border-left: 1px solid var(--visual-line);
+}
+
+.concept-page__hero dl div {
+  min-height: 104px;
+  display: grid;
+  align-content: center;
+  gap: .45rem;
+  padding: 1rem;
+  border-right: 1px solid var(--visual-line);
+  border-bottom: 1px solid var(--visual-line);
+}
+
+.concept-page__hero dt {
+  color: var(--sl-color-gray-3);
+  font: .55rem "IBM Plex Mono", monospace;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.concept-page__hero dd {
+  margin: 0;
+  color: var(--sl-color-white);
+  font: 400 1.15rem/1.25 "Marcellus", Georgia, serif;
+}
+
+.concept-page__art {
+  margin: 3.5rem 0;
+}
+
+.concept-page__art .day-night-explorer { margin: 0; }
+.concept-page__art .day-night-explorer figure { min-height: clamp(420px, 43vw, 720px); }
+.concept-page__art .day-night-explorer[data-view="day"] figure[data-state="day"],
+.concept-page__art .day-night-explorer[data-view="night"] figure[data-state="night"] { min-height: clamp(520px, 56vw, 860px); }
+
+.concept-spec-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
+  gap: 1px;
+  margin: 3.5rem 0;
+  background: var(--visual-line);
+  border: 1px solid var(--visual-line);
+}
+
+.concept-spec,
+.concept-rationale,
+.concept-master-panel {
+  min-width: 0;
+  padding: clamp(1.4rem, 3.5vw, 3rem);
+  background: var(--visual-panel-solid);
+}
+
+.concept-spec h2,
+.concept-rationale h2,
+.concept-master-panel h2,
+.concept-index-group > header h2 {
+  margin: 0 0 1.4rem;
+  color: var(--sl-color-white);
+  font: 400 clamp(2rem, 4vw, 3.5rem)/1 "Marcellus", Georgia, serif;
+}
+
+.concept-spec dl {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  border-top: 1px solid var(--visual-line);
+}
+
+.concept-spec dl div {
+  display: grid;
+  grid-template-columns: minmax(110px, .35fr) minmax(0, 1fr);
+  gap: 1.2rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--visual-line);
+}
+
+.concept-spec dt,
+.concept-rationale small,
+.concept-master-panel small {
+  color: var(--visual-purple);
+  font: .56rem "IBM Plex Mono", monospace;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.concept-spec dd {
+  margin: 0;
+  color: var(--sl-color-gray-2);
+  font-size: .86rem;
+  line-height: 1.6;
+}
+
+.concept-rationale p,
+.concept-master-panel p {
+  color: var(--sl-color-gray-2);
+  line-height: 1.7;
+}
+
+.concept-rationale ul {
+  margin: 1.4rem 0 0;
+  padding-left: 1.2rem;
+  color: var(--sl-color-gray-2);
+}
+
+.concept-rationale li { margin: .55rem 0; line-height: 1.55; }
+
+.concept-master-links {
+  display: grid;
+  gap: .65rem;
+  margin-top: 1.5rem;
+}
+
+.concept-master-links a {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .8rem 1rem;
+  color: var(--sl-color-white);
+  border: 1px solid var(--visual-line);
+  text-decoration: none;
+  font: 700 .62rem "IBM Plex Mono", monospace;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.concept-master-links a:hover {
+  color: #160c1c;
+  background: var(--visual-purple-soft);
+  border-color: var(--visual-purple-soft);
+}
+
+.concept-pagination {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 5rem;
+  border-top: 1px solid var(--visual-line);
+  border-left: 1px solid var(--visual-line);
+}
+
+.concept-pagination a,
+.concept-pagination > span {
+  min-height: 130px;
+  display: grid;
+  align-content: center;
+  gap: .55rem;
+  padding: 1.3rem;
+  color: inherit;
+  border-right: 1px solid var(--visual-line);
+  border-bottom: 1px solid var(--visual-line);
+  text-decoration: none;
+}
+
+.concept-pagination a:last-child { text-align: right; }
+.concept-pagination a:hover { background: color-mix(in srgb, var(--visual-purple) 7%, transparent); }
+.concept-pagination small { color: var(--visual-purple); font: .56rem "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }
+.concept-pagination strong { color: var(--sl-color-white); font: 400 clamp(1.2rem, 2.2vw, 1.8rem) "Marcellus", Georgia, serif; }
+
+.concept-footer {
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem clamp(16px, 3vw, 46px);
+  color: var(--sl-color-gray-3);
+  border-top: 1px solid var(--visual-line);
+  font: .56rem "IBM Plex Mono", monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.concept-footer a { color: var(--visual-purple); text-decoration: none; }
+
+.concept-index-intro {
+  display: grid;
+  grid-template-columns: 1fr .72fr;
+  gap: clamp(2rem, 6vw, 6rem);
+  margin: 3.5rem 0 5rem;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  background: var(--visual-panel);
+  border: 1px solid var(--visual-line);
+}
+
+.concept-index-intro h2 { margin: 0; color: var(--sl-color-white); font: 400 clamp(2.2rem, 4vw, 4rem)/1 "Marcellus", Georgia, serif; }
+.concept-index-intro p { margin: 0; color: var(--sl-color-gray-2); line-height: 1.7; }
+
+.concept-index-group { margin: 5rem 0; }
+.concept-index-group > header { display: grid; grid-template-columns: 140px 1fr; gap: 2rem; align-items: end; margin-bottom: 1.5rem; }
+.concept-index-group > header p { margin: 0; color: var(--visual-purple); font: .58rem "IBM Plex Mono", monospace; letter-spacing: .12em; text-transform: uppercase; }
+.concept-index-group > header h2 { margin: 0; }
+
+.concept-index-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--visual-line);
+  border-left: 1px solid var(--visual-line);
+}
+
+.concept-index-card {
+  min-width: 0;
+  display: grid;
+  grid-template-rows: auto auto auto 1fr auto;
+  padding: 1rem;
+  color: inherit;
+  border-right: 1px solid var(--visual-line);
+  border-bottom: 1px solid var(--visual-line);
+  text-decoration: none;
+}
+
+.concept-index-card:hover { background: color-mix(in srgb, var(--visual-purple) 6%, transparent); }
+
+.concept-index-card__media {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  aspect-ratio: 16 / 8;
+  margin-bottom: 1.1rem;
+  overflow: hidden;
+  background: var(--visual-line);
+}
+
+.concept-index-card__media img { min-width: 0; width: 100%; height: 100%; object-fit: cover; }
+.concept-index-card small,
+.concept-index-card > span { color: var(--visual-purple); font: .55rem "IBM Plex Mono", monospace; letter-spacing: .09em; text-transform: uppercase; }
+.concept-index-card h3 { margin: .55rem 0; color: var(--sl-color-white); font: 400 clamp(1.55rem, 2.8vw, 2.4rem) "Marcellus", Georgia, serif; }
+.concept-index-card p { margin: 0; color: var(--sl-color-gray-2); font-size: .8rem; line-height: 1.55; }
+.concept-index-card > span { margin-top: 1rem; }
+
+.concept-index-card__feed {
+  min-height: 100%;
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  background: #f1ede6;
+}
+
+.concept-index-card__feed aside { background: #ded7cd; border-right: 1px solid #c8bdb3; }
+.concept-index-card__feed main { display: grid; align-content: center; gap: .55rem; padding: 1rem; }
+.concept-index-card__feed i { display: block; height: 6px; background: #c8beb4; }
+.concept-index-card__feed i:nth-child(1) { width: 76%; background: #b3192d; }
+.concept-index-card__feed i:nth-child(2) { width: 92%; }
+.concept-index-card__feed i:nth-child(3) { width: 62%; }
+.concept-index-card__feed b { width: 100%; height: 54px; display: block; background: #180d10; border-left: 5px solid #c52337; }
+
+@media (max-width: 900px) {
+  .concept-page__hero,
+  .concept-spec-grid,
+  .concept-index-intro { grid-template-columns: 1fr; }
+  .concept-page__hero dl { max-width: 620px; }
+}
+
+@media (max-width: 700px) {
+  .concept-page { width: min(100% - 1.5rem, 1480px); padding-top: 1.2rem; }
+  .concept-page__hero h1 { font-size: clamp(3rem, 15vw, 5.2rem); }
+  .concept-page__hero dl,
+  .concept-pagination,
+  .concept-index-grid { grid-template-columns: 1fr; }
+  .concept-pagination a:last-child { text-align: left; }
+  .concept-page__art .day-night-explorer figure,
+  .concept-page__art .day-night-explorer[data-view="day"] figure[data-state="day"],
+  .concept-page__art .day-night-explorer[data-view="night"] figure[data-state="night"] { min-height: 330px; }
+  .concept-spec dl div { grid-template-columns: 1fr; gap: .45rem; }
+  .concept-index-group > header { grid-template-columns: 1fr; gap: .4rem; }
+  .concept-footer { align-items: flex-start; flex-direction: column; }
+}
