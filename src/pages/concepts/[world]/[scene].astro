@@ -33,15 +33,15 @@ interface Props {
   next?: AdjacentConcept;
 }
 
-const sceneEntries = scenes as SceneConcept[];
-const worldDefinitions = worlds as Record<string, WorldDefinition>;
-
 const humanize = (value: string) => value
   .split("-")
   .map((part) => part[0].toUpperCase() + part.slice(1))
   .join(" ");
 
 export function getStaticPaths() {
+  const sceneEntries = scenes as SceneConcept[];
+  const worldDefinitions = worlds as Record<string, WorldDefinition>;
+
   return sceneEntries.map((concept) => {
     const group = sceneEntries.filter((entry) => entry.world === concept.world);
     const index = group.findIndex((entry) => entry.id === concept.id);
