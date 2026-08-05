@@ -21,6 +21,7 @@ export default defineConfig({
       customCss: [
         "./src/site/styles/custom.css",
         "./src/site/styles/starlight-shell.css",
+        "./src/site/styles/site-overrides.css",
       ],
       social: [
         { icon: "github", label: "GitHub", href: "https://github.com/greenways-ai/visual-language" },
@@ -78,8 +79,11 @@ export default defineConfig({
         },
         {
           label: "Case studies",
+          collapsed: false,
           items: [
+            { label: "Overview", slug: "case-studies/index" },
             { label: "Statstrade", slug: "case-studies/statstrade" },
+            { label: "Greenways.ai world", slug: "case-studies/greenways-world" },
           ],
         },
         {

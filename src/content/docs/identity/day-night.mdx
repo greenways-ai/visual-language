@@ -1,0 +1,71 @@
+---
+title: Day & night
+description: Inspect paired states directly instead of treating night as a filter on the day image.
+---
+import DayNightExplorer from "../../../site/components/DayNightExplorer.astro";
+
+Day and night are two authored states of one place. The accepted day master establishes camera, architecture, scale, materials, routes, and responsive crop. The night master keeps that spatial contract and changes only illumination, atmosphere, peripheral movement, and natural behaviour.
+
+## The world at civic scale
+
+<DayNightExplorer
+  title="World Confluence"
+  eyebrow="Connected world"
+  world="www"
+  scene="world-confluence"
+  dayAlt="A broad connected garden-city world in daylight with rivers, bridges, wooded districts, and natural wildlife"
+  nightAlt="The same connected garden-city world at night with reflected civic lights and resting wildlife"
+  dayCaption="The geography reads first: waterways, bridges, public gardens, habitats, and routes."
+  nightCaption="The geography stays fixed while settlements, water, roosts, and night movement become legible."
+  locked={["Camera, centred horizon, rivers, bridges, wooded hills, and district placement", "The balance between civic, cultivated, and wild habitat"]}
+  changes={["Sunlight becomes practical light, moonlight, and water reflection", "Day activity becomes credible rest, roosting, and nocturnal movement"]}
+/>
+
+## The threshold at product scale
+
+<DayNightExplorer
+  title="Open Gate"
+  eyebrow="Hoplite"
+  world="hoplite"
+  scene="open-gate"
+  dayAlt="A rabbit paused midway through an open cyan mosaic garden gate in daylight"
+  nightAlt="The same rabbit sheltered inside the gatehouse niche at night"
+  dayCaption="The open passage reads as speed, access, and a moment of orientation."
+  nightCaption="The same gate becomes shelter; local light preserves the route without inventing new architecture."
+  locked={["Axial camera, gate proportions, passage, landing, mosaic pattern, and garden beyond", "The threshold as the reason for the rabbit's position"]}
+  changes={["The rabbit moves from the passage into the recessed shelter", "Cool moonlight and restrained gatehouse light replace direct sun"]}
+/>
+
+## The interior at intimate scale
+
+<DayNightExplorer
+  title="Sovereign Hearth"
+  eyebrow="Hestia"
+  world="hestia"
+  scene="sovereign-hearth"
+  dayAlt="A greyhound standing between a garnet couch and dormant circular hearth in daylight"
+  nightAlt="The same greyhound asleep on the couch while the hearth burns at night"
+  dayCaption="Day reveals the complete room and the relationship between couch, hearth, and circulation."
+  nightCaption="The hearth becomes the practical source of warmth and light; the room and furniture stay locked."
+  locked={["Opposite-corner camera, couch, hearth, glass roof, wall treatment, and room proportions", "The couch and hearth as the spatial cause of movement and rest"]}
+  changes={["The dormant hearth burns and produces local reflected light", "The greyhound changes from alert standing to natural sleep"]}
+/>
+
+## Runtime use
+
+`ThemedArtwork.astro` still selects the state that follows the page theme. Editorial pages and catalogues should also provide explicit Day, Night, or Compare controls whenever the pair itself is the subject.
+
+```astro
+<ThemedArtwork
+  light="/artwork/hoplite/open-gate-day.webp"
+  dark="/artwork/hoplite/open-gate-night.webp"
+  lightMobile="/artwork/hoplite/open-gate-day-mobile.webp"
+  darkMobile="/artwork/hoplite/open-gate-night-mobile.webp"
+  lightAlt="A rabbit paused in a cyan mosaic gate by day"
+  darkAlt="A rabbit sheltered inside the same gate at night"
+/>
+```
+
+## Failure mode
+
+A dark overlay on the day image is not a night master. Night requires physically located light, changed reflections, credible shadow, and a natural state that belongs to the same architecture.

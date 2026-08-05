@@ -1,0 +1,31 @@
+---
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+---
+<div class="case-study-index">
+  <a href={`${base}case-studies/statstrade/`}>
+    <div class="case-study-index__media">
+      <img src={`${base}statstrade/assets/arena-day-study.svg`} alt="Statstrade arena day study" />
+      <img src={`${base}statstrade/assets/arena-night-study.svg`} alt="Statstrade arena night study" />
+    </div>
+    <small>Feed + Gaussian-splat world</small><h2>Statstrade</h2><p>A familiar community feed opens into a human Roman civic arena without turning the everyday product into a game skin.</p><span>Explore Statstrade →</span>
+  </a>
+  <a href={`${base}case-studies/greenways-world/`}>
+    <div class="case-study-index__media">
+      <img src={`${base}artwork/www/world-confluence-day.webp`} alt="Greenways connected world in daylight" />
+      <img src={`${base}artwork/www/world-confluence-night.webp`} alt="Greenways connected world at night" />
+    </div>
+    <small>Connected worlds</small><h2>Greenways.ai world</h2><p>A public-facing world of linked habitats, tools, standards, and districts designed to make anyone feel able to build.</p><span>Explore the world →</span>
+  </a>
+</div>
+<style>
+  .case-study-index { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); margin-block: 2rem; border-top: 1px solid var(--visual-line,var(--sl-color-hairline)); border-left: 1px solid var(--visual-line,var(--sl-color-hairline)); }
+  .case-study-index > a { min-width: 0; display: grid; grid-template-rows: auto auto auto 1fr auto; padding: 1rem; color: inherit; border-right: 1px solid var(--visual-line,var(--sl-color-hairline)); border-bottom: 1px solid var(--visual-line,var(--sl-color-hairline)); text-decoration: none; }
+  .case-study-index > a:hover { background: color-mix(in srgb,var(--visual-purple,#764a98) 7%,transparent); }
+  .case-study-index__media { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; aspect-ratio: 16/8; margin-bottom: 1.2rem; overflow: hidden; background: var(--visual-line,var(--sl-color-hairline)); }
+  .case-study-index__media img { min-width: 0; width: 100%; height: 100%; object-fit: cover; }
+  .case-study-index small, .case-study-index span { color: var(--visual-purple,var(--sl-color-accent)); font: .57rem var(--sl-font-mono,monospace); letter-spacing: .09em; text-transform: uppercase; }
+  .case-study-index h2 { margin: .65rem 0; color: var(--sl-color-white); font: 400 clamp(2rem,4vw,3.5rem) "Marcellus",Georgia,serif; }
+  .case-study-index p { color: var(--sl-color-gray-2); font-size: .86rem; line-height: 1.55; }
+  .case-study-index span { margin-top: 1rem; }
+  @media(max-width:720px){.case-study-index{grid-template-columns:1fr}}
+</style>

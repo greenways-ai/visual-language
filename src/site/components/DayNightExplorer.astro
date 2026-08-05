@@ -1,0 +1,268 @@
+---
+type View = "pair" | "day" | "night";
+interface Props {
+  title: string;
+  eyebrow?: string;
+  world?: string;
+  scene?: string;
+  day?: string;
+  night?: string;
+  dayMobile?: string;
+  nightMobile?: string;
+  dayAlt: string;
+  nightAlt: string;
+  dayCaption?: string;
+  nightCaption?: string;
+  locked?: string[];
+  changes?: string[];
+  initial?: View;
+  class?: string;
+}
+
+const {
+  title,
+  eyebrow = "Day / night study",
+  world,
+  scene,
+  day,
+  night,
+  dayMobile,
+  nightMobile,
+  dayAlt,
+  nightAlt,
+  dayCaption = "Directional daylight, public activity, and the complete material palette.",
+  nightCaption = "Local light, reflection, quieter movement, and the same locked architecture.",
+  locked = [],
+  changes = [],
+  initial = "pair",
+  class: className,
+} = Astro.props;
+
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+const generatedDay = world && scene ? `${base}artwork/${world}/${scene}-day.webp` : undefined;
+const generatedNight = world && scene ? `${base}artwork/${world}/${scene}-night.webp` : undefined;
+const generatedDayMobile = world && scene ? `${base}artwork/${world}/${scene}-day-mobile.webp` : undefined;
+const generatedNightMobile = world && scene ? `${base}artwork/${world}/${scene}-night-mobile.webp` : undefined;
+const daySrc = day ?? generatedDay;
+const nightSrc = night ?? generatedNight;
+const dayMobileSrc = dayMobile ?? generatedDayMobile;
+const nightMobileSrc = nightMobile ?? generatedNightMobile;
+if (!daySrc || !nightSrc) throw new Error(`DayNightExplorer requires a day/night source for ${title}`);
+const hasNotes = locked.length > 0 || changes.length > 0;
+const views: Array<{ id: View; label: string }> = [
+  { id: "pair", label: "Compare" },
+  { id: "day", label: "Day" },
+  { id: "night", label: "Night" },
+];
+---
+
+<section class:list={["day-night-explorer", className]} data-day-night-explorer data-view={initial}>
+  <header>
+    <div>
+      <p>{eyebrow}</p>
+      <h3>{title}</h3>
+    </div>
+    <div class="day-night-explorer__controls" role="group" aria-label={`Choose how to view ${title}`}>
+      {views.map((view) => (
+        <button type="button" data-view-target={view.id} aria-pressed={initial === view.id}>
+          {view.label}
+        </button>
+      ))}
+    </div>
+  </header>
+
+  <div class="day-night-explorer__stage">
+    <figure data-state="day">
+      <picture>
+        {dayMobileSrc && <source media="(max-width: 680px)" srcset={dayMobileSrc} />}
+        <img loading="lazy" decoding="async" src={daySrc} alt={dayAlt} />
+      </picture>
+      <figcaption><strong>Day</strong><span>{dayCaption}</span></figcaption>
+    </figure>
+    <figure data-state="night">
+      <picture>
+        {nightMobileSrc && <source media="(max-width: 680px)" srcset={nightMobileSrc} />}
+        <img loading="lazy" decoding="async" src={nightSrc} alt={nightAlt} />
+      </picture>
+      <figcaption><strong>Night</strong><span>{nightCaption}</span></figcaption>
+    </figure>
+  </div>
+
+  {hasNotes && (
+    <div class="day-night-explorer__notes">
+      {locked.length > 0 && <section><small>Locked between states</small><ul>{locked.map((item) => <li>{item}</li>)}</ul></section>}
+      {changes.length > 0 && <section><small>Allowed to change</small><ul>{changes.map((item) => <li>{item}</li>)}</ul></section>}
+    </div>
+  )}
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-day-night-explorer]").forEach((explorer) => {
+    if (explorer.dataset.initialised === "true") return;
+    explorer.dataset.initialised = "true";
+    const buttons = explorer.querySelectorAll<HTMLButtonElement>("[data-view-target]");
+    buttons.forEach((button) => button.addEventListener("click", () => {
+      const view = button.dataset.viewTarget || "pair";
+      explorer.dataset.view = view;
+      buttons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+    }));
+  });
+</script>
+
+<style>
+  .day-night-explorer {
+    margin-block: 2rem;
+    overflow: hidden;
+    background: var(--visual-panel, var(--sl-color-bg-sidebar));
+    border: 1px solid var(--visual-line, var(--sl-color-hairline));
+  }
+
+  .day-night-explorer > header {
+    min-height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid var(--visual-line, var(--sl-color-hairline));
+  }
+
+  .day-night-explorer > header p {
+    margin: 0 0 .35rem;
+    color: var(--visual-purple, var(--sl-color-accent));
+    font: .57rem var(--sl-font-mono, monospace);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  .day-night-explorer > header h3 {
+    margin: 0;
+    color: var(--sl-color-white);
+    font: 400 clamp(1.5rem, 3vw, 2.4rem) "Marcellus", Georgia, serif;
+  }
+
+  .day-night-explorer__controls {
+    display: flex;
+    flex: 0 0 auto;
+    padding: 4px;
+    background: color-mix(in srgb, var(--sl-color-bg) 74%, transparent);
+    border: 1px solid var(--visual-line, var(--sl-color-hairline));
+  }
+
+  .day-night-explorer__controls button {
+    min-height: 38px;
+    padding: .55rem .75rem;
+    color: var(--sl-color-gray-2);
+    background: transparent;
+    border: 0;
+    font: 700 .56rem var(--sl-font-mono, monospace);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .day-night-explorer__controls button[aria-pressed="true"] {
+    color: #fff;
+    background: #764a98;
+  }
+
+  :global(:root[data-theme="dark"]) .day-night-explorer__controls button[aria-pressed="true"] {
+    color: #160c1c;
+    background: #d0bbea;
+  }
+
+  .day-night-explorer__stage {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--visual-line, var(--sl-color-hairline));
+  }
+
+  .day-night-explorer figure {
+    position: relative;
+    min-width: 0;
+    min-height: 340px;
+    display: grid;
+    margin: 0;
+    overflow: hidden;
+    background: #0b0710;
+  }
+
+  .day-night-explorer picture,
+  .day-night-explorer img {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .day-night-explorer picture { grid-area: 1 / 1; }
+  .day-night-explorer img { object-fit: cover; }
+
+  .day-night-explorer figcaption {
+    grid-area: 1 / 1;
+    z-index: 1;
+    align-self: end;
+    display: grid;
+    gap: .25rem;
+    padding: 3.2rem 1rem 1rem;
+    color: #fff;
+    background: linear-gradient(0deg, rgba(7, 4, 9, .86), transparent);
+    pointer-events: none;
+  }
+
+  .day-night-explorer figcaption strong {
+    font: 700 .62rem var(--sl-font-mono, monospace);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  .day-night-explorer figcaption span {
+    max-width: 48ch;
+    color: rgba(255, 255, 255, .76);
+    font-size: .76rem;
+    line-height: 1.45;
+  }
+
+  .day-night-explorer[data-view="day"] figure[data-state="night"],
+  .day-night-explorer[data-view="night"] figure[data-state="day"] { display: none; }
+
+  .day-night-explorer[data-view="day"] .day-night-explorer__stage,
+  .day-night-explorer[data-view="night"] .day-night-explorer__stage { grid-template-columns: 1fr; }
+
+  .day-night-explorer[data-view="day"] figure[data-state="day"],
+  .day-night-explorer[data-view="night"] figure[data-state="night"] { min-height: 480px; }
+
+  .day-night-explorer__notes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--visual-line, var(--sl-color-hairline));
+  }
+
+  .day-night-explorer__notes section {
+    padding: 1rem 1.2rem;
+    border-right: 1px solid var(--visual-line, var(--sl-color-hairline));
+  }
+
+  .day-night-explorer__notes section:last-child { border-right: 0; }
+  .day-night-explorer__notes small {
+    color: var(--visual-purple, var(--sl-color-accent));
+    font: .56rem var(--sl-font-mono, monospace);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .day-night-explorer__notes ul { margin: .7rem 0 0; padding-left: 1.1rem; }
+  .day-night-explorer__notes li { margin: .25rem 0; color: var(--sl-color-gray-2); font-size: .78rem; }
+
+  @media (max-width: 720px) {
+    .day-night-explorer > header { align-items: flex-start; flex-direction: column; }
+    .day-night-explorer__controls { width: 100%; }
+    .day-night-explorer__controls button { flex: 1; }
+    .day-night-explorer__stage { grid-template-columns: 1fr; }
+    .day-night-explorer figure,
+    .day-night-explorer[data-view="day"] figure[data-state="day"],
+    .day-night-explorer[data-view="night"] figure[data-state="night"] { min-height: 320px; }
+    .day-night-explorer__notes { grid-template-columns: 1fr; }
+    .day-night-explorer__notes section { border-right: 0; border-bottom: 1px solid var(--visual-line, var(--sl-color-hairline)); }
+    .day-night-explorer__notes section:last-child { border-bottom: 0; }
+  }
+</style>

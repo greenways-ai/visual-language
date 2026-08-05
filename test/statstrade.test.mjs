@@ -26,13 +26,20 @@ test("Statstrade visual contract forbids robot imagery", async () => {
   for (const term of ["robots", "androids", "mechs", "AI avatars", "robot gladiators"]) assert.match(config, new RegExp(term));
 });
 
-test("Statstrade is documented as an Astro case study with a real splat boundary", async () => {
-  const caseStudy = await read("../src/content/docs/case-studies/statstrade.md");
+test("Statstrade has feed, world, day, and night exploration with a real splat boundary", async () => {
+  const caseStudy = await read("../src/content/docs/case-studies/statstrade.mdx");
+  const component = await read("../src/site/components/StatstradeSurfaceStudy.astro");
   const manifest = JSON.parse(await read("../site/statstrade/world.json"));
   const poster = await read("../site/statstrade/assets/arena-splat-concept.svg");
-  assert.match(caseStudy, /Reddit-style feed/);
+  const day = await read("../site/statstrade/assets/arena-day-study.svg");
+  const night = await read("../site/statstrade/assets/arena-night-study.svg");
+  assert.match(caseStudy, /Reddit/);
   assert.match(caseStudy, /Gaussian-splat/);
   assert.match(caseStudy, /No robot imagery/);
+  assert.match(component, /Everyday surface/);
+  assert.match(component, /Spatial surface/);
+  assert.match(day, /Arena of Conviction|Statstrade Arena/);
+  assert.match(night, /Arena of Conviction|Statstrade Arena/);
   assert.equal(manifest.viewer.implementation, "@playcanvas/supersplat-viewer");
   assert.equal(manifest.viewer.fallback, "poster");
   assert.match(poster, /NO ROBOTS · NO MECHS · NO AI AVATARS/);
