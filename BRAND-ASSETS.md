@@ -4,6 +4,19 @@ The Greenways names, wordmarks, mosaic marks, the Statstrade name and angular S 
 
 The software and documentation used to render and operate the visual language are licensed under Apache-2.0 as described in `LICENSE`.
 
+## Greenways master mark
+
+The canonical Greenways mark is a five-petal peacock-tail / lotus hybrid. Two emerald outer fields, aquamarine and cyan inner fields, and a violet centre converge at one base point.
+
+The master mark is deliberately quieter than a literal peacock crest:
+
+- no project sigils are embedded inside it;
+- no eye, compass, ring, gold outline, or decorative filigree is added;
+- the irregular Voronoi/smalti construction supplies the material identity;
+- the emblem and wordmark remain separate assets.
+
+Generated SVGs are the production source of truth.
+
 ## Mosaic invariant
 
 The irregular Voronoi/smalti mosaic is part of every Greenways project mark. It is not a decorative effect that may be removed for compact icons.
@@ -19,9 +32,9 @@ Small variants use larger tesserae, but never collapse the mark to a flat path. 
 
 ## Canonical project motifs
 
-| Project | Motif | Exploration study |
+| Project | Motif | Geometry source |
 | --- | --- | --- |
-| Greenways | Peacock eye shield | `peacock-eye-shield` |
+| Greenways | Five-petal peacock-tail / lotus | Dedicated master geometry |
 | Hestia | Eight-point star | `star-eight` |
 | Hoplite | Star compass | `star-compass` |
 | Historia | Mountains | `mountain-pair` |
