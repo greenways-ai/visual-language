@@ -1,0 +1,80 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { access, readFile } from "node:fs/promises";
+
+const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
+
+test("the Visual Language website is an Astro Starlight application", async () => {
+  const [pkg, config, collection] = await Promise.all([
+    read("package.json"),
+    read("astro.config.mjs"),
+    read("src/content.config.ts"),
+  ]);
+  assert.match(pkg, /"astro": "\^7\.1\.6"/);
+  assert.match(pkg, /"@astrojs\/starlight"/);
+  assert.match(pkg, /"build": "npm run assets/);
+  assert.match(config, /base: "\/visual-language"/);
+  assert.match(config, /SharedSiteHeader\.astro/);
+  assert.match(config, /GreenwaysThemeProvider\.astro/);
+  assert.match(config, /logo: \{ src: "\.\/src\/site\/assets\/lotus\.svg"/);
+  assert.match(collection, /docsLoader/);
+});
+
+test("the static page shells were removed instead of being copied into the Astro build", async () => {
+  for (const path of [
+    "site/index.html",
+    "site/lab.html",
+    "site/lab.js",
+    "site/statstrade/index.html",
+    "bin/build-site.mjs",
+  ]) {
+    await assert.rejects(access(new URL(`../${path}`, import.meta.url)), path);
+  }
+  const copy = await read("scripts/copy-static-assets.mjs");
+  assert.match(copy, /site\/artwork/);
+  assert.match(copy, /site\/sigils/);
+  assert.doesNotMatch(copy, /site\/index\.html/);
+});
+
+test("the purple three-petal lotus is the canonical Visual Language identity", async () => {
+  const [generator, projects, logo, compact] = await Promise.all([
+    read("bin/generate-v3-favicons.mjs"),
+    read("src/projects.js"),
+    read("src/MosaicLogo.astro"),
+    read("src/site/assets/lotus.svg"),
+  ]);
+  assert.match(generator, /"visual-language": \{ study: "lotus-three"/);
+  for (const colour of ["#452a5e", "#5e3680", "#764a98", "#9367c5", "#b899da"]) assert.match(generator, new RegExp(colour));
+  assert.match(projects, /motif: "Lotus · three petals"/);
+  assert.match(projects, /accent: "purple"/);
+  assert.doesNotMatch(logo, /project === "visual-language" \? "greenways"/);
+  assert.match(compact, /--p1:#452a5e/);
+  assert.ok((compact.match(/<path/g) || []).length >= 12, "compact lotus should retain mosaic facets");
+});
+
+test("the homepage and documentation cover the complete system", async () => {
+  const [home, sigils, artwork, adoption, caseStudy] = await Promise.all([
+    read("src/content/docs/index.mdx"),
+    read("src/content/docs/identity/sigils.mdx"),
+    read("src/content/docs/identity/artwork-worlds.mdx"),
+    read("src/content/docs/adoption/getting-started.md"),
+    read("src/content/docs/case-studies/statstrade.md"),
+  ]);
+  for (const component of ["HomeHero", "FoundationMatrix", "SystemProof", "CatalogueDoors", "AdoptionPath", "IntegrityPanel"]) assert.match(home, new RegExp(component));
+  assert.match(sigils, /SigilCatalogue/);
+  assert.match(artwork, /ArtworkCatalogue/);
+  assert.match(adoption, /DocumentationHeader/);
+  assert.match(caseStudy, /Arena of Conviction/);
+});
+
+test("GitHub Pages installs, builds, and deploys the Astro dist directory", async () => {
+  const [ci, pages, verify] = await Promise.all([
+    read(".github/workflows/ci.yml"),
+    read(".github/workflows/pages.yml"),
+    read("scripts/verify-site-output.mjs"),
+  ]);
+  assert.match(ci, /npm install --no-audit --no-fund/);
+  assert.match(ci, /npm run build/);
+  assert.match(pages, /path: dist/);
+  assert.match(verify, /dist\/identity\/sigils\/index\.html/);
+});

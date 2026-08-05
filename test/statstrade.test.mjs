@@ -26,12 +26,13 @@ test("Statstrade visual contract forbids robot imagery", async () => {
   for (const term of ["robots", "androids", "mechs", "AI avatars", "robot gladiators"]) assert.match(config, new RegExp(term));
 });
 
-test("Statstrade static concept includes feed, world and splat fallback", async () => {
-  const html = await read("../site/statstrade/index.html");
+test("Statstrade is documented as an Astro case study with a real splat boundary", async () => {
+  const caseStudy = await read("../src/content/docs/case-studies/statstrade.md");
   const manifest = JSON.parse(await read("../site/statstrade/world.json"));
   const poster = await read("../site/statstrade/assets/arena-splat-concept.svg");
-  assert.match(html, /data-surface-panel="feed"/);
-  assert.match(html, /data-surface-panel="world"/);
+  assert.match(caseStudy, /Reddit-style feed/);
+  assert.match(caseStudy, /Gaussian-splat/);
+  assert.match(caseStudy, /No robot imagery/);
   assert.equal(manifest.viewer.implementation, "@playcanvas/supersplat-viewer");
   assert.equal(manifest.viewer.fallback, "poster");
   assert.match(poster, /NO ROBOTS · NO MECHS · NO AI AVATARS/);
