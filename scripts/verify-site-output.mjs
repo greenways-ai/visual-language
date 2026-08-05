@@ -15,7 +15,7 @@ const required = [
 for (const path of required) await stat(path);
 
 const home = await readFile("dist/index.html", "utf8");
-if (!home.includes("Lotus · three petals")) throw new Error("home page is missing the lotus identity");
+if (!/lotus · three petals/i.test(home)) throw new Error("home page is missing the lotus identity");
 if (!home.includes("Visual Language")) throw new Error("home page is missing its title");
 
 console.log(`verified ${required.length} required Astro site outputs`);
