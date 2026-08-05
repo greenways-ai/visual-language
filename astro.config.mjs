@@ -81,7 +81,7 @@ export default defineConfig({
           label: "Case studies",
           collapsed: false,
           items: [
-            { label: "Overview", slug: "case-studies/index" },
+            { label: "Overview", slug: "case-studies" },
             { label: "Statstrade", slug: "case-studies/statstrade" },
             { label: "Greenways.ai world", slug: "case-studies/greenways-world" },
           ],
