@@ -35,7 +35,7 @@ test("favicons provide groutless smalti beds and adaptive shaded palettes", asyn
   assert.match(source, /historia/);
 });
 
-test("project sigils ship detailed and small variants in light/dark pairs", async () => {
+test("project sigils ship detailed and compact mosaic variants in light/dark pairs", async () => {
   const fs = await import("node:fs/promises");
   for (const name of ["greenways", "hestia", "hoplite", "historia", "historian", "hodos", "visual-language"]) {
     const detailed = await fs.readFile(new URL(`../assets/favicons/${name}.svg`, import.meta.url), "utf8");
@@ -49,12 +49,12 @@ test("project sigils ship detailed and small variants in light/dark pairs", asyn
       assert.doesNotMatch(fixed, /<rect/, `${name}-${mode} should be transparent`);
       const small = await fs.readFile(new URL(`../assets/favicons/${name}-small-${mode}.svg`, import.meta.url), "utf8");
       assert.doesNotMatch(small, /prefers-color-scheme/, `${name}-small-${mode}`);
-      assert.doesNotMatch(small, /<polygon/, `${name}-small-${mode} should be flat for small sizes`);
+      assert.match(small, /<polygon/, `${name}-small-${mode} should retain Voronoi tesserae`);
       assert.doesNotMatch(small, /<rect/, `${name}-small-${mode} should be transparent`);
     }
     const smallAdaptive = await fs.readFile(new URL(`../assets/favicons/${name}-small.svg`, import.meta.url), "utf8");
     assert.match(smallAdaptive, /prefers-color-scheme:dark/, `${name}-small`);
-    assert.doesNotMatch(smallAdaptive, /<polygon/, `${name}-small should be flat for small sizes`);
+    assert.match(smallAdaptive, /<polygon/, `${name}-small should retain Voronoi tesserae`);
     assert.doesNotMatch(smallAdaptive, /<rect/, `${name}-small should be transparent`);
   }
 });
