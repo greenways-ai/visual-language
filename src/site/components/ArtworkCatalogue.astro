@@ -1,9 +1,9 @@
 ---
 import { artworkCatalog } from "../../artwork-catalog.js";
 const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
-const labels = { greenways: "Greenways", hestia: "Hestia", hoplite: "Hoplite", historia: "Historia", hodos: "Hodos", www: "World / WWW" };
+const labels: Record<string, string> = { greenways: "Greenways", hestia: "Hestia", hoplite: "Hoplite", historia: "Historia", hodos: "Hodos", www: "World / WWW" };
 const entries = Object.entries(artworkCatalog).flatMap(([world, scenes]) => scenes.map((scene) => ({ world, scene })));
-const title = (value) => value.split("-").map((part) => part[0].toUpperCase() + part.slice(1)).join(" ");
+const title = (value: string) => value.split("-").map((part) => part[0].toUpperCase() + part.slice(1)).join(" ");
 ---
 <div class="artwork-catalogue" data-artwork-catalogue>
   <nav aria-label="Filter artwork catalogue">

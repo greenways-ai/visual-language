@@ -51,17 +51,15 @@
     "test": "npm run assets && node --test test/*.test.mjs",
     "og": "node bin/generate-og-images.mjs"
   },
-  "dependencies": {
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
     "@astrojs/mdx": "^7.0.5",
     "@astrojs/starlight": "^0.41.6",
     "@fontsource/ibm-plex-mono": "^5.2.7",
     "@fontsource/manrope": "^5.2.7",
     "@fontsource/marcellus": "^5.2.6",
     "astro": "^7.1.6",
-    "sharp": "^0.35.3"
-  },
-  "devDependencies": {
-    "@astrojs/check": "^0.9.10",
+    "sharp": "^0.35.3",
     "typescript": "^5.9.2"
   },
   "peerDependencies": {
