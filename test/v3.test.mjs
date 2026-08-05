@@ -92,6 +92,8 @@ test("canonical sigils adopt the named project motifs", async () => {
     assert.ok(gen.includes(`${key}: { study: "${study}"`), project);
   }
   assert.match(gen, /#20c7df/);
+  assert.match(gen, /SMALL_PITCH/);
+  assert.doesNotMatch(gen, /allFlat/);
   assert.doesNotMatch(gen, /#b78a22|#d7b64e/);
 
   const { projects } = await import("../src/projects.js");
@@ -99,12 +101,20 @@ test("canonical sigils adopt the named project motifs", async () => {
   assert.equal(projects["visual-language"].motif, "Lotus · three petals");
 
   const sigil = await readFile(new URL("../src/Sigil.astro", import.meta.url), "utf8");
-  assert.match(sigil, /gw-sigil__iris/);
-  assert.match(sigil, /resolved === "greenways"/);
-  assert.match(sigil, /resolved === "visual-language"/);
-  assert.match(sigil, /resolved === "historia"/);
+  assert.match(sigil, /visual-language\/favicons/);
+  assert.match(sigil, /\$\{resolved\}-light\.svg/);
+  assert.match(sigil, /\$\{resolved\}-dark\.svg/);
+  assert.match(sigil, /gw-sigil__asset/);
   const css = await readFile(new URL("../src/theme.css", import.meta.url), "utf8");
   assert.match(css, /data-project="hoplite"\]\{--gw-accent-1:#0b3a44/);
+});
+
+test("small favicon variants retain the Voronoi mosaic", async () => {
+  for (const project of ["greenways", "hestia", "hoplite", "historia", "hodos", "visual-language"]) {
+    const svg = await readFile(new URL(`../assets/favicons/${project}-small-light.svg`, import.meta.url), "utf8");
+    const polygons = svg.match(/<polygon\b/g) ?? [];
+    assert.ok(polygons.length >= 4, `${project}: expected mosaic tesserae, found ${polygons.length}`);
+  }
 });
 
 test("og image cards exist at 1200x630", async () => {

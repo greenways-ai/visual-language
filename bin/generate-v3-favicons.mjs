@@ -5,14 +5,12 @@ import { GROUND, SEED, studies } from "./sigil-studies.mjs";
 // Canonical project sigils: each project adopts one study from the shared
 // exploration table (bin/sigil-studies.mjs) and re-colors it with the
 // project's own palette. Marks render on a transparent background (no ground
-// tile) and are fitted to fill the canvas. Each project ships a variant set:
-// `<name>.svg` detailed Voronoi adaptive (media query), `<name>-light.svg` /
-// `<name>-dark.svg` detailed fixed-mode for page pairing, `<name>-small.svg`
-// flat adaptive for tab favicons, and `<name>-small-light.svg` /
-// `<name>-small-dark.svg` flat fixed-mode for header brand and other <=48px
-// uses where a fine Voronoi bed turns to mush.
+// tile) and are fitted to fill the canvas. Every size retains the irregular
+// Voronoi/smalti construction: the small variants use a coarser tessellation,
+// never a flat substitute.
 
 const CANVAS = 480, FIT = 24;
+const FULL_PITCH = 38, SMALL_PITCH = 68;
 
 const byId = Object.fromEntries(studies.map((s) => [s.id, s]));
 
@@ -47,19 +45,30 @@ for (const [name, p] of Object.entries(projects)) {
     }
     if (flag === "flat") flat.push(i);
   }
-  const base = { paths, light, dark, flat, groundCuts, seed: SEED, canvas: CANVAS, ground: null, fit: FIT };
-  const allFlat = paths.map((_, i) => i);
+  const base = {
+    paths,
+    light,
+    dark,
+    flat,
+    groundCuts,
+    seed: SEED,
+    canvas: CANVAS,
+    ground: null,
+    fit: FIT,
+    pitch: FULL_PITCH,
+  };
+  const small = { ...base, pitch: SMALL_PITCH };
   const variants = {
     [`${name}.svg`]: renderSigil(base),
     [`${name}-light.svg`]: renderSigil({ ...base, mode: "light" }),
     [`${name}-dark.svg`]: renderSigil({ ...base, mode: "dark" }),
-    [`${name}-small.svg`]: renderSigil({ ...base, flat: allFlat }),
-    [`${name}-small-light.svg`]: renderSigil({ ...base, flat: allFlat, mode: "light" }),
-    [`${name}-small-dark.svg`]: renderSigil({ ...base, flat: allFlat, mode: "dark" }),
+    [`${name}-small.svg`]: renderSigil(small),
+    [`${name}-small-light.svg`]: renderSigil({ ...small, mode: "light" }),
+    [`${name}-small-dark.svg`]: renderSigil({ ...small, mode: "dark" }),
   };
   for (const [file, svg] of Object.entries(variants)) {
     await writeFile(new URL(`../assets/favicons/${file}`, import.meta.url), svg);
     count++;
   }
 }
-console.log(`generated ${count} groutless smalti sigil variants (detailed + small, adaptive + light/dark) at ${CANVAS}x${CANVAS}`);
+console.log(`generated ${count} groutless smalti sigil variants (detailed + coarse mosaic, adaptive + light/dark) at ${CANVAS}x${CANVAS}`);
