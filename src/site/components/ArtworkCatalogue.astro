@@ -5,31 +5,165 @@ const labels: Record<string, string> = { greenways: "Greenways", hestia: "Hestia
 const entries = Object.entries(artworkCatalog).flatMap(([world, scenes]) => scenes.map((scene) => ({ world, scene })));
 const title = (value: string) => value.split("-").map((part) => part[0].toUpperCase() + part.slice(1)).join(" ");
 ---
-<div class="artwork-catalogue" data-artwork-catalogue>
-  <nav aria-label="Filter artwork catalogue">
-    <button type="button" data-world="all" aria-pressed="true">All worlds</button>
-    {Object.keys(artworkCatalog).map((world) => <button type="button" data-world={world} aria-pressed="false">{labels[world]}</button>)}
-  </nav>
+<div class="artwork-catalogue" data-artwork-catalogue data-display="pair">
+  <div class="artwork-catalogue__controls">
+    <div class="artwork-catalogue__worlds" role="group" aria-label="Filter artwork catalogue by world">
+      <button type="button" data-world="all" aria-pressed="true">All worlds</button>
+      {Object.keys(artworkCatalog).map((world) => <button type="button" data-world={world} aria-pressed="false">{labels[world]}</button>)}
+    </div>
+    <div class="artwork-catalogue__states" role="group" aria-label="Choose day and night display">
+      <button type="button" data-display-target="pair" aria-pressed="true">Pairs</button>
+      <button type="button" data-display-target="day" aria-pressed="false">Day</button>
+      <button type="button" data-display-target="night" aria-pressed="false">Night</button>
+      <button type="button" data-display-target="theme" aria-pressed="false">Follow theme</button>
+    </div>
+  </div>
+
   <div class="artwork-catalogue__grid">
     {entries.map(({ world, scene }) => (
       <article data-artwork-world={world}>
-        <div>
-          <img class="mode-light" loading="lazy" decoding="async" src={`${base}artwork/${world}/${scene}-day.webp`} alt={`${title(scene)} in the ${labels[world]} world by day`} />
-          <img class="mode-dark" loading="lazy" decoding="async" src={`${base}artwork/${world}/${scene}-night.webp`} alt={`${title(scene)} in the ${labels[world]} world by night`} />
+        <div class="artwork-catalogue__media">
+          <figure data-artwork-state="day">
+            <picture>
+              <source media="(max-width: 680px)" srcset={`${base}artwork/${world}/${scene}-day-mobile.webp`} />
+              <img loading="lazy" decoding="async" src={`${base}artwork/${world}/${scene}-day.webp`} alt={`${title(scene)} in the ${labels[world]} world by day`} />
+            </picture>
+            <figcaption>Day</figcaption>
+          </figure>
+          <figure data-artwork-state="night">
+            <picture>
+              <source media="(max-width: 680px)" srcset={`${base}artwork/${world}/${scene}-night-mobile.webp`} />
+              <img loading="lazy" decoding="async" src={`${base}artwork/${world}/${scene}-night.webp`} alt={`${title(scene)} in the ${labels[world]} world by night`} />
+            </picture>
+            <figcaption>Night</figcaption>
+          </figure>
         </div>
         <p><small>{labels[world]}</small><strong>{title(scene)}</strong></p>
       </article>
     ))}
   </div>
 </div>
+
 <script>
   document.querySelectorAll<HTMLElement>("[data-artwork-catalogue]").forEach((catalogue) => {
-    const buttons = catalogue.querySelectorAll<HTMLButtonElement>("[data-world]");
+    if (catalogue.dataset.initialised === "true") return;
+    catalogue.dataset.initialised = "true";
+    const worldButtons = catalogue.querySelectorAll<HTMLButtonElement>("[data-world]");
+    const displayButtons = catalogue.querySelectorAll<HTMLButtonElement>("[data-display-target]");
     const cards = catalogue.querySelectorAll<HTMLElement>("[data-artwork-world]");
-    buttons.forEach((button) => button.addEventListener("click", () => {
+
+    worldButtons.forEach((button) => button.addEventListener("click", () => {
       const world = button.dataset.world;
-      buttons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+      worldButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
       cards.forEach((card) => { card.hidden = world !== "all" && card.dataset.artworkWorld !== world; });
+    }));
+
+    displayButtons.forEach((button) => button.addEventListener("click", () => {
+      catalogue.dataset.display = button.dataset.displayTarget || "pair";
+      displayButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
     }));
   });
 </script>
+
+<style>
+  .artwork-catalogue__controls {
+    display: grid;
+    gap: .8rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--visual-line, var(--sl-color-hairline));
+  }
+
+  .artwork-catalogue__worlds,
+  .artwork-catalogue__states { display: flex; flex-wrap: wrap; gap: .45rem; }
+
+  .artwork-catalogue__controls button {
+    min-height: 42px;
+    padding: .65rem .8rem;
+    color: var(--sl-color-gray-2);
+    background: transparent;
+    border: 1px solid var(--visual-line, var(--sl-color-hairline));
+    font: 700 .58rem var(--sl-font-mono, monospace);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .artwork-catalogue__controls button[aria-pressed="true"] {
+    color: #fff;
+    background: #764a98;
+    border-color: #764a98;
+  }
+
+  :global(:root[data-theme="dark"]) .artwork-catalogue__controls button[aria-pressed="true"] {
+    color: #160c1c;
+    background: #d0bbea;
+    border-color: #d0bbea;
+  }
+
+  .artwork-catalogue__states { padding-top: .2rem; }
+  .artwork-catalogue__states::before {
+    content: "State";
+    align-self: center;
+    margin-right: .25rem;
+    color: var(--sl-color-gray-3);
+    font: .55rem var(--sl-font-mono, monospace);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+
+  .artwork-catalogue__media {
+    min-height: 0 !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--visual-line, var(--sl-color-hairline));
+  }
+
+  .artwork-catalogue figure {
+    position: relative;
+    min-width: 0;
+    display: grid;
+    margin: 0;
+    overflow: hidden;
+    background: #0b0710;
+  }
+
+  .artwork-catalogue picture,
+  .artwork-catalogue figure img {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .artwork-catalogue picture { aspect-ratio: 4 / 3; }
+  .artwork-catalogue figure img { object-fit: cover; }
+  .artwork-catalogue figcaption {
+    position: absolute;
+    left: .65rem;
+    bottom: .65rem;
+    padding: .35rem .48rem;
+    color: #fff;
+    background: rgba(8, 5, 10, .76);
+    font: 700 .52rem var(--sl-font-mono, monospace);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    backdrop-filter: blur(8px);
+  }
+
+  .artwork-catalogue[data-display="day"] figure[data-artwork-state="night"],
+  .artwork-catalogue[data-display="night"] figure[data-artwork-state="day"] { display: none; }
+
+  .artwork-catalogue[data-display="day"] .artwork-catalogue__media,
+  .artwork-catalogue[data-display="night"] .artwork-catalogue__media,
+  .artwork-catalogue[data-display="theme"] .artwork-catalogue__media { grid-template-columns: 1fr; }
+
+  .artwork-catalogue[data-display="theme"] figure[data-artwork-state="night"] { display: none; }
+  :global(:root[data-theme="dark"]) .artwork-catalogue[data-display="theme"] figure[data-artwork-state="day"] { display: none; }
+  :global(:root[data-theme="dark"]) .artwork-catalogue[data-display="theme"] figure[data-artwork-state="night"] { display: grid; }
+
+  @media (max-width: 680px) {
+    .artwork-catalogue__media { grid-template-columns: 1fr; }
+    .artwork-catalogue__states::before { width: 100%; }
+  }
+</style>
