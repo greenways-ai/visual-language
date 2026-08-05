@@ -1,0 +1,26 @@
+---
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+const foundations = [
+  { n: "01", title: "Material before decoration", body: "Stone, glass, metal, foliage, and light behave as physical materials rather than superficial filters.", href: `${base}foundations/colour-material/` },
+  { n: "02", title: "Mosaic at every scale", body: "Detailed and compact marks retain their tessera construction. Small does not mean flat or generic.", href: `${base}foundations/mosaic-construction/` },
+  { n: "03", title: "Shared structure", body: "Headers, search, theme controls, documentation cards, and code panels remain recognisably Greenways.", href: `${base}components/shared-structure/` },
+  { n: "04", title: "Project character", body: "A lotus, compass, mountain, ring, star, or peacock eye carries its own palette and world logic.", href: `${base}identity/sigils/` },
+];
+---
+<section class="home-section" id="foundations">
+  <header>
+    <p class="panel-label">01 · Foundations</p>
+    <h2>Rules strong enough<br />to permit difference.</h2>
+    <p>The system standardises construction and behaviour, not personality.</p>
+  </header>
+  <div class="foundation-grid">
+    {foundations.map((item) => (
+      <a href={item.href}>
+        <small>{item.n}</small>
+        <h3>{item.title}</h3>
+        <p>{item.body}</p>
+        <span>Read foundation →</span>
+      </a>
+    ))}
+  </div>
+</section>

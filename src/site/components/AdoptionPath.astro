@@ -1,0 +1,23 @@
+---
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+---
+<section class="home-section" id="adoption">
+  <header>
+    <p class="panel-label">04 · Adoption</p>
+    <h2>Consume the system.<br />Do not imitate it.</h2>
+    <p>A project should import canonical assets and components, set its project identity, then prove the result in CI.</p>
+  </header>
+  <div class="adoption-path">
+    <ol>
+      <li><small>01</small><div><strong>Install</strong><p>Pin the package or repository commit used by the project.</p></div></li>
+      <li><small>02</small><div><strong>Identify</strong><p>Set <code>data-project</code> and use the named project sigil.</p></div></li>
+      <li><small>03</small><div><strong>Compose</strong><p>Use shared headers, theme controls, cards, and artwork helpers.</p></div></li>
+      <li><small>04</small><div><strong>Audit</strong><p>Run the visual-integrity check before deployment.</p></div></li>
+    </ol>
+    <div class="adoption-command">
+      <span>Install from GitHub</span>
+      <code>npm install github:greenways-ai/visual-language</code>
+      <a class="action action--primary" href={`${base}adoption/getting-started/`}>Open adoption guide →</a>
+    </div>
+  </div>
+</section>

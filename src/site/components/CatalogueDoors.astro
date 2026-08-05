@@ -1,0 +1,32 @@
+---
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+---
+<section class="home-section" id="catalogue">
+  <header>
+    <p class="panel-label">03 · Catalogue</p>
+    <h2>Marks, places,<br />and working parts.</h2>
+    <p>The catalogue is a production library, not a mood board.</p>
+  </header>
+  <div class="catalogue-doors">
+    <a class="catalogue-door catalogue-door--sigil" href={`${base}identity/sigils/`}>
+      <div class="catalogue-door__image lotus-door">
+        <img class="mode-light" src={`${base}favicons/visual-language-light.svg`} alt="Purple Visual Language lotus" />
+        <img class="mode-dark" src={`${base}favicons/visual-language-dark.svg`} alt="Purple Visual Language lotus in dark mode" />
+      </div>
+      <small>60 studies</small><strong>Sigil catalogue</strong><span>Hearts, eyes, rings, stars, gates, flora, and architecture.</span>
+    </a>
+    <a class="catalogue-door catalogue-door--art" href={`${base}identity/artwork-worlds/`}>
+      <div class="catalogue-door__image art-door">
+        <img class="mode-light" src={`${base}artwork/www/jeweled-archipelago-day.webp`} alt="Jeweled archipelago mosaic world by day" />
+        <img class="mode-dark" src={`${base}artwork/www/jeweled-archipelago-night.webp`} alt="Jeweled archipelago mosaic world by night" />
+      </div>
+      <small>48 places · day and night</small><strong>World catalogue</strong><span>Complete environments with consistent architecture, subjects, and crops.</span>
+    </a>
+    <a class="catalogue-door catalogue-door--components" href={`${base}components/shared-structure/`}>
+      <div class="catalogue-door__image component-door" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <small>Portable Astro</small><strong>Component catalogue</strong><span>Headers, search, project switching, code, cards, artwork, and themes.</span>
+    </a>
+  </div>
+</section>

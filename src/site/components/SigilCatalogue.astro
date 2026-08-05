@@ -1,0 +1,15 @@
+---
+import manifest from "../../../site/sigils/manifest.json";
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+---
+<div class="sigil-catalogue" data-sigil-catalogue>
+  {manifest.map((sigil, index) => (
+    <figure>
+      <div>
+        <img class="mode-light" loading="lazy" decoding="async" src={`${base}sigils/${sigil.id}-light.svg`} alt={sigil.label} />
+        <img class="mode-dark" loading="lazy" decoding="async" src={`${base}sigils/${sigil.id}-dark.svg`} alt={`${sigil.label}, dark palette`} />
+      </div>
+      <figcaption><small>{String(index + 1).padStart(2, "0")}</small><span>{sigil.label}</span></figcaption>
+    </figure>
+  ))}
+</div>

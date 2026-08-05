@@ -1,0 +1,35 @@
+---
+import { artworkCatalog } from "../../artwork-catalog.js";
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+const labels = { greenways: "Greenways", hestia: "Hestia", hoplite: "Hoplite", historia: "Historia", hodos: "Hodos", www: "World / WWW" };
+const entries = Object.entries(artworkCatalog).flatMap(([world, scenes]) => scenes.map((scene) => ({ world, scene })));
+const title = (value) => value.split("-").map((part) => part[0].toUpperCase() + part.slice(1)).join(" ");
+---
+<div class="artwork-catalogue" data-artwork-catalogue>
+  <nav aria-label="Filter artwork catalogue">
+    <button type="button" data-world="all" aria-pressed="true">All worlds</button>
+    {Object.keys(artworkCatalog).map((world) => <button type="button" data-world={world} aria-pressed="false">{labels[world]}</button>)}
+  </nav>
+  <div class="artwork-catalogue__grid">
+    {entries.map(({ world, scene }) => (
+      <article data-artwork-world={world}>
+        <div>
+          <img class="mode-light" loading="lazy" decoding="async" src={`${base}artwork/${world}/${scene}-day.webp`} alt={`${title(scene)} in the ${labels[world]} world by day`} />
+          <img class="mode-dark" loading="lazy" decoding="async" src={`${base}artwork/${world}/${scene}-night.webp`} alt={`${title(scene)} in the ${labels[world]} world by night`} />
+        </div>
+        <p><small>{labels[world]}</small><strong>{title(scene)}</strong></p>
+      </article>
+    ))}
+  </div>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>("[data-artwork-catalogue]").forEach((catalogue) => {
+    const buttons = catalogue.querySelectorAll<HTMLButtonElement>("[data-world]");
+    const cards = catalogue.querySelectorAll<HTMLElement>("[data-artwork-world]");
+    buttons.forEach((button) => button.addEventListener("click", () => {
+      const world = button.dataset.world;
+      buttons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+      cards.forEach((card) => { card.hidden = world !== "all" && card.dataset.artworkWorld !== world; });
+    }));
+  });
+</script>

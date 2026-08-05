@@ -1,0 +1,35 @@
+---
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+const lotusBase = `${base}favicons/visual-language`;
+---
+
+<section class="visual-hero">
+  <div class="visual-hero__copy">
+    <p class="technical-kicker"><i></i> Greenways system · Astro + Starlight</p>
+    <h1>One visual language.<br />Many worlds.</h1>
+    <p>
+      A shared mosaic construction, adaptive day-and-night system, and disciplined
+      interface shell connect Greenways projects without flattening their identities.
+    </p>
+    <div class="hero-links">
+      <a class="action action--primary" href={`${base}foundations/principles/`}>Read the system <span>→</span></a>
+      <a class="action" href={`${base}identity/sigils/`}>Browse sigils</a>
+      <a class="action" href={`${base}identity/artwork-worlds/`}>Explore worlds</a>
+      <a class="action" href="https://github.com/greenways-ai/visual-language">Source ↗</a>
+    </div>
+    <dl class="hero-facts">
+      <div><dt>Construction</dt><dd>Irregular Voronoi smalti</dd></div>
+      <div><dt>Catalogue</dt><dd>60 sigils · 48 places</dd></div>
+      <div><dt>Theme</dt><dd>Auto · light · dark</dd></div>
+    </dl>
+  </div>
+
+  <aside class="visual-hero__accent" aria-label="Visual Language lotus specimen">
+    <div class="lotus-specimen">
+      <img class="mode-light" src={`${lotusBase}-light.svg`} alt="Purple three-petal lotus built from irregular mosaic pieces" />
+      <img class="mode-dark" src={`${lotusBase}-dark.svg`} alt="Purple three-petal lotus in its dark-theme palette" />
+    </div>
+    <p>LOTUS · THREE PETALS</p>
+    <span>Visual Language / canonical sigil</span>
+  </aside>
+</section>

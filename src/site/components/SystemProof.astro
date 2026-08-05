@@ -1,0 +1,35 @@
+---
+import CodePanel from "../../CodePanel.astro";
+
+const code = `---
+import DocumentationHeader from "@greenways-ai/visual-language/DocumentationHeader.astro";
+---
+<DocumentationHeader
+  project="hoplite"
+  title="Hoplite"
+  docsHref="/hoplite/getting-started/"
+/>`;
+---
+<section class="home-section" id="system">
+  <header>
+    <p class="panel-label">02 · System</p>
+    <h2>One contract.<br />Six scales of use.</h2>
+    <p>From a 16-pixel tab mark to a complete world, every layer inherits the same material and interaction rules.</p>
+  </header>
+  <div class="system-proof">
+    <ol class="scale-list">
+      <li><small>01</small><strong>Favicon</strong><span>Coarse irregular tesserae remain legible at tab scale.</span></li>
+      <li><small>02</small><strong>Project sigil</strong><span>A named motif and palette identify the project.</span></li>
+      <li><small>03</small><strong>Interface shell</strong><span>Navigation, search, theme, and code share behaviour.</span></li>
+      <li><small>04</small><strong>Editorial artwork</strong><span>Day and night describe one persistent place.</span></li>
+      <li><small>05</small><strong>World</strong><span>Architecture, ecology, and product purpose become spatial.</span></li>
+      <li><small>06</small><strong>Integrity</strong><span>Automated checks prevent identity drift.</span></li>
+    </ol>
+    <div class="system-code">
+      <p class="technical-kicker"><i></i> Shared Astro component</p>
+      <h3>Use the contract directly.</h3>
+      <p>Projects consume the same tested components rather than reproducing a visual approximation.</p>
+      <CodePanel code={code} lang="astro" title="SharedSiteHeader.astro" meta="Project shell" />
+    </div>
+  </div>
+</section>
