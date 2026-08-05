@@ -22,23 +22,26 @@ const title = (value: string) => value.split("-").map((part) => part[0].toUpperC
   <div class="artwork-catalogue__grid">
     {entries.map(({ world, scene }) => (
       <article data-artwork-world={world}>
-        <div class="artwork-catalogue__media">
-          <figure data-artwork-state="day">
-            <picture>
-              <source media="(max-width: 680px)" srcset={`${base}artwork/${world}/${scene}-day-mobile.webp`} />
-              <img loading="lazy" decoding="async" src={`${base}artwork/${world}/${scene}-day.webp`} alt={`${title(scene)} in the ${labels[world]} world by day`} />
-            </picture>
-            <figcaption>Day</figcaption>
-          </figure>
-          <figure data-artwork-state="night">
-            <picture>
-              <source media="(max-width: 680px)" srcset={`${base}artwork/${world}/${scene}-night-mobile.webp`} />
-              <img loading="lazy" decoding="async" src={`${base}artwork/${world}/${scene}-night.webp`} alt={`${title(scene)} in the ${labels[world]} world by night`} />
-            </picture>
-            <figcaption>Night</figcaption>
-          </figure>
-        </div>
-        <p><small>{labels[world]}</small><strong>{title(scene)}</strong></p>
+        <a class="artwork-catalogue__concept" href={`${base}concepts/${world}/${scene}/`} aria-label={`Open the ${title(scene)} concept page`}>
+          <div class="artwork-catalogue__media">
+            <figure data-artwork-state="day">
+              <picture>
+                <source media="(max-width: 680px)" srcset={`${base}artwork/${world}/${scene}-day-mobile.webp`} />
+                <img loading="lazy" decoding="async" src={`${base}artwork/${world}/${scene}-day.webp`} alt={`${title(scene)} in the ${labels[world]} world by day`} />
+              </picture>
+              <figcaption>Day</figcaption>
+            </figure>
+            <figure data-artwork-state="night">
+              <picture>
+                <source media="(max-width: 680px)" srcset={`${base}artwork/${world}/${scene}-night-mobile.webp`} />
+                <img loading="lazy" decoding="async" src={`${base}artwork/${world}/${scene}-night.webp`} alt={`${title(scene)} in the ${labels[world]} world by night`} />
+              </picture>
+              <figcaption>Night</figcaption>
+            </figure>
+          </div>
+          <p><small>{labels[world]}</small><strong>{title(scene)}</strong></p>
+          <span class="artwork-catalogue__open">Open concept →</span>
+        </a>
       </article>
     ))}
   </div>
@@ -112,6 +115,9 @@ const title = (value: string) => value.split("-").map((part) => part[0].toUpperC
     text-transform: uppercase;
   }
 
+  .artwork-catalogue__concept { display: block; color: inherit; text-decoration: none; }
+  .artwork-catalogue__concept:focus-visible { outline: 3px solid var(--gw-focus); outline-offset: 3px; }
+
   .artwork-catalogue__media {
     min-height: 0 !important;
     display: grid !important;
@@ -137,7 +143,8 @@ const title = (value: string) => value.split("-").map((part) => part[0].toUpperC
   }
 
   .artwork-catalogue picture { aspect-ratio: 4 / 3; }
-  .artwork-catalogue figure img { object-fit: cover; }
+  .artwork-catalogue figure img { object-fit: cover; transition: transform .35s ease; }
+  .artwork-catalogue__concept:hover figure img { transform: scale(1.025); }
   .artwork-catalogue figcaption {
     position: absolute;
     left: .65rem;
@@ -149,6 +156,15 @@ const title = (value: string) => value.split("-").map((part) => part[0].toUpperC
     letter-spacing: .1em;
     text-transform: uppercase;
     backdrop-filter: blur(8px);
+  }
+
+  .artwork-catalogue__open {
+    display: block;
+    margin-top: .55rem;
+    color: var(--visual-purple, var(--sl-color-accent));
+    font: 700 .55rem var(--sl-font-mono, monospace);
+    letter-spacing: .09em;
+    text-transform: uppercase;
   }
 
   .artwork-catalogue[data-display="day"] figure[data-artwork-state="night"],

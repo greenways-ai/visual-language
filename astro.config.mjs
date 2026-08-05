@@ -48,6 +48,7 @@ export default defineConfig({
           items: [
             { label: "Sigils", slug: "identity/sigils" },
             { label: "Artwork & worlds", slug: "identity/artwork-worlds" },
+            { label: "Concept pages ↗", link: "/visual-language/concepts/" },
             { label: "Day & night", slug: "identity/day-night" },
           ],
         },
