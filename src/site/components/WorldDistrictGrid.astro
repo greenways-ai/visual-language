@@ -1,0 +1,60 @@
+---
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+const districts = [
+  { scene: "jeweled-archipelago", title: "Jeweled archipelago", role: "Connected island communities, reef gardens, harbours, and bridges." },
+  { scene: "solar-steppe-observatories", title: "Solar steppe observatories", role: "Open horizons where public instruments and migration share the same landscape." },
+  { scene: "archive-forest-basin", title: "Archive forest basin", role: "Libraries and knowledge routes embedded in an intact forest habitat." },
+  { scene: "aurora-conservatory-belt", title: "Aurora conservatory belt", role: "Warm ecological infrastructure distributed through a northern landscape." },
+];
+---
+<section class="world-district-grid" data-world-districts data-state="day">
+  <header>
+    <div><small>Connected districts</small><h3>One world without one centre.</h3></div>
+    <div role="group" aria-label="Choose district lighting state">
+      <button type="button" data-state-target="day" aria-pressed="true">Day</button>
+      <button type="button" data-state-target="night" aria-pressed="false">Night</button>
+    </div>
+  </header>
+  <div class="world-district-grid__cards">
+    {districts.map((district) => (
+      <article>
+        <div>
+          <img data-state-image="day" loading="lazy" decoding="async" src={`${base}artwork/www/${district.scene}-day.webp`} alt={`${district.title} in daylight`} />
+          <img data-state-image="night" loading="lazy" decoding="async" src={`${base}artwork/www/${district.scene}-night.webp`} alt={`${district.title} at night`} />
+        </div>
+        <small>World / WWW</small><h4>{district.title}</h4><p>{district.role}</p>
+      </article>
+    ))}
+  </div>
+</section>
+<script>
+  document.querySelectorAll<HTMLElement>("[data-world-districts]").forEach((grid) => {
+    if (grid.dataset.initialised === "true") return;
+    grid.dataset.initialised = "true";
+    const buttons = grid.querySelectorAll<HTMLButtonElement>("[data-state-target]");
+    buttons.forEach((button) => button.addEventListener("click", () => {
+      grid.dataset.state = button.dataset.stateTarget || "day";
+      buttons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+    }));
+  });
+</script>
+<style>
+  .world-district-grid { margin-block: 2rem; border: 1px solid var(--visual-line, var(--sl-color-hairline)); }
+  .world-district-grid > header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 1.2rem; border-bottom: 1px solid var(--visual-line, var(--sl-color-hairline)); }
+  .world-district-grid > header small, .world-district-grid article > small { color: var(--visual-purple, var(--sl-color-accent)); font: .56rem var(--sl-font-mono, monospace); letter-spacing: .1em; text-transform: uppercase; }
+  .world-district-grid > header h3 { margin: .35rem 0 0; color: var(--sl-color-white); font: 400 clamp(1.6rem,3vw,2.7rem) "Marcellus", Georgia, serif; }
+  .world-district-grid > header > div:last-child { display: flex; padding: 4px; border: 1px solid var(--visual-line, var(--sl-color-hairline)); }
+  .world-district-grid button { min-height: 38px; padding: .55rem .8rem; color: var(--sl-color-gray-2); background: transparent; border: 0; font: 700 .56rem var(--sl-font-mono, monospace); letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+  .world-district-grid button[aria-pressed="true"] { color: #fff; background: #764a98; }
+  :global(:root[data-theme="dark"]) .world-district-grid button[aria-pressed="true"] { color: #160c1c; background: #d0bbea; }
+  .world-district-grid__cards { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .world-district-grid article { min-width: 0; padding: 1rem; border-right: 1px solid var(--visual-line, var(--sl-color-hairline)); border-bottom: 1px solid var(--visual-line, var(--sl-color-hairline)); }
+  .world-district-grid article:nth-child(2n) { border-right: 0; }
+  .world-district-grid article:nth-last-child(-n+2) { border-bottom: 0; }
+  .world-district-grid article > div { display: grid; aspect-ratio: 16/9; margin-bottom: 1rem; overflow: hidden; background: #0b0710; }
+  .world-district-grid article img { grid-area: 1/1; width: 100%; height: 100%; object-fit: cover; }
+  .world-district-grid[data-state="day"] [data-state-image="night"], .world-district-grid[data-state="night"] [data-state-image="day"] { display: none; }
+  .world-district-grid h4 { margin: .55rem 0; color: var(--sl-color-white); font: 400 clamp(1.4rem,2.4vw,2.1rem) "Marcellus", Georgia, serif; }
+  .world-district-grid article p { margin: 0; color: var(--sl-color-gray-2); font-size: .8rem; line-height: 1.5; }
+  @media (max-width:700px){.world-district-grid > header{align-items:flex-start;flex-direction:column}.world-district-grid__cards{grid-template-columns:1fr}.world-district-grid article,.world-district-grid article:nth-child(2n),.world-district-grid article:nth-last-child(-n+2){border-right:0;border-bottom:1px solid var(--visual-line,var(--sl-color-hairline))}.world-district-grid article:last-child{border-bottom:0}}
+</style>
