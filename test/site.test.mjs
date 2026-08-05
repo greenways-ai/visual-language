@@ -10,7 +10,7 @@ test("the Visual Language website is an Astro Starlight application", async () =
     read("astro.config.mjs"),
     read("src/content.config.ts"),
   ]);
-  assert.match(pkg, /"version": "4\.8\.0"/);
+  assert.match(pkg, /"version": "4\.9\.0"/);
   assert.match(pkg, /"astro": "\^7\.1\.6"/);
   assert.match(pkg, /"@astrojs\/starlight"/);
   assert.match(pkg, /"build": "npm run assets/);
@@ -55,7 +55,7 @@ test("the purple three-petal lotus is the canonical and locally versioned site i
   assert.match(compact, /--p1:#452a5e/);
   assert.ok((compact.match(/<path/g) || []).length >= 12, "compact lotus should retain mosaic facets");
   assert.match(header, /logoAssetBase=\{`\$\{base\}favicons`\}/);
-  assert.match(header, /logoAssetVersion="lotus-20260805"/);
+  assert.match(header, /logoAssetVersion="lotus-concepts-20260805"/);
   assert.match(sigil, /assetVersion/);
   assert.match(sigil, /encodeURIComponent/);
 });
@@ -72,6 +72,7 @@ test("the sidebar and header menus keep visible labels", async () => {
   assert.match(header, /nav\?: NavItem\[\]/);
   assert.match(header, /nav\.map/);
   assert.match(config, /collapsed: false/);
+  assert.match(config, /Concept pages ↗/);
 });
 
 test("day and night are explicit comparison states across the site", async () => {
@@ -83,6 +84,7 @@ test("day and night are explicit comparison states across the site", async () =>
   ]);
   assert.match(home, /HomeDayNight/);
   for (const view of ["pair", "day", "night"]) assert.match(explorer, new RegExp(`"${view}"`));
+  assert.match(explorer, /Open concept/);
   for (const view of ["pair", "day", "night", "theme"]) assert.match(catalogue, new RegExp(`data-display-target="${view}"`));
   assert.ok((page.match(/<DayNightExplorer/g) || []).length >= 3);
 });
@@ -132,4 +134,5 @@ test("GitHub Pages installs, builds, and deploys the Astro dist directory", asyn
   assert.match(pages, /path: dist/);
   assert.match(verify, /dist\/identity\/day-night\/index\.html/);
   assert.match(verify, /dist\/case-studies\/greenways-world\/index\.html/);
+  assert.match(verify, /dist\/concepts\/index\.html/);
 });
