@@ -1,0 +1,134 @@
+---
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+---
+
+<section class="statstrade-feed-art" aria-label="Statstrade Reddit-style feed concept art">
+  <header>
+    <div class="statstrade-feed-art__brand"><img src={`${base}favicons/statstrade.svg`} alt="" /><strong>Statstrade</strong></div>
+    <div class="statstrade-feed-art__search">Search posts, communities and arenas</div>
+    <nav aria-label="Feed study navigation"><span>Feed</span><span>Communities</span><b>Enter world</b></nav>
+  </header>
+
+  <div class="statstrade-feed-art__layout">
+    <aside class="statstrade-feed-art__communities">
+      <small>Your communities</small>
+      <a class="active" href="#feed-art"><i>A</i><span><strong>r/AFL</strong><em>183k watching</em></span></a>
+      <a href="#feed-art"><i>F1</i><span><strong>r/Formula1</strong><em>71k watching</em></span></a>
+      <a href="#feed-art"><i>N</i><span><strong>r/NBA</strong><em>94k watching</em></span></a>
+      <a href="#feed-art"><i>P</i><span><strong>r/PoliticsAU</strong><em>22k watching</em></span></a>
+      <hr />
+      <span class="plain">Saved posts</span><span class="plain">Following</span><span class="plain">Moderation</span>
+    </aside>
+
+    <main id="feed-art">
+      <div class="statstrade-feed-art__heading"><div><small>Home feed</small><h2>What people think happens next</h2></div><div><b>Hot</b><span>New</span><span>Closing</span></div></div>
+
+      <article class="statstrade-feed-post live">
+        <div class="vote"><span>▲</span><strong>18.4k</strong><span>▼</span></div>
+        <div class="post-body">
+          <header><i>A</i><span><strong>r/AFL</strong> · u/outerwing · 3m</span><b>Live</b></header>
+          <h3>Does Carlton score the next goal before the 12-minute mark?</h3>
+          <p>The territory has shifted, but the last two exits have both been intercepted. The crowd is moving hard toward yes.</p>
+          <div class="market"><strong>YES 67</strong><i><span></span></i><b>Enter arena</b></div>
+          <footer><span>486 comments</span><span>Share</span><span>Save</span><em>Resolves in 06:42</em></footer>
+        </div>
+      </article>
+
+      <article class="statstrade-feed-post">
+        <div class="vote"><span>▲</span><strong>7.1k</strong><span>▼</span></div>
+        <div class="post-body">
+          <header><i>F1</i><span><strong>r/Formula1</strong> · u/sectorpurple · 19m</span></header>
+          <h3>The undercut window is open now, not in five laps</h3>
+          <p>Track evolution is hiding the actual tyre delta. Here is the lap-by-lap case and where the market is wrong.</p>
+          <div class="evidence"><small>Evidence</small><strong>12-lap comparison</strong><span>telemetry · weather · pit-loss model</span></div>
+          <footer><span>229 comments</span><span>Share</span><span>Save</span></footer>
+        </div>
+      </article>
+
+      <article class="statstrade-feed-post resolved">
+        <div class="vote"><span>▲</span><strong>4.8k</strong><span>▼</span></div>
+        <div class="post-body">
+          <header><i>N</i><span><strong>r/NBA</strong> · resolved 41m ago</span><b>Resolved</b></header>
+          <h3>Boston closed the third quarter above 84 points</h3>
+          <div class="resolution"><strong>YES</strong><span>Final consensus 58</span><span>Outcome confirmed 91–76</span></div>
+          <footer><span>91 comments</span><span>Receipts</span><span>Save</span></footer>
+        </div>
+      </article>
+    </main>
+
+    <aside class="statstrade-feed-art__rail">
+      <section><small>Live arenas</small><h3>Open now</h3><a href="#feed-art"><strong>AFL Saturday</strong><span>19 live positions</span></a><a href="#feed-art"><strong>Singapore GP</strong><span>8 live positions</span></a><a href="#feed-art"><strong>Federal polling</strong><span>closes tomorrow</span></a></section>
+      <section class="world"><small>The world</small><h3>Enter the Arena of Conviction</h3><p>See the same communities and markets as a navigable civic space.</p><b>Enter world</b></section>
+      <section class="rule"><small>Visual rule</small><p><strong>No robots.</strong> Intelligence is infrastructure. The world is people, architecture, standards, mosaic and atmosphere.</p></section>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .statstrade-feed-art { overflow: hidden; color: #171415; background: #f3efe7; border: 1px solid #cfc4ba; box-shadow: 0 30px 100px rgba(0,0,0,.22); }
+  .statstrade-feed-art > header { min-height: 66px; display: grid; grid-template-columns: 210px minmax(240px, 1fr) auto; align-items: center; gap: 1.2rem; padding: .7rem 1rem; border-bottom: 1px solid #d3c9bf; background: rgba(247,243,235,.96); }
+  .statstrade-feed-art__brand { display: flex; align-items: center; gap: .7rem; }
+  .statstrade-feed-art__brand img { width: 36px; height: 37px; }
+  .statstrade-feed-art__brand strong { font: 400 1.25rem "Marcellus", Georgia, serif; }
+  .statstrade-feed-art__search { min-height: 40px; display: flex; align-items: center; padding: 0 .9rem; color: #827778; background: #fffdf8; border: 1px solid #d3c9bf; font-size: .72rem; }
+  .statstrade-feed-art > header nav { display: flex; align-items: center; gap: .7rem; font: 700 .56rem "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
+  .statstrade-feed-art > header nav b { padding: .75rem .85rem; color: #fff; background: #b3192d; }
+  .statstrade-feed-art__layout { display: grid; grid-template-columns: 190px minmax(0, 1fr) 260px; }
+  .statstrade-feed-art__communities, .statstrade-feed-art__rail { padding: 1.1rem .9rem; background: #ebe5db; }
+  .statstrade-feed-art__communities { border-right: 1px solid #d3c9bf; }
+  .statstrade-feed-art__communities > small, .statstrade-feed-art__rail small, .statstrade-feed-art__heading small { color: #761321; font: 700 .52rem "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }
+  .statstrade-feed-art__communities a { display: flex; align-items: center; gap: .65rem; margin-top: .55rem; padding: .55rem; color: inherit; border: 1px solid transparent; text-decoration: none; }
+  .statstrade-feed-art__communities a.active { background: #fffdf8; border-color: #d3c9bf; }
+  .statstrade-feed-art__communities i, .statstrade-feed-post header i { width: 30px; height: 30px; display: grid; place-items: center; flex: none; color: #fff; background: #6f101d; border-radius: 50%; font: normal 700 .52rem "IBM Plex Mono", monospace; }
+  .statstrade-feed-art__communities a span { display: grid; gap: .15rem; }
+  .statstrade-feed-art__communities a strong { font-size: .72rem; }
+  .statstrade-feed-art__communities a em { color: #827778; font: normal .58rem "Manrope", sans-serif; }
+  .statstrade-feed-art__communities hr { margin: 1rem 0; border: 0; border-top: 1px solid #d3c9bf; }
+  .statstrade-feed-art__communities .plain { display: block; padding: .45rem; color: #716768; font-size: .68rem; }
+  .statstrade-feed-art main { min-width: 0; display: grid; align-content: start; gap: .7rem; padding: 1rem; }
+  .statstrade-feed-art__heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; padding: .2rem .2rem .7rem; }
+  .statstrade-feed-art__heading h2 { margin: .35rem 0 0; font: 400 clamp(1.55rem, 3vw, 2.8rem)/1 "Marcellus", Georgia, serif; }
+  .statstrade-feed-art__heading > div:last-child { display: flex; gap: .45rem; font: 700 .52rem "IBM Plex Mono", monospace; text-transform: uppercase; }
+  .statstrade-feed-art__heading > div:last-child > * { padding: .55rem; }
+  .statstrade-feed-art__heading b { color: #761321; background: #ead2cf; }
+  .statstrade-feed-post { min-width: 0; display: grid; grid-template-columns: 44px minmax(0, 1fr); background: #fffdf8; border: 1px solid #d3c9bf; }
+  .statstrade-feed-post.live { border-top: 3px solid #b3192d; }
+  .statstrade-feed-post .vote { display: grid; align-content: start; justify-items: center; gap: .25rem; padding: .75rem .2rem; color: #716768; background: #e8e1d7; border-right: 1px solid #d3c9bf; font-size: .62rem; }
+  .statstrade-feed-post .vote strong { font: 700 .55rem "IBM Plex Mono", monospace; }
+  .post-body { min-width: 0; padding: .85rem 1rem; }
+  .post-body > header { display: flex; align-items: center; gap: .55rem; }
+  .post-body > header i { width: 23px; height: 23px; font-size: .44rem; }
+  .post-body > header span { min-width: 0; color: #817677; font-size: .58rem; }
+  .post-body > header b { margin-left: auto; padding: .35rem .45rem; color: #fff; background: #b3192d; font: 700 .46rem "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
+  .statstrade-feed-post.resolved .post-body > header b { background: #2d2526; }
+  .post-body h3 { margin: .7rem 0 .45rem; font: 600 clamp(1.05rem, 1.8vw, 1.45rem)/1.18 "Marcellus", Georgia, serif; }
+  .post-body > p { margin: 0; color: #5d5455; font-size: .69rem; line-height: 1.55; }
+  .market { display: grid; grid-template-columns: auto minmax(70px, 1fr) auto; align-items: center; gap: .7rem; margin-top: .75rem; padding: .75rem; color: #fff; background: #180d10; }
+  .market > strong { color: #ff7178; font: 700 .58rem "IBM Plex Mono", monospace; }
+  .market > i { height: 6px; background: #50363a; }
+  .market > i span { width: 67%; height: 100%; display: block; background: #c52337; }
+  .market > b { padding: .5rem; border: 1px solid #9f4650; font: 700 .48rem "IBM Plex Mono", monospace; text-transform: uppercase; }
+  .post-body footer { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .7rem; color: #827778; font-size: .56rem; }
+  .post-body footer em { margin-left: auto; color: #8f1422; font: normal 700 .52rem "IBM Plex Mono", monospace; }
+  .evidence { display: grid; grid-template-columns: auto 1fr; gap: .15rem .75rem; margin-top: .75rem; padding: .7rem; background: #e9e2d8; border-left: 3px solid #986d4d; }
+  .evidence small { grid-row: 1 / 3; color: #986d4d; font: .48rem "IBM Plex Mono", monospace; text-transform: uppercase; }
+  .evidence strong { font-size: .68rem; }
+  .evidence span { color: #817677; font-size: .55rem; }
+  .resolution { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; margin-top: .75rem; padding: .7rem; background: #e7e1d8; }
+  .resolution strong { padding: .4rem .6rem; color: #fff; background: #241d1e; font: 700 .52rem "IBM Plex Mono", monospace; }
+  .resolution span { color: #716768; font-size: .58rem; }
+  .statstrade-feed-art__rail { border-left: 1px solid #d3c9bf; }
+  .statstrade-feed-art__rail section { margin-bottom: .75rem; padding: .85rem; background: #fffdf8; border: 1px solid #d3c9bf; }
+  .statstrade-feed-art__rail h3 { margin: .45rem 0 .75rem; font: 400 1.15rem "Marcellus", Georgia, serif; }
+  .statstrade-feed-art__rail a { display: grid; gap: .15rem; padding: .6rem 0; color: inherit; border-top: 1px solid #ddd3ca; text-decoration: none; }
+  .statstrade-feed-art__rail a strong { font-size: .66rem; }
+  .statstrade-feed-art__rail a span { color: #817677; font-size: .55rem; }
+  .statstrade-feed-art__rail .world { color: #f4e9e2; background: #221214; border-color: #5d2029; }
+  .statstrade-feed-art__rail .world small { color: #ee7777; }
+  .statstrade-feed-art__rail .world p { color: #c8b4b0; font-size: .65rem; line-height: 1.5; }
+  .statstrade-feed-art__rail .world b { display: inline-flex; padding: .55rem; border: 1px solid #9f4650; font: 700 .48rem "IBM Plex Mono", monospace; text-transform: uppercase; }
+  .statstrade-feed-art__rail .rule p { margin: .45rem 0 0; color: #62595a; font-size: .63rem; line-height: 1.5; }
+  .statstrade-feed-art__rail .rule strong { color: #761321; }
+  @media (max-width: 1040px) { .statstrade-feed-art__layout { grid-template-columns: 150px minmax(0, 1fr); } .statstrade-feed-art__rail { display: none; } }
+  @media (max-width: 720px) { .statstrade-feed-art > header { grid-template-columns: auto 1fr; } .statstrade-feed-art__search { display: none; } .statstrade-feed-art__layout { grid-template-columns: 1fr; } .statstrade-feed-art__communities { display: none; } .statstrade-feed-art > header nav span { display: none; } .statstrade-feed-art main { padding: .65rem; } .market { grid-template-columns: auto 1fr; } .market > b { grid-column: 1 / -1; text-align: center; } }
+</style>

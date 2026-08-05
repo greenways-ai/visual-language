@@ -1,0 +1,69 @@
+---
+import ConceptShell from "../../site/layouts/ConceptShell.astro";
+import { artworkCatalog } from "../../artwork-catalog.js";
+import { worlds } from "../../scene-language.js";
+
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+const catalog = artworkCatalog as Record<string, string[]>;
+const definitions = worlds as Record<string, { label: string; materials: string }>;
+const humanize = (value: string) => value.split("-").map((part) => part[0].toUpperCase() + part.slice(1)).join(" ");
+---
+
+<ConceptShell
+  title="Concept Art"
+  description="Every named Greenways environment and product surface now has an individual page for its artwork, day/night states, and design specification."
+  eyebrow="Complete concept catalogue"
+  worldLabel="All worlds"
+  kind="50 dedicated pages"
+  backHref={`${base}identity/artwork-worlds/`}
+  backLabel="Back to documentation catalogue"
+  ogImage={`${base}artwork/www/world-confluence-day.webp`}
+>
+  <section class="concept-index-intro">
+    <h2>One concept.<br />One editorial home.</h2>
+    <p>The catalogue remains useful for scanning and filtering. Selecting a concept now opens a dedicated page with the full day/night pair, the place and camera brief, the natural behaviour, materials, direct master links, and adjacent concepts.</p>
+  </section>
+
+  {Object.entries(catalog).map(([world, entries]) => (
+    <section class="concept-index-group">
+      <header><p>{String(entries.length).padStart(2, "0")} concepts</p><h2>{definitions[world]?.label ?? humanize(world)}</h2></header>
+      <div class="concept-index-grid">
+        {entries.map((scene) => (
+          <a class="concept-index-card" href={`${base}concepts/${world}/${scene}/`}>
+            <div class="concept-index-card__media">
+              <img loading="lazy" decoding="async" src={`${base}artwork/${world}/${scene}-day.webp`} alt={`${humanize(scene)} by day`} />
+              <img loading="lazy" decoding="async" src={`${base}artwork/${world}/${scene}-night.webp`} alt={`${humanize(scene)} by night`} />
+            </div>
+            <small>{definitions[world]?.label ?? humanize(world)}</small>
+            <h3>{humanize(scene)}</h3>
+            <p>{definitions[world]?.materials}</p>
+            <span>Open concept →</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  ))}
+
+  <section class="concept-index-group">
+    <header><p>02 product concepts</p><h2>Statstrade</h2></header>
+    <div class="concept-index-grid">
+      <a class="concept-index-card" href={`${base}concepts/statstrade/feed/`}>
+        <div class="concept-index-card__media"><div class="concept-index-card__feed"><aside></aside><main><i></i><i></i><i></i><b></b></main></div></div>
+        <small>Everyday surface</small>
+        <h3>Statstrade Feed</h3>
+        <p>A Reddit-style community feed for discussion, evidence, live predictions, and resolved outcomes.</p>
+        <span>Open concept →</span>
+      </a>
+      <a class="concept-index-card" href={`${base}concepts/statstrade/arena/`}>
+        <div class="concept-index-card__media">
+          <img src={`${base}statstrade/assets/arena-day-study.svg`} alt="Arena of Conviction by day" />
+          <img src={`${base}statstrade/assets/arena-night-study.svg`} alt="Arena of Conviction by night" />
+        </div>
+        <small>Spatial surface</small>
+        <h3>Arena of Conviction</h3>
+        <p>A human Roman civic world designed for Gaussian-splat delivery, with no robot imagery.</p>
+        <span>Open concept →</span>
+      </a>
+    </div>
+  </section>
+</ConceptShell>
