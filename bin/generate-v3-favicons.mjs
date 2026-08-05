@@ -2,22 +2,38 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { renderSigil } from "./smalti.mjs";
 import { GROUND, SEED, studies } from "./sigil-studies.mjs";
 
-// Canonical project sigils: each project adopts one study from the shared
-// exploration table (bin/sigil-studies.mjs) and re-colors it with the
-// project's own palette. Marks render on a transparent background (no ground
-// tile) and are fitted to fill the canvas. Every size retains the irregular
-// Voronoi/smalti construction: the small variants use a coarser tessellation,
-// never a flat substitute.
+// Canonical project sigils normally adopt a study from the shared exploration
+// table (bin/sigil-studies.mjs). Greenways owns a dedicated master geometry:
+// a restrained five-petal peacock-tail / lotus hybrid. Marks render on a
+// transparent background and are fitted to fill the canvas. Every size retains
+// the irregular Voronoi/smalti construction; compact variants use a coarser
+// tessellation, never a flat substitute.
 
 const CANVAS = 480, FIT = 24;
 const FULL_PITCH = 38, SMALL_PITCH = 68;
 
 const byId = Object.fromEntries(studies.map((s) => [s.id, s]));
 
-// study: exploration geometry id; light/dark: project palette (region
-// indexes map directly onto it; GROUND regions punch back to the ground).
+// Five tessellated planes converge at one base point. The broad green outer
+// petals imply a living landscape, the aquamarine/cyan inner petals imply
+// connection, and the violet centre gives the master mark its spectral lift.
+const GREENWAYS_TAIL_LOTUS = [
+  ["M240 410C135 390 65 320 70 235C168 255 222 333 240 410Z", 0],
+  ["M240 410C345 390 415 320 410 235C312 255 258 333 240 410Z", 0],
+  ["M240 410C165 320 115 205 145 105C225 160 250 290 240 410Z", 1],
+  ["M240 410C315 320 365 205 335 105C255 160 230 290 240 410Z", 2],
+  ["M240 410C170 275 175 135 240 55C305 135 310 275 240 410Z", 3],
+];
+
+// `regions` supplies dedicated master geometry. `study` selects an exploration
+// geometry. Palette indexes map directly to `light` and `dark`; GROUND regions
+// punch back to the surrounding page.
 const projects = {
-  greenways: { study: "peacock-eye-shield", light: ["#123e34", "#1f6552", "#2c8b69", "#61ad82", "#20c7df"], dark: ["#16483a", "#23705a", "#35a176", "#69ba8a", "#83e9f4"] },
+  greenways: {
+    regions: GREENWAYS_TAIL_LOTUS,
+    light: ["#2FA56B", "#7ED8C9", "#2FB7D6", "#7B69C7"],
+    dark: ["#53D88E", "#9CE7D9", "#65D7ED", "#A99AF0"],
+  },
   hestia: { study: "star-eight", light: ["#641b27", "#8e2731", "#bd3f3b", "#e66d42", "#ffd08a"], dark: ["#6d1b27", "#a52a36", "#dc4b40", "#ff8b4a", "#ffd69a"] },
   hoplite: { study: "star-compass", light: ["#0b3a44", "#0f5e6e", "#1595a8", "#20c7df", "#a8ecf7"], dark: ["#0e4a56", "#12798d", "#1bb3c9", "#4fd9ec", "#d4f7fc"] },
   historia: { study: "mountain-pair", light: ["#1b3154", "#2c4e7b", "#426fa6", "#20c7df", "#a8ecf7"], dark: ["#243d65", "#39608f", "#5b86b8", "#83e9f4", "#d4f7fc"] },
@@ -29,10 +45,10 @@ projects.historian = projects.historia;
 await mkdir(new URL("../assets/favicons/", import.meta.url), { recursive: true });
 let count = 0;
 for (const [name, p] of Object.entries(projects)) {
-  const study = byId[p.study];
-  if (!study) throw new Error(`${name}: unknown study ${p.study}`);
+  const regions = p.regions ?? byId[p.study]?.regions;
+  if (!regions) throw new Error(`${name}: unknown or missing sigil geometry ${p.study ?? "master"}`);
   const paths = [], light = [], dark = [], flat = [], groundCuts = [];
-  for (const [path, color, flag] of study.regions) {
+  for (const [path, color, flag] of regions) {
     const i = paths.length;
     paths.push(path);
     if (color === GROUND) {

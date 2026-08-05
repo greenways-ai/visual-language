@@ -46,6 +46,7 @@ export default defineConfig({
         {
           label: "Identity",
           items: [
+            { label: "Greenways master mark", slug: "identity/greenways-master-mark" },
             { label: "Sigils", slug: "identity/sigils" },
             { label: "Artwork & worlds", slug: "identity/artwork-worlds" },
             { label: "Concept pages ↗", link: "/visual-language/concepts/" },

@@ -80,8 +80,8 @@ test("scene language assigns space-led behavior and sparse sigils", async () => 
 
 test("canonical sigils adopt the named project motifs", async () => {
   const gen = await readFile(new URL("../bin/generate-v3-favicons.mjs", import.meta.url), "utf8");
+  assert.match(gen, /greenways: \{\s*regions: GREENWAYS_TAIL_LOTUS/);
   for (const [project, study] of [
-    ["greenways", "peacock-eye-shield"],
     ["hestia", "star-eight"],
     ["hoplite", "star-compass"],
     ["historia", "mountain-pair"],
@@ -91,12 +91,16 @@ test("canonical sigils adopt the named project motifs", async () => {
     const key = project.includes("-") ? `"${project}"` : project;
     assert.ok(gen.includes(`${key}: { study: "${study}"`), project);
   }
-  assert.match(gen, /#20c7df/);
+  assert.match(gen, /#2FA56B/);
+  assert.match(gen, /#7ED8C9/);
+  assert.match(gen, /#2FB7D6/);
+  assert.match(gen, /#7B69C7/);
   assert.match(gen, /SMALL_PITCH/);
   assert.doesNotMatch(gen, /allFlat/);
   assert.doesNotMatch(gen, /#b78a22|#d7b64e/);
 
   const { projects } = await import("../src/projects.js");
+  assert.equal(projects.greenways.motif, "Five-petal peacock-tail / lotus");
   assert.equal(projects.historia.motif, "Mountains");
   assert.equal(projects["visual-language"].motif, "Lotus · three petals");
 
