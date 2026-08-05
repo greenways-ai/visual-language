@@ -39,13 +39,21 @@ const {
 } = Astro.props;
 
 const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
-const generated = world && scene;
-const daySrc = day || (generated ? `${base}artwork/${world}/${scene}-day.webp` : "");
-const nightSrc = night || (generated ? `${base}artwork/${world}/${scene}-night.webp` : "");
-const dayMobileSrc = dayMobile || (generated ? `${base}artwork/${world}/${scene}-day-mobile.webp` : undefined);
-const nightMobileSrc = nightMobile || (generated ? `${base}artwork/${world}/${scene}-night-mobile.webp` : undefined);
+const generatedDay = world && scene ? `${base}artwork/${world}/${scene}-day.webp` : undefined;
+const generatedNight = world && scene ? `${base}artwork/${world}/${scene}-night.webp` : undefined;
+const generatedDayMobile = world && scene ? `${base}artwork/${world}/${scene}-day-mobile.webp` : undefined;
+const generatedNightMobile = world && scene ? `${base}artwork/${world}/${scene}-night-mobile.webp` : undefined;
+const daySrc = day ?? generatedDay;
+const nightSrc = night ?? generatedNight;
+const dayMobileSrc = dayMobile ?? generatedDayMobile;
+const nightMobileSrc = nightMobile ?? generatedNightMobile;
 if (!daySrc || !nightSrc) throw new Error(`DayNightExplorer requires a day/night source for ${title}`);
 const hasNotes = locked.length > 0 || changes.length > 0;
+const views: Array<{ id: View; label: string }> = [
+  { id: "pair", label: "Compare" },
+  { id: "day", label: "Day" },
+  { id: "night", label: "Night" },
+];
 ---
 
 <section class:list={["day-night-explorer", className]} data-day-night-explorer data-view={initial}>
@@ -55,9 +63,9 @@ const hasNotes = locked.length > 0 || changes.length > 0;
       <h3>{title}</h3>
     </div>
     <div class="day-night-explorer__controls" role="group" aria-label={`Choose how to view ${title}`}>
-      {(["pair", "day", "night"] as View[]).map((view) => (
-        <button type="button" data-view-target={view} aria-pressed={String(initial === view)}>
-          {view === "pair" ? "Compare" : view[0].toUpperCase() + view.slice(1)}
+      {views.map((view) => (
+        <button type="button" data-view-target={view.id} aria-pressed={initial === view.id}>
+          {view.label}
         </button>
       ))}
     </div>
