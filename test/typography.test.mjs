@@ -4,19 +4,21 @@ import test from "node:test";
 
 const source = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
-test("the visual language exports one canonical typography contract", async () => {
-  const [pkg, typography, build, lab] = await Promise.all([
+test("the package and Astro site use one explicit typography hierarchy", async () => {
+  const [pkg, typography, config, custom] = await Promise.all([
     source("package.json"),
     source("src/typography.css"),
-    source("bin/build-site.mjs"),
-    source("site/lab.html"),
+    source("astro.config.mjs"),
+    source("src/site/styles/custom.css"),
   ]);
 
   assert.match(pkg, /"\.\/typography\.css": "\.\/src\/typography\.css"/);
   assert.match(typography, /--gw-font-display: "Bodoni Moda"/);
   assert.match(typography, /--gw-font-sans: "Manrope"/);
   assert.match(typography, /--gw-font-mono: "IBM Plex Mono"/);
-  assert.match(build, /src\/typography\.css/);
-  assert.match(lab, /assets\/typography\.css/);
-  assert.match(lab, /typography-overrides\.css/);
+  assert.match(config, /@astrojs\/starlight/);
+  assert.match(custom, /@fontsource\/marcellus/);
+  assert.match(custom, /@fontsource\/manrope/);
+  assert.match(custom, /@fontsource\/ibm-plex-mono/);
+  assert.match(custom, /font-family: "Marcellus"/);
 });

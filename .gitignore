@@ -1,1 +1,4 @@
 .pages/
+dist/
+node_modules/
+.astro/
