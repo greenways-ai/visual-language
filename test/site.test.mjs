@@ -10,7 +10,7 @@ test("the Visual Language website is an Astro Starlight application", async () =
     read("astro.config.mjs"),
     read("src/content.config.ts"),
   ]);
-  assert.match(pkg, /"version": "4\.9\.0"/);
+  assert.match(pkg, /"version": "5\.0\.0"/);
   assert.match(pkg, /"astro": "\^7\.1\.6"/);
   assert.match(pkg, /"@astrojs\/starlight"/);
   assert.match(pkg, /"build": "npm run assets/);
