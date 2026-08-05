@@ -1,6 +1,6 @@
 {
   "name": "@greenways-ai/visual-language",
-  "version": "4.6.2",
+  "version": "4.7.0",
   "description": "Adaptive mosaic visual language for Greenways sites.",
   "type": "module",
   "license": "Apache-2.0",
@@ -38,14 +38,31 @@
     "gw-sync-favicon": "./bin/gw-sync-favicon.mjs"
   },
   "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
     "assets": "node bin/generate-v3-favicons.mjs",
     "sigils": "node bin/generate-sigil-explorations.mjs",
     "prompts": "node bin/compose-scene-prompts.mjs",
     "artwork:raster": "node bin/build-raster-artwork.mjs",
     "artwork": "node bin/generate-artwork.mjs",
-    "build:site": "npm run assets && node bin/build-site.mjs",
+    "build": "npm run assets && ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build && node scripts/copy-static-assets.mjs && npm run verify:site",
+    "build:site": "npm run build",
+    "verify:site": "node scripts/verify-site-output.mjs",
     "test": "npm run assets && node --test test/*.test.mjs",
     "og": "node bin/generate-og-images.mjs"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^7.0.5",
+    "@astrojs/starlight": "^0.41.6",
+    "@fontsource/ibm-plex-mono": "^5.2.7",
+    "@fontsource/manrope": "^5.2.7",
+    "@fontsource/marcellus": "^5.2.6",
+    "astro": "^7.1.6",
+    "sharp": "^0.35.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^5.9.2"
   },
   "peerDependencies": {
     "astro": ">=5.0.0"
