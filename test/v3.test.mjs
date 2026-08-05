@@ -31,20 +31,31 @@ test("documentation components encode the shared interaction contracts", async (
   const panel = await readFile(new URL("../src/CodePanel.astro", import.meta.url), "utf8");
   assert.match(panel, /astro:components/);
   assert.match(panel, /github-dark/);
+  assert.match(panel, /"not-content"/);
+  assert.match(panel, /\.line span/);
+  assert.match(panel, /text-decoration: none !important/);
 
   const card = await readFile(new URL("../src/DocumentationCard.astro", import.meta.url), "utf8");
   assert.match(card, /Why it matters/);
   assert.match(card, /CodePanel/);
 });
 
-test("project switcher links every named world through its sigil", async () => {
-  const { projectLinks } = await import("../src/projects.js");
+test("project switcher uses canonical OSS order and project sigils", async () => {
+  const { projectLinks, ossProjectLinks } = await import("../src/projects.js");
   for (const project of ["greenways", "hestia", "hoplite", "historia", "hodos", "visual-language", "statstrade"]) {
     assert.ok(projectLinks.some((item) => item.project === project), project);
   }
+  assert.deepEqual(
+    ossProjectLinks.map((item) => item.project),
+    ["hestia", "hoplite", "historia", "hodos"],
+  );
   const source = await readFile(new URL("../src/ProjectSwitcher.astro", import.meta.url), "utf8");
   assert.match(source, /data-gw-project-switcher/);
-  assert.match(source, /Switch project/);
+  assert.match(source, /Back to OSS/);
+  assert.match(source, /ossProjectLinks\.map/);
+  assert.match(source, /<Sigil project=/);
+  assert.doesNotMatch(source, /Statstrade/);
+  assert.doesNotMatch(source, /Visual Language/);
 });
 
 test("six worlds have eight responsive raster day and night scenes", async () => {

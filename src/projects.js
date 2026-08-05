@@ -25,3 +25,12 @@ export const projectLinks = [
   },
   { project: "statstrade", label: "Statstrade", href: "https://statstrade.io/" },
 ];
+
+/* The compact OSS documentation switcher is deliberately narrower than the
+   global project catalogue. Keep this order stable across every OSS product. */
+export const ossProjectLinks = [
+  { project: "hestia", label: "Hestia", href: "https://oss.greenways.ai/hestia/" },
+  { project: "hoplite", label: "Hoplite", href: "https://oss.greenways.ai/hoplite/" },
+  { project: "historia", label: "Historia", href: "https://oss.greenways.ai/historia/" },
+  { project: "hodos", label: "Hodos", href: "https://oss.greenways.ai/hodos/" },
+];

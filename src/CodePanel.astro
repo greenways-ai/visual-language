@@ -23,7 +23,7 @@ const {
 const source = code.replace(/^\n|\n$/g, "");
 ---
 
-<figure class:list={["gw-code-panel", compact && "gw-code-panel--compact", className]}>
+<figure class:list={["gw-code-panel", "not-content", compact && "gw-code-panel--compact", className]}>
   {(title || meta) && (
     <header>
       {title && <span>{title}</span>}
@@ -74,6 +74,19 @@ const source = code.replace(/^\n|\n$/g, "");
     border-radius: 0;
     font: 400 .78rem/1.72 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     tab-size: 2;
+  }
+
+  /* Documentation frameworks often decorate inline code. A highlighted panel is
+     a self-contained surface, so none of those borders or underlines may leak
+     into its code element, line wrappers, or individual syntax tokens. */
+  .gw-code-panel :global(code),
+  .gw-code-panel :global(.line),
+  .gw-code-panel :global(.line span) {
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    text-decoration: none !important;
+    background-image: none !important;
   }
 
   .gw-code-panel--compact :global(.astro-code) {
