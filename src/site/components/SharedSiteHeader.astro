@@ -1,0 +1,16 @@
+---
+import DocumentationHeader from "../../DocumentationHeader.astro";
+
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+const searchBase = base.replace(/\/$/, "");
+---
+
+<DocumentationHeader
+  project="visual-language"
+  title="Visual Language"
+  homeHref={base}
+  docsHref={`${base}foundations/principles/`}
+  docsLabel="Docs"
+  searchBase={searchBase}
+  searchLabel="Search Visual Language documentation"
+/>

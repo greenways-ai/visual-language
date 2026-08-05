@@ -7,7 +7,7 @@ export const projects = {
   "visual-language": {
     label: "Visual Language",
     motif: "Lotus · three petals",
-    accent: "green",
+    accent: "purple",
   },
   statstrade: { label: "Statstrade", motif: "Angular S", accent: "red" },
 };

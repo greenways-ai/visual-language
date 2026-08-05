@@ -22,7 +22,7 @@ const projects = {
   hoplite: { study: "star-compass", light: ["#0b3a44", "#0f5e6e", "#1595a8", "#20c7df", "#a8ecf7"], dark: ["#0e4a56", "#12798d", "#1bb3c9", "#4fd9ec", "#d4f7fc"] },
   historia: { study: "mountain-pair", light: ["#1b3154", "#2c4e7b", "#426fa6", "#20c7df", "#a8ecf7"], dark: ["#243d65", "#39608f", "#5b86b8", "#83e9f4", "#d4f7fc"] },
   hodos: { study: "ring-double", light: ["#11392f", "#1d5e4d", "#2f8569", "#58a983", "#9bd4ad"], dark: ["#174b3d", "#25755d", "#38a67c", "#70c99a", "#b4e4bd"] },
-  "visual-language": { study: "lotus-three", light: ["#123e34", "#1f6552", "#2c8b69", "#8b6fa8", "#cfb6e0"], dark: ["#16483a", "#23705a", "#35a176", "#b493cf", "#e1d1ee"] },
+  "visual-language": { study: "lotus-three", light: ["#452a5e", "#5e3680", "#764a98", "#9367c5", "#b899da"], dark: ["#60328c", "#793fb0", "#975fc0", "#b18cd9", "#d0bbea"] },
 };
 projects.historian = projects.historia;
 
