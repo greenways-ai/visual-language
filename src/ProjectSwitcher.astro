@@ -1,6 +1,6 @@
 ---
 import Sigil from "./Sigil.astro";
-import { projectLinks, projects } from "./projects.js";
+import { ossProjectLinks, projects } from "./projects.js";
 
 type Project = "greenways" | "hestia" | "hoplite" | "historia" | "hodos" | "statstrade";
 interface Props {
@@ -20,18 +20,20 @@ const {
   <summary aria-label={`Switch from ${label} to another Greenways project`} title="Switch project">
     <Sigil project={project} label={label} />
   </summary>
-  <div class="gw-project-switcher__menu" role="menu" aria-label="Greenways projects">
-    {projectLinks.map((item) => (
+  <div class="gw-project-switcher__menu" role="menu" aria-label="Greenways OSS projects">
+    <a class="gw-project-switcher__back" href="https://oss.greenways.ai/" role="menuitem">
+      <span aria-hidden="true">←</span>
+      <strong>Back to OSS</strong>
+    </a>
+    <div class="gw-project-switcher__rule" aria-hidden="true"></div>
+    {ossProjectLinks.map((item) => (
       <a
         href={item.href}
         role="menuitem"
         aria-current={item.project === project ? "page" : undefined}
       >
         <Sigil project={item.project as Project} label={item.label} />
-        <span>
-          <strong>{item.label}</strong>
-          <small>{projects[item.project]?.motif}</small>
-        </span>
+        <strong>{item.label}</strong>
         {item.project === project && <i>Current</i>}
       </a>
     ))}
@@ -89,9 +91,9 @@ const {
     z-index: 90;
     top: calc(100% + 12px);
     left: 0;
-    width: min(330px, calc(100vw - 24px));
+    width: min(300px, calc(100vw - 24px));
     display: grid;
-    gap: 5px;
+    gap: 4px;
     padding: 9px;
     color: var(--gw-text);
     background: var(--gw-surface);
@@ -127,22 +129,36 @@ const {
     height: 40px;
   }
 
-  .gw-project-switcher__menu span { min-width: 0; display: grid; gap: 2px; }
   .gw-project-switcher__menu strong {
+    min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     font: 700 .75rem "Manrope", system-ui, sans-serif;
     letter-spacing: .04em;
   }
-  .gw-project-switcher__menu small {
-    color: var(--gw-text-muted);
-    font-size: .68rem;
-  }
+
   .gw-project-switcher__menu i {
     color: var(--gw-accent-3);
     font: normal 600 .55rem ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     letter-spacing: .06em;
     text-transform: uppercase;
+  }
+
+  .gw-project-switcher__back {
+    grid-template-columns: 40px 1fr !important;
+    color: var(--gw-text-muted) !important;
+  }
+
+  .gw-project-switcher__back > span {
+    display: grid;
+    place-items: center;
+    font: 400 1.35rem/1 var(--gw-font-display, Georgia, serif);
+  }
+
+  .gw-project-switcher__rule {
+    height: 1px;
+    margin: 3px 8px;
+    background: var(--gw-line);
   }
 
   @media (max-width: 560px) {
