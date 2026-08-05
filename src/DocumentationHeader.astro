@@ -4,14 +4,18 @@ import ProjectSwitcher from "./ProjectSwitcher.astro";
 import ThemeButton from "./ThemeButton.astro";
 
 type Project = "greenways" | "hestia" | "hoplite" | "historia" | "hodos" | "visual-language" | "statstrade";
+type NavItem = { label: string; href: string };
 interface Props {
   project?: Project;
   title: string;
   homeHref?: string;
   docsHref: string;
   docsLabel?: string;
+  nav?: NavItem[];
   searchBase?: string;
   searchLabel?: string;
+  logoAssetBase?: string;
+  logoAssetVersion?: string;
 }
 
 const {
@@ -20,19 +24,28 @@ const {
   homeHref = "/",
   docsHref,
   docsLabel = "Docs",
+  nav = [],
   searchBase = "",
   searchLabel = `Search ${title} documentation`,
+  logoAssetBase,
+  logoAssetVersion,
 } = Astro.props;
 const searchSelector = `[data-gw-documentation-search-open="${project}"]`;
 ---
 
 <header class="gw-documentation-header" data-gw-documentation-header>
   <div class="gw-documentation-header__brand">
-    <ProjectSwitcher project={project} label={title} />
+    <ProjectSwitcher
+      project={project}
+      label={title}
+      assetBase={logoAssetBase}
+      assetVersion={logoAssetVersion}
+    />
     <a href={homeHref}>{title}</a>
   </div>
 
   <nav aria-label={`${title} documentation navigation`}>
+    {nav.map((item) => <a href={item.href}>{item.label}</a>)}
     <a href={docsHref}>{docsLabel}</a>
   </nav>
 
@@ -67,7 +80,7 @@ const searchSelector = `[data-gw-documentation-search-open="${project}"]`;
     top: 0;
     min-height: 76px;
     display: grid;
-    grid-template-columns: auto 1fr auto auto;
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
     align-items: center;
     gap: clamp(10px, 1.5vw, 22px);
     padding: 12px clamp(16px, 3vw, 46px);
@@ -95,9 +108,11 @@ const searchSelector = `[data-gw-documentation-search-open="${project}"]`;
   }
 
   .gw-documentation-header nav {
+    min-width: 0;
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    gap: clamp(12px, 2vw, 26px);
   }
 
   .gw-documentation-header nav a {
@@ -106,6 +121,7 @@ const searchSelector = `[data-gw-documentation-search-open="${project}"]`;
     letter-spacing: .08em;
     text-decoration: none;
     text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .gw-documentation-header nav a:hover { color: var(--gw-accent-3); }
@@ -138,6 +154,10 @@ const searchSelector = `[data-gw-documentation-search-open="${project}"]`;
     stroke-width: 1.8;
     stroke-linecap: round;
     stroke-linejoin: round;
+  }
+
+  @media (max-width: 900px) {
+    .gw-documentation-header nav a:not(:last-child) { display: none; }
   }
 
   @media (max-width: 560px) {

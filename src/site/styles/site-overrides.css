@@ -1,0 +1,38 @@
+/* Starlight paints the active row with the project accent. Keep the label and
+ * every nested span explicitly contrasted so selected items never become an
+ * empty purple bar. */
+.sidebar-content a[aria-current="page"] {
+  color: #fff !important;
+  background: #764a98 !important;
+  font-weight: 600;
+}
+
+.sidebar-content a[aria-current="page"] :is(span, strong, small) {
+  color: inherit !important;
+}
+
+:root[data-theme="dark"] .sidebar-content a[aria-current="page"] {
+  color: #160c1c !important;
+  background: #d0bbea !important;
+}
+
+.sidebar-content summary,
+.sidebar-content summary :is(span, strong) {
+  color: var(--sl-color-white) !important;
+}
+
+.sidebar-content a:not([aria-current="page"]) {
+  color: var(--sl-color-gray-2);
+}
+
+.sidebar-content a:not([aria-current="page"]):hover {
+  color: var(--sl-color-white);
+}
+
+/* The shared header remains visible above Starlight's frame at all desktop
+ * widths. Its project navigation collapses before the search and theme
+ * controls, rather than pushing those controls outside the viewport. */
+.gw-documentation-header {
+  max-width: 100vw;
+  overflow: visible;
+}

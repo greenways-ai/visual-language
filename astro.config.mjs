@@ -21,6 +21,7 @@ export default defineConfig({
       customCss: [
         "./src/site/styles/custom.css",
         "./src/site/styles/starlight-shell.css",
+        "./src/site/styles/site-overrides.css",
       ],
       social: [
         { icon: "github", label: "GitHub", href: "https://github.com/greenways-ai/visual-language" },

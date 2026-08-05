@@ -7,18 +7,22 @@ interface Props {
   project?: Project;
   label?: string;
   class?: string;
+  assetBase?: string;
+  assetVersion?: string;
 }
 
 const {
   project = "greenways",
   label = projects[project]?.label || project,
   class: className,
+  assetBase,
+  assetVersion,
 } = Astro.props;
 ---
 
 <details class:list={["gw-project-switcher", className]} data-gw-project-switcher>
   <summary aria-label={`Switch from ${label} to another Greenways project`} title="Switch project">
-    <Sigil project={project} label={label} />
+    <Sigil project={project} label={label} assetBase={assetBase} assetVersion={assetVersion} />
   </summary>
   <div class="gw-project-switcher__menu" role="menu" aria-label="Greenways OSS projects">
     <a class="gw-project-switcher__back" href="https://oss.greenways.ai/" role="menuitem">
@@ -32,7 +36,7 @@ const {
         role="menuitem"
         aria-current={item.project === project ? "page" : undefined}
       >
-        <Sigil project={item.project as Project} label={item.label} />
+        <Sigil project={item.project as Project} label={item.label} assetBase={assetBase} assetVersion={assetVersion} />
         <strong>{item.label}</strong>
         {item.project === project && <i>Current</i>}
       </a>

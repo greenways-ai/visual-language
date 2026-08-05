@@ -13,6 +13,7 @@ type Props = {
   label?: string;
   class?: string;
   assetBase?: string;
+  assetVersion?: string;
 };
 
 const {
@@ -20,9 +21,11 @@ const {
   label = project,
   class: className = "",
   assetBase = "https://oss.greenways.ai/visual-language/favicons",
+  assetVersion = "",
 } = Astro.props;
 const resolved = project === "historian" ? "historia" : project;
 const root = assetBase.replace(/\/+$/, "");
+const version = assetVersion ? `?v=${encodeURIComponent(assetVersion)}` : "";
 ---
 
 {resolved === "statstrade" ? (
@@ -45,7 +48,7 @@ const root = assetBase.replace(/\/+$/, "");
   >
     <img
       class="gw-sigil__asset gw-sigil__asset--light"
-      src={`${root}/${resolved}-light.svg`}
+      src={`${root}/${resolved}-light.svg${version}`}
       alt=""
       aria-hidden="true"
       loading="eager"
@@ -53,7 +56,7 @@ const root = assetBase.replace(/\/+$/, "");
     />
     <img
       class="gw-sigil__asset gw-sigil__asset--dark"
-      src={`${root}/${resolved}-dark.svg`}
+      src={`${root}/${resolved}-dark.svg${version}`}
       alt=""
       aria-hidden="true"
       loading="eager"
