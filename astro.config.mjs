@@ -48,6 +48,8 @@ export default defineConfig({
           items: [
             { label: "Greenways master mark", slug: "identity/greenways-master-mark" },
             { label: "Sigils", slug: "identity/sigils" },
+            { label: "3D mark system", slug: "identity/3d-marks" },
+            { label: "3D Mark Lab", slug: "identity/3d-mark-lab" },
             { label: "Artwork & worlds", slug: "identity/artwork-worlds" },
             { label: "Concept pages ↗", link: "/visual-language/concepts/" },
             { label: "Day & night", slug: "identity/day-night" },
