@@ -1,0 +1,244 @@
+---
+title: 3D mark system
+description: Geometry, material, motion, and delivery rules for dimensional Greenways marks.
+---
+
+Three-dimensional marks extend the approved identity into spatial interfaces, product films, launch pages, and installation-scale artwork. They do **not** create a second logo system.
+
+The canonical generated SVG remains the source of truth for silhouette, internal tessellation, colour relationships, and project recognition. A 3D treatment adds depth, material, light, and camera behaviour around that fixed identity.
+
+[Open the interactive 3D Mark Lab](../3d-mark-lab/) to compare the current project marks as shader-rendered reliefs.
+
+## Core rule
+
+> Preserve recognition first. Add dimensional character second.
+
+A dimensional mark must still match its canonical 2D source when:
+
+- viewed square-on;
+- reduced to a flat silhouette;
+- shown without animation;
+- rendered without reflections or bloom;
+- replaced by the static SVG fallback.
+
+Never use a shader to conceal an unresolved shape. Geometry must be legible before material effects are applied.
+
+## Recommended stack
+
+Use the smallest runtime that fits the placement.
+
+| Placement | Recommended implementation | Why |
+| --- | --- | --- |
+| Visual Language documentation | Native WebGL2 + GLSL | Keeps the live lab dependency-free and demonstrates the shader layer directly |
+| Astro product site | Three.js with an Astro wrapper | Provides geometry, cameras, loading, and adaptive quality without requiring React |
+| React product surface | React Three Fiber + Three.js | Gives product teams declarative scene composition and reusable mark components |
+| Shared WebGPU/WebGL material | Three.js Shading Language (TSL) | Lets one material graph target modern renderer backends |
+| Sculpted, woven, or animated master asset | Blender curves/meshes exported as GLB | Gives precise topology, authored bevels, morph targets, and portable delivery |
+| Film and still artwork | Blender or equivalent DCC renderer | Supports controlled lighting, high-sample glass, and print-resolution output |
+
+Raw GLSL remains appropriate for bespoke hero effects, signed-distance-field transitions, and lightweight relief rendering. It should complement canonical geometry rather than replace it.
+
+## The asset chain
+
+```text
+canonical SVG
+    │
+    ├── static fallback and small-size identity
+    │
+    ├── shader relief preview
+    │       SVG raster → alpha/colour texture → layered extrusion → GLSL material
+    │
+    └── production 3D object
+            SVG paths / authored curves → bevelled geometry → material → GLB
+```
+
+The shader lab uses the middle path. It rasterises the existing SVG in the browser, preserves the original mosaic face, and builds apparent depth from repeated texture layers. This is fast enough for design exploration but deliberately does not claim to be the final mesh.
+
+## Geometry profiles
+
+### Relief
+
+A shallow extrusion with a controlled bevel. Use for documentation, cards, navigation transitions, and compact hero areas.
+
+- Depth: 4–12% of mark width
+- Camera: within 18° of square-on
+- Front face: canonical mosaic, unchanged
+- Side wall: one project colour, darkened by material response
+
+### Solid
+
+A complete object with a readable side profile. Use for product launch pages, spatial interfaces, and turntable studies.
+
+- Depth: 10–24% of mark width
+- Camera: within 28° of square-on
+- Front and rear silhouettes: identical
+- Bevel: broad enough to catch light without rounding away the motif
+
+### Woven or assembled
+
+Authored curves, plates, or tesserae form the object itself. Use only where the project motif benefits from construction that cannot be expressed by a simple extrusion.
+
+- Build in Blender or another curve-capable modeller
+- Keep the square-on silhouette locked to the canonical SVG
+- Use actual intersections, channels, or layered pieces rather than shader-only displacement
+- Export a validated GLB plus a poster image and canonical SVG fallback
+
+## Project interpretations
+
+| Mark | Dimensional direction | Avoid |
+| --- | --- | --- |
+| **Greenways** | A calm five-petal sculpture, optionally formed from converging glass or stone planes. The shared lower origin must remain clear. | Separating the petals into unrelated objects, adding jewellery filigree, or turning the mark into a generic rainbow crystal |
+| **Hestia** | A faceted glass reliquary or hearth-like star with warm internal reflection. | Crypto-wallet neon, flame clichés, padlocks, or aggressive red glow |
+| **Hoplite** | A machined compass medallion with a protective outer reading and precise axial highlights. | Weapons, militaristic armour, excessive chrome, or a continuously spinning badge |
+| **Hodos** | Channelled rings or routed paths that reveal connection and modular movement. | Road-sign literalism, arrows added to the canonical shape, or busy data-stream particles |
+| **Historia** | Layered archival plates with restrained depth separation and a clear mountain-pair silhouette. | Book icons, database cylinders, page-flip gimmicks, or illegible stacks |
+| **Visual Language** | A polished three-petal relief that acts as the quiet reference object for the system. | Competing with the Greenways master mark or becoming more ornate than the identities it documents |
+| **Statstrade** | A cut-stone or glass signal monogram with controlled directional energy. | Casino lighting, coins, betting chips, or visual language that implies gambling mechanics |
+
+## Material language
+
+The system should feel like a collection of crafted objects: smalti glass, polished stone, ceramic, machined metal, and architectural light.
+
+### Smalti glass
+
+Use the canonical tesserae as coloured material, not as a decal floating above clear plastic. A glass treatment may add:
+
+- restrained Fresnel light at the outer contour;
+- internal colour bleed between neighbouring tesserae;
+- slightly irregular roughness;
+- a dark, substantial side wall;
+- local highlights that reveal depth without washing out the mosaic.
+
+### Ceramic
+
+Ceramic is the calmest fallback when glass becomes visually noisy. Preserve colour, soften specular response, and let the bevel carry most of the dimensional reading.
+
+### Metal
+
+Metal belongs on side walls, frames, or specific project treatments. Do not replace the complete spectral face with generic silver or gold. Metallic response must remain subordinate to project recognition.
+
+## Shader responsibilities
+
+Shaders may control:
+
+- lighting and environment response;
+- roughness, transmission, iridescence, and Fresnel;
+- subtle facet variation;
+- restrained internal light movement;
+- reveal and rest-state animation;
+- adaptive quality and theme response.
+
+Shaders must not:
+
+- redraw the canonical silhouette;
+- morph one project mark into another for ordinary navigation;
+- erase the Voronoi/smalti structure;
+- introduce decorative rings, eyes, gems, or symbols;
+- depend on bloom to remain visible;
+- animate continuously when reduced motion is requested.
+
+## Motion grammar
+
+A resting mark is an object, not a loading indicator.
+
+| Behaviour | Guidance |
+| --- | --- |
+| Rest | 8–16 second breathing or turn cycle; movement should often be imperceptible at first glance |
+| Reveal | 450–900 ms; assemble depth or light before settling square-on |
+| Pointer response | Maximum ±28° yaw and ±18° pitch |
+| Navigation transition | Move camera or light before deforming geometry |
+| Reduced motion | Freeze at the canonical three-quarter or square-on pose |
+| Background tab | Stop rendering when the canvas is not visible |
+
+The Greenways master mark receives the quietest motion. Product marks may express more character, but all marks settle into a stable, recognisable pose.
+
+## Camera and light
+
+Use one repeatable studio rig across the family:
+
+1. A soft key light above and left.
+2. A weaker project-coloured fill.
+3. A narrow rear highlight to separate the silhouette.
+4. A dark, non-technical environment with minimal floor reflection.
+5. A 35–55 mm equivalent camera without wide-angle distortion.
+
+The neutral pose is square-on with a slight downward camera elevation. Product pages may begin at a three-quarter view, but the animation should reveal the canonical face quickly.
+
+## Runtime contract
+
+A future shared package should expose semantic options rather than raw shader controls:
+
+```ts
+type Mark3DProps = {
+  mark:
+    | "greenways"
+    | "hestia"
+    | "hoplite"
+    | "hodos"
+    | "historia"
+    | "visual-language"
+    | "statstrade";
+  form?: "relief" | "solid" | "authored";
+  material?: "smalti-glass" | "ceramic" | "metal";
+  motion?: "still" | "rest" | "reveal";
+  quality?: "low" | "balanced" | "high";
+  theme?: "day" | "night" | "adaptive";
+};
+```
+
+The caller chooses identity and intent. The visual-language package owns camera limits, material tuning, reduced-motion behaviour, and fallback selection.
+
+## Delivery contract
+
+Each production-ready dimensional mark should ship with:
+
+```text
+assets/marks-3d/<mark>/
+  source.svg
+  model.glb
+  poster-day.webp
+  poster-night.webp
+  fallback.svg
+  manifest.json
+```
+
+`manifest.json` should record:
+
+- source SVG checksum;
+- model and poster versions;
+- approved geometry profile;
+- material preset;
+- neutral camera;
+- bounding-box dimensions;
+- polygon and texture budgets;
+- attribution and licence;
+- reduced-motion poster.
+
+## Performance and accessibility
+
+Use adaptive quality from the first implementation.
+
+- Do not initialise WebGL below the fold until the mark approaches the viewport.
+- Cap device pixel ratio for live documentation and ordinary product surfaces.
+- Pause animation when hidden.
+- Keep one primary 3D canvas per page.
+- Provide a static SVG or poster for WebGL failure, data-saving modes, crawlers, and print.
+- Label interactive canvases and expose controls as ordinary buttons and range inputs.
+- Do not place essential copy inside the canvas.
+- Preserve visible focus and keyboard operation for every control.
+- Honour `prefers-reduced-motion` by default.
+
+A compact relief should remain below 100k triangles when converted to mesh. Authored hero models may exceed that budget only with an explicit low-quality variant.
+
+## Review checklist
+
+Before a 3D mark is approved:
+
+- [ ] Square-on render matches the canonical SVG silhouette.
+- [ ] Original tesserae remain visible and correctly coloured.
+- [ ] The object reads without bloom, animation, or a coloured background.
+- [ ] Side walls and bevels do not close important negative space.
+- [ ] Motion settles into a stable pose.
+- [ ] Reduced-motion, WebGL-failure, and static-poster states are complete.
+- [ ] Mobile GPU load and page interaction remain acceptable.
+- [ ] The treatment feels crafted and architectural rather than generically “futuristic”.
