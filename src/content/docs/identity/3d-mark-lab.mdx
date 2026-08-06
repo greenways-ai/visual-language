@@ -1,0 +1,77 @@
+---
+title: 3D Mark Lab
+description: Compare Greenways project marks as live GLSL-rendered dimensional reliefs.
+---
+
+import MarkLab3D from "../../../site/components/MarkLab3D.astro";
+
+This lab tests one question before detailed modelling begins: **does the canonical 2D identity remain convincing when it acquires depth, material, light, and movement?**
+
+<MarkLab3D />
+
+:::note[What this prototype is]
+The preview is a real WebGL2 fragment-shader renderer. It loads the canonical generated SVG, retains its colour and alpha information, and builds a layered relief in GLSL. No alternative logo drawing is substituted.
+:::
+
+:::caution[What it is not]
+The preview is not yet an exportable mesh, physically accurate glass simulation, or approved product asset. It is a rapid art-direction tool for choosing depth, bevel, material, and motion before authoring SVG extrusion or GLB geometry.
+:::
+
+## What to evaluate
+
+### Recognition
+
+Turn the mark until the side wall becomes visible, then return it to the front. The identity should remain obvious throughout the useful camera range. If it only works square-on, reduce depth or revise the production geometry—not the canonical face.
+
+### Tesserae
+
+The mosaic must remain structural. Check that highlights do not wash the cells into one flat gradient and that dark side walls do not close gaps inside the motif.
+
+### Material
+
+**Smalti glass** is the signature study. **Ceramic** tests a calmer, more editorial object. **Metal** tests whether the form remains recognisable when reflectance becomes stronger. Metal is an evaluation mode, not a universal recommendation.
+
+### Motion
+
+The default movement is deliberately slow and pauses when the lab leaves the viewport. Dragging temporarily takes control. Reduced-motion preferences start the study in a still state.
+
+## Why the lab uses native GLSL
+
+The documentation site does not need a scene framework to test a single relief. A dependency-free WebGL2 component keeps the experiment close to the rendering model and avoids adding a large client bundle to every documentation page.
+
+Product implementations should use the framework appropriate to their host:
+
+- plain Three.js for Astro and framework-neutral pages;
+- React Three Fiber where the product is already React-based;
+- TSL for a shared WebGPU/WebGL material layer;
+- Blender and GLB for woven, sculpted, or carefully animated master assets.
+
+See [3D mark system](../3d-marks/) for the complete geometry, material, motion, export, and accessibility contract.
+
+## Prototype boundaries
+
+The current renderer intentionally uses a **2.5D layered extrusion**:
+
+```text
+SVG colour + alpha
+        ↓
+1024 × 1024 browser texture
+        ↓
+32 shifted depth layers
+        ↓
+bevel normal + material lighting
+        ↓
+static SVG fallback
+```
+
+This approach provides exact face artwork and fast iteration. It cannot reveal true rear topology, cast physically accurate self-shadow, or produce a GLB. Those concerns belong in the next production layer.
+
+## Next production milestone
+
+The first authored models should be:
+
+1. **Greenways**, to establish the shared convergence point and calm five-plane construction.
+2. **Hestia**, to establish the glass and internal-light language.
+3. **Hoplite**, to establish machined relief and edge precision.
+
+Once those three agree on camera, scale, side-wall treatment, and fallback behaviour, Hodos, Historia, Visual Language, and Statstrade can use the same delivery contract without becoming visually identical.
