@@ -1,0 +1,1108 @@
+---
+const assetRoot = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/favicons`;
+
+const marks = [
+  {
+    id: "greenways",
+    name: "Greenways",
+    motif: "Five-petal peacock-tail / lotus",
+    form: "Woven glass sculpture",
+    asset: `${assetRoot}/greenways.svg`,
+    primary: "#35c99a",
+    secondary: "#7f63d7",
+  },
+  {
+    id: "hestia",
+    name: "Hestia",
+    motif: "Eight-point hearth star",
+    form: "Faceted glass reliquary",
+    asset: `${assetRoot}/hestia.svg`,
+    primary: "#ed654d",
+    secondary: "#f0ad62",
+  },
+  {
+    id: "hoplite",
+    name: "Hoplite",
+    motif: "Compass star",
+    form: "Machined protective medallion",
+    asset: `${assetRoot}/hoplite.svg`,
+    primary: "#37c3d0",
+    secondary: "#8f70df",
+  },
+  {
+    id: "hodos",
+    name: "Hodos",
+    motif: "Double ring",
+    form: "Channelled route sculpture",
+    asset: `${assetRoot}/hodos.svg`,
+    primary: "#4faa79",
+    secondary: "#d0ad6f",
+  },
+  {
+    id: "historia",
+    name: "Historia",
+    motif: "Mountain pair",
+    form: "Layered archival plates",
+    asset: `${assetRoot}/historia.svg`,
+    primary: "#4a9cf2",
+    secondary: "#57d8dc",
+  },
+  {
+    id: "visual-language",
+    name: "Visual Language",
+    motif: "Three-petal lotus",
+    form: "Polished petal relief",
+    asset: `${assetRoot}/visual-language.svg`,
+    primary: "#8b68c1",
+    secondary: "#d0bbe8",
+  },
+  {
+    id: "statstrade",
+    name: "Statstrade",
+    motif: "Angular S",
+    form: "Cut-stone signal monogram",
+    asset: `${assetRoot}/statstrade.svg`,
+    primary: "#df5f79",
+    secondary: "#62d2c7",
+  },
+];
+
+const materials = [
+  { id: "glass", label: "Smalti glass", value: 0 },
+  { id: "ceramic", label: "Ceramic", value: 1 },
+  { id: "metal", label: "Metal", value: 2 },
+];
+---
+
+<section class="mark-lab" data-mark-lab data-ready="false" data-motion="on">
+  <header class="mark-lab__header">
+    <div>
+      <p class="mark-lab__eyebrow">Live WebGL2 study</p>
+      <h2>3D Mark Lab</h2>
+      <p>Canonical SVG artwork becomes a shaded dimensional relief without changing its silhouette or tesserae.</p>
+    </div>
+    <div class="mark-lab__status" aria-live="polite">
+      <span class="mark-lab__status-light" aria-hidden="true"></span>
+      <span data-render-status>Preparing GLSL renderer</span>
+    </div>
+  </header>
+
+  <div class="mark-lab__workspace">
+    <div class="mark-lab__stage" data-stage>
+      <canvas
+        data-mark-canvas
+        width="1120"
+        height="720"
+        aria-label="Interactive dimensional preview of the selected Greenways project mark"
+      ></canvas>
+      <img
+        class="mark-lab__fallback"
+        data-mark-fallback
+        src={marks[0].asset}
+        alt="Greenways five-petal mosaic mark"
+        decoding="async"
+      />
+      <div class="mark-lab__stage-label">
+        <div>
+          <span data-mark-name>{marks[0].name}</span>
+          <strong data-mark-motif>{marks[0].motif}</strong>
+        </div>
+        <small>Drag to turn · shader relief</small>
+      </div>
+      <div class="mark-lab__floor" aria-hidden="true"></div>
+    </div>
+
+    <aside class="mark-lab__inspector" aria-label="3D mark controls">
+      <section>
+        <p class="mark-lab__control-label">Identity</p>
+        <div class="mark-lab__marks" role="group" aria-label="Choose a project mark">
+          {marks.map((mark, index) => (
+            <button
+              type="button"
+              data-mark-option
+              data-id={mark.id}
+              data-name={mark.name}
+              data-motif={mark.motif}
+              data-form={mark.form}
+              data-asset={mark.asset}
+              data-primary={mark.primary}
+              data-secondary={mark.secondary}
+              aria-pressed={index === 0 ? "true" : "false"}
+              title={`${mark.name}: ${mark.motif}`}
+            >
+              <img src={mark.asset} alt="" loading="lazy" decoding="async" />
+              <span>{mark.name}</span>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <p class="mark-lab__control-label">Surface</p>
+        <div class="mark-lab__segmented" role="group" aria-label="Choose a material">
+          {materials.map((material, index) => (
+            <button
+              type="button"
+              data-material={material.value}
+              aria-pressed={index === 0 ? "true" : "false"}
+            >
+              {material.label}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section class="mark-lab__sliders">
+        <label>
+          <span>Depth <output data-depth-output>58</output></span>
+          <input data-depth type="range" min="0" max="100" value="58" />
+        </label>
+        <label>
+          <span>Edge bevel <output data-bevel-output>42</output></span>
+          <input data-bevel type="range" min="0" max="100" value="42" />
+        </label>
+      </section>
+
+      <section class="mark-lab__recommendation">
+        <p class="mark-lab__control-label">Recommended production form</p>
+        <strong data-mark-form>{marks[0].form}</strong>
+        <p>The lab is a fast relief study. Final hero marks may graduate to SVG extrusion, authored curves, or GLB geometry.</p>
+      </section>
+
+      <div class="mark-lab__actions">
+        <button type="button" data-motion-toggle>Pause motion</button>
+        <button type="button" data-reset>Reset view</button>
+      </div>
+    </aside>
+  </div>
+
+  <noscript>
+    <p class="mark-lab__noscript">JavaScript is disabled, so the canonical static Greenways mark is shown instead of the shader study.</p>
+  </noscript>
+</section>
+
+<script is:inline>
+  (() => {
+    const vertexSource = `#version 300 es
+precision highp float;
+
+void main() {
+  vec2 position;
+  if (gl_VertexID == 0) {
+    position = vec2(-1.0, -1.0);
+  } else if (gl_VertexID == 1) {
+    position = vec2(3.0, -1.0);
+  } else {
+    position = vec2(-1.0, 3.0);
+  }
+  gl_Position = vec4(position, 0.0, 1.0);
+}`;
+
+    const fragmentSource = `#version 300 es
+precision highp float;
+
+uniform sampler2D u_mark;
+uniform vec2 u_resolution;
+uniform float u_time;
+uniform vec2 u_orbit;
+uniform float u_depth;
+uniform float u_bevel;
+uniform float u_material;
+uniform vec3 u_primary;
+uniform vec3 u_secondary;
+
+out vec4 outColor;
+
+float insideBox(vec2 uv) {
+  return step(0.0, uv.x) * step(0.0, uv.y) * step(uv.x, 1.0) * step(uv.y, 1.0);
+}
+
+vec4 markAt(vec2 uv) {
+  return texture(u_mark, clamp(uv, vec2(0.0), vec2(1.0))) * insideBox(uv);
+}
+
+float alphaAt(vec2 uv) {
+  return markAt(uv).a;
+}
+
+vec3 backdrop(vec2 p) {
+  float vignette = 1.0 - smoothstep(0.15, 1.75, length(p));
+  float pool = exp(-2.4 * dot(p - vec2(-0.18, 0.04), p - vec2(-0.18, 0.04)));
+  float horizon = exp(-38.0 * abs(p.y + 0.70));
+  vec3 ink = vec3(0.014, 0.011, 0.020);
+  vec3 haze = mix(u_primary, u_secondary, 0.56);
+  vec3 colour = ink + haze * (0.035 + 0.055 * pool);
+  colour += haze * horizon * 0.018;
+  colour *= 0.70 + 0.30 * vignette;
+  return colour;
+}
+
+void main() {
+  vec2 p = (2.0 * gl_FragCoord.xy - u_resolution.xy) / min(u_resolution.x, u_resolution.y);
+  vec3 background = backdrop(p);
+
+  float yaw = u_orbit.x;
+  float pitch = u_orbit.y;
+  vec2 q = p;
+  q.y += 0.035;
+  q.x += q.y * sin(yaw) * 0.14;
+  q.y -= q.x * sin(pitch) * 0.065;
+  q.x /= mix(1.0, 0.74, abs(sin(yaw)));
+  q.y /= mix(1.0, 0.88, abs(sin(pitch)));
+
+  vec2 uv = q / 1.62 + 0.5;
+  float depth = 0.025 + u_depth * 0.18;
+  vec2 extrusion = vec2(-sin(yaw), 0.30 + sin(pitch) * 0.72) * depth;
+
+  vec4 front = markAt(uv);
+  float body = 0.0;
+  vec3 sideSource = mix(u_primary, u_secondary, 0.35);
+
+  for (int i = 0; i < 32; i++) {
+    float layerIndex = float(i) / 31.0;
+    vec4 layer = markAt(uv + extrusion * layerIndex);
+    float weight = layer.a * (1.0 - layerIndex * 0.12);
+    if (weight > body) {
+      body = weight;
+      sideSource = mix(sideSource, layer.rgb, 0.58);
+    }
+  }
+
+  float face = smoothstep(0.035, 0.72, front.a);
+  float volume = smoothstep(0.025, 0.68, body);
+  float side = max(volume - face, 0.0);
+
+  vec2 bevelStep = vec2(mix(0.0012, 0.0072, u_bevel), 0.0);
+  float gx = alphaAt(uv + bevelStep.xy) - alphaAt(uv - bevelStep.xy);
+  float gy = alphaAt(uv + bevelStep.yx) - alphaAt(uv - bevelStep.yx);
+  vec3 normal = normalize(vec3(
+    -gx * (3.0 + u_bevel * 11.0),
+    -gy * (3.0 + u_bevel * 11.0),
+    0.54
+  ));
+  normal = normalize(normal + vec3(sin(yaw) * 0.18, sin(pitch) * 0.14, 0.0));
+
+  vec3 lightDirection = normalize(vec3(-0.42, 0.68, 0.92));
+  vec3 viewDirection = vec3(0.0, 0.0, 1.0);
+  vec3 halfDirection = normalize(lightDirection + viewDirection);
+  float diffuse = max(dot(normal, lightDirection), 0.0);
+  float specular = pow(max(dot(normal, halfDirection), 0.0), mix(34.0, 92.0, 1.0 - u_bevel * 0.45));
+  float fresnel = pow(1.0 - max(dot(normal, viewDirection), 0.0), 3.0);
+  float edge = clamp(length(vec2(gx, gy)) * (2.4 + u_bevel * 2.8), 0.0, 1.0) * face;
+
+  vec3 palette = mix(u_primary, u_secondary, smoothstep(0.04, 0.96, uv.y));
+  vec3 base = mix(palette, front.rgb, clamp(front.a * 1.35, 0.0, 1.0));
+
+  vec3 glassColour =
+    base * (0.40 + 0.64 * diffuse)
+    + vec3(1.0) * specular * 1.30
+    + mix(u_primary, u_secondary, 0.52) * fresnel * 0.72;
+
+  float luminance = dot(base, vec3(0.2126, 0.7152, 0.0722));
+  vec3 ceramicBase = mix(base, vec3(luminance), 0.08);
+  vec3 ceramicColour =
+    ceramicBase * (0.58 + 0.56 * diffuse)
+    + vec3(1.0, 0.96, 0.91) * specular * 0.34;
+
+  vec3 metalBase = mix(base, vec3(luminance), 0.35);
+  vec3 metalColour =
+    metalBase * (0.30 + 0.88 * diffuse)
+    + mix(vec3(1.0), u_secondary, 0.20) * specular * 1.14
+    + u_primary * fresnel * 0.34;
+
+  float glassWeight = 1.0 - step(0.5, u_material);
+  float ceramicWeight = step(0.5, u_material) * (1.0 - step(1.5, u_material));
+  float metalWeight = step(1.5, u_material);
+  vec3 faceColour =
+    glassColour * glassWeight
+    + ceramicColour * ceramicWeight
+    + metalColour * metalWeight;
+
+  vec3 sideNormal = normalize(vec3(extrusion * 8.0, 0.32));
+  float sideDiffuse = 0.25 + 0.75 * max(dot(sideNormal, lightDirection), 0.0);
+  vec3 sideColour =
+    mix(mix(u_primary, u_secondary, 0.32), sideSource, 0.34)
+    * (0.22 + 0.48 * sideDiffuse);
+  sideColour += u_secondary * fresnel * 0.10;
+
+  float shadow = smoothstep(
+    0.05,
+    0.70,
+    alphaAt(uv + extrusion + vec2(0.025, -0.045))
+  );
+  background *= 1.0 - shadow * 0.23;
+
+  float nearMask = max(
+    max(alphaAt(uv + vec2(0.015, 0.0)), alphaAt(uv - vec2(0.015, 0.0))),
+    max(alphaAt(uv + vec2(0.0, 0.015)), alphaAt(uv - vec2(0.0, 0.015)))
+  );
+  float aura = max(smoothstep(0.02, 0.66, nearMask) - volume, 0.0);
+  background += mix(u_primary, u_secondary, 0.48) * aura * 0.12;
+
+  vec3 objectColour = mix(sideColour, faceColour, face);
+  objectColour += vec3(1.0) * edge * (0.08 + 0.09 * sin(u_time * 0.42 + uv.y * 5.0));
+
+  float coverage = max(volume, face);
+  vec3 colour = mix(background, objectColour, coverage);
+  colour += background * side * 0.02;
+
+  float vignette = 1.0 - smoothstep(0.82, 1.70, length(p));
+  colour *= 0.76 + 0.24 * vignette;
+  outColor = vec4(colour, 1.0);
+}`;
+
+    const init = () => {
+      document.querySelectorAll("[data-mark-lab]:not([data-initialised])").forEach((root) => {
+        root.dataset.initialised = "true";
+
+        const canvas = root.querySelector("[data-mark-canvas]");
+        const fallback = root.querySelector("[data-mark-fallback]");
+        const status = root.querySelector("[data-render-status]");
+        const markName = root.querySelector("[data-mark-name]");
+        const markMotif = root.querySelector("[data-mark-motif]");
+        const markForm = root.querySelector("[data-mark-form]");
+        const depthInput = root.querySelector("[data-depth]");
+        const bevelInput = root.querySelector("[data-bevel]");
+        const depthOutput = root.querySelector("[data-depth-output]");
+        const bevelOutput = root.querySelector("[data-bevel-output]");
+        const motionButton = root.querySelector("[data-motion-toggle]");
+        const resetButton = root.querySelector("[data-reset]");
+        const markButtons = [...root.querySelectorAll("[data-mark-option]")];
+        const materialButtons = [...root.querySelectorAll("[data-material]")];
+
+        const fail = (message) => {
+          root.dataset.failed = "true";
+          root.dataset.ready = "false";
+          if (status) status.textContent = message;
+        };
+
+        if (!(canvas instanceof HTMLCanvasElement)) {
+          fail("Canvas is unavailable");
+          return;
+        }
+
+        const gl = canvas.getContext("webgl2", {
+          alpha: false,
+          antialias: true,
+          depth: false,
+          powerPreference: "high-performance",
+          premultipliedAlpha: false,
+        });
+
+        if (!gl) {
+          fail("WebGL2 unavailable · showing canonical SVG");
+          return;
+        }
+
+        const compileShader = (type, source) => {
+          const shader = gl.createShader(type);
+          if (!shader) throw new Error("Could not create shader");
+          gl.shaderSource(shader, source);
+          gl.compileShader(shader);
+          if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+            const log = gl.getShaderInfoLog(shader) || "Unknown shader error";
+            gl.deleteShader(shader);
+            throw new Error(log);
+          }
+          return shader;
+        };
+
+        let program;
+        try {
+          const vertex = compileShader(gl.VERTEX_SHADER, vertexSource);
+          const fragment = compileShader(gl.FRAGMENT_SHADER, fragmentSource);
+          program = gl.createProgram();
+          if (!program) throw new Error("Could not create WebGL program");
+          gl.attachShader(program, vertex);
+          gl.attachShader(program, fragment);
+          gl.linkProgram(program);
+          gl.deleteShader(vertex);
+          gl.deleteShader(fragment);
+          if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+            throw new Error(gl.getProgramInfoLog(program) || "Could not link shader program");
+          }
+        } catch (error) {
+          console.error("3D Mark Lab shader failed", error);
+          fail("Shader unavailable · showing canonical SVG");
+          return;
+        }
+
+        const vao = gl.createVertexArray();
+        const texture = gl.createTexture();
+        if (!vao || !texture) {
+          fail("GPU resources unavailable · showing canonical SVG");
+          return;
+        }
+
+        gl.bindVertexArray(vao);
+        gl.useProgram(program);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texImage2D(
+          gl.TEXTURE_2D,
+          0,
+          gl.RGBA,
+          1,
+          1,
+          0,
+          gl.RGBA,
+          gl.UNSIGNED_BYTE,
+          new Uint8Array([0, 0, 0, 0]),
+        );
+
+        const uniforms = {
+          mark: gl.getUniformLocation(program, "u_mark"),
+          resolution: gl.getUniformLocation(program, "u_resolution"),
+          time: gl.getUniformLocation(program, "u_time"),
+          orbit: gl.getUniformLocation(program, "u_orbit"),
+          depth: gl.getUniformLocation(program, "u_depth"),
+          bevel: gl.getUniformLocation(program, "u_bevel"),
+          material: gl.getUniformLocation(program, "u_material"),
+          primary: gl.getUniformLocation(program, "u_primary"),
+          secondary: gl.getUniformLocation(program, "u_secondary"),
+        };
+        gl.uniform1i(uniforms.mark, 0);
+
+        const hexToRgb = (hex) => {
+          const value = hex.replace("#", "");
+          return [
+            Number.parseInt(value.slice(0, 2), 16) / 255,
+            Number.parseInt(value.slice(2, 4), 16) / 255,
+            Number.parseInt(value.slice(4, 6), 16) / 255,
+          ];
+        };
+
+        let primary = hexToRgb(markButtons[0]?.dataset.primary || "#35c99a");
+        let secondary = hexToRgb(markButtons[0]?.dataset.secondary || "#7f63d7");
+        let material = 0;
+        let depth = Number(depthInput?.value || 58) / 100;
+        let bevel = Number(bevelInput?.value || 42) / 100;
+        let orbit = [0.42, -0.16];
+        let targetOrbit = [...orbit];
+        let dragging = false;
+        let pointerStart = [0, 0];
+        let orbitStart = [...orbit];
+        let textureRequest = 0;
+        let visible = true;
+        let frameId = 0;
+        let elapsed = 0;
+        let lastFrame = performance.now();
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        let motion = !reduceMotion;
+
+        root.dataset.motion = motion ? "on" : "off";
+        if (motionButton) motionButton.textContent = motion ? "Pause motion" : "Play motion";
+
+        const uploadMark = (button) => {
+          const asset = button.dataset.asset;
+          if (!asset) return;
+          const request = ++textureRequest;
+          root.dataset.ready = "false";
+          if (status) status.textContent = `Loading ${button.dataset.name || "mark"}`;
+          if (fallback instanceof HTMLImageElement) {
+            fallback.src = asset;
+            fallback.alt = `${button.dataset.name || "Project"} ${button.dataset.motif || "mosaic"} mark`;
+          }
+
+          const image = new Image();
+          image.decoding = "async";
+          image.onload = () => {
+            if (request !== textureRequest) return;
+            const source = document.createElement("canvas");
+            const size = 1024;
+            source.width = size;
+            source.height = size;
+            const context = source.getContext("2d");
+            if (!context) {
+              fail("Texture preparation failed · showing canonical SVG");
+              return;
+            }
+            context.clearRect(0, 0, size, size);
+            const naturalWidth = image.naturalWidth || size;
+            const naturalHeight = image.naturalHeight || size;
+            const padding = size * 0.065;
+            const scale = Math.min(
+              (size - padding * 2) / naturalWidth,
+              (size - padding * 2) / naturalHeight,
+            );
+            const width = naturalWidth * scale;
+            const height = naturalHeight * scale;
+            context.drawImage(
+              image,
+              (size - width) / 2,
+              (size - height) / 2,
+              width,
+              height,
+            );
+
+            gl.activeTexture(gl.TEXTURE0);
+            gl.bindTexture(gl.TEXTURE_2D, texture);
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+            gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+            gl.texImage2D(
+              gl.TEXTURE_2D,
+              0,
+              gl.RGBA,
+              gl.RGBA,
+              gl.UNSIGNED_BYTE,
+              source,
+            );
+            gl.generateMipmap(gl.TEXTURE_2D);
+
+            primary = hexToRgb(button.dataset.primary || "#35c99a");
+            secondary = hexToRgb(button.dataset.secondary || "#7f63d7");
+            if (markName) markName.textContent = button.dataset.name || "Project";
+            if (markMotif) markMotif.textContent = button.dataset.motif || "Mosaic mark";
+            if (markForm) markForm.textContent = button.dataset.form || "Dimensional relief";
+            canvas.setAttribute(
+              "aria-label",
+              `Interactive dimensional preview of the ${button.dataset.name || "selected"} mark`,
+            );
+            root.dataset.ready = "true";
+            root.dataset.failed = "false";
+            if (status) status.textContent = "WebGL2 · GLSL · canonical SVG texture";
+          };
+          image.onerror = () => fail("Mark asset unavailable · showing static fallback");
+          image.src = asset;
+        };
+
+        const chooseMark = (button) => {
+          markButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+          uploadMark(button);
+        };
+
+        markButtons.forEach((button) => {
+          button.addEventListener("click", () => chooseMark(button));
+        });
+
+        materialButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            material = Number(button.dataset.material || 0);
+            materialButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+          });
+        });
+
+        depthInput?.addEventListener("input", () => {
+          depth = Number(depthInput.value) / 100;
+          if (depthOutput) depthOutput.textContent = depthInput.value;
+        });
+
+        bevelInput?.addEventListener("input", () => {
+          bevel = Number(bevelInput.value) / 100;
+          if (bevelOutput) bevelOutput.textContent = bevelInput.value;
+        });
+
+        motionButton?.addEventListener("click", () => {
+          motion = !motion;
+          root.dataset.motion = motion ? "on" : "off";
+          motionButton.textContent = motion ? "Pause motion" : "Play motion";
+        });
+
+        resetButton?.addEventListener("click", () => {
+          orbit = [0.42, -0.16];
+          targetOrbit = [...orbit];
+          depth = 0.58;
+          bevel = 0.42;
+          material = 0;
+          if (depthInput) depthInput.value = "58";
+          if (bevelInput) bevelInput.value = "42";
+          if (depthOutput) depthOutput.textContent = "58";
+          if (bevelOutput) bevelOutput.textContent = "42";
+          materialButtons.forEach((button, index) => {
+            button.setAttribute("aria-pressed", String(index === 0));
+          });
+        });
+
+        canvas.addEventListener("pointerdown", (event) => {
+          dragging = true;
+          pointerStart = [event.clientX, event.clientY];
+          orbitStart = [...targetOrbit];
+          canvas.setPointerCapture(event.pointerId);
+        });
+
+        canvas.addEventListener("pointermove", (event) => {
+          if (!dragging) return;
+          const dx = (event.clientX - pointerStart[0]) / Math.max(canvas.clientWidth, 1);
+          const dy = (event.clientY - pointerStart[1]) / Math.max(canvas.clientHeight, 1);
+          targetOrbit[0] = Math.max(-0.92, Math.min(0.92, orbitStart[0] + dx * 2.2));
+          targetOrbit[1] = Math.max(-0.62, Math.min(0.48, orbitStart[1] - dy * 1.8));
+        });
+
+        const releasePointer = (event) => {
+          dragging = false;
+          if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+        };
+        canvas.addEventListener("pointerup", releasePointer);
+        canvas.addEventListener("pointercancel", releasePointer);
+
+        canvas.addEventListener("webglcontextlost", (event) => {
+          event.preventDefault();
+          fail("WebGL context lost · showing canonical SVG");
+          if (frameId) cancelAnimationFrame(frameId);
+          frameId = 0;
+        });
+
+        const resize = () => {
+          const bounds = canvas.getBoundingClientRect();
+          const ratio = Math.min(window.devicePixelRatio || 1, 1.75);
+          const width = Math.max(1, Math.round(bounds.width * ratio));
+          const height = Math.max(1, Math.round(bounds.height * ratio));
+          if (canvas.width !== width || canvas.height !== height) {
+            canvas.width = width;
+            canvas.height = height;
+            gl.viewport(0, 0, width, height);
+          }
+        };
+
+        const render = (now) => {
+          frameId = 0;
+          if (!visible || root.dataset.failed === "true") return;
+
+          const delta = Math.min((now - lastFrame) / 1000, 0.05);
+          lastFrame = now;
+          if (motion) elapsed += delta;
+
+          if (motion && !dragging) {
+            targetOrbit[0] = 0.34 + Math.sin(elapsed * 0.31) * 0.28;
+            targetOrbit[1] = -0.15 + Math.sin(elapsed * 0.23) * 0.08;
+          }
+
+          orbit[0] += (targetOrbit[0] - orbit[0]) * Math.min(1, delta * 6.5);
+          orbit[1] += (targetOrbit[1] - orbit[1]) * Math.min(1, delta * 6.5);
+
+          resize();
+          gl.useProgram(program);
+          gl.bindVertexArray(vao);
+          gl.activeTexture(gl.TEXTURE0);
+          gl.bindTexture(gl.TEXTURE_2D, texture);
+          gl.uniform2f(uniforms.resolution, canvas.width, canvas.height);
+          gl.uniform1f(uniforms.time, elapsed);
+          gl.uniform2f(uniforms.orbit, orbit[0], orbit[1]);
+          gl.uniform1f(uniforms.depth, depth);
+          gl.uniform1f(uniforms.bevel, bevel);
+          gl.uniform1f(uniforms.material, material);
+          gl.uniform3fv(uniforms.primary, primary);
+          gl.uniform3fv(uniforms.secondary, secondary);
+          gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+          frameId = requestAnimationFrame(render);
+        };
+
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            visible = entry?.isIntersecting ?? true;
+            if (visible && !frameId && root.dataset.failed !== "true") {
+              lastFrame = performance.now();
+              frameId = requestAnimationFrame(render);
+            }
+          },
+          { rootMargin: "240px 0px" },
+        );
+        observer.observe(root);
+
+        if (markButtons[0]) chooseMark(markButtons[0]);
+        frameId = requestAnimationFrame(render);
+      });
+    };
+
+    init();
+    document.addEventListener("astro:page-load", init);
+  })();
+</script>
+
+<style>
+  .mark-lab {
+    --lab-line: color-mix(in srgb, var(--sl-color-white) 14%, transparent);
+    margin-block: 2rem;
+    overflow: hidden;
+    color: var(--sl-color-white);
+    background:
+      radial-gradient(circle at 12% -10%, color-mix(in srgb, var(--visual-purple, #8b68c1) 18%, transparent), transparent 36%),
+      var(--visual-panel, var(--sl-color-bg-sidebar));
+    border: 1px solid var(--visual-line, var(--sl-color-hairline));
+  }
+
+  .mark-lab__header {
+    min-height: 108px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 1.25rem 1.4rem;
+    border-bottom: 1px solid var(--visual-line, var(--sl-color-hairline));
+  }
+
+  .mark-lab__eyebrow,
+  .mark-lab__control-label {
+    margin: 0 0 .45rem;
+    color: var(--visual-purple, var(--sl-color-accent));
+    font: 700 .57rem var(--sl-font-mono, monospace);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  .mark-lab__header h2 {
+    margin: 0;
+    color: var(--sl-color-white);
+    font: 400 clamp(1.8rem, 4vw, 3rem) "Marcellus", Georgia, serif;
+  }
+
+  .mark-lab__header > div:first-child > p:last-child {
+    max-width: 68ch;
+    margin: .55rem 0 0;
+    color: var(--sl-color-gray-2);
+    font-size: .8rem;
+    line-height: 1.55;
+  }
+
+  .mark-lab__status {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    flex: 0 0 auto;
+    min-height: 34px;
+    padding: .5rem .7rem;
+    color: var(--sl-color-gray-2);
+    background: color-mix(in srgb, var(--sl-color-bg) 72%, transparent);
+    border: 1px solid var(--lab-line);
+    font: 700 .52rem var(--sl-font-mono, monospace);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  .mark-lab__status-light {
+    width: 7px;
+    height: 7px;
+    background: #d5aa63;
+    box-shadow: 0 0 0 3px color-mix(in srgb, #d5aa63 16%, transparent);
+  }
+
+  .mark-lab[data-ready="true"] .mark-lab__status-light {
+    background: #58d5a3;
+    box-shadow: 0 0 0 3px color-mix(in srgb, #58d5a3 16%, transparent);
+  }
+
+  .mark-lab[data-failed="true"] .mark-lab__status-light {
+    background: #dc6d6d;
+    box-shadow: 0 0 0 3px color-mix(in srgb, #dc6d6d 16%, transparent);
+  }
+
+  .mark-lab__workspace {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(270px, 330px);
+  }
+
+  .mark-lab__stage {
+    position: relative;
+    min-width: 0;
+    min-height: 570px;
+    overflow: hidden;
+    isolation: isolate;
+    background: #050408;
+    border-right: 1px solid var(--visual-line, var(--sl-color-hairline));
+  }
+
+  .mark-lab__stage::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, rgba(255, 255, 255, .025) 1px, transparent 1px),
+      linear-gradient(rgba(255, 255, 255, .018) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, .24), transparent 72%);
+  }
+
+  .mark-lab__stage canvas,
+  .mark-lab__fallback {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .mark-lab__stage canvas {
+    z-index: 1;
+    opacity: 0;
+    cursor: grab;
+    touch-action: pan-y;
+    transition: opacity .28s ease;
+  }
+
+  .mark-lab__stage canvas:active { cursor: grabbing; }
+
+  .mark-lab__fallback {
+    z-index: 0;
+    box-sizing: border-box;
+    padding: clamp(5rem, 14vw, 10rem);
+    object-fit: contain;
+    background:
+      radial-gradient(circle at 50% 44%, rgba(116, 79, 143, .18), transparent 40%),
+      #08060b;
+    transition: opacity .28s ease;
+  }
+
+  .mark-lab[data-ready="true"] .mark-lab__stage canvas { opacity: 1; }
+  .mark-lab[data-ready="true"] .mark-lab__fallback { opacity: 0; }
+
+  .mark-lab__stage-label {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    left: 1rem;
+    z-index: 3;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    pointer-events: none;
+  }
+
+  .mark-lab__stage-label div {
+    display: grid;
+    gap: .2rem;
+    padding: .72rem .82rem;
+    color: #fff;
+    background: rgba(8, 6, 11, .72);
+    border: 1px solid rgba(255, 255, 255, .12);
+    backdrop-filter: blur(14px);
+  }
+
+  .mark-lab__stage-label span {
+    font: 700 .58rem var(--sl-font-mono, monospace);
+    letter-spacing: .11em;
+    text-transform: uppercase;
+  }
+
+  .mark-lab__stage-label strong {
+    color: rgba(255, 255, 255, .68);
+    font-size: .68rem;
+    font-weight: 500;
+  }
+
+  .mark-lab__stage-label small {
+    padding: .55rem .65rem;
+    color: rgba(255, 255, 255, .58);
+    background: rgba(8, 6, 11, .56);
+    font: 700 .5rem var(--sl-font-mono, monospace);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    backdrop-filter: blur(12px);
+  }
+
+  .mark-lab__floor {
+    position: absolute;
+    right: 12%;
+    bottom: 8%;
+    left: 12%;
+    z-index: 0;
+    height: 12%;
+    background: radial-gradient(ellipse, rgba(152, 112, 184, .18), transparent 68%);
+    filter: blur(18px);
+    transform: perspective(240px) rotateX(70deg);
+  }
+
+  .mark-lab__inspector {
+    display: grid;
+    align-content: start;
+    background: color-mix(in srgb, var(--visual-panel, var(--sl-color-bg-sidebar)) 92%, #09060c);
+  }
+
+  .mark-lab__inspector > section {
+    padding: 1rem;
+    border-bottom: 1px solid var(--visual-line, var(--sl-color-hairline));
+  }
+
+  .mark-lab__marks {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--visual-line, var(--sl-color-hairline));
+    border: 1px solid var(--visual-line, var(--sl-color-hairline));
+  }
+
+  .mark-lab__marks button {
+    min-width: 0;
+    min-height: 72px;
+    display: grid;
+    grid-template-columns: 30px minmax(0, 1fr);
+    align-items: center;
+    gap: .55rem;
+    padding: .58rem;
+    color: var(--sl-color-gray-2);
+    text-align: left;
+    background: var(--visual-panel, var(--sl-color-bg-sidebar));
+    border: 0;
+    cursor: pointer;
+  }
+
+  .mark-lab__marks button:hover {
+    color: var(--sl-color-white);
+    background: color-mix(in srgb, var(--visual-purple, var(--sl-color-accent)) 9%, var(--visual-panel, var(--sl-color-bg-sidebar)));
+  }
+
+  .mark-lab__marks button[aria-pressed="true"] {
+    color: #fff;
+    background: #744b91;
+  }
+
+  :global(:root[data-theme="dark"]) .mark-lab__marks button[aria-pressed="true"] {
+    color: #160c1c;
+    background: #d0bbe8;
+  }
+
+  .mark-lab__marks img {
+    width: 28px;
+    height: 28px;
+    display: block;
+    object-fit: contain;
+  }
+
+  .mark-lab__marks span {
+    overflow: hidden;
+    font: 700 .56rem var(--sl-font-mono, monospace);
+    letter-spacing: .045em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mark-lab__segmented {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 3px;
+    background: color-mix(in srgb, var(--sl-color-bg) 74%, transparent);
+    border: 1px solid var(--visual-line, var(--sl-color-hairline));
+  }
+
+  .mark-lab__segmented button,
+  .mark-lab__actions button {
+    min-height: 38px;
+    padding: .5rem .45rem;
+    color: var(--sl-color-gray-2);
+    background: transparent;
+    border: 0;
+    font: 700 .52rem var(--sl-font-mono, monospace);
+    letter-spacing: .055em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .mark-lab__segmented button[aria-pressed="true"] {
+    color: #fff;
+    background: #744b91;
+  }
+
+  :global(:root[data-theme="dark"]) .mark-lab__segmented button[aria-pressed="true"] {
+    color: #160c1c;
+    background: #d0bbe8;
+  }
+
+  .mark-lab__sliders {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .mark-lab__sliders label {
+    display: grid;
+    gap: .5rem;
+  }
+
+  .mark-lab__sliders label > span {
+    display: flex;
+    justify-content: space-between;
+    color: var(--sl-color-gray-2);
+    font: 700 .56rem var(--sl-font-mono, monospace);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  .mark-lab__sliders output { color: var(--visual-purple, var(--sl-color-accent)); }
+
+  .mark-lab__sliders input {
+    width: 100%;
+    accent-color: var(--visual-purple, var(--sl-color-accent));
+  }
+
+  .mark-lab__recommendation strong {
+    display: block;
+    color: var(--sl-color-white);
+    font: 400 1.15rem "Marcellus", Georgia, serif;
+    line-height: 1.25;
+  }
+
+  .mark-lab__recommendation p:last-child {
+    margin: .55rem 0 0;
+    color: var(--sl-color-gray-2);
+    font-size: .72rem;
+    line-height: 1.5;
+  }
+
+  .mark-lab__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--visual-line, var(--sl-color-hairline));
+  }
+
+  .mark-lab__actions button {
+    min-height: 48px;
+    background: var(--visual-panel, var(--sl-color-bg-sidebar));
+  }
+
+  .mark-lab__actions button:hover {
+    color: #160c1c;
+    background: var(--visual-purple-soft, #d0bbe8);
+  }
+
+  .mark-lab__noscript {
+    margin: 0;
+    padding: .8rem 1rem;
+    color: var(--sl-color-gray-2);
+    border-top: 1px solid var(--visual-line, var(--sl-color-hairline));
+    font-size: .74rem;
+  }
+
+  @media (max-width: 960px) {
+    .mark-lab__workspace { grid-template-columns: 1fr; }
+    .mark-lab__stage {
+      min-height: 520px;
+      border-right: 0;
+      border-bottom: 1px solid var(--visual-line, var(--sl-color-hairline));
+    }
+    .mark-lab__inspector { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .mark-lab__inspector > section { border-right: 1px solid var(--visual-line, var(--sl-color-hairline)); }
+    .mark-lab__actions { grid-column: 1 / -1; }
+  }
+
+  @media (max-width: 700px) {
+    .mark-lab__header {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .mark-lab__status { width: 100%; box-sizing: border-box; }
+    .mark-lab__stage { min-height: 430px; }
+    .mark-lab__stage-label small { display: none; }
+    .mark-lab__inspector { grid-template-columns: 1fr; }
+    .mark-lab__inspector > section { border-right: 0; }
+    .mark-lab__marks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 420px) {
+    .mark-lab__stage { min-height: 370px; }
+    .mark-lab__marks { grid-template-columns: 1fr; }
+    .mark-lab__stage-label { right: .7rem; bottom: .7rem; left: .7rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mark-lab__stage canvas,
+    .mark-lab__fallback { transition: none; }
+  }
+</style>

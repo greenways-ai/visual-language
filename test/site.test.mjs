@@ -89,6 +89,29 @@ test("day and night are explicit comparison states across the site", async () =>
   assert.ok((page.match(/<DayNightExplorer/g) || []).length >= 3);
 });
 
+test("dimensional marks preserve canonical SVG identity in a dependency-free shader lab", async () => {
+  const [pkg, config, system, page, lab] = await Promise.all([
+    read("package.json"),
+    read("astro.config.mjs"),
+    read("src/content/docs/identity/3d-marks.mdx"),
+    read("src/content/docs/identity/3d-mark-lab.mdx"),
+    read("src/site/components/MarkLab3D.astro"),
+  ]);
+  assert.doesNotMatch(pkg, /"three"\s*:/);
+  assert.match(config, /3D mark system/);
+  assert.match(config, /3D Mark Lab/);
+  assert.match(system, /canonical generated SVG remains the source of truth/);
+  assert.match(system, /React Three Fiber/);
+  assert.match(page, /<MarkLab3D \/>/);
+  assert.match(lab, /getContext\("webgl2"/);
+  assert.match(lab, /#version 300 es/);
+  assert.match(lab, /prefers-reduced-motion/);
+  assert.match(lab, /IntersectionObserver/);
+  for (const mark of ["greenways", "hestia", "hoplite", "hodos", "historia", "visual-language", "statstrade"]) {
+    assert.match(lab, new RegExp(`${mark}\\.svg`));
+  }
+});
+
 test("both requested worlds have visual case-study explorations", async () => {
   const [config, index, statstrade, greenways, statStudy, districts] = await Promise.all([
     read("astro.config.mjs"),
@@ -133,6 +156,7 @@ test("GitHub Pages installs, builds, and deploys the Astro dist directory", asyn
   assert.match(ci, /npm run build/);
   assert.match(pages, /path: dist/);
   assert.match(verify, /dist\/identity\/day-night\/index\.html/);
+  assert.match(verify, /dist\/identity\/3d-mark-lab\/index\.html/);
   assert.match(verify, /dist\/case-studies\/greenways-world\/index\.html/);
   assert.match(verify, /dist\/concepts\/index\.html/);
 });

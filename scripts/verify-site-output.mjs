@@ -4,6 +4,8 @@ const required = [
   "dist/index.html",
   "dist/foundations/principles/index.html",
   "dist/identity/sigils/index.html",
+  "dist/identity/3d-marks/index.html",
+  "dist/identity/3d-mark-lab/index.html",
   "dist/identity/day-night/index.html",
   "dist/adoption/getting-started/index.html",
   "dist/case-studies/index.html",
@@ -28,6 +30,11 @@ const home = await readFile("dist/index.html", "utf8");
 if (!/lotus · three petals/i.test(home)) throw new Error("home page is missing the lotus identity");
 if (!home.includes("Visual Language")) throw new Error("home page is missing its title");
 if (!home.includes("One place.")) throw new Error("home page is missing the day/night study");
+
+const markLab = await readFile("dist/identity/3d-mark-lab/index.html", "utf8");
+if (!markLab.includes("3D Mark Lab")) throw new Error("3D Mark Lab is missing its title");
+if (!markLab.includes("data-mark-lab")) throw new Error("3D Mark Lab is missing its interactive renderer");
+if (!markLab.includes("WebGL2")) throw new Error("3D Mark Lab is missing its WebGL fallback guidance");
 
 const conceptIndex = await readFile("dist/concepts/index.html", "utf8");
 if (!conceptIndex.includes("One concept.")) throw new Error("concept index is missing its editorial premise");
