@@ -45,11 +45,12 @@
     "prompts": "node bin/compose-scene-prompts.mjs",
     "artwork:raster": "node bin/build-raster-artwork.mjs",
     "artwork": "node bin/generate-artwork.mjs",
-    "build": "npm run assets && ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build && node scripts/copy-static-assets.mjs && npm run verify:site",
+    "build": "npm run assets && npm run og:optimize && ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build && node scripts/copy-static-assets.mjs && npm run verify:site",
     "build:site": "npm run build",
     "verify:site": "node scripts/verify-site-output.mjs",
     "test": "npm run assets && node --test test/*.test.mjs",
-    "og": "node bin/generate-og-images.mjs"
+    "og": "node bin/generate-og-images.mjs && npm run og:optimize",
+    "og:optimize": "node bin/optimize-og-images.mjs"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
