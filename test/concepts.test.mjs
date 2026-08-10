@@ -5,9 +5,9 @@ import { scenes } from "../src/scene-language.js";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
-test("all sixty-four environment concepts have a generated route", async () => {
+test("all sixty-eight environment concepts have a generated route", async () => {
   const route = await read("src/pages/concepts/[world]/[scene].astro");
-  assert.equal(scenes.length, 64);
+  assert.equal(scenes.length, 68);
   assert.match(route, /export function getStaticPaths/);
   assert.match(route, /sceneEntries\.map/);
   assert.match(route, /concepts\/\$\{previous\.world\}\/\$\{previous\.id\}/);
@@ -25,7 +25,7 @@ test("the concept catalogue links every artwork card to its own page", async () 
   assert.match(catalogue, /concepts\/\$\{world\}\/\$\{scene\}/);
   assert.match(catalogue, /Open concept/);
   assert.match(index, /Object\.entries\(catalog\)/);
-  assert.match(index, /66 dedicated pages/);
+  assert.match(index, /70 dedicated pages/);
   assert.match(header, /label: "Concepts"/);
   assert.match(config, /Concept pages ↗/);
 });
@@ -57,7 +57,7 @@ test("Greenways world studies expose their dedicated concept pages", async () =>
   assert.match(home, /concepts\/www\/world-confluence/);
 });
 
-test("concept pages use the shared lotus shell and direct master links", async () => {
+test("concept pages use the shared peacock shell and direct master links", async () => {
   const [shell, css, route, verify] = await Promise.all([
     read("src/site/layouts/ConceptShell.astro"),
     read("src/site/styles/concept-page.css"),

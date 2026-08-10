@@ -739,7 +739,7 @@ void main() {
     overflow: hidden;
     color: var(--sl-color-white);
     background:
-      radial-gradient(circle at 12% -10%, color-mix(in srgb, var(--visual-purple, #8b68c1) 18%, transparent), transparent 36%),
+      radial-gradient(circle at 12% -10%, color-mix(in srgb, var(--visual-peacock, #087f72) 18%, transparent), transparent 36%),
       var(--visual-panel, var(--sl-color-bg-sidebar));
     border: 1px solid var(--visual-line, var(--sl-color-hairline));
   }
@@ -757,7 +757,7 @@ void main() {
   .mark-lab__eyebrow,
   .mark-lab__control-label {
     margin: 0 0 .45rem;
-    color: var(--visual-purple, var(--sl-color-accent));
+    color: var(--visual-peacock, var(--sl-color-accent));
     font: 700 .57rem var(--sl-font-mono, monospace);
     letter-spacing: .12em;
     text-transform: uppercase;
@@ -963,7 +963,7 @@ void main() {
 
   .mark-lab__marks button:hover {
     color: var(--sl-color-white);
-    background: color-mix(in srgb, var(--visual-purple, var(--sl-color-accent)) 9%, var(--visual-panel, var(--sl-color-bg-sidebar)));
+    background: color-mix(in srgb, var(--visual-peacock, var(--sl-color-accent)) 9%, var(--visual-panel, var(--sl-color-bg-sidebar)));
   }
 
   .mark-lab__marks button[aria-pressed="true"] {
@@ -972,7 +972,7 @@ void main() {
   }
 
   :global(:root[data-theme="dark"]) .mark-lab__marks button[aria-pressed="true"] {
-    color: #160c1c;
+    color: #031315;
     background: #d0bbe8;
   }
 
@@ -1018,7 +1018,7 @@ void main() {
   }
 
   :global(:root[data-theme="dark"]) .mark-lab__segmented button[aria-pressed="true"] {
-    color: #160c1c;
+    color: #031315;
     background: #d0bbe8;
   }
 
@@ -1041,11 +1041,11 @@ void main() {
     text-transform: uppercase;
   }
 
-  .mark-lab__sliders output { color: var(--visual-purple, var(--sl-color-accent)); }
+  .mark-lab__sliders output { color: var(--visual-peacock, var(--sl-color-accent)); }
 
   .mark-lab__sliders input {
     width: 100%;
-    accent-color: var(--visual-purple, var(--sl-color-accent));
+    accent-color: var(--visual-peacock, var(--sl-color-accent));
   }
 
   .mark-lab__recommendation strong {
@@ -1075,8 +1075,8 @@ void main() {
   }
 
   .mark-lab__actions button:hover {
-    color: #160c1c;
-    background: var(--visual-purple-soft, #d0bbe8);
+    color: #031315;
+    background: var(--visual-peacock-soft, #8ee8df);
   }
 
   .mark-lab__noscript {

@@ -35,17 +35,17 @@ test("favicons provide groutless smalti beds and adaptive shaded palettes", asyn
   assert.match(source, /historia/);
 });
 
-test("the Greenways master mark is a five-petal spectral mosaic", async () => {
+test("the Greenways master mark is a five-plane peacock mosaic", async () => {
   const fs = await import("node:fs/promises");
   const source = await fs.readFile(new URL("../bin/generate-v3-favicons.mjs", import.meta.url), "utf8");
   const detailed = await fs.readFile(new URL("../assets/favicons/greenways.svg", import.meta.url), "utf8");
   const compact = await fs.readFile(new URL("../assets/favicons/greenways-small.svg", import.meta.url), "utf8");
 
   assert.match(source, /GREENWAYS_TAIL_LOTUS/);
-  assert.match(source, /#2FA56B/);
-  assert.match(source, /#7ED8C9/);
-  assert.match(source, /#2FB7D6/);
-  assert.match(source, /#7B69C7/);
+  assert.match(source, /#187A55/);
+  assert.match(source, /#39BFA6/);
+  assert.match(source, /#24A9C7/);
+  assert.match(source, /#1855A3/);
   assert.equal((detailed.match(/<clipPath/g) ?? []).length, 5);
   assert.equal((compact.match(/<clipPath/g) ?? []).length, 5);
   assert.match(detailed, /<polygon/);

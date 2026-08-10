@@ -1,5 +1,5 @@
 export const artworkCatalog = {
-  greenways: ["celestial-promenade","peacock-garden","jeweled-sky-temple","floating-lotus-court","cosmic-ocean-terrace","iridescent-observatory","living-architecture","constellation-orchard"],
+  greenways: ["celestial-promenade","peacock-garden","jeweled-sky-temple","floating-lotus-court","cosmic-ocean-terrace","iridescent-observatory","living-architecture","constellation-orchard","peacock-ballroom","emerald-grand-atrium","sapphire-processional-temple","gilded-mosaic-opera-hall"],
   hestia: ["sovereign-hearth","protected-threshold","recovery-room","household-archive","secure-correspondence","provision-chamber","sheltered-courtyard","watchful-window"],
   hoplite: ["rabbit-courtyard","open-gate","branching-paths","wind-arcade","rapid-garden-route","interconnected-habitats","distributed-pavilions","open-horizon"],
   historia: ["raven-library","evidence-chamber","index-gallery","inquiry-desk","archive-vault","constellation-of-sources","comparison-corridor","illuminated-manuscript-room"],

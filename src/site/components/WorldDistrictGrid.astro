@@ -42,12 +42,12 @@ const districts = [
 <style>
   .world-district-grid { margin-block: 2rem; border: 1px solid var(--visual-line, var(--sl-color-hairline)); }
   .world-district-grid > header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 1.2rem; border-bottom: 1px solid var(--visual-line, var(--sl-color-hairline)); }
-  .world-district-grid > header small, .world-district-grid article > small { color: var(--visual-purple, var(--sl-color-accent)); font: .56rem var(--sl-font-mono, monospace); letter-spacing: .1em; text-transform: uppercase; }
+  .world-district-grid > header small, .world-district-grid article > small { color: var(--visual-peacock, var(--sl-color-accent)); font: .56rem var(--sl-font-mono, monospace); letter-spacing: .1em; text-transform: uppercase; }
   .world-district-grid > header h3 { margin: .35rem 0 0; color: var(--sl-color-white); font: 400 clamp(1.6rem,3vw,2.7rem) "Marcellus", Georgia, serif; }
   .world-district-grid > header > div:last-child { display: flex; padding: 4px; border: 1px solid var(--visual-line, var(--sl-color-hairline)); }
   .world-district-grid button { min-height: 38px; padding: .55rem .8rem; color: var(--sl-color-gray-2); background: transparent; border: 0; font: 700 .56rem var(--sl-font-mono, monospace); letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
-  .world-district-grid button[aria-pressed="true"] { color: #fff; background: #764a98; }
-  :global(:root[data-theme="dark"]) .world-district-grid button[aria-pressed="true"] { color: #160c1c; background: #d0bbea; }
+  .world-district-grid button[aria-pressed="true"] { color: #fff; background: #087f72; }
+  :global(:root[data-theme="dark"]) .world-district-grid button[aria-pressed="true"] { color: #031315; background: #8ee8df; }
   .world-district-grid__cards { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
   .world-district-grid article { min-width: 0; padding: 1rem; border-right: 1px solid var(--visual-line, var(--sl-color-hairline)); border-bottom: 1px solid var(--visual-line, var(--sl-color-hairline)); }
   .world-district-grid article:nth-child(2n) { border-right: 0; }
@@ -57,6 +57,6 @@ const districts = [
   .world-district-grid[data-state="day"] [data-state-image="night"], .world-district-grid[data-state="night"] [data-state-image="day"] { display: none; }
   .world-district-grid h4 { margin: .55rem 0; color: var(--sl-color-white); font: 400 clamp(1.4rem,2.4vw,2.1rem) "Marcellus", Georgia, serif; }
   .world-district-grid article p { margin: 0; color: var(--sl-color-gray-2); font-size: .8rem; line-height: 1.5; }
-  .world-district-grid__open { display: inline-flex; margin-top: .9rem; color: var(--visual-purple, var(--sl-color-accent)); font: 700 .55rem var(--sl-font-mono, monospace); letter-spacing: .09em; text-decoration: none; text-transform: uppercase; }
+  .world-district-grid__open { display: inline-flex; margin-top: .9rem; color: var(--visual-peacock, var(--sl-color-accent)); font: 700 .55rem var(--sl-font-mono, monospace); letter-spacing: .09em; text-decoration: none; text-transform: uppercase; }
   @media (max-width:700px){.world-district-grid > header{align-items:flex-start;flex-direction:column}.world-district-grid__cards{grid-template-columns:1fr}.world-district-grid article,.world-district-grid article:nth-child(2n),.world-district-grid article:nth-last-child(-n+2){border-right:0;border-bottom:1px solid var(--visual-line,var(--sl-color-hairline))}.world-district-grid article:last-child{border-bottom:0}}
 </style>

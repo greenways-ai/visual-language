@@ -6,7 +6,7 @@ The software and documentation used to render and operate the visual language ar
 
 ## Greenways master mark
 
-The canonical Greenways mark is a five-petal peacock-tail / lotus hybrid. Two emerald outer fields, aquamarine and cyan inner fields, and a violet centre converge at one base point.
+The canonical Greenways mark is a peacock feather built from converging mosaic fields. Emerald outer fields, aquamarine and cyan inner fields, and a sapphire centre converge at one base point.
 
 The master mark is deliberately quieter than a literal peacock crest:
 
@@ -39,7 +39,7 @@ Small variants use larger tesserae, but never collapse the mark to a flat path. 
 | Hoplite | Star compass | `star-compass` |
 | Historia | Mountains | `mountain-pair` |
 | Hodos | Double ring | `ring-double` |
-| Visual Language | Lotus · three petals | `lotus-three` |
+| Visual Language | Greenways peacock feather | `greenways` master geometry |
 
 The shared sigil generator is the source of truth for detailed, fixed-theme, and compact variants.
 

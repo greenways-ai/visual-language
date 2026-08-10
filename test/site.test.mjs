@@ -18,7 +18,7 @@ test("the Visual Language website is an Astro Starlight application", async () =
   assert.match(config, /SharedSiteHeader\.astro/);
   assert.match(config, /GreenwaysThemeProvider\.astro/);
   assert.match(config, /site-overrides\.css/);
-  assert.match(config, /logo: \{ src: "\.\/src\/site\/assets\/lotus\.svg"/);
+  assert.match(config, /logo: \{ src: "\.\/src\/site\/assets\/peacock-feather\.svg"/);
   assert.match(collection, /docsLoader/);
 });
 
@@ -38,26 +38,45 @@ test("the static page shells were removed instead of being copied into the Astro
   assert.doesNotMatch(copy, /site\/index\.html/);
 });
 
-test("the purple three-petal lotus is the canonical and locally versioned site identity", async () => {
-  const [generator, projects, logo, compact, header, sigil] = await Promise.all([
+test("the Greenways peacock feather is the canonical and locally versioned site identity", async () => {
+  const [generator, projects, logo, compact, header, sigil, config] = await Promise.all([
     read("bin/generate-v3-favicons.mjs"),
     read("src/projects.js"),
     read("src/MosaicLogo.astro"),
-    read("src/site/assets/lotus.svg"),
+    read("src/site/assets/peacock-feather.svg"),
     read("src/site/components/SharedSiteHeader.astro"),
     read("src/Sigil.astro"),
+    read("astro.config.mjs"),
   ]);
-  assert.match(generator, /"visual-language": \{ study: "lotus-three"/);
-  for (const colour of ["#452a5e", "#5e3680", "#764a98", "#9367c5", "#b899da"]) assert.match(generator, new RegExp(colour));
-  assert.match(projects, /motif: "Lotus · three petals"/);
-  assert.match(projects, /accent: "purple"/);
+  assert.match(generator, /"visual-language": \{\s*regions: GREENWAYS_TAIL_LOTUS/);
+  for (const colour of ["#187A55", "#39BFA6", "#24A9C7", "#1855A3"]) assert.match(generator, new RegExp(colour));
+  assert.match(projects, /motif: "Greenways peacock feather"/);
+  assert.match(projects, /accent: "peacock"/);
   assert.doesNotMatch(logo, /project === "visual-language" \? "greenways"/);
-  assert.match(compact, /--p1:#452a5e/);
-  assert.ok((compact.match(/<path/g) || []).length >= 12, "compact lotus should retain mosaic facets");
+  assert.match(compact, /--g00:/);
+  assert.ok((compact.match(/<polygon/g) || []).length >= 12, "compact feather should retain mosaic facets");
   assert.match(header, /logoAssetBase=\{`\$\{base\}favicons`\}/);
-  assert.match(header, /logoAssetVersion="lotus-concepts-20260805"/);
+  assert.match(header, /project="greenways"/);
+  assert.match(header, /logoAssetVersion="peacock-feather-20260810"/);
+  assert.match(config, /Greenways peacock feather/);
+  assert.doesNotMatch(config, /purple three-petal/);
   assert.match(sigil, /assetVersion/);
   assert.match(sigil, /encodeURIComponent/);
+});
+
+test("the Greenways catalogue includes twelve complete day and night concepts", async () => {
+  const catalogue = await read("src/artwork-catalog.js");
+  const additions = ["peacock-ballroom", "emerald-grand-atrium", "sapphire-processional-temple", "gilded-mosaic-opera-hall"];
+  for (const concept of additions) {
+    assert.match(catalogue, new RegExp(concept));
+    for (const state of ["day", "night", "day-mobile", "night-mobile"]) {
+      await access(new URL(`../site/artwork/greenways/${concept}-${state}.webp`, import.meta.url));
+    }
+    for (const state of ["day", "night"]) {
+      await access(new URL(`../artwork/masters/greenways/${concept}-${state}.png`, import.meta.url));
+    }
+  }
+  await access(new URL("../site/assets/3d/greenways-3d-logo.glb", import.meta.url));
 });
 
 test("the sidebar and header menus keep visible labels", async () => {

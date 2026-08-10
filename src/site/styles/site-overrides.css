@@ -1,9 +1,9 @@
 /* Starlight paints the active row with the project accent. Keep the label and
  * every nested span explicitly contrasted so selected items never become an
- * empty purple bar. */
+ * empty accent bar. */
 .sidebar-content a[aria-current="page"] {
   color: #fff !important;
-  background: #764a98 !important;
+  background: #087f72 !important;
   font-weight: 600;
 }
 
@@ -12,8 +12,8 @@
 }
 
 :root[data-theme="dark"] .sidebar-content a[aria-current="page"] {
-  color: #160c1c !important;
-  background: #d0bbea !important;
+  color: #031315 !important;
+  background: #8ee8df !important;
 }
 
 .sidebar-content summary,

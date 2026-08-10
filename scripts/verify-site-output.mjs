@@ -58,7 +58,8 @@ for (const name of ogCards) {
 }
 
 const home = await readFile("dist/index.html", "utf8");
-if (!/lotus · three petals/i.test(home)) throw new Error("home page is missing the lotus identity");
+if (!/peacock · feather/i.test(home)) throw new Error("home page is missing the peacock-feather identity");
+if (/lotus · three petals/i.test(home)) throw new Error("home page still advertises the retired lotus identity");
 if (!home.includes("Visual Language")) throw new Error("home page is missing its title");
 if (!home.includes("One place.")) throw new Error("home page is missing the day/night study");
 if (!home.includes("https://oss.greenways.ai/visual-language/assets/og-visual-language.jpg")) {

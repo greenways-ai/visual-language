@@ -12,8 +12,8 @@ export const projects = {
   ignatius: { label: "Ignatius", motif: "Pointed arch · sealed blocks", accent: "yellow" },
   "visual-language": {
     label: "Visual Language",
-    motif: "Lotus · three petals",
-    accent: "purple",
+    motif: "Greenways peacock feather",
+    accent: "peacock",
   },
   statstrade: { label: "Statstrade", motif: "Angular S", accent: "red" },
 };

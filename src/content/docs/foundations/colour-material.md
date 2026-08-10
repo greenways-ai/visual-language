@@ -16,7 +16,7 @@ Each project owns a five-step accent ramp and a material vocabulary. The ramp dr
 | Hodos | Malachite, celadon, pearl | Mother-of-pearl, green glass, silk, aged mirror |
 | Tahto | Aubergine, crimson violet, ruby, orchid magenta | Iridescent smalti, rose quartz, warm oxidised silver, dark water, living reeds |
 | Ignatius | Obsidian, charcoal, ochre, yellow | Black basalt, yellow glass, gold smalti, blackened steel |
-| Visual Language | Amethyst, violet, lilac | Purple smalti, warm mineral ground, dark plum stone |
+| Visual Language | Emerald, turquoise, sapphire | Peacock glass, warm ivory ground, deep teal stone and restrained gold |
 | Statstrade | Legion red, oxblood, bronze | Red smalti, basalt, travertine, porphyry, bronze |
 
 ## Accent ramps
@@ -25,11 +25,11 @@ A ramp contains real tonal separation. Adjacent steps should remain distinguisha
 
 ```css
 :root[data-project="visual-language"] {
-  --gw-accent-1: #452a5e;
-  --gw-accent-2: #5e3680;
-  --gw-accent-3: #764a98;
-  --gw-accent-4: #9367c5;
-  --gw-accent-5: #b899da;
+  --gw-accent-1: #0b4e41;
+  --gw-accent-2: #087f72;
+  --gw-accent-3: #19b7b7;
+  --gw-accent-4: #1855a3;
+  --gw-accent-5: #e4c778;
 }
 ```
 

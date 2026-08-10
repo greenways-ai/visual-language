@@ -58,17 +58,18 @@ test("project switcher uses canonical OSS order and project sigils", async () =>
   assert.doesNotMatch(source, /Visual Language/);
 });
 
-test("eight worlds have eight responsive raster day and night scenes", async () => {
+test("all worlds have complete responsive day and night scenes", async () => {
   for (const project of ["greenways", "hestia", "hoplite", "historia", "hodos", "tahto", "ignatius", "www"]) {
     const files = (await readdir(new URL(`../site/artwork/${project}/`, import.meta.url))).filter((file) => file.endsWith(".webp"));
-    assert.equal(files.length, 32, project);
-    assert.equal(files.filter((file) => file.includes("-mobile.webp")).length, 16, project);
+    const expected = project === "greenways" ? 48 : 32;
+    assert.equal(files.length, expected, project);
+    assert.equal(files.filter((file) => file.includes("-mobile.webp")).length, expected / 2, project);
   }
 });
 
 test("scene language assigns space-led behavior and sparse sigils", async () => {
   const { scenes, worlds, styleContract, negativeContract } = await import("../src/scene-language.js");
-  assert.equal(scenes.length, 64);
+  assert.equal(scenes.length, 68);
   assert.equal(scenes.filter((scene) => scene.sigil).length, 8);
   for (const scene of scenes) {
     assert.ok(scene.affordance);
@@ -103,16 +104,15 @@ test("canonical sigils adopt the named project motifs", async () => {
     ["hodos", "ring-double"],
     ["tahto", "lattice-four-wing"],
     ["ignatius", "arch-sealed-blocks"],
-    ["visual-language", "lotus-three"],
   ]) {
     const key = project.includes("-") ? `"${project}"` : project;
     assert.ok(gen.includes(`${key}: { study: "${study}"`), project);
   }
-  assert.match(gen, /#2FA56B/);
-  assert.match(gen, /#7ED8C9/);
-  assert.match(gen, /#2FB7D6/);
-  assert.match(gen, /#7B69C7/);
-  assert.match(gen, /#c52f5d/);
+  assert.match(gen, /"visual-language": \{\s*regions: GREENWAYS_TAIL_LOTUS/);
+  assert.match(gen, /#187A55/);
+  assert.match(gen, /#39BFA6/);
+  assert.match(gen, /#24A9C7/);
+  assert.match(gen, /#1855A3/);
   assert.match(gen, /SMALL_PITCH/);
   assert.doesNotMatch(gen, /allFlat/);
   assert.doesNotMatch(gen, /#b78a22|#d7b64e/);
@@ -122,7 +122,7 @@ test("canonical sigils adopt the named project motifs", async () => {
   assert.equal(projects.historia.motif, "Mountains");
   assert.equal(projects.tahto.motif, "Four-wing lattice");
   assert.equal(projects.ignatius.motif, "Pointed arch · sealed blocks");
-  assert.equal(projects["visual-language"].motif, "Lotus · three petals");
+  assert.equal(projects["visual-language"].motif, "Greenways peacock feather");
 
   const sigil = await readFile(new URL("../src/Sigil.astro", import.meta.url), "utf8");
   assert.match(sigil, /visual-language\/favicons/);

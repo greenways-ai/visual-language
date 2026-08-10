@@ -34,7 +34,7 @@ Canonical project marks are groutless smalti: pieces touch edge to edge. Present
 
 ## Visual Language lotus
 
-The three-petal lotus uses a dark left petal, mid-violet centre, and pale right petal. Internal Voronoi variation must remain visible at every exported size.
+The Visual Language site uses the Greenways peacock feather: emerald outer planes, aquamarine and cyan inner planes, and a sapphire centre. Internal Voronoi variation must remain visible at every exported size.
 
 ## Never use
 

@@ -94,14 +94,14 @@ const title = (value: string) => value.split("-").map((part) => part[0].toUpperC
 
   .artwork-catalogue__controls button[aria-pressed="true"] {
     color: #fff;
-    background: #764a98;
-    border-color: #764a98;
+    background: var(--visual-peacock);
+    border-color: var(--visual-peacock);
   }
 
   :global(:root[data-theme="dark"]) .artwork-catalogue__controls button[aria-pressed="true"] {
-    color: #160c1c;
-    background: #d0bbea;
-    border-color: #d0bbea;
+    color: #031315;
+    background: var(--visual-peacock-soft);
+    border-color: var(--visual-peacock-soft);
   }
 
   .artwork-catalogue__states { padding-top: .2rem; }
@@ -161,7 +161,7 @@ const title = (value: string) => value.split("-").map((part) => part[0].toUpperC
   .artwork-catalogue__open {
     display: block;
     margin-top: .55rem;
-    color: var(--visual-purple, var(--sl-color-accent));
+    color: var(--visual-peacock, var(--sl-color-accent));
     font: 700 .55rem var(--sl-font-mono, monospace);
     letter-spacing: .09em;
     text-transform: uppercase;

@@ -16,7 +16,7 @@ const byId = Object.fromEntries(studies.map((s) => [s.id, s]));
 
 // Five tessellated planes converge at one base point. The broad green outer
 // petals imply a living landscape, the aquamarine/cyan inner petals imply
-// connection, and the violet centre gives the master mark its spectral lift.
+// connection, and the sapphire centre gives the master mark its spectral lift.
 const GREENWAYS_TAIL_LOTUS = [
   ["M240 410C135 390 65 320 70 235C168 255 222 333 240 410Z", 0],
   ["M240 410C345 390 415 320 410 235C312 255 258 333 240 410Z", 0],
@@ -32,8 +32,8 @@ const GREENWAYS_TAIL_LOTUS = [
 const projects = {
   greenways: {
     regions: GREENWAYS_TAIL_LOTUS,
-    light: ["#2FA56B", "#7ED8C9", "#2FB7D6", "#7B69C7"],
-    dark: ["#53D88E", "#9CE7D9", "#65D7ED", "#A99AF0"],
+    light: ["#187A55", "#39BFA6", "#24A9C7", "#1855A3"],
+    dark: ["#53D88E", "#7DE1CF", "#65D7ED", "#62A8E8"],
   },
   hestia: { study: "star-eight", light: ["#641b27", "#8e2731", "#bd3f3b", "#e66d42", "#ffd08a"], dark: ["#6d1b27", "#a52a36", "#dc4b40", "#ff8b4a", "#ffd69a"] },
   hoplite: { study: "star-compass", light: ["#0b3a44", "#0f5e6e", "#1595a8", "#20c7df", "#a8ecf7"], dark: ["#0e4a56", "#12798d", "#1bb3c9", "#4fd9ec", "#d4f7fc"] },
@@ -41,7 +41,11 @@ const projects = {
   hodos: { study: "ring-double", light: ["#11392f", "#1d5e4d", "#2f8569", "#58a983", "#9bd4ad"], dark: ["#174b3d", "#25755d", "#38a67c", "#70c99a", "#b4e4bd"] },
   tahto: { study: "lattice-four-wing", light: ["#2b102f", "#5a174d", "#8f1d4f", "#c52f5d", "#ef637d"], dark: ["#451849", "#7b2363", "#bc2c63", "#ed4b76", "#ff9aaf"] },
   ignatius: { study: "arch-sealed-blocks", light: ["#090a0b", "#24211a", "#a97800", "#e0b51a", "#ffe36e"], dark: ["#181a1c", "#34322b", "#c69600", "#f0c91e", "#ffe98c"] },
-  "visual-language": { study: "lotus-three", light: ["#452a5e", "#5e3680", "#764a98", "#9367c5", "#b899da"], dark: ["#60328c", "#793fb0", "#975fc0", "#b18cd9", "#d0bbea"] },
+  "visual-language": {
+    regions: GREENWAYS_TAIL_LOTUS,
+    light: ["#187A55", "#39BFA6", "#24A9C7", "#1855A3"],
+    dark: ["#53D88E", "#7DE1CF", "#65D7ED", "#62A8E8"],
+  },
 };
 projects.historian = projects.historia;
 
