@@ -1,4 +1,4 @@
-// Shared smalti sigil geometry: path helpers, palettes and the sixty-study
+// Shared smalti sigil geometry: path helpers, palettes and the sixty-two-study
 // exploration table at 480x480. Consumed by generate-sigil-explorations.mjs
 // (lab studies) and generate-v3-favicons.mjs (canonical project sigils).
 
@@ -45,6 +45,8 @@ export const PAL = {
   midnight: ["#101827", "#243d65", "#39608f", "#5b86b8", "#dce9f5"],
   peacock: ["#123e34", "#1f6552", "#cfb66a", "#20c7df", "#0f2c4f"],
   slate: ["#2c313a", "#454c58", "#5f6a77", "#8b97a3", "#c3ccd4"],
+  iridescent: ["#162b5c", "#1d5f73", "#438c9c", "#7668b5", "#d7d8e6"],
+  yellowblack: ["#090a0b", "#24211a", "#a97800", "#e0b51a", "#ffe36e"],
 };
 export const GROUND = "GROUND";
 
@@ -130,6 +132,21 @@ export const studies = [
   S("bridge-arch", "Bridge · arch", "slate", [[`M60 300 420 300 420 340 60 340Z`, 1], [{ d: `M100 340 380 340 380 400 100 400Z` + `M150 400a90 60 0 0 1 180 0Z`, rule: "evenodd" }, 2]]),
   S("tower-beam", "Tower · beacon", "midnight", [[`M200 420 215 180 265 180 280 420Z`, 1], [`M190 130 290 130 290 180 190 180Z`, 3], [`M120 90 180 120 172 148 108 118Z`, 4, "flat"], [`M360 90 300 120 308 148 372 118Z`, 4, "flat"]]),
   S("shell-fan", "Shell · scallop fan", "coral", [[`M240 400 90 220a190 190 0 0 1 300 0Z`, 1], [`M240 400 150 190 178 170 262 400Z`, 2], [`M240 400 330 190 302 170 218 400Z`, 3]]),
+  // paired systems
+  S("lattice-four-wing", "Lattice · four wing", "iridescent", [
+    [`M225 225C175 115 92 78 54 114c25 84 92 132 171 136Z`, 1],
+    [`M255 225C305 115 388 78 426 114c-25 84-92 132-171 136Z`, 2],
+    [`M222 274C162 278 105 322 90 390c76 12 128-28 145-104Z`, 3],
+    [`M258 274C318 278 375 322 390 390c-76 12-128-28-145-104Z`, 1],
+    [`M225 72h30l18 176-18 170h-30l-18-170Z`, 4],
+    [ellipse(240, 250, 36, 36), 2],
+  ]),
+  S("arch-sealed-blocks", "Arch · three sealed blocks", "yellowblack", [
+    [{ d: `M74 420V238C74 124 146 58 240 58s166 66 166 180v182Z` + `M132 420V246c0-74 46-130 108-130s108 56 108 130v174Z`, rule: "evenodd" }, 0],
+    [`M174 164h132v62H174Z`, 3],
+    [`M174 252h132v62H174Z`, 2],
+    [`M174 340h132v62H174Z`, 4],
+  ]),
 ];
 
-if (studies.length !== 60) throw new Error(`expected 60 studies, have ${studies.length}`);
+if (studies.length !== 62) throw new Error(`expected 62 studies, have ${studies.length}`);

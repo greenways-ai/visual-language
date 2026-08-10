@@ -19,7 +19,7 @@ This generates detailed and coarse-mosaic variants for every named project in ad
 npm run sigils
 ```
 
-This rebuilds the sixty-study catalogue and manifest under `site/sigils/`.
+This rebuilds the sixty-two-study catalogue and manifest under `site/sigils/`.
 
 ## Scene prompts
 
@@ -28,6 +28,8 @@ npm run prompts
 ```
 
 The prompt composer produces scored day masters and locked night-edit instructions from `scene-language.js`.
+
+Mosaic construction applies to built surfaces, architecture and crafted objects. Living animals remain photorealistic and biological rather than becoming tiled sculptures.
 
 ## Responsive artwork
 

@@ -11,6 +11,8 @@ const cards = [
   "historia",
   "hodos",
   "hoplite",
+  "tahto",
+  "ignatius",
   "visual-language",
 ];
 

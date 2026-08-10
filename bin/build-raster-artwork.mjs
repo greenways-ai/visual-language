@@ -8,6 +8,17 @@ import { scenes } from "../src/scene-language.js";
 const run = promisify(execFile);
 const root = fileURLToPath(new URL("..", import.meta.url));
 const position = { left: 0, center: 0.5, right: 1 };
+const worldArgument = process.argv.find((argument) => argument.startsWith("--world="));
+const selectedWorlds = worldArgument
+  ? new Set(worldArgument.slice("--world=".length).split(",").filter(Boolean))
+  : null;
+const selectedScenes = selectedWorlds
+  ? scenes.filter((scene) => selectedWorlds.has(scene.world))
+  : scenes;
+
+if (selectedWorlds && selectedScenes.length === 0) {
+  throw new Error(`No scenes matched --world=${[...selectedWorlds].join(",")}`);
+}
 
 async function dimensions(source) {
   const { stdout } = await run("sips", ["-g", "pixelWidth", "-g", "pixelHeight", source]);
@@ -26,7 +37,7 @@ function portraitCrop({ width, height }, focus) {
   return [String(x), String(y), String(cropWidth), String(cropHeight)];
 }
 
-for (const scene of scenes) {
+for (const scene of selectedScenes) {
   const destination = `${root}/site/artwork/${scene.world}`;
   await mkdir(destination, { recursive: true });
   for (const mode of ["day", "night"]) {
@@ -38,4 +49,4 @@ for (const scene of scenes) {
   }
 }
 
-console.log(`Built ${scenes.length * 4} responsive WebP files from ${scenes.length * 2} native masters.`);
+console.log(`Built ${selectedScenes.length * 4} responsive WebP files from ${selectedScenes.length * 2} native masters.`);

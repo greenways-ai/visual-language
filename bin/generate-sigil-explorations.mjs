@@ -2,7 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { renderSigil, hexToHsl, hslToHex } from "./smalti.mjs";
 import { PAL, GROUND, SEED, studies } from "./sigil-studies.mjs";
 
-// Sigil exploration lab: renders the sixty shared studies as adaptive
+// Sigil exploration lab: renders the sixty-two shared studies as adaptive
 // Voronoi smalti SVGs plus fixed light/dark pairs under site/sigils/.
 
 const darkOf = (hex) => {

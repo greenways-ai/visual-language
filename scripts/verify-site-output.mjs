@@ -7,6 +7,8 @@ const ogCards = [
   "historia",
   "hodos",
   "hoplite",
+  "tahto",
+  "ignatius",
   "visual-language",
 ];
 const required = [
@@ -22,6 +24,8 @@ const required = [
   "dist/case-studies/greenways-world/index.html",
   "dist/concepts/index.html",
   "dist/concepts/hoplite/open-gate/index.html",
+  "dist/concepts/tahto/paired-observatories/index.html",
+  "dist/concepts/ignatius/commitment-crossing/index.html",
   "dist/concepts/www/world-confluence/index.html",
   "dist/concepts/statstrade/feed/index.html",
   "dist/concepts/statstrade/arena/index.html",
@@ -29,6 +33,8 @@ const required = [
   "dist/favicons/visual-language.svg",
   "dist/sigils/manifest.json",
   "dist/artwork/greenways/peacock-garden-day.webp",
+  "dist/artwork/tahto/paired-observatories-day.webp",
+  "dist/artwork/ignatius/commitment-crossing-day.webp",
   "dist/statstrade/assets/arena-day-study.svg",
   "dist/statstrade/assets/arena-night-study.svg",
   ...ogCards.flatMap((name) => [

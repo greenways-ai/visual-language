@@ -10,7 +10,7 @@ test("the Visual Language website is an Astro Starlight application", async () =
     read("astro.config.mjs"),
     read("src/content.config.ts"),
   ]);
-  assert.match(pkg, /"version": "5\.0\.0"/);
+  assert.match(pkg, /"version": "5\.1\.0"/);
   assert.match(pkg, /"astro": "\^7\.1\.6"/);
   assert.match(pkg, /"@astrojs\/starlight"/);
   assert.match(pkg, /"build": "npm run assets/);
@@ -107,7 +107,7 @@ test("dimensional marks preserve canonical SVG identity in a dependency-free sha
   assert.match(lab, /#version 300 es/);
   assert.match(lab, /prefers-reduced-motion/);
   assert.match(lab, /IntersectionObserver/);
-  for (const mark of ["greenways", "hestia", "hoplite", "hodos", "historia", "visual-language", "statstrade"]) {
+  for (const mark of ["greenways", "hestia", "hoplite", "hodos", "historia", "tahto", "ignatius", "visual-language", "statstrade"]) {
     assert.match(lab, new RegExp(`${mark}\\.svg`));
   }
 });

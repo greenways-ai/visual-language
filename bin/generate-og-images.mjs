@@ -18,8 +18,19 @@ const cards = {
   hoplite: { scene: "hoplite/rabbit-courtyard", label: "Hoplite", tagline: "A lightweight Nginx application container" },
   historia: { scene: "historia/raven-library", label: "Historia", tagline: "Evidence, indexed and illuminated" },
   hodos: { scene: "hodos/moth-theatre", label: "Hodos", tagline: "Passages, mirrors and veils" },
-  "visual-language": { scene: "greenways/peacock-garden", label: "Greenways Visual Language", tagline: "One language. Six scales of place." },
+  tahto: { scene: "tahto/paired-observatories", label: "Tahto", tagline: "Meaning held across divergence" },
+  ignatius: { scene: "ignatius/commitment-crossing", label: "Ignatius", tagline: "Signed work, ordered and committed" },
+  "visual-language": { scene: "greenways/peacock-garden", label: "Greenways Visual Language", tagline: "One language. Eight worlds." },
 };
+const cardsArgument = process.argv.find((argument) => argument.startsWith("--cards="));
+const selectedCards = cardsArgument
+  ? new Set(cardsArgument.slice("--cards=".length).split(",").filter(Boolean))
+  : null;
+const cardEntries = Object.entries(cards).filter(([name]) => !selectedCards || selectedCards.has(name));
+
+if (selectedCards && cardEntries.length === 0) {
+  throw new Error(`No cards matched --cards=${[...selectedCards].join(",")}`);
+}
 
 const page = (name, { scene, label, tagline }) => `<!doctype html><html><head><meta charset="utf-8"><style>
   * { box-sizing: border-box; margin: 0; }
@@ -44,7 +55,7 @@ const page = (name, { scene, label, tagline }) => `<!doctype html><html><head><m
 
 const staging = `${root}/site/assets/og-staging`;
 await mkdir(staging, { recursive: true });
-for (const [name, card] of Object.entries(cards)) {
+for (const [name, card] of cardEntries) {
   const html = `${staging}/${name}.html`;
   const png = `${root}/site/assets/og-${name}.png`;
   await writeFile(html, page(name, card));

@@ -6,7 +6,7 @@ description: Source files and commands behind the asset catalogue.
 | Source | Purpose |
 | --- | --- |
 | `bin/smalti.mjs` | Voronoi bed, colour variation, clipping, fitting, and SVG rendering |
-| `bin/sigil-studies.mjs` | Sixty named geometries and palettes |
+| `bin/sigil-studies.mjs` | Sixty-two named geometries and palettes |
 | `bin/generate-v3-favicons.mjs` | Canonical project mark variants |
 | `bin/generate-sigil-explorations.mjs` | Exploration catalogue and manifest |
 | `bin/compose-scene-prompts.mjs` | Day-master and night-edit prompt review |

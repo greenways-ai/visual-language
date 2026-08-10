@@ -42,7 +42,7 @@ test("documentation components encode the shared interaction contracts", async (
 
 test("project switcher uses canonical OSS order and project sigils", async () => {
   const { projectLinks, ossProjectLinks } = await import("../src/projects.js");
-  for (const project of ["greenways", "hestia", "hoplite", "historia", "hodos", "visual-language", "statstrade"]) {
+  for (const project of ["greenways", "hestia", "hoplite", "historia", "hodos", "tahto", "ignatius", "visual-language", "statstrade"]) {
     assert.ok(projectLinks.some((item) => item.project === project), project);
   }
   assert.deepEqual(
@@ -58,8 +58,8 @@ test("project switcher uses canonical OSS order and project sigils", async () =>
   assert.doesNotMatch(source, /Visual Language/);
 });
 
-test("six worlds have eight responsive raster day and night scenes", async () => {
-  for (const project of ["greenways", "hestia", "hoplite", "historia", "hodos", "www"]) {
+test("eight worlds have eight responsive raster day and night scenes", async () => {
+  for (const project of ["greenways", "hestia", "hoplite", "historia", "hodos", "tahto", "ignatius", "www"]) {
     const files = (await readdir(new URL(`../site/artwork/${project}/`, import.meta.url))).filter((file) => file.endsWith(".webp"));
     assert.equal(files.length, 32, project);
     assert.equal(files.filter((file) => file.includes("-mobile.webp")).length, 16, project);
@@ -67,15 +67,26 @@ test("six worlds have eight responsive raster day and night scenes", async () =>
 });
 
 test("scene language assigns space-led behavior and sparse sigils", async () => {
-  const { scenes } = await import("../src/scene-language.js");
-  assert.equal(scenes.length, 48);
-  assert.equal(scenes.filter((scene) => scene.sigil).length, 6);
+  const { scenes, worlds, styleContract, negativeContract } = await import("../src/scene-language.js");
+  assert.equal(scenes.length, 64);
+  assert.equal(scenes.filter((scene) => scene.sigil).length, 8);
   for (const scene of scenes) {
     assert.ok(scene.affordance);
     assert.ok(scene.day);
     assert.ok(scene.night);
     assert.ok(["left", "center", "right"].includes(scene.focus));
   }
+  for (const project of ["tahto", "ignatius"]) {
+    assert.equal(scenes.filter((scene) => scene.world === project).length, 8, project);
+    assert.equal(scenes.filter((scene) => scene.world === project && scene.sigil).length, 1, `${project} sigil`);
+    assert.match(worlds[project].animal, /photorealistic anatomically natural/);
+  }
+  assert.match(worlds.tahto.animal, /emperor dragonfly/);
+  assert.match(worlds.ignatius.animal, /buckskin mustang/);
+  assert.match(styleContract, /Every visible built surface/);
+  assert.match(styleContract, /Every living animal remains fully photorealistic and biological/);
+  assert.match(negativeContract, /mosaic animal/);
+  assert.match(negativeContract, /tack, bridle, saddle, rider/);
 });
 
 test("canonical sigils adopt the named project motifs", async () => {
@@ -86,6 +97,8 @@ test("canonical sigils adopt the named project motifs", async () => {
     ["hoplite", "star-compass"],
     ["historia", "mountain-pair"],
     ["hodos", "ring-double"],
+    ["tahto", "lattice-four-wing"],
+    ["ignatius", "arch-sealed-blocks"],
     ["visual-language", "lotus-three"],
   ]) {
     const key = project.includes("-") ? `"${project}"` : project;
@@ -102,6 +115,8 @@ test("canonical sigils adopt the named project motifs", async () => {
   const { projects } = await import("../src/projects.js");
   assert.equal(projects.greenways.motif, "Five-petal peacock-tail / lotus");
   assert.equal(projects.historia.motif, "Mountains");
+  assert.equal(projects.tahto.motif, "Four-wing lattice");
+  assert.equal(projects.ignatius.motif, "Pointed arch · sealed blocks");
   assert.equal(projects["visual-language"].motif, "Lotus · three petals");
 
   const sigil = await readFile(new URL("../src/Sigil.astro", import.meta.url), "utf8");
@@ -114,7 +129,7 @@ test("canonical sigils adopt the named project motifs", async () => {
 });
 
 test("small favicon variants retain the Voronoi mosaic", async () => {
-  for (const project of ["greenways", "hestia", "hoplite", "historia", "hodos", "visual-language"]) {
+  for (const project of ["greenways", "hestia", "hoplite", "historia", "hodos", "tahto", "ignatius", "visual-language"]) {
     const svg = await readFile(new URL(`../assets/favicons/${project}-small-light.svg`, import.meta.url), "utf8");
     const polygons = svg.match(/<polygon\b/g) ?? [];
     assert.ok(polygons.length >= 4, `${project}: expected mosaic tesserae, found ${polygons.length}`);
@@ -122,7 +137,7 @@ test("small favicon variants retain the Voronoi mosaic", async () => {
 });
 
 test("og image cards exist at 1200x630", async () => {
-  for (const name of ["greenways", "hestia", "hoplite", "historia", "hodos", "visual-language"]) {
+  for (const name of ["greenways", "hestia", "hoplite", "historia", "hodos", "tahto", "ignatius", "visual-language"]) {
     const buffer = await readFile(new URL(`../site/assets/og-${name}.png`, import.meta.url));
     assert.equal(buffer[0], 0x89, `${name} png magic`);
     assert.equal(buffer.readUInt32BE(16), 1200, `${name} width`);
@@ -132,7 +147,7 @@ test("og image cards exist at 1200x630", async () => {
 
 test("semantic controls and project palettes are present", async () => {
   const css = await readFile(new URL("../src/theme.css", import.meta.url), "utf8");
-  for (const project of ["hestia", "hoplite", "historia", "hodos"]) assert.match(css, new RegExp(`data-project=["']${project}`));
+  for (const project of ["hestia", "hoplite", "historia", "hodos", "tahto", "ignatius"]) assert.match(css, new RegExp(`data-project=["']${project}`));
   for (const token of ["--gw-control-bg", "--gw-control-text", "--gw-control-hover", "--gw-art-veil", "--gw-sigil-ground", "--gw-sigil-grout"]) assert.match(css, new RegExp(token));
 });
 
@@ -158,9 +173,9 @@ test("essential foreground and background pairs meet WCAG AA", () => {
   ]) assert.ok(contrast(foreground, background) >= 4.5, `${foreground} on ${background}`);
 });
 
-test("sigil exploration lab publishes sixty adaptive smalti studies with light/dark pairs", async () => {
+test("sigil exploration lab publishes sixty-two adaptive smalti studies with light/dark pairs", async () => {
   const manifest = JSON.parse(await readFile(new URL("../site/sigils/manifest.json", import.meta.url)));
-  assert.equal(manifest.length, 60);
+  assert.equal(manifest.length, 62);
   for (const entry of manifest) {
     const svg = await readFile(new URL(`../site/sigils/${entry.id}.svg`, import.meta.url), "utf8");
     assert.match(svg, /viewBox="0 0 480 480"/, entry.id);

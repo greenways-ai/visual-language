@@ -238,5 +238,13 @@
   {
     "id": "shell-fan",
     "label": "Shell · scallop fan"
+  },
+  {
+    "id": "lattice-four-wing",
+    "label": "Lattice · four wing"
+  },
+  {
+    "id": "arch-sealed-blocks",
+    "label": "Arch · three sealed blocks"
   }
 ]

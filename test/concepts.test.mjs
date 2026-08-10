@@ -5,9 +5,9 @@ import { scenes } from "../src/scene-language.js";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
-test("all forty-eight environment concepts have a generated route", async () => {
+test("all sixty-four environment concepts have a generated route", async () => {
   const route = await read("src/pages/concepts/[world]/[scene].astro");
-  assert.equal(scenes.length, 48);
+  assert.equal(scenes.length, 64);
   assert.match(route, /export function getStaticPaths/);
   assert.match(route, /sceneEntries\.map/);
   assert.match(route, /concepts\/\$\{previous\.world\}\/\$\{previous\.id\}/);
@@ -25,7 +25,7 @@ test("the concept catalogue links every artwork card to its own page", async () 
   assert.match(catalogue, /concepts\/\$\{world\}\/\$\{scene\}/);
   assert.match(catalogue, /Open concept/);
   assert.match(index, /Object\.entries\(catalog\)/);
-  assert.match(index, /50 dedicated pages/);
+  assert.match(index, /66 dedicated pages/);
   assert.match(header, /label: "Concepts"/);
   assert.match(config, /Concept pages ↗/);
 });

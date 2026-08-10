@@ -8,6 +8,8 @@ export const projects = {
   hoplite: { label: "Hoplite", motif: "Compass", accent: "cyan" },
   historia: { label: "Historia", motif: "Mountains", accent: "blue" },
   hodos: { label: "Hodos", motif: "Ring", accent: "green" },
+  tahto: { label: "Tahto", motif: "Four-wing lattice", accent: "indigo" },
+  ignatius: { label: "Ignatius", motif: "Pointed arch · sealed blocks", accent: "yellow" },
   "visual-language": {
     label: "Visual Language",
     motif: "Lotus · three petals",
@@ -22,6 +24,8 @@ export const projectLinks = [
   { project: "hoplite", label: "Hoplite", href: "https://oss.greenways.ai/hoplite/" },
   { project: "historia", label: "Historia", href: "https://oss.greenways.ai/historia/" },
   { project: "hodos", label: "Hodos", href: "https://oss.greenways.ai/hodos/" },
+  { project: "tahto", label: "Tahto", href: "https://github.com/greenways-ai/tahto" },
+  { project: "ignatius", label: "Ignatius", href: "https://github.com/greenways-ai/ignatius" },
   {
     project: "visual-language",
     label: "Visual Language",

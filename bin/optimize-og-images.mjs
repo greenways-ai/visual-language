@@ -10,13 +10,24 @@ const cards = [
   "historia",
   "hodos",
   "hoplite",
+  "tahto",
+  "ignatius",
   "visual-language",
 ];
+const cardsArgument = process.argv.find((argument) => argument.startsWith("--cards="));
+const selectedCards = cardsArgument
+  ? new Set(cardsArgument.slice("--cards=".length).split(",").filter(Boolean))
+  : null;
+const cardNames = selectedCards ? cards.filter((name) => selectedCards.has(name)) : cards;
+
+if (selectedCards && cardNames.length === 0) {
+  throw new Error(`No cards matched --cards=${[...selectedCards].join(",")}`);
+}
 const width = 1200;
 const height = 630;
 const maxBytes = 350_000;
 
-for (const name of cards) {
+for (const name of cardNames) {
   const source = `${root}/site/assets/og-${name}.png`;
   const target = `${root}/site/assets/og-${name}.jpg`;
 
