@@ -43,8 +43,8 @@
 :root[data-theme="dark"][data-project="historia"]{--gw-accent-1:#243d65;--gw-accent-2:#39608f;--gw-accent-3:#5b86b8;--gw-accent-4:#38c5dd;--gw-accent-5:#83e9f4;--gw-focus:#83e9f4;--gw-control-hover:#142236}
 :root[data-project="hodos"]{--gw-accent-1:#11392f;--gw-accent-2:#1d5e4d;--gw-accent-3:#2f8569;--gw-accent-4:#58a983;--gw-accent-5:#9bd4ad;--gw-focus:#17664f;--gw-control-hover:#e1efe7}
 :root[data-theme="dark"][data-project="hodos"]{--gw-accent-1:#174b3d;--gw-accent-2:#25755d;--gw-accent-3:#38a67c;--gw-accent-4:#70c99a;--gw-accent-5:#b4e4bd;--gw-focus:#8de0b1;--gw-control-hover:#14271f}
-:root[data-project="tahto"]{--gw-accent-1:#162b5c;--gw-accent-2:#1d5f73;--gw-accent-3:#438c9c;--gw-accent-4:#7668b5;--gw-accent-5:#d7d8e6;--gw-focus:#394f97;--gw-control-hover:#e5e8f3}
-:root[data-theme="dark"][data-project="tahto"]{--gw-accent-1:#254477;--gw-accent-2:#2b7c8e;--gw-accent-3:#5ab6c1;--gw-accent-4:#9a88e0;--gw-accent-5:#f0f1f7;--gw-focus:#9a88e0;--gw-control-hover:#151a31}
+:root[data-project="tahto"]{--gw-accent-1:#2b102f;--gw-accent-2:#5a174d;--gw-accent-3:#8f1d4f;--gw-accent-4:#c52f5d;--gw-accent-5:#ef637d;--gw-focus:#a52258;--gw-control-hover:#f4e3eb}
+:root[data-theme="dark"][data-project="tahto"]{--gw-accent-1:#451849;--gw-accent-2:#7b2363;--gw-accent-3:#bc2c63;--gw-accent-4:#ed4b76;--gw-accent-5:#ff9aaf;--gw-focus:#ed4b76;--gw-control-hover:#2a111f}
 :root[data-project="ignatius"]{--gw-accent-1:#090a0b;--gw-accent-2:#24211a;--gw-accent-3:#a97800;--gw-accent-4:#e0b51a;--gw-accent-5:#ffe36e;--gw-focus:#8a6800;--gw-control-hover:#f5edcf}
 :root[data-theme="dark"][data-project="ignatius"]{--gw-accent-1:#181a1c;--gw-accent-2:#34322b;--gw-accent-3:#c69600;--gw-accent-4:#f0c91e;--gw-accent-5:#ffe98c;--gw-focus:#f0c91e;--gw-control-hover:#29240f}
 
@@ -68,7 +68,7 @@
 .gw-mosaic-logo--historia,
 .gw-mosaic-logo--historian { --gw-logo-accent: #415d8a; }
 .gw-mosaic-logo--visual-language { --gw-logo-accent: #8b6fa8; }
-.gw-mosaic-logo--tahto { --gw-logo-accent: #7668b5; }
+.gw-mosaic-logo--tahto { --gw-logo-accent: #c52f5d; }
 .gw-mosaic-logo--ignatius { --gw-logo-accent: #e0b51a; }
 
 .gw-themed-artwork { position: relative; overflow: hidden; background-color: var(--gw-surface-muted); background-image: var(--gw-art-light); background-position: var(--gw-art-light-position, center); background-size: cover; }

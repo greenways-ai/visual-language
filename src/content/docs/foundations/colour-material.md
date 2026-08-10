@@ -14,7 +14,7 @@ Each project owns a five-step accent ramp and a material vocabulary. The ramp dr
 | Hoplite | Cyan, teal, ice | Cyan glass, pale stone, dark green marble, clipped foliage |
 | Historia | Lapis, midnight, cyan | Lapis smalti, black marble, ivory, gold leaf |
 | Hodos | Malachite, celadon, pearl | Mother-of-pearl, green glass, silk, aged mirror |
-| Tahto | Indigo, petrol, violet, moonstone | Iridescent smalti, oxidised silver, water, living reeds |
+| Tahto | Aubergine, crimson violet, ruby, orchid magenta | Iridescent smalti, rose quartz, warm oxidised silver, dark water, living reeds |
 | Ignatius | Obsidian, charcoal, ochre, yellow | Black basalt, yellow glass, gold smalti, blackened steel |
 | Visual Language | Amethyst, violet, lilac | Purple smalti, warm mineral ground, dark plum stone |
 | Statstrade | Legion red, oxblood, bronze | Red smalti, basalt, travertine, porphyry, bronze |

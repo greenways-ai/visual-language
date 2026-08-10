@@ -82,7 +82,11 @@ test("scene language assigns space-led behavior and sparse sigils", async () => 
     assert.match(worlds[project].animal, /photorealistic anatomically natural/);
   }
   assert.match(worlds.tahto.animal, /emperor dragonfly/);
+  assert.match(worlds.tahto.palette, /aubergine, crimson violet, ruby/);
+  assert.doesNotMatch(worlds.tahto.palette, /petrol|blue-green/);
   assert.match(worlds.ignatius.animal, /buckskin mustang/);
+  assert.match(worlds.www.palette, /electric cyan, lapis, ultraviolet, orchid magenta/);
+  assert.match(worlds.www.materials, /mosaic geology/);
   assert.match(styleContract, /Every visible built surface/);
   assert.match(styleContract, /Every living animal remains fully photorealistic and biological/);
   assert.match(negativeContract, /mosaic animal/);
@@ -108,6 +112,7 @@ test("canonical sigils adopt the named project motifs", async () => {
   assert.match(gen, /#7ED8C9/);
   assert.match(gen, /#2FB7D6/);
   assert.match(gen, /#7B69C7/);
+  assert.match(gen, /#c52f5d/);
   assert.match(gen, /SMALL_PITCH/);
   assert.doesNotMatch(gen, /allFlat/);
   assert.doesNotMatch(gen, /#b78a22|#d7b64e/);

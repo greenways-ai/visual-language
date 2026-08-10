@@ -89,6 +89,19 @@ test("day and night are explicit comparison states across the site", async () =>
   assert.ok((page.match(/<DayNightExplorer/g) || []).length >= 3);
 });
 
+test("authored concept links do not duplicate the configured base path", async () => {
+  const pages = [
+    "../astro.config.mjs",
+    "../src/content/docs/identity/day-night.mdx",
+    "../src/content/docs/case-studies/greenways-world.mdx",
+    "../src/content/docs/case-studies/statstrade.mdx",
+  ];
+  for (const page of pages) {
+    const source = await readFile(new URL(page, import.meta.url), "utf8");
+    assert.doesNotMatch(source, /href="\/visual-language\/concepts\//, page);
+  }
+});
+
 test("dimensional marks preserve canonical SVG identity in a dependency-free shader lab", async () => {
   const [pkg, config, system, page, lab] = await Promise.all([
     read("package.json"),
