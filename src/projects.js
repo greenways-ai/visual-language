@@ -41,4 +41,6 @@ export const ossProjectLinks = [
   { project: "hoplite", label: "Hoplite", href: "https://oss.greenways.ai/hoplite/" },
   { project: "historia", label: "Historia", href: "https://oss.greenways.ai/historia/" },
   { project: "hodos", label: "Hodos", href: "https://oss.greenways.ai/hodos/" },
+  { project: "tahto", label: "Tahto", href: "https://oss.greenways.ai/tahto/" },
+  { project: "ignatius", label: "Ignatius", href: "https://oss.greenways.ai/ignatius/" },
 ];

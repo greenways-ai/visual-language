@@ -47,11 +47,12 @@ test("project switcher uses canonical OSS order and project sigils", async () =>
   }
   assert.deepEqual(
     ossProjectLinks.map((item) => item.project),
-    ["hestia", "hoplite", "historia", "hodos"],
+    ["hestia", "hoplite", "historia", "hodos", "tahto", "ignatius"],
   );
   const source = await readFile(new URL("../src/ProjectSwitcher.astro", import.meta.url), "utf8");
   assert.match(source, /data-gw-project-switcher/);
   assert.match(source, /Back to OSS/);
+  assert.match(source, /showBackLink/);
   assert.match(source, /ossProjectLinks\.map/);
   assert.match(source, /<Sigil project=/);
   assert.doesNotMatch(source, /Statstrade/);

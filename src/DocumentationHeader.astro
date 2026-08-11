@@ -3,19 +3,20 @@ import DocumentationSearch from "./DocumentationSearch.astro";
 import ProjectSwitcher from "./ProjectSwitcher.astro";
 import ThemeButton from "./ThemeButton.astro";
 
-type Project = "greenways" | "hestia" | "hoplite" | "historia" | "hodos" | "visual-language" | "statstrade";
+type Project = "greenways" | "hestia" | "hoplite" | "historia" | "hodos" | "tahto" | "ignatius" | "visual-language" | "statstrade";
 type NavItem = { label: string; href: string };
 interface Props {
   project?: Project;
   title: string;
   homeHref?: string;
-  docsHref: string;
+  docsHref?: string;
   docsLabel?: string;
   nav?: NavItem[];
   searchBase?: string;
   searchLabel?: string;
   logoAssetBase?: string;
   logoAssetVersion?: string;
+  showProjectBackLink?: boolean;
 }
 
 const {
@@ -29,6 +30,7 @@ const {
   searchLabel = `Search ${title} documentation`,
   logoAssetBase,
   logoAssetVersion,
+  showProjectBackLink = true,
 } = Astro.props;
 const searchSelector = `[data-gw-documentation-search-open="${project}"]`;
 ---
@@ -40,14 +42,17 @@ const searchSelector = `[data-gw-documentation-search-open="${project}"]`;
       label={title}
       assetBase={logoAssetBase}
       assetVersion={logoAssetVersion}
+      showBackLink={showProjectBackLink}
     />
     <a href={homeHref}>{title}</a>
   </div>
 
-  <nav aria-label={`${title} documentation navigation`}>
-    {nav.map((item) => <a href={item.href}>{item.label}</a>)}
-    <a href={docsHref}>{docsLabel}</a>
-  </nav>
+  {(nav.length > 0 || docsHref) && (
+    <nav aria-label={`${title} documentation navigation`}>
+      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+      {docsHref && <a href={docsHref}>{docsLabel}</a>}
+    </nav>
+  )}
 
   <button
     class="gw-documentation-header__control"

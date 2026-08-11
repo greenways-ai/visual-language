@@ -9,6 +9,7 @@ interface Props {
   class?: string;
   assetBase?: string;
   assetVersion?: string;
+  showBackLink?: boolean;
 }
 
 const {
@@ -17,6 +18,7 @@ const {
   class: className,
   assetBase,
   assetVersion,
+  showBackLink = true,
 } = Astro.props;
 ---
 
@@ -25,11 +27,15 @@ const {
     <Sigil project={project} label={label} assetBase={assetBase} assetVersion={assetVersion} />
   </summary>
   <div class="gw-project-switcher__menu" role="menu" aria-label="Greenways OSS projects">
-    <a class="gw-project-switcher__back" href="https://oss.greenways.ai/" role="menuitem">
-      <span aria-hidden="true">←</span>
-      <strong>Back to OSS</strong>
-    </a>
-    <div class="gw-project-switcher__rule" aria-hidden="true"></div>
+    {showBackLink && (
+      <>
+        <a class="gw-project-switcher__back" href="https://oss.greenways.ai/" role="menuitem">
+          <span aria-hidden="true">←</span>
+          <strong>Back to OSS</strong>
+        </a>
+        <div class="gw-project-switcher__rule" aria-hidden="true"></div>
+      </>
+    )}
     {ossProjectLinks.map((item) => (
       <a
         href={item.href}
