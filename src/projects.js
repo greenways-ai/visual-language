@@ -8,7 +8,7 @@ export const projects = {
   hoplite: { label: "Hoplite", motif: "Compass", accent: "cyan" },
   historia: { label: "Historia", motif: "Mountains", accent: "blue" },
   hodos: { label: "Hodos", motif: "Ring", accent: "green" },
-  tahto: { label: "Tahto", motif: "Four-wing lattice", accent: "crimson violet" },
+  tahto: { label: "Tahto", motif: "Four-wing lattice", accent: "opal gold" },
   ignatius: { label: "Ignatius", motif: "Pointed arch · sealed blocks", accent: "yellow" },
   "visual-language": {
     label: "Visual Language",

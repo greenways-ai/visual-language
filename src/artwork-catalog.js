@@ -15,7 +15,7 @@ export const artworkThemes = {
   hoplite: { animal:"rabbit", colors:["#0b1410","#0e4a56","#1595a8","#20c7df","#a8ecf7","#eafbfd"] },
   historia: { animal:"raven", colors:["#101827","#243d65","#39608f","#5b86b8","#38c5dd","#dce9f5"] },
   hodos: { animal:"moth", colors:["#0d1c17","#174b3d","#25755d","#38a67c","#70c99a","#d7ebbf"] },
-  tahto: { animal:"emperor dragonfly", colors:["#180b1c","#2b102f","#5a174d","#8f1d4f","#c52f5d","#ef637d"] },
+  tahto: { animal:"emperor dragonfly", colors:["#51422f","#a9782b","#d8b85a","#d8ebe8","#f3efe4","#fffaf0"] },
   ignatius: { animal:"buckskin mustang", colors:["#090a0b","#24211a","#5d4907","#a97800","#e0b51a","#ffe36e"] },
   www: { animal:"living world", colors:["#071b18","#087f5b","#16c7d9","#3155d9","#854bd9","#d63d8f","#ff7058","#f3d35c"] },
 };

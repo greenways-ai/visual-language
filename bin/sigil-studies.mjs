@@ -45,7 +45,7 @@ export const PAL = {
   midnight: ["#101827", "#243d65", "#39608f", "#5b86b8", "#dce9f5"],
   peacock: ["#123e34", "#1f6552", "#cfb66a", "#20c7df", "#0f2c4f"],
   slate: ["#2c313a", "#454c58", "#5f6a77", "#8b97a3", "#c3ccd4"],
-  iridescent: ["#2b102f", "#5a174d", "#8f1d4f", "#c52f5d", "#ef637d"],
+  iridescent: ["#51422f", "#a9782b", "#d8b85a", "#d8ebe8", "#f3efe4"],
   yellowblack: ["#090a0b", "#24211a", "#a97800", "#e0b51a", "#ffe36e"],
 };
 export const GROUND = "GROUND";
