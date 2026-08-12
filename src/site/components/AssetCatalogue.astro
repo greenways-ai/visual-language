@@ -1,0 +1,146 @@
+---
+import { readFile } from "node:fs/promises";
+
+type CatalogueAsset = {
+  role: string;
+  title: string;
+  assetId: string;
+  alias: string;
+  sha256: string;
+  state: "approved" | "published";
+  width: number;
+  height: number;
+  publicUrl: string | null;
+};
+
+type CatalogueLineage = {
+  parentAssetId: string;
+  childAssetId: string;
+  operation: string;
+  instruction: string;
+};
+
+type CatalogueIndex = {
+  status: "pending" | "complete";
+  release: string | null;
+  assets: CatalogueAsset[];
+  lineage: CatalogueLineage[];
+};
+
+const indexPath = new URL("../../../catalogue/site-index.json", import.meta.url);
+let catalogue: CatalogueIndex = {
+  status: "pending",
+  release: null,
+  assets: [],
+  lineage: [],
+};
+try {
+  catalogue = JSON.parse(await readFile(indexPath, "utf8")) as CatalogueIndex;
+} catch (error) {
+  if ((error as NodeJS.ErrnoException)?.code !== "ENOENT") throw error;
+}
+const roles: Record<string, string> = {
+  greenways: "Greenways",
+  hestia: "Hestia",
+  hoplite: "Hoplite",
+  historia: "Historia",
+  hodos: "Hodos",
+  tahto: "Tahto",
+  ignatius: "Ignatius",
+};
+---
+
+<section class="asset-catalogue" aria-labelledby="asset-catalogue-title">
+  <header class="asset-catalogue__header">
+    <p class="asset-catalogue__eyebrow">Git LFS catalogue · exact-byte releases</p>
+    <h2 id="asset-catalogue-title">Greenways project flowers</h2>
+    <p>
+      Each selection is pinned by a stable <code>gw.asset</code> identity and an exact SHA-256 digest.
+      Approved sources stay reviewable in Git; only assets explicitly promoted to <strong>published</strong>
+      receive a public site URL.
+    </p>
+  </header>
+
+  {catalogue.status !== "complete" ? (
+    <div class="asset-catalogue__pending">
+      The initial exact-source import is being assembled. No unreviewed image is published from the pending catalogue.
+    </div>
+  ) : (
+    <>
+      <div class="asset-catalogue__summary">
+        <span>{catalogue.assets.length} selected crests</span>
+        <span>{catalogue.assets.filter((asset) => asset.state === "published").length} published rendition</span>
+        <code>{catalogue.release}</code>
+      </div>
+      <div class="asset-catalogue__grid">
+        {catalogue.assets.map((asset) => (
+          <article class:list={["asset-card", { "asset-card--published": asset.state === "published" }]}>
+            <div class="asset-card__preview">
+              {asset.publicUrl ? (
+                <img src={asset.publicUrl} alt={`${roles[asset.role] ?? asset.role} project flower`} loading="lazy" />
+              ) : (
+                <div class="asset-card__sealed" aria-label="Approved source is not publicly published">
+                  <span>Approved source</span>
+                  <small>Publication not released</small>
+                </div>
+              )}
+            </div>
+            <div class="asset-card__body">
+              <div class="asset-card__topline">
+                <strong>{roles[asset.role] ?? asset.role}</strong>
+                <span class:list={["asset-card__state", `asset-card__state--${asset.state}`]}>{asset.state}</span>
+              </div>
+              <h3>{asset.title}</h3>
+              <dl>
+                <div><dt>Asset</dt><dd><code>{asset.assetId}</code></dd></div>
+                <div><dt>Alias</dt><dd><code>{asset.alias}</code></dd></div>
+                <div><dt>SHA-256</dt><dd><code title={asset.sha256}>{asset.sha256.slice(0, 16)}…</code></dd></div>
+                <div><dt>Pixels</dt><dd>{asset.width} × {asset.height}</dd></div>
+              </dl>
+              {asset.publicUrl && <a href={asset.publicUrl}>Open exact published rendition</a>}
+            </div>
+          </article>
+        ))}
+      </div>
+      {catalogue.lineage.length > 0 && (
+        <aside class="asset-catalogue__lineage">
+          <strong>Hodos edit lineage retained</strong>
+          <p>{catalogue.lineage[0].instruction}</p>
+          <code>{catalogue.lineage[0].parentAssetId} → {catalogue.lineage[0].childAssetId}</code>
+        </aside>
+      )}
+    </>
+  )}
+</section>
+
+<style>
+  .asset-catalogue { display: grid; gap: 1.5rem; margin-block: 2rem; }
+  .asset-catalogue__header { max-width: 70ch; }
+  .asset-catalogue__eyebrow { margin: 0 0 .55rem; color: var(--sl-color-accent-high); font-family: var(--gw-font-mono, monospace); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; }
+  .asset-catalogue__header h2 { margin: 0; font-family: var(--gw-font-display, serif); }
+  .asset-catalogue__header p { color: var(--sl-color-gray-2); }
+  .asset-catalogue__summary { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
+  .asset-catalogue__summary span, .asset-catalogue__summary code { border: 1px solid color-mix(in srgb, var(--sl-color-accent) 30%, transparent); border-radius: 999px; padding: .35rem .65rem; background: color-mix(in srgb, var(--sl-color-accent-low) 45%, transparent); font-size: .76rem; }
+  .asset-catalogue__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: 1rem; }
+  .asset-card { overflow: hidden; border: 1px solid color-mix(in srgb, var(--sl-color-gray-4) 55%, transparent); border-radius: 1.1rem; background: color-mix(in srgb, var(--sl-color-bg-nav) 88%, transparent); box-shadow: 0 18px 55px rgb(22 13 28 / .08); }
+  .asset-card--published { border-color: color-mix(in srgb, var(--sl-color-accent) 45%, var(--sl-color-gray-4)); }
+  .asset-card__preview { display: grid; min-height: 13rem; place-items: center; background: radial-gradient(circle at 50% 35%, #30323a, #14151a 72%); }
+  .asset-card__preview img { width: 100%; height: 17rem; object-fit: contain; }
+  .asset-card__sealed { display: grid; gap: .3rem; text-align: center; color: #d8d3dc; }
+  .asset-card__sealed::before { content: "✦"; font-size: 2rem; color: #ab86c8; }
+  .asset-card__sealed small { color: #928e9b; }
+  .asset-card__body { display: grid; gap: .8rem; padding: 1rem; }
+  .asset-card__topline { display: flex; justify-content: space-between; gap: .5rem; align-items: center; }
+  .asset-card__state { border-radius: 999px; padding: .2rem .5rem; font-family: var(--gw-font-mono, monospace); font-size: .68rem; text-transform: uppercase; }
+  .asset-card__state--approved { background: #e8dfef; color: #56336d; }
+  .asset-card__state--published { background: #dff0e7; color: #174f36; }
+  .asset-card h3 { margin: 0; font-size: 1.05rem; }
+  .asset-card dl { display: grid; gap: .55rem; margin: 0; }
+  .asset-card dl div { display: grid; gap: .15rem; }
+  .asset-card dt { color: var(--sl-color-gray-3); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; }
+  .asset-card dd { min-width: 0; margin: 0; overflow-wrap: anywhere; font-size: .78rem; }
+  .asset-card a { width: fit-content; font-weight: 700; }
+  .asset-catalogue__pending, .asset-catalogue__lineage { border-left: .25rem solid var(--sl-color-accent); border-radius: .25rem .8rem .8rem .25rem; padding: 1rem 1.1rem; background: color-mix(in srgb, var(--sl-color-accent-low) 38%, transparent); }
+  .asset-catalogue__lineage p { margin-block: .4rem; }
+  .asset-catalogue__lineage code { overflow-wrap: anywhere; font-size: .72rem; }
+</style>

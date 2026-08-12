@@ -11,8 +11,12 @@ concurrency:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      GREENWAYS_ASSETS_REQUIRE_HYDRATED: "1"
     steps:
       - uses: actions/checkout@v5
+        with:
+          lfs: true
       - uses: actions/setup-node@v4
         with:
           node-version: 24
