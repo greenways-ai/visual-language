@@ -5,10 +5,12 @@ on:
     branches: [agent/git-lfs-asset-catalogue-16]
     paths:
       - catalogue/bootstrap-seed/**
+      - catalogue/bootstrap-bundle.json
       - catalogue/bootstrap-sources.json
       - catalogue/bootstrap-status.json
       - scripts/bootstrap-asset-catalogue.mjs
       - scripts/asset-catalogue-lib.mjs
+      - scripts/verify-asset-catalogue.mjs
       - .github/workflows/bootstrap-assets-lfs.yml
 
 permissions:
@@ -30,11 +32,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Checkout the Greenways asset registry
+      - name: Checkout the reviewed Greenways asset registry
         uses: actions/checkout@v4
         with:
           repository: greenways-ai/greenways-os
-          ref: main
+          # PR #48 merge commit. Update this pin only through review.
+          ref: 1dfb41a2edf4c44a6fd87bf6a4165acfc070f344
           path: .bootstrap/greenways-os
           sparse-checkout: services/assets
           sparse-checkout-cone-mode: false

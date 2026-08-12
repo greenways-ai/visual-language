@@ -1,0 +1,9 @@
+{
+  "protocol": "greenways-asset-bootstrap-bundle/0-alpha",
+  "file": "greenways-project-flower-lfs-seed.zip",
+  "sha256": "c86238609c5a2d094684daa62eddf0ef3bfa429eaad7e61f2e71e1d6b1536818",
+  "bytes": 16326860,
+  "sourceManifest": "catalogue/bootstrap-sources.json",
+  "sourceCount": 8,
+  "seedPrefix": "catalogue/bootstrap-seed/"
+}

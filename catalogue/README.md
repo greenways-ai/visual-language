@@ -15,14 +15,27 @@ files are declared in `bootstrap-sources.json`, including their names, byte
 lengths, PNG dimensions, SHA-256 digests, aliases, selection states, and Hodos
 parent/edit relationship. No asset is public in this state.
 
-Unpack the reviewed bundle at the repository root so its files land in
-`catalogue/bootstrap-seed/`, then run:
+The reviewed ZIP itself is pinned by `bootstrap-bundle.json`. The preferred
+one-time handoff is:
 
 ```bash
 git lfs install
-npm run stage:catalogue-seed
+npm run stage:catalogue-bundle -- /path/to/greenways-project-flower-lfs-seed.zip
 git commit -m "Stage the reviewed project-flower sources"
 git push origin agent/git-lfs-asset-catalogue-16
+```
+
+`stage:catalogue-bundle` verifies the archive byte length and SHA-256 before
+reading it. It then confirms the archive contains exactly the eight declared
+seed entries, extracts only those PNGs, verifies every source again, and hands
+them to the ordinary seed staging gate. Renaming the downloaded ZIP is safe;
+its exact bytes, rather than its local filename, determine acceptance.
+
+For an already unpacked, independently verified source directory, the lower
+level command remains available:
+
+```bash
+npm run stage:catalogue-seed
 ```
 
 The staging helper verifies all eight files and temporarily adds the seed path
@@ -35,7 +48,8 @@ The `Bootstrap project-flower Git LFS catalogue` workflow will then:
 
 1. hydrate the eight reviewed seed objects from Git LFS;
 2. verify every source against the committed contract;
-3. import it through the Greenways asset registry;
+3. import it through the Greenways asset registry pinned to the reviewed
+   `greenways-ai/greenways-os#48` merge commit;
 4. create append-only JSON and `.hal` revisions;
 5. preserve the taller Hodos peacock as the compact rendition's parent;
 6. promote the seven selected crests to their reviewed states;

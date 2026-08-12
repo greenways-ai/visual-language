@@ -1,11 +1,21 @@
 import { createHash } from "node:crypto";
 import { mkdir, readFile, rename, rm, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
-export const repositoryRoot = resolve(new URL("..", import.meta.url).pathname);
-export const catalogueRoot = resolve(repositoryRoot, "catalogue");
-export const publicCatalogueRoot = resolve(repositoryRoot, "public/assets/catalogue");
-export const siteBase = "/visual-language";
+const moduleRepositoryRoot = resolve(fileURLToPath(new URL("..", import.meta.url)));
+
+export const repositoryRoot = resolve(
+  process.env.GREENWAYS_ASSET_REPOSITORY_ROOT ?? moduleRepositoryRoot,
+);
+export const catalogueRoot = resolve(
+  process.env.GREENWAYS_ASSET_CATALOGUE_ROOT ?? resolve(repositoryRoot, "catalogue"),
+);
+export const publicCatalogueRoot = resolve(
+  process.env.GREENWAYS_ASSET_PUBLIC_CATALOGUE_ROOT
+    ?? resolve(repositoryRoot, "public/assets/catalogue"),
+);
+export const siteBase = process.env.GREENWAYS_ASSET_SITE_BASE ?? "/visual-language";
 
 const DIGEST = /^[0-9a-f]{64}$/;
 const LFS_SPEC = "https://git-lfs.github.com/spec/v1";
