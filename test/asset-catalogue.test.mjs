@@ -4,7 +4,7 @@ import test from "node:test";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
-test("catalogue objects use the narrow Git LFS boundary", async () => {
+test("catalogue objects use the narrow permanent Git LFS boundary", async () => {
   const attributes = await read(".gitattributes");
   assert.equal(attributes.trim(), "catalogue/objects/** filter=lfs diff=lfs merge=lfs -text");
 });
@@ -22,18 +22,29 @@ test("reviewed source contract pins all project flowers and Hodos lineage", asyn
   assert.equal(status.state, "awaiting-sources");
 });
 
+test("one-time staging refuses ordinary Git image blobs", async () => {
+  const packageJson = JSON.parse(await read("package.json"));
+  const staging = await read("scripts/stage-asset-catalogue-seed.mjs");
+  const bootstrap = await read(".github/workflows/bootstrap-assets-lfs.yml");
+  assert.match(packageJson.scripts["stage:catalogue-seed"], /stage-asset-catalogue-seed/);
+  assert.match(staging, /catalogue\/bootstrap-seed\/\*\* filter=lfs/);
+  assert.match(staging, /git.*show/);
+  assert.match(staging, /was staged as ordinary Git data/);
+  assert.match(bootstrap, /lfs: true/);
+  assert.match(bootstrap, /git lfs pull --include="catalogue\/bootstrap-seed\/\*\*"/);
+  assert.match(bootstrap, /Restore the permanent LFS tracking boundary/);
+  assert.match(bootstrap, /git lfs push origin HEAD/);
+});
+
 test("catalogue publication is part of the tested site build", async () => {
   const packageJson = JSON.parse(await read("package.json"));
   assert.match(packageJson.scripts.test, /verify:catalogue/);
   assert.match(packageJson.scripts.build, /assets:catalogue/);
   const pages = await read(".github/workflows/pages.yml");
   const ci = await read(".github/workflows/ci.yml");
-  const bootstrap = await read(".github/workflows/bootstrap-assets-lfs.yml");
   assert.match(pages, /lfs: true/);
   assert.match(ci, /lfs: true/);
   assert.match(ci, /GREENWAYS_ASSETS_REQUIRE_HYDRATED: "1"/);
-  assert.match(bootstrap, /git lfs push origin HEAD/);
-  assert.match(bootstrap, /steps\.stage\.outputs\.changed == 'true'/);
 });
 
 test("asset catalogue page exposes identity and publication boundaries", async () => {

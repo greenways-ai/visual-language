@@ -42,6 +42,7 @@
     "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
     "assets": "node bin/generate-v3-favicons.mjs",
     "assets:catalogue": "node scripts/build-asset-catalogue.mjs",
+    "stage:catalogue-seed": "node scripts/stage-asset-catalogue-seed.mjs",
     "verify:catalogue": "node scripts/verify-asset-catalogue.mjs",
     "sigils": "node bin/generate-sigil-explorations.mjs",
     "prompts": "node bin/compose-scene-prompts.mjs",

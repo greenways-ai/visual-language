@@ -3,10 +3,10 @@
 This directory is the first concrete catalogue built on the
 `greenways-asset/0-alpha` registry in `greenways-ai/greenways-os`.
 
-Only `objects/**` is transported by standard Git LFS. Manifests, records,
-aliases, collections, release locks, resolver metadata, and lifecycle decisions
-remain ordinary Git text so a pull request can review them without downloading
-every image.
+Only the permanent `objects/**` tree is transported by standard Git LFS in the
+completed catalogue. Manifests, records, aliases, collections, release locks,
+resolver metadata, and lifecycle decisions remain ordinary Git text so a pull
+request can review them without downloading every image.
 
 ## Bootstrap state
 
@@ -15,20 +15,37 @@ files are declared in `bootstrap-sources.json`, including their names, byte
 lengths, PNG dimensions, SHA-256 digests, aliases, selection states, and Hodos
 parent/edit relationship. No asset is public in this state.
 
-Stage all eight files together under `catalogue/bootstrap-seed/` and push the
-branch. The `Bootstrap project-flower Git LFS catalogue` workflow will:
+Unpack the reviewed bundle at the repository root so its files land in
+`catalogue/bootstrap-seed/`, then run:
 
-1. verify every source against the committed contract;
-2. import it through the Greenways asset registry;
-3. create append-only JSON and `.hal` revisions;
-4. preserve the taller Hodos peacock as the compact rendition's parent;
-5. promote the seven selected crests to their reviewed states;
-6. route all exact objects through Git LFS;
-7. remove the temporary seed files; and
-8. commit the completed catalogue back to the branch.
+```bash
+git lfs install
+npm run stage:catalogue-seed
+git commit -m "Stage the reviewed project-flower sources"
+git push origin agent/git-lfs-asset-catalogue-16
+```
 
-The seed directory is intentionally ignored after this one-time transfer. From a
-local checkout, use `git add -f catalogue/bootstrap-seed` for the staging commit.
+The staging helper verifies all eight files and temporarily adds the seed path
+to the local branch's LFS attributes before staging. It then inspects every
+staged blob and refuses to continue unless the blob is a canonical Git LFS
+pointer whose OID and size exactly match the reviewed source contract. The raw
+PNG bytes therefore never enter ordinary Git history.
+
+The `Bootstrap project-flower Git LFS catalogue` workflow will then:
+
+1. hydrate the eight reviewed seed objects from Git LFS;
+2. verify every source against the committed contract;
+3. import it through the Greenways asset registry;
+4. create append-only JSON and `.hal` revisions;
+5. preserve the taller Hodos peacock as the compact rendition's parent;
+6. promote the seven selected crests to their reviewed states;
+7. reuse the same SHA-256 LFS objects at permanent content-addressed paths;
+8. remove the temporary seed pointers and temporary LFS attribute; and
+9. commit the completed catalogue back to the branch.
+
+Because Git LFS uses the exact source SHA-256 as its object ID, the temporary
+seed path and permanent content-addressed path do not duplicate the binary
+object.
 
 ## Completed layout
 
