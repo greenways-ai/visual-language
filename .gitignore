@@ -2,3 +2,7 @@
 dist/
 node_modules/
 .astro/
+.bootstrap/
+catalogue/locks/
+catalogue/bootstrap-seed/
+public/assets/catalogue/

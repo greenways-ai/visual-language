@@ -15,6 +15,10 @@ Greenways names, wordmarks, canonical mosaic marks, Statstrade identity, and ori
 
 See `BRAND-ASSETS.md` for the controlling repository notice.
 
+## Reviewed asset catalogue
+
+The [asset catalogue](../asset-catalogue/) records exact generated sources, stable `gw.asset` identities, edit lineage, review state, Git LFS object transport, and application-facing release locks. An image does not become a public asset merely because it was generated or imported; publication is a separate reviewed transition.
+
 ## Consumer responsibility
 
 Importing the package does not grant permission to present an unrelated product as an official Greenways project. Consumers should preserve attribution and follow the published brand-asset terms.

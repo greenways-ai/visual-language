@@ -1,0 +1,77 @@
+name: Bootstrap project-flower Git LFS catalogue
+
+on:
+  push:
+    branches: [agent/git-lfs-asset-catalogue-16]
+    paths:
+      - catalogue/bootstrap-seed/**
+      - catalogue/bootstrap-bundle.json
+      - catalogue/bootstrap-sources.json
+      - catalogue/bootstrap-status.json
+      - scripts/bootstrap-asset-catalogue.mjs
+      - scripts/asset-catalogue-lib.mjs
+      - scripts/verify-asset-catalogue.mjs
+      - .github/workflows/bootstrap-assets-lfs.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bootstrap-project-flower-assets
+  cancel-in-progress: false
+
+jobs:
+  bootstrap:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Checkout the reviewed Greenways asset registry
+        uses: actions/checkout@v4
+        with:
+          repository: greenways-ai/greenways-os
+          # PR #48 merge commit. Update this pin only through review.
+          ref: 1dfb41a2edf4c44a6fd87bf6a4165acfc070f344
+          path: .bootstrap/greenways-os
+          sparse-checkout: services/assets
+          sparse-checkout-cone-mode: false
+      - name: Install the repository-local LFS filters
+        run: git lfs install --local
+      - name: Hydrate the reviewed bootstrap sources
+        run: git lfs pull --include="catalogue/bootstrap-seed/**"
+      - name: Import reviewed sources and create release records
+        run: node scripts/bootstrap-asset-catalogue.mjs
+      - name: Restore the permanent LFS tracking boundary
+        run: printf 'catalogue/objects/** filter=lfs diff=lfs merge=lfs -text\n' > .gitattributes
+      - name: Verify exact hydrated source objects
+        env:
+          GREENWAYS_ASSETS_REQUIRE_HYDRATED: "1"
+        run: node scripts/verify-asset-catalogue.mjs
+      - name: Stage exact source objects through Git LFS
+        id: stage
+        run: |
+          rm -rf .bootstrap
+          git add -A
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No source bundle is staged yet; leaving the catalogue in awaiting-sources state."
+            exit 0
+          fi
+          git diff --cached --check
+          test "$(git lfs ls-files --name-only | wc -l | tr -d ' ')" = "8"
+          git lfs status
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+      - name: Commit and upload the catalogue
+        if: steps.stage.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Seed the project-flower asset catalogue"
+          git lfs push origin HEAD
+          git push origin "HEAD:${GITHUB_REF_NAME}"

@@ -1,0 +1,29 @@
+---
+title: Asset catalogue
+description: Exact-source project crests, edit lineage, Git LFS transport, and reproducible publication locks.
+---
+
+import AssetCatalogue from "../../../site/components/AssetCatalogue.astro";
+
+The visual asset catalogue separates four concerns that were previously mixed together:
+
+1. **Exact source bytes** are addressed by SHA-256 and transported through Git LFS.
+2. **Creative identity** uses stable `gw.asset/<uuid>` identifiers.
+3. **Review decisions** remain ordinary Git text as append-only records, portable `.hal` manifests, collections, and release locks.
+4. **Public delivery** copies only explicitly published renditions into the static Visual Language site.
+
+Git LFS object URLs are never application-facing asset URLs. Applications pin the stable asset ID and exact digest from a reviewed release, then consume the corresponding static resolver URL.
+
+<AssetCatalogue />
+
+## Catalogue commands
+
+Use an LFS-aware checkout before verification or publication:
+
+```bash
+git lfs pull
+npm run verify:catalogue
+npm run assets:catalogue
+```
+
+An unhydrated pointer is reported explicitly rather than being mistaken for image bytes. Importing an edit creates a new asset and records its parent; it never overwrites the original generation.

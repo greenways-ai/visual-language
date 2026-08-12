@@ -1,0 +1,9 @@
+{
+  "protocol": "greenways-asset-catalogue-bootstrap/0-alpha",
+  "state": "awaiting-sources",
+  "issue": 16,
+  "sourceManifest": "catalogue/bootstrap-sources.json",
+  "expectedSources": 8,
+  "expectedSelections": 7,
+  "expectedPublished": 1
+}

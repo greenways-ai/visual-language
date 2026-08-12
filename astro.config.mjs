@@ -79,6 +79,7 @@ export default defineConfig({
             { label: "Generators", slug: "reference/generators" },
             { label: "Theme tokens", slug: "reference/theme-tokens" },
             { label: "Brand assets", slug: "reference/brand-assets" },
+            { label: "Asset catalogue", slug: "reference/asset-catalogue" },
           ],
         },
         {
