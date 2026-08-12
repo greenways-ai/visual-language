@@ -23,6 +23,23 @@ async function writeJson(path, value) {
   await write(path, `${JSON.stringify(value, null, 2)}\n`);
 }
 
+test("asset catalogue scripts parse before any source transfer", async () => {
+  for (const name of [
+    "asset-catalogue-lib.mjs",
+    "bootstrap-asset-catalogue.mjs",
+    "build-asset-catalogue.mjs",
+    "stage-asset-catalogue-bundle.mjs",
+    "stage-asset-catalogue-seed.mjs",
+    "verify-asset-catalogue.mjs",
+  ]) {
+    const { stderr } = await execFileAsync(
+      process.execPath,
+      ["--check", join(repositoryRoot, "scripts", name)],
+    );
+    assert.equal(stderr, "", `${name} emitted parser diagnostics`);
+  }
+});
+
 test("completed catalogue verification accepts a pointer-only review checkout", async (t) => {
   const fixtureRoot = await mkdtemp(join(tmpdir(), "greenways-asset-catalogue-"));
   t.after(async () => rm(fixtureRoot, { recursive: true, force: true }));
@@ -176,6 +193,7 @@ test("completed catalogue verification accepts a pointer-only review checkout", 
     env: {
       ...process.env,
       GREENWAYS_ASSET_REPOSITORY_ROOT: fixtureRoot,
+      GREENWAYS_ASSETS_REQUIRE_HYDRATED: "0",
     },
     maxBuffer: 4 * 1024 * 1024,
   });
