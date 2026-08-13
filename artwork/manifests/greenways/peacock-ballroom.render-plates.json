@@ -1,0 +1,47 @@
+{
+  "format": "visual-language.render-plate-provenance/1",
+  "id": "greenways/peacock-ballroom",
+  "title": "Peacock Ballroom",
+  "rights": {
+    "owner": "greenways-ai",
+    "status": "project-owned",
+    "usage": [
+      "visual-language-publication",
+      "alumbra-render-plate",
+      "hodos-provider-world"
+    ]
+  },
+  "assets": [
+    {
+      "id": "visual-language/greenways/peacock-ballroom-day",
+      "appearance": "day",
+      "masterPath": "artwork/masters/greenways/peacock-ballroom-day.png",
+      "masterBlob": "ceeb1917f99142f39f06e6de7424333e9d2df360",
+      "masterMediaType": "image/png",
+      "deliveryPath": "artwork/greenways/peacock-ballroom-day.webp",
+      "deliveryMediaType": "image/webp",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "id": "visual-language/greenways/peacock-ballroom-night",
+      "appearance": "night",
+      "masterPath": "artwork/masters/greenways/peacock-ballroom-night.png",
+      "masterBlob": "fad7dff0d4bd7f21af0af6aa73508caeb4c177de",
+      "masterMediaType": "image/png",
+      "deliveryPath": "artwork/greenways/peacock-ballroom-night.webp",
+      "deliveryMediaType": "image/webp",
+      "width": 1536,
+      "height": 1024
+    }
+  ],
+  "consumers": [
+    {
+      "repository": "greenways-ai/alumbra",
+      "contract": "alumbra.render-plate-set/1",
+      "world": "greenways/alumbra",
+      "provider": "alumbra/world",
+      "activity": "alumbra-hara/peacock-ballroom"
+    }
+  ]
+}
