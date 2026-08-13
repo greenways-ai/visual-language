@@ -1,0 +1,37 @@
+{
+  "protocol": "greenways-private-bootstrap-transfer/0-alpha",
+  "runId": "31657886421",
+  "cipher": "openssl-cms-aes256/1",
+  "bytes": 16327442,
+  "sha256": "48fb97b88ced2813841a734340f928adc609a79f12da02680cabb3a1443781f6",
+  "parts": [
+    {
+      "index": 1,
+      "file": "project-flowers-31657886421.part-01-of-04.cms",
+      "subject": "GREENWAYS_PROJECT_FLOWERS_31657886421 part 1/4",
+      "bytes": 4081861,
+      "sha256": "d12e824dd4097607018ffb266a25f0d3be2af0f2adda99543fbaf85653366e94"
+    },
+    {
+      "index": 2,
+      "file": "project-flowers-31657886421.part-02-of-04.cms",
+      "subject": "GREENWAYS_PROJECT_FLOWERS_31657886421 part 2/4",
+      "bytes": 4081861,
+      "sha256": "d86b46565ce8207a785a772e54a4355d31e46907e3336f57c1739e4f4b4f51d5"
+    },
+    {
+      "index": 3,
+      "file": "project-flowers-31657886421.part-03-of-04.cms",
+      "subject": "GREENWAYS_PROJECT_FLOWERS_31657886421 part 3/4",
+      "bytes": 4081861,
+      "sha256": "807ae93978dd0caba9a0b55c4c53da4e7a7c44fddeaacf9a38dba471d419905e"
+    },
+    {
+      "index": 4,
+      "file": "project-flowers-31657886421.part-04-of-04.cms",
+      "subject": "GREENWAYS_PROJECT_FLOWERS_31657886421 part 4/4",
+      "bytes": 4081859,
+      "sha256": "9656fbbe2201b7d2ef5d3a646f9f541ade18c0f1497304e7841c877654d21f45"
+    }
+  ]
+}
