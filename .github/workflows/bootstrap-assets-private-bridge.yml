@@ -11,7 +11,7 @@ permissions:
 
 concurrency:
   group: private-project-flower-bootstrap-bridge
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   transfer:
@@ -36,15 +36,33 @@ jobs:
           sparse-checkout-cone-mode: false
       - name: Install repository-local LFS filters
         run: git lfs install --local
-      - name: Create an ephemeral transfer certificate
+      - name: Create and publish an ephemeral transfer certificate
         run: |
           openssl req -x509 -newkey rsa:3072 -sha256 -days 1 -nodes \
             -subj "/CN=greenways-project-flower-bootstrap-${GITHUB_RUN_ID}" \
             -keyout "$RUNNER_TEMP/bridge-private.pem" \
             -out "$RUNNER_TEMP/bridge-certificate.pem" >/dev/null 2>&1
-          certificate="$(base64 -w0 "$RUNNER_TEMP/bridge-certificate.pem")"
-          echo "::notice title=GREENWAYS_BOOTSTRAP_RUN_ID::${GITHUB_RUN_ID}"
-          echo "::notice title=GREENWAYS_BOOTSTRAP_CERTIFICATE_BASE64::${certificate}"
+          export GREENWAYS_BRIDGE_CERTIFICATE="$(base64 -w0 "$RUNNER_TEMP/bridge-certificate.pem")"
+          node --input-type=module <<'NODE'
+          import { writeFile } from "node:fs/promises";
+
+          const certificate = {
+            protocol: "greenways-private-bootstrap-certificate/0-alpha",
+            runId: process.env.GITHUB_RUN_ID,
+            cipher: "openssl-cms-aes256/1",
+            certificateBase64: process.env.GREENWAYS_BRIDGE_CERTIFICATE,
+          };
+          await writeFile(
+            "catalogue/bootstrap-private-certificate.json",
+            `${JSON.stringify(certificate, null, 2)}\n`,
+            "utf8",
+          );
+          NODE
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add catalogue/bootstrap-private-certificate.json
+          git commit -m "Publish an ephemeral bootstrap certificate"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
       - name: Await and assemble the encrypted transfer
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -125,6 +143,8 @@ jobs:
           await writeFile(join(process.env.RUNNER_TEMP, "project-flowers.cms"), ciphertext);
           console.log(`Assembled ${chunks.length} encrypted capability blobs for run ${runId}.`);
           NODE
+      - name: Fast-forward to the transfer manifest
+        run: git pull --ff-only origin "$GITHUB_REF_NAME"
       - name: Decrypt and verify the reviewed archive
         run: |
           openssl cms -decrypt -binary -inform DER \
@@ -141,6 +161,7 @@ jobs:
       - name: Commit only permanent LFS objects and reviewed metadata
         run: |
           rm -rf .bootstrap
+          rm -f catalogue/bootstrap-private-certificate.json
           rm -f catalogue/bootstrap-private-transfer.json
           rm -f .github/workflows/bootstrap-assets-private-bridge.yml
           git add -A
