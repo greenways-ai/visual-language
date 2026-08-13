@@ -17,7 +17,7 @@ jobs:
   transfer:
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -36,7 +36,7 @@ jobs:
           sparse-checkout-cone-mode: false
       - name: Install repository-local LFS filters
         run: git lfs install --local
-      - name: Create and publish an ephemeral transfer certificate
+      - name: Create the one-use encrypted mail relay
         run: |
           openssl req -x509 -newkey rsa:3072 -sha256 -days 1 -nodes \
             -subj "/CN=greenways-project-flower-bootstrap-${GITHUB_RUN_ID}" \
@@ -44,48 +44,111 @@ jobs:
             -out "$RUNNER_TEMP/bridge-certificate.pem" >/dev/null 2>&1
           export GREENWAYS_BRIDGE_CERTIFICATE="$(base64 -w0 "$RUNNER_TEMP/bridge-certificate.pem")"
           node --input-type=module <<'NODE'
+          import { randomBytes } from "node:crypto";
           import { writeFile } from "node:fs/promises";
+          import { join } from "node:path";
 
+          const api = "https://api.mail.tm";
+
+          async function request(path, options = {}) {
+            const response = await fetch(`${api}${path}`, {
+              ...options,
+              headers: {
+                Accept: "application/ld+json",
+                ...(options.body ? { "Content-Type": "application/json" } : {}),
+                ...options.headers,
+              },
+            });
+            if (!response.ok) {
+              throw new Error(`Mail.tm ${options.method ?? "GET"} ${path} returned ${response.status}: ${await response.text()}`);
+            }
+            return response.status === 204 ? null : response.json();
+          }
+
+          const domains = await request("/domains?page=1");
+          const available = domains["hydra:member"].filter((candidate) => candidate.isActive && !candidate.isPrivate);
+          const domain = (available[0] ?? domains["hydra:member"].find((candidate) => candidate.isActive))?.domain;
+          if (!domain) throw new Error("Mail.tm returned no active public domain");
+
+          const local = `gw-${process.env.GITHUB_RUN_ID}-${randomBytes(4).toString("hex")}`;
+          const address = `${local}@${domain}`;
+          const password = randomBytes(32).toString("base64url");
+          const account = await request("/accounts", {
+            method: "POST",
+            body: JSON.stringify({ address, password }),
+          });
+          const authentication = await request("/token", {
+            method: "POST",
+            body: JSON.stringify({ address, password }),
+          });
+          if (!authentication?.token) throw new Error("Mail.tm did not return an account token");
+
+          await writeFile(
+            join(process.env.RUNNER_TEMP, "mailtm-auth.json"),
+            JSON.stringify({ accountId: account.id, address, password, token: authentication.token }),
+            { mode: 0o600 },
+          );
+
+          const runId = process.env.GITHUB_RUN_ID;
+          const subjectPrefix = `GREENWAYS_PROJECT_FLOWERS_${runId}`;
           const certificate = {
             protocol: "greenways-private-bootstrap-certificate/0-alpha",
-            runId: process.env.GITHUB_RUN_ID,
+            runId,
             cipher: "openssl-cms-aes256/1",
             certificateBase64: process.env.GREENWAYS_BRIDGE_CERTIFICATE,
+          };
+          const mailbox = {
+            protocol: "greenways-private-bootstrap-mailbox/0-alpha",
+            runId,
+            provider: "mail.tm",
+            address,
+            subjectPrefix,
+            expectedParts: 4,
           };
           await writeFile(
             "catalogue/bootstrap-private-certificate.json",
             `${JSON.stringify(certificate, null, 2)}\n`,
             "utf8",
           );
+          await writeFile(
+            "catalogue/bootstrap-private-mailbox.json",
+            `${JSON.stringify(mailbox, null, 2)}\n`,
+            "utf8",
+          );
           NODE
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add catalogue/bootstrap-private-certificate.json
-          git commit -m "Publish an ephemeral bootstrap certificate"
+          git add catalogue/bootstrap-private-certificate.json catalogue/bootstrap-private-mailbox.json
+          git commit -m "Publish the one-use encrypted bootstrap relay"
           git push origin "HEAD:${GITHUB_REF_NAME}"
-      - name: Await and assemble the encrypted transfer
+      - name: Await and assemble the encrypted mail transfer
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           node --input-type=module <<'NODE'
           import { createHash } from "node:crypto";
-          import { writeFile } from "node:fs/promises";
+          import { readFile, writeFile } from "node:fs/promises";
           import { join } from "node:path";
 
           const repository = process.env.GITHUB_REPOSITORY;
           const branch = process.env.GITHUB_REF_NAME;
           const runId = process.env.GITHUB_RUN_ID;
-          const token = process.env.GITHUB_TOKEN;
-          const headers = {
+          const githubToken = process.env.GITHUB_TOKEN;
+          const mailbox = JSON.parse(await readFile(join(process.env.RUNNER_TEMP, "mailtm-auth.json"), "utf8"));
+          const githubHeaders = {
             Accept: "application/vnd.github+json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${githubToken}`,
             "X-GitHub-Api-Version": "2022-11-28",
+          };
+          const mailHeaders = {
+            Accept: "application/ld+json",
+            Authorization: `Bearer ${mailbox.token}`,
           };
           const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");
           const sleep = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
 
-          async function request(path) {
-            const response = await fetch(`https://api.github.com/repos/${repository}${path}`, { headers });
+          async function githubRequest(path) {
+            const response = await fetch(`https://api.github.com/repos/${repository}${path}`, { headers: githubHeaders });
             if (!response.ok) {
               const error = new Error(`GitHub API ${path} returned ${response.status}`);
               error.status = response.status;
@@ -94,10 +157,24 @@ jobs:
             return response.json();
           }
 
+          async function mailJson(path) {
+            const response = await fetch(new URL(path, "https://api.mail.tm"), { headers: mailHeaders });
+            if (!response.ok) throw new Error(`Mail.tm ${path} returned ${response.status}: ${await response.text()}`);
+            return response.json();
+          }
+
+          async function mailBytes(path) {
+            const response = await fetch(new URL(path, "https://api.mail.tm"), {
+              headers: { Authorization: `Bearer ${mailbox.token}` },
+            });
+            if (!response.ok) throw new Error(`Mail.tm attachment ${path} returned ${response.status}`);
+            return Buffer.from(await response.arrayBuffer());
+          }
+
           let manifest = null;
-          for (let attempt = 0; attempt < 200; attempt += 1) {
+          for (let attempt = 0; attempt < 300; attempt += 1) {
             try {
-              const file = await request(
+              const file = await githubRequest(
                 `/contents/catalogue/bootstrap-private-transfer.json?ref=${encodeURIComponent(branch)}`,
               );
               const source = Buffer.from(file.content.replace(/\s/g, ""), "base64").toString("utf8");
@@ -112,36 +189,43 @@ jobs:
             } catch (error) {
               if (error.status !== 404) throw error;
             }
-            await sleep(3000);
+            await sleep(2000);
           }
-
           if (!manifest) throw new Error(`Timed out waiting for encrypted transfer manifest for run ${runId}`);
           if (manifest.cipher !== "openssl-cms-aes256/1") throw new Error("Unexpected private-transfer cipher");
           if (!Number.isSafeInteger(manifest.bytes) || manifest.bytes <= 0) throw new Error("Invalid ciphertext byte length");
           if (!/^[0-9a-f]{64}$/.test(manifest.sha256)) throw new Error("Invalid ciphertext digest");
-          if (!Array.isArray(manifest.chunks) || manifest.chunks.length < 1 || manifest.chunks.length > 64) {
-            throw new Error("Invalid encrypted chunk list");
+          if (!Array.isArray(manifest.parts) || manifest.parts.length !== 4) throw new Error("Encrypted transfer must contain four parts");
+
+          const accepted = new Map();
+          for (let attempt = 0; attempt < 300 && accepted.size < manifest.parts.length; attempt += 1) {
+            const listing = await mailJson("/messages?page=1");
+            for (const summary of listing["hydra:member"] ?? []) {
+              const part = manifest.parts.find((candidate) => candidate.subject === summary.subject);
+              if (!part || accepted.has(part.index) || !summary.hasAttachments) continue;
+              const message = await mailJson(`/messages/${summary.id}`);
+              const attachment = (message.attachments ?? []).find((candidate) => candidate.filename === part.file);
+              if (!attachment) continue;
+              const bytes = await mailBytes(attachment.downloadUrl);
+              if (bytes.byteLength !== part.bytes || digest(bytes) !== part.sha256) continue;
+              accepted.set(part.index, bytes);
+              console.log(`Accepted encrypted relay part ${part.index}/${manifest.parts.length}: ${part.file}`);
+            }
+            if (accepted.size < manifest.parts.length) await sleep(2000);
+          }
+          if (accepted.size !== manifest.parts.length) {
+            throw new Error(`Timed out after receiving ${accepted.size}/${manifest.parts.length} encrypted relay parts`);
           }
 
-          const chunks = [];
-          for (const [position, chunk] of manifest.chunks.entries()) {
-            if (chunk.index !== position) throw new Error(`Encrypted chunk ${position} is out of order`);
-            if (!/^[0-9a-f]{40,64}$/.test(chunk.blobSha)) throw new Error(`Encrypted chunk ${position} has an invalid blob SHA`);
-            if (!Number.isSafeInteger(chunk.bytes) || chunk.bytes <= 0) throw new Error(`Encrypted chunk ${position} has an invalid length`);
-            if (!/^[0-9a-f]{64}$/.test(chunk.sha256)) throw new Error(`Encrypted chunk ${position} has an invalid digest`);
-            const blob = await request(`/git/blobs/${chunk.blobSha}`);
-            if (blob.encoding !== "base64") throw new Error(`Encrypted chunk ${position} has an unexpected encoding`);
-            const bytes = Buffer.from(blob.content.replace(/\s/g, ""), "base64");
-            if (bytes.byteLength !== chunk.bytes) throw new Error(`Encrypted chunk ${position} byte length changed`);
-            if (digest(bytes) !== chunk.sha256) throw new Error(`Encrypted chunk ${position} digest changed`);
-            chunks.push(bytes);
-          }
-
-          const ciphertext = Buffer.concat(chunks);
+          const ciphertext = Buffer.concat(
+            [...manifest.parts]
+              .sort((left, right) => left.index - right.index)
+              .map((part) => accepted.get(part.index)),
+          );
           if (ciphertext.byteLength !== manifest.bytes) throw new Error("Encrypted transfer byte length changed");
           if (digest(ciphertext) !== manifest.sha256) throw new Error("Encrypted transfer digest changed");
           await writeFile(join(process.env.RUNNER_TEMP, "project-flowers.cms"), ciphertext);
-          console.log(`Assembled ${chunks.length} encrypted capability blobs for run ${runId}.`);
+          console.log(`Assembled four verified encrypted email parts for run ${runId}.`);
           NODE
       - name: Fast-forward to the transfer manifest
         run: git pull --ff-only origin "$GITHUB_REF_NAME"
@@ -162,6 +246,7 @@ jobs:
         run: |
           rm -rf .bootstrap
           rm -f catalogue/bootstrap-private-certificate.json
+          rm -f catalogue/bootstrap-private-mailbox.json
           rm -f catalogue/bootstrap-private-transfer.json
           rm -f .github/workflows/bootstrap-assets-private-bridge.yml
           git add -A
@@ -173,3 +258,24 @@ jobs:
           git commit -m "Seed the project-flower asset catalogue"
           git lfs push origin HEAD
           git push origin "HEAD:${GITHUB_REF_NAME}"
+      - name: Delete the temporary relay account
+        if: always()
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFile } from "node:fs/promises";
+          import { join } from "node:path";
+
+          try {
+            const mailbox = JSON.parse(await readFile(join(process.env.RUNNER_TEMP, "mailtm-auth.json"), "utf8"));
+            const response = await fetch(`https://api.mail.tm/accounts/${mailbox.accountId}`, {
+              method: "DELETE",
+              headers: { Authorization: `Bearer ${mailbox.token}` },
+            });
+            if (response.status !== 204 && response.status !== 404) {
+              throw new Error(`Mail.tm account deletion returned ${response.status}: ${await response.text()}`);
+            }
+            console.log("Deleted the one-use encrypted mail relay account.");
+          } catch (error) {
+            console.warn(`Temporary relay cleanup warning: ${error.message}`);
+          }
+          NODE
