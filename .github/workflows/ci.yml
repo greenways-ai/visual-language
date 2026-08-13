@@ -23,3 +23,8 @@ jobs:
       - run: npm install --no-audit --no-fund
       - run: npm test
       - run: npm run build
+      - name: Require a completed project-flower source bootstrap
+        if: ${{ github.event_name == 'pull_request' && startsWith(github.head_ref, 'agent/project-flower-source-bootstrap-') }}
+        env:
+          GREENWAYS_ASSET_BOOTSTRAP_BRANCH: ${{ github.head_ref }}
+        run: node scripts/verify-asset-catalogue-bootstrap-merge.mjs

@@ -22,7 +22,7 @@ one-time handoff is:
 git lfs install
 npm run stage:catalogue-bundle -- /path/to/greenways-project-flower-lfs-seed.zip
 git commit -m "Stage the reviewed project-flower sources"
-git push origin agent/git-lfs-asset-catalogue-16
+git push origin agent/project-flower-source-bootstrap-16
 ```
 
 `stage:catalogue-bundle` verifies the archive byte length and SHA-256 before
@@ -60,6 +60,15 @@ The `Bootstrap project-flower Git LFS catalogue` workflow will then:
 Because Git LFS uses the exact source SHA-256 as its object ID, the temporary
 seed path and permanent content-addressed path do not duplicate the binary
 object.
+
+## Merge gate
+
+Branches named `agent/project-flower-source-bootstrap-*` have an additional
+pull-request gate. It intentionally fails while `bootstrap-status.json` is
+`awaiting-sources` or `pending`. The gate turns green only after the generated
+catalogue verifies all eight exact objects, seven selected crests, one published
+release entry, and exactly one public PNG: the compact Hodos peacock rendition.
+Do not merge a source-bootstrap pull request before this gate passes.
 
 ## Completed layout
 

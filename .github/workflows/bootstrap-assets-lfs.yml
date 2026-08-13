@@ -2,7 +2,8 @@ name: Bootstrap project-flower Git LFS catalogue
 
 on:
   push:
-    branches: [agent/git-lfs-asset-catalogue-16]
+    branches:
+      - "agent/project-flower-source-bootstrap-*"
     paths:
       - catalogue/bootstrap-seed/**
       - catalogue/bootstrap-bundle.json
@@ -17,7 +18,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: bootstrap-project-flower-assets
+  group: bootstrap-project-flower-assets-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
