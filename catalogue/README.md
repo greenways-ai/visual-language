@@ -68,7 +68,16 @@ pull-request gate. It intentionally fails while `bootstrap-status.json` is
 `awaiting-sources` or `pending`. The gate turns green only after the generated
 catalogue verifies all eight exact objects, seven selected crests, one published
 release entry, and exactly one public PNG: the compact Hodos peacock rendition.
-Do not merge a source-bootstrap pull request before this gate passes.
+
+A separate privileged workflow reads only `catalogue/bootstrap-status.json` at
+the exact pull-request head SHA. It never checks out or executes pull-request
+code. An incomplete source-bootstrap pull request may remain open while it is a
+draft, but the workflow closes it if it is opened or marked ready for review in
+an incomplete state. The source branch and its push-triggered bootstrap workflow
+remain available while the pull request is closed. Once generation reaches
+`complete`, reopen the pull request and allow the ordinary hydrated gates to run.
+
+Do not merge a source-bootstrap pull request before every completion gate passes.
 
 ## Completed layout
 

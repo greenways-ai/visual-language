@@ -23,13 +23,17 @@ test("source bootstrap pull requests stay red until the real catalogue exists", 
   assert.match(gate, /publishedSource\.sha256/);
 });
 
-test("incomplete source bootstraps are returned to draft without executing head code", async () => {
+test("incomplete source bootstraps are closed when made mergeable without executing head code", async () => {
   const lock = await read(".github/workflows/asset-catalogue-draft-lock.yml");
 
   assert.match(lock, /pull_request_target/);
   assert.match(lock, /actions\/github-script@v7/);
+  assert.match(lock, /github\.rest\.pulls\.get/);
   assert.match(lock, /github\.rest\.repos\.getContent/);
   assert.match(lock, /ref: pullRequest\.head\.sha/);
-  assert.match(lock, /convertPullRequestToDraft/);
+  assert.match(lock, /pullRequest\.state === "open" && !pullRequest\.draft/);
+  assert.match(lock, /github\.rest\.pulls\.update/);
+  assert.match(lock, /state: "closed"/);
+  assert.doesNotMatch(lock, /github\.graphql/);
   assert.doesNotMatch(lock, /actions\/checkout/);
 });
