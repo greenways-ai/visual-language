@@ -1,0 +1,8 @@
+{
+  "protocol": "greenways-private-bootstrap-mailbox/0-alpha",
+  "runId": "31657886421",
+  "provider": "mail.tm",
+  "address": "gw-31657886421-65dfbe45@emalupe.com",
+  "subjectPrefix": "GREENWAYS_PROJECT_FLOWERS_31657886421",
+  "expectedParts": 4
+}
