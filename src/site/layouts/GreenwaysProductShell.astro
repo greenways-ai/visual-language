@@ -1,0 +1,199 @@
+---
+import {
+  greenwaysProductScreens,
+  type GreenwaysScreenId,
+} from "../../greenways-product-screens";
+import "../styles/greenways-product.css";
+
+interface Props {
+  title: string;
+  description: string;
+  screenId?: GreenwaysScreenId;
+}
+
+const { title, description, screenId } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const rootHref = `${base}concepts/greenways/`;
+const activeScreen = greenwaysProductScreens.find((screen) => screen.id === screenId);
+const screenHref = (id: string) => `${base}concepts/greenways/${id}/`;
+---
+
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#eef0e9" />
+    <title>{title} · Greenways product concepts</title>
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem("greenways-product-theme");
+          const preferred = window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+          document.documentElement.dataset.theme = stored || preferred;
+        } catch {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+  </head>
+  <body class="gw-body">
+    <a class="gw-skip-link" href="#greenways-main">Skip to the product screen</a>
+
+    <div class="gw-app-frame">
+      <aside class="gw-sidebar" aria-label="Greenways product navigation">
+        <div class="gw-sidebar__head">
+          <a class="gw-brand" href={rootHref} aria-label="Greenways screen collection">
+            <span class="gw-brand__mark" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </span>
+            <span class="gw-brand__wordmark">
+              <strong>greenways</strong>
+              <small>product system</small>
+            </span>
+          </a>
+          <button class="gw-icon-button gw-sidebar__close" type="button" data-nav-close aria-label="Close navigation">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+          </button>
+        </div>
+
+        <div class="gw-context-switcher" aria-label="Current Greenways context">
+          <span class="gw-context-switcher__icon" aria-hidden="true">GW</span>
+          <span>
+            <small>Workspace</small>
+            <strong>Greenways</strong>
+          </span>
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4" /></svg>
+        </div>
+
+        <nav class="gw-product-nav" aria-label="Product screens">
+          <p class="gw-nav-label">Workspace</p>
+          <a class:list={["gw-product-nav__overview", { "is-active": !screenId }]} href={rootHref} aria-current={!screenId ? "page" : undefined}>
+            <span class="gw-nav-glyph" aria-hidden="true">OV</span>
+            <span>Product overview</span>
+          </a>
+
+          <div class="gw-product-nav__items">
+            {greenwaysProductScreens.map((screen) => (
+              <a
+                class:list={["gw-product-nav__item", `gw-tone--${screen.tone}`, { "is-active": screen.id === screenId }]}
+                href={screenHref(screen.id)}
+                aria-current={screen.id === screenId ? "page" : undefined}
+              >
+                <span class="gw-nav-glyph" aria-hidden="true">{screen.navCode}</span>
+                <span class="gw-product-nav__copy">
+                  <strong>{screen.label}</strong>
+                  <small>{screen.eyebrow}</small>
+                </span>
+                {screen.id === "today" && <span class="gw-nav-count" aria-label="Three items need attention">3</span>}
+              </a>
+            ))}
+          </div>
+        </nav>
+
+        <div class="gw-sidebar__footer">
+          <div class="gw-network-status">
+            <span class="gw-status-dot" aria-hidden="true"></span>
+            <span>
+              <strong>Workspace healthy</strong>
+              <small>All receipts synchronised</small>
+            </span>
+          </div>
+          <a class="gw-back-link" href={`${base}concepts/`}>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4.5 7 10l5.5 5.5M7.5 10H17" /></svg>
+            Visual language concepts
+          </a>
+        </div>
+      </aside>
+
+      <button class="gw-sidebar-scrim" type="button" data-nav-close aria-label="Close navigation"></button>
+
+      <div class="gw-workspace">
+        <header class="gw-topbar">
+          <div class="gw-topbar__left">
+            <button class="gw-icon-button gw-menu-button" type="button" data-nav-open aria-expanded="false" aria-label="Open navigation">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+            </button>
+            <div class="gw-breadcrumbs" aria-label="Breadcrumb">
+              <a href={rootHref}>Greenways</a>
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3.5 4.5 4.5L6 12.5" /></svg>
+              <span aria-current="page">{activeScreen?.label ?? "Product overview"}</span>
+            </div>
+          </div>
+
+          <div class="gw-topbar__right">
+            <button class="gw-command" type="button" aria-label="Open command search">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="4.5" /><path d="m12 12 4 4" /></svg>
+              <span>Find anything</span>
+              <kbd>⌘ K</kbd>
+            </button>
+            <button class="gw-icon-button" type="button" data-theme-toggle aria-label="Switch colour theme" aria-pressed="false">
+              <svg class="gw-theme-icon gw-theme-icon--sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.5" /><path d="M12 2v2.5M12 19.5V22M4.93 4.93 6.7 6.7M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M4.93 19.07 6.7 17.3M17.3 6.7l1.77-1.77" /></svg>
+              <svg class="gw-theme-icon gw-theme-icon--moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 15.4A8.5 8.5 0 0 1 8.6 3.8 8.5 8.5 0 1 0 20.2 15.4Z" /></svg>
+            </button>
+            <button class="gw-icon-button gw-notification-button" type="button" aria-label="Open notifications">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 8.5h18C21 16 18 16 18 9ZM9.5 21h5" /></svg>
+              <span aria-hidden="true"></span>
+            </button>
+            <button class="gw-profile-button" type="button" aria-label="Open profile menu">
+              <span class="gw-avatar gw-avatar--chris" aria-hidden="true">CZ</span>
+              <span class="gw-profile-button__copy">
+                <strong>Chris</strong>
+                <small>Maintainer</small>
+              </span>
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4" /></svg>
+            </button>
+          </div>
+        </header>
+
+        <main id="greenways-main" class="gw-main" tabindex="-1">
+          <slot />
+        </main>
+      </div>
+    </div>
+
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        const navButton = document.querySelector("[data-nav-open]");
+        const closeButtons = document.querySelectorAll("[data-nav-close]");
+        const themeButton = document.querySelector("[data-theme-toggle]");
+
+        const closeNavigation = () => {
+          root.removeAttribute("data-nav-open");
+          navButton?.setAttribute("aria-expanded", "false");
+        };
+
+        navButton?.addEventListener("click", () => {
+          const willOpen = !root.hasAttribute("data-nav-open");
+          root.toggleAttribute("data-nav-open", willOpen);
+          navButton.setAttribute("aria-expanded", String(willOpen));
+        });
+        closeButtons.forEach((button) => button.addEventListener("click", closeNavigation));
+
+        const syncThemeButton = () => {
+          const dark = root.dataset.theme === "dark";
+          themeButton?.setAttribute("aria-pressed", String(dark));
+          themeButton?.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+        };
+
+        themeButton?.addEventListener("click", () => {
+          const next = root.dataset.theme === "dark" ? "light" : "dark";
+          root.dataset.theme = next;
+          try {
+            localStorage.setItem("greenways-product-theme", next);
+          } catch {}
+          syncThemeButton();
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") closeNavigation();
+        });
+        syncThemeButton();
+      })();
+    </script>
+  </body>
+</html>

@@ -45,6 +45,31 @@ const humanize = (value: string) => value.split("-").map((part) => part[0].toUpp
   ))}
 
   <section class="concept-index-group">
+    <header><p>05 product screens</p><h2>Greenways</h2></header>
+    <div class="concept-index-grid">
+      <a class="concept-index-card" href={`${base}concepts/greenways/control-plane/`}>
+        <div class="concept-index-card__media concept-index-card__media--single">
+          <div class="concept-index-card__greenways" aria-hidden="true">
+            <header><span class="mini-mark"><i></i><i></i><i></i><i></i><i></i></span><b>greenways</b><em></em><i></i></header>
+            <div class="greenways-preview__body">
+              <aside><span class="active"></span><span></span><span></span><span></span><span></span><b></b></aside>
+              <main>
+                <div class="greenways-preview__hero"><small></small><strong></strong><strong></strong><p></p><i></i></div>
+                <div class="greenways-preview__metrics"><span></span><span></span><span></span><span></span></div>
+                <div class="greenways-preview__panels"><section><header></header><svg viewBox="0 0 200 70"><path d="M0,57 C28,54 36,43 61,46 C87,49 93,32 119,36 C143,39 153,20 178,23 C188,24 194,14 200,12"></path></svg></section><section><i></i><b></b><p></p><p></p></section></div>
+              </main>
+            </div>
+          </div>
+        </div>
+        <small>Private network surface</small>
+        <h3>Greenways Control Plane</h3>
+        <p>Five connected screens for overview, keyring, packages, receipts, and signed publishing around the Greenways authority model.</p>
+        <span>Open concept →</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="concept-index-group">
     <header><p>02 product concepts</p><h2>Statstrade</h2></header>
     <div class="concept-index-grid">
       <a class="concept-index-card" href={`${base}concepts/statstrade/feed/`}>
@@ -67,3 +92,24 @@ const humanize = (value: string) => value.split("-").map((part) => part[0].toUpp
     </div>
   </section>
 </ConceptShell>
+
+<style>
+  .concept-index-card__media--single { grid-template-columns: 1fr; }
+  .concept-index-card__greenways { width: 100%; min-height: 100%; overflow: hidden; color: #dce9dc; background: #f0efe7; border: 1px solid #94a397; border-radius: .45rem; box-shadow: 0 1rem 3rem rgba(7,31,22,.2); }
+  .concept-index-card__greenways > header { height: 2.25rem; display: grid; grid-template-columns: auto auto 1fr auto; align-items: center; gap: .45rem; padding: 0 .65rem; background: #0b261e; }
+  .concept-index-card__greenways > header b { font: 400 .62rem "Marcellus", Georgia, serif; }
+  .concept-index-card__greenways > header em { height: 1rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); border-radius: .3rem; }
+  .concept-index-card__greenways > header > i { width: .9rem; height: .9rem; background: #b9e58f; border-radius: .3rem; }
+  .mini-mark { position: relative; width: 1.15rem; height: 1.15rem; display: block; transform: rotate(45deg); }
+  .mini-mark i { position: absolute; width: .36rem; height: .36rem; display: block; background: #b9e58f; border-radius: .08rem; }
+  .mini-mark i:nth-child(1) { left: .39rem; top: 0; }.mini-mark i:nth-child(2) { left: 0; top: .39rem; }.mini-mark i:nth-child(3) { left: .39rem; top: .39rem; background: #edf7e7; }.mini-mark i:nth-child(4) { right: 0; top: .39rem; }.mini-mark i:nth-child(5) { left: .39rem; bottom: 0; }
+  .greenways-preview__body { min-height: 11.5rem; display: grid; grid-template-columns: 3.2rem minmax(0,1fr); }
+  .greenways-preview__body > aside { display: flex; flex-direction: column; gap: .45rem; padding: .65rem .5rem; background: #123a2e; }
+  .greenways-preview__body > aside span { height: 1.35rem; background: rgba(255,255,255,.08); border-radius: .35rem; }.greenways-preview__body > aside span.active { background: #cce9b8; }.greenways-preview__body > aside b { height: 2.3rem; margin-top: auto; background: rgba(5,25,18,.35); border: 1px solid rgba(255,255,255,.08); border-radius: .45rem; }
+  .greenways-preview__body > main { min-width: 0; padding: .55rem; }
+  .greenways-preview__hero { position: relative; min-height: 4.2rem; overflow: hidden; padding: .65rem; background: linear-gradient(120deg,#153e31,#24513d); border-radius: .55rem; }
+  .greenways-preview__hero small, .greenways-preview__hero strong, .greenways-preview__hero p { display: block; background: rgba(225,241,218,.72); border-radius: 999px; }.greenways-preview__hero small { width: 2.8rem; height: .18rem; opacity: .6; }.greenways-preview__hero strong { width: 6.8rem; height: .36rem; margin-top: .42rem; }.greenways-preview__hero strong + strong { width: 5.1rem; margin-top: .18rem; }.greenways-preview__hero p { width: 7.7rem; height: .18rem; margin: .45rem 0 0; opacity: .45; }.greenways-preview__hero > i { position: absolute; right: 1.2rem; top: .55rem; width: 3rem; height: 3rem; border: 1px solid rgba(197,230,181,.3); border-radius: 50%; box-shadow: inset 0 0 0 .75rem rgba(4,30,20,.2); }
+  .greenways-preview__metrics { display: grid; grid-template-columns: repeat(4,1fr); gap: .28rem; margin: .35rem 0; }.greenways-preview__metrics span { height: 1.4rem; background: #fbfaf4; border: 1px solid #d3d8cc; border-radius: .35rem; }
+  .greenways-preview__panels { display: grid; grid-template-columns: 1.5fr .7fr; gap: .3rem; }.greenways-preview__panels section { min-height: 4.25rem; padding: .42rem; background: #fbfaf4; border: 1px solid #d3d8cc; border-radius: .4rem; }.greenways-preview__panels header { width: 4.5rem; height: .25rem; background: #708078; border-radius: 999px; opacity: .6; }.greenways-preview__panels svg { width: 100%; height: 2.8rem; margin-top: .3rem; }.greenways-preview__panels path { fill: none; stroke: #6f9f59; stroke-width: 3; }.greenways-preview__panels section:last-child { display: grid; place-items: center; }.greenways-preview__panels section:last-child i { width: 1.65rem; height: 1.65rem; background: #123a2e; border-radius: .45rem; }.greenways-preview__panels section:last-child b, .greenways-preview__panels section:last-child p { width: 70%; height: .2rem; margin: 0; background: #9fa9a1; border-radius: 999px; }.greenways-preview__panels section:last-child p { width: 50%; opacity: .5; }
+  @media (max-width: 620px) { .greenways-preview__body { grid-template-columns: 2.4rem minmax(0,1fr); } .greenways-preview__metrics { grid-template-columns: repeat(2,1fr); } }
+</style>

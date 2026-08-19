@@ -1,0 +1,482 @@
+---
+import "../styles/greenways-control-plane.css";
+
+const screens = [
+  { id: "overview", label: "Overview", shortcut: "01" },
+  { id: "keyring", label: "Keyring", shortcut: "02" },
+  { id: "packages", label: "Packages", shortcut: "03" },
+  { id: "receipts", label: "Receipts", shortcut: "04" },
+  { id: "publish", label: "Publish", shortcut: "05" },
+];
+---
+
+<section class="gw-control-plane" data-greenways-control-plane data-active-screen="overview" aria-label="Interactive Greenways product screen concept">
+  <header class="gw-control-plane__topbar">
+    <a class="gw-control-plane__brand" href="#greenways-overview" aria-label="Greenways product overview">
+      <span class="gw-control-plane__mark" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </span>
+      <span><strong>greenways</strong><small>private network</small></span>
+    </a>
+
+    <button class="gw-control-plane__workspace" type="button" aria-label="Change workspace">
+      <span class="gw-control-plane__avatar">CZ</span>
+      <span><small>Workspace</small><strong>Chris · Personal</strong></span>
+      <span aria-hidden="true">⌄</span>
+    </button>
+
+    <label class="gw-control-plane__search">
+      <span aria-hidden="true">⌕</span>
+      <span class="sr-only">Search Greenways</span>
+      <input type="search" placeholder="Search people, packages or receipts" />
+      <kbd>⌘ K</kbd>
+    </label>
+
+    <div class="gw-control-plane__health" role="status">
+      <i></i>
+      <span><strong>Local node online</strong><small>greenwaysd · 18 ms</small></span>
+    </div>
+
+    <button class="gw-control-plane__utility" type="button" aria-label="Open notifications">
+      <span aria-hidden="true">◌</span><i>3</i>
+    </button>
+  </header>
+
+  <div class="gw-control-plane__layout">
+    <aside class="gw-control-plane__rail" aria-label="Greenways product screens">
+      <nav>
+        <small>Private control plane</small>
+        {screens.map((screen, index) => (
+          <button
+            type="button"
+            class:list={["gw-control-plane__nav-item", { active: index === 0 }]}
+            data-greenways-screen={screen.id}
+            aria-controls={`greenways-${screen.id}`}
+            aria-selected={index === 0 ? "true" : "false"}
+          >
+            <span class={`gw-control-plane__nav-icon gw-control-plane__nav-icon--${screen.id}`} aria-hidden="true"><i></i><i></i><i></i></span>
+            <span>{screen.label}</span>
+            <em>{screen.shortcut}</em>
+          </button>
+        ))}
+      </nav>
+
+      <section class="gw-control-plane__trust-card">
+        <div><span class="gw-control-plane__mini-mark" aria-hidden="true"><i></i><i></i><i></i></span><small>Trust posture</small></div>
+        <strong>All systems verified</strong>
+        <p>4 identities · 11 keys · 6 trusted publishers</p>
+        <span><i></i></span>
+      </section>
+
+      <footer>
+        <button type="button"><span aria-hidden="true">?</span> Help & protocols</button>
+        <button type="button"><span aria-hidden="true">⚙</span> Settings</button>
+      </footer>
+    </aside>
+
+    <main class="gw-control-plane__workspace-area">
+      <header class="gw-control-plane__screenbar">
+        <div>
+          <small>Greenways / <span data-greenways-breadcrumb>Overview</span></small>
+          <h2 data-greenways-title>Overview</h2>
+        </div>
+        <div class="gw-control-plane__screen-actions">
+          <button class="ghost" type="button"><span aria-hidden="true">↗</span> Open activity</button>
+          <button class="primary" type="button" data-greenways-primary-action><span aria-hidden="true">＋</span> New connection</button>
+        </div>
+      </header>
+
+      <section class="gw-screen gw-screen--overview" id="greenways-overview" data-greenways-panel="overview">
+        <div class="gw-overview__hero">
+          <div class="gw-overview__hero-copy">
+            <p class="gw-kicker"><span></span> Wednesday · 19 August</p>
+            <h3>Your private network<br />is in good health.</h3>
+            <p>Greenways keeps identity, packages and proof close to you. Nothing needs attention before your next release.</p>
+            <div class="gw-overview__hero-actions">
+              <button type="button" class="gw-button gw-button--dark">Review activity <span>→</span></button>
+              <button type="button" class="gw-button gw-button--quiet">Open keyring</button>
+            </div>
+          </div>
+          <div class="gw-overview__orb" aria-label="Network health 98 percent">
+            <div class="gw-overview__orbit orbit-one"><i></i><i></i><i></i></div>
+            <div class="gw-overview__orbit orbit-two"><i></i><i></i></div>
+            <div class="gw-overview__orb-core"><small>Network health</small><strong>98</strong><span>verified</span></div>
+          </div>
+        </div>
+
+        <div class="gw-overview__metrics" aria-label="Greenways account metrics">
+          <article><span class="metric-icon metric-icon--identity"><i></i></span><div><small>Active identities</small><strong>4</strong><p>Personal, studio + 2 agents</p></div><em>healthy</em></article>
+          <article><span class="metric-icon metric-icon--package"><i></i></span><div><small>Installed packages</small><strong>12</strong><p>All digests verified</p></div><em>+2 this week</em></article>
+          <article><span class="metric-icon metric-icon--receipt"><i></i></span><div><small>Receipts this month</small><strong>186</strong><p>179 locally confirmed</p></div><em>96% sealed</em></article>
+          <article><span class="metric-icon metric-icon--work"><i></i></span><div><small>Durable work</small><strong>7</strong><p>5 complete · 2 running</p></div><em>live</em></article>
+        </div>
+
+        <div class="gw-overview__grid">
+          <article class="gw-card gw-overview__activity">
+            <header class="gw-card__header">
+              <div><small>Activity</small><h4>Proof created across your network</h4></div>
+              <button type="button">30 days <span>⌄</span></button>
+            </header>
+            <div class="gw-overview__chart" aria-label="Receipt activity chart">
+              <div class="gw-overview__chart-grid"><i></i><i></i><i></i><i></i></div>
+              <svg viewBox="0 0 640 190" role="img" aria-label="Increasing proof activity over 30 days">
+                <defs>
+                  <linearGradient id="greenwaysArea" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#6fb24f" stop-opacity=".28" />
+                    <stop offset="1" stop-color="#6fb24f" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <path class="area" d="M0,156 C45,148 58,137 86,142 C128,151 142,121 184,126 C224,131 232,103 274,109 C315,114 331,83 372,94 C413,105 420,63 460,70 C506,79 516,45 556,54 C592,61 604,24 640,32 L640,190 L0,190 Z" />
+                <path class="line" d="M0,156 C45,148 58,137 86,142 C128,151 142,121 184,126 C224,131 232,103 274,109 C315,114 331,83 372,94 C413,105 420,63 460,70 C506,79 516,45 556,54 C592,61 604,24 640,32" />
+                <g><circle cx="184" cy="126" r="4"></circle><circle cx="372" cy="94" r="4"></circle><circle cx="556" cy="54" r="4"></circle><circle cx="640" cy="32" r="5"></circle></g>
+              </svg>
+              <div class="gw-overview__chart-labels"><span>21 Jul</span><span>28 Jul</span><span>04 Aug</span><span>11 Aug</span><span>Today</span></div>
+            </div>
+            <footer><span><i class="dot dot--green"></i> Signed receipts <strong>146</strong></span><span><i class="dot dot--sand"></i> Local drafts <strong>40</strong></span><button type="button">Open receipts →</button></footer>
+          </article>
+
+          <article class="gw-card gw-overview__continue">
+            <header class="gw-card__header"><div><small>Continue publishing</small><h4>Hestia Rooms</h4></div><span class="gw-pill gw-pill--draft">Draft</span></header>
+            <div class="gw-overview__package-mark"><span>H</span><i></i><i></i><i></i></div>
+            <p>Version 0.8.2 · stable channel</p>
+            <div class="gw-overview__progress"><span><i></i></span><strong>3 of 4 checks</strong></div>
+            <ul><li class="done">Package digest</li><li class="done">Capability review</li><li class="done">Release notes</li><li>Publisher signature</li></ul>
+            <button type="button" class="gw-button gw-button--dark">Review release <span>→</span></button>
+          </article>
+
+          <article class="gw-card gw-overview__connections">
+            <header class="gw-card__header"><div><small>Trusted connections</small><h4>People and services</h4></div><button type="button">View all</button></header>
+            <div class="gw-person-row"><span class="gw-person-avatar avatar--moss">HM</span><div><strong>Hara Maintainers</strong><small>Organisation · 8 verified keys</small></div><span class="gw-pill gw-pill--verified">verified</span></div>
+            <div class="gw-person-row"><span class="gw-person-avatar avatar--clay">ST</span><div><strong>Stance Studio</strong><small>Workspace · 3 shared packages</small></div><span class="gw-pill gw-pill--verified">verified</span></div>
+            <div class="gw-person-row"><span class="gw-person-avatar avatar--ink">A</span><div><strong>Atlas</strong><small>Agent · publishing disabled</small></div><span class="gw-pill">local</span></div>
+            <button type="button" class="gw-card__text-action">Manage trust graph <span>→</span></button>
+          </article>
+
+          <article class="gw-card gw-overview__receipts">
+            <header class="gw-card__header"><div><small>Recent receipts</small><h4>Latest confirmed activity</h4></div><button type="button">Export</button></header>
+            <div class="gw-receipt-row"><span class="gw-receipt-row__icon">✓</span><div><strong>Package installed</strong><small>hara.playground@2.4.1</small></div><time>10:42</time></div>
+            <div class="gw-receipt-row"><span class="gw-receipt-row__icon">↗</span><div><strong>Room invitation issued</strong><small>Agent Room · private</small></div><time>09:18</time></div>
+            <div class="gw-receipt-row"><span class="gw-receipt-row__icon">◇</span><div><strong>Identity key rotated</strong><small>Personal publishing</small></div><time>Yesterday</time></div>
+            <button type="button" class="gw-card__text-action">Open receipt ledger <span>→</span></button>
+          </article>
+        </div>
+      </section>
+
+      <section class="gw-screen gw-screen--keyring" id="greenways-keyring" data-greenways-panel="keyring" hidden>
+        <header class="gw-screen__intro">
+          <div><p class="gw-kicker"><span></span> Identity & authority</p><h3>Keys are yours.<br />Access stays legible.</h3><p>See which identity can do what, where it came from, and when it was last used—without exposing private material.</p></div>
+          <div class="gw-screen__intro-actions"><button type="button" class="gw-button gw-button--quiet">Import identity</button><button type="button" class="gw-button gw-button--dark">Create identity <span>＋</span></button></div>
+        </header>
+
+        <div class="gw-keyring__summary">
+          <article><small>Identities</small><strong>4</strong><span>all available</span></article>
+          <article><small>Active keys</small><strong>11</strong><span>hardware + local</span></article>
+          <article><small>Shared grants</small><strong>7</strong><span>2 expire this month</span></article>
+          <article class="attention"><small>Next rotation</small><strong>19d</strong><span>publishing key</span></article>
+        </div>
+
+        <div class="gw-keyring__layout">
+          <article class="gw-card gw-keyring__identities">
+            <header class="gw-card__header"><div><small>Your identities</small><h4>Authority roots</h4></div><button type="button">Filter <span>⌄</span></button></header>
+            <button type="button" class="gw-identity-row active">
+              <span class="gw-identity-sigil sigil--personal"><i></i><i></i><i></i></span>
+              <span><strong>Chris · Personal</strong><small>did:key:z6Mk…h4R9 · root identity</small><em>Used 2 minutes ago</em></span>
+              <span class="gw-pill gw-pill--verified">active</span>
+            </button>
+            <button type="button" class="gw-identity-row">
+              <span class="gw-identity-sigil sigil--studio"><i></i><i></i><i></i></span>
+              <span><strong>Greenways Publisher</strong><small>did:web:greenways.ai · organisation</small><em>Used yesterday</em></span>
+              <span class="gw-pill">remote</span>
+            </button>
+            <button type="button" class="gw-identity-row">
+              <span class="gw-identity-sigil sigil--agent"><i></i><i></i><i></i></span>
+              <span><strong>Atlas</strong><small>greenways:agent:atlas · delegated</small><em>Used 18 minutes ago</em></span>
+              <span class="gw-pill">agent</span>
+            </button>
+            <button type="button" class="gw-identity-row">
+              <span class="gw-identity-sigil sigil--recovery"><i></i><i></i><i></i></span>
+              <span><strong>Recovery quorum</strong><small>3 of 5 guardians · offline</small><em>Tested 12 days ago</em></span>
+              <span class="gw-pill gw-pill--sealed">sealed</span>
+            </button>
+          </article>
+
+          <article class="gw-card gw-keyring__detail">
+            <header class="gw-card__header"><div><small>Selected identity</small><h4>Chris · Personal</h4></div><button class="gw-more-button" type="button" aria-label="Identity actions">•••</button></header>
+            <div class="gw-keyring__identity-hero"><span class="gw-identity-sigil sigil--personal large"><i></i><i></i><i></i></span><div><span class="gw-pill gw-pill--verified">locally verified</span><p>Primary authority for personal connections, package installation and private rooms.</p></div></div>
+            <dl class="gw-detail-list">
+              <div><dt>Public identity</dt><dd>did:key:z6Mkp8cE…h4R9 <button type="button">copy</button></dd></div>
+              <div><dt>Custody</dt><dd>Secure Enclave · this Mac</dd></div>
+              <div><dt>Created</dt><dd>04 August 2026</dd></div>
+              <div><dt>Recovery</dt><dd>Guardian quorum · 3 of 5</dd></div>
+            </dl>
+            <div class="gw-keyring__scope-title"><div><small>Effective capabilities</small><strong>4 of 6 scopes enabled</strong></div><button type="button">Edit grants</button></div>
+            <div class="gw-keyring__scopes">
+              <span class="on"><i></i> Connect</span><span class="on"><i></i> Install</span><span class="on"><i></i> Sign</span><span class="on"><i></i> Rooms</span><span><i></i> Publish</span><span><i></i> Admin</span>
+            </div>
+            <div class="gw-keyring__rotation">
+              <div><small>Rotation policy</small><strong>Every 90 days</strong><p>Next review in 19 days</p></div>
+              <div class="gw-keyring__rotation-ring"><span>71</span></div>
+            </div>
+          </article>
+
+          <article class="gw-card gw-keyring__events">
+            <header class="gw-card__header"><div><small>Authority activity</small><h4>Recent key events</h4></div><button type="button">View receipts</button></header>
+            <ol class="gw-event-list">
+              <li><span><i></i></span><div><strong>Signed connection invitation</strong><small>Personal signing key · Hestia Room</small></div><time>2m</time></li>
+              <li><span><i></i></span><div><strong>Approved package capability</strong><small>hara.playground · file.read</small></div><time>1h</time></li>
+              <li><span><i></i></span><div><strong>Recovery quorum tested</strong><small>3 guardian acknowledgements</small></div><time>12d</time></li>
+            </ol>
+          </article>
+        </div>
+      </section>
+
+      <section class="gw-screen gw-screen--packages" id="greenways-packages" data-greenways-panel="packages" hidden>
+        <header class="gw-screen__intro">
+          <div><p class="gw-kicker"><span></span> Trusted software</p><h3>Install capabilities,<br />not opaque apps.</h3><p>Every package declares its publisher, digest, surfaces and permissions before it reaches your Greenways runtime.</p></div>
+          <div class="gw-screen__intro-actions"><button type="button" class="gw-button gw-button--quiet">Add registry</button><button type="button" class="gw-button gw-button--dark">Install package <span>＋</span></button></div>
+        </header>
+
+        <div class="gw-packages__toolbar">
+          <label><span>⌕</span><input type="search" placeholder="Search 12 installed packages" /></label>
+          <div><button class="active" type="button">Installed <span>12</span></button><button type="button">Updates <span>2</span></button><button type="button">Registry</button></div>
+          <button type="button" class="gw-filter-button">All publishers <span>⌄</span></button>
+        </div>
+
+        <div class="gw-packages__layout">
+          <article class="gw-card gw-packages__list">
+            <header class="gw-package-table__head"><span>Package</span><span>Publisher</span><span>Release</span><span>Trust</span><span></span></header>
+            <button type="button" class="gw-package-row active">
+              <span class="gw-package-logo logo--hestia">H</span><span><strong>greenways.hestia</strong><small>Private rooms and signed documents</small></span>
+              <span><strong>Greenways</strong><small>did:web verified</small></span>
+              <span><strong>0.8.1</strong><small>stable</small></span>
+              <span><i class="gw-trust-dot"></i> Verified</span><em>→</em>
+            </button>
+            <button type="button" class="gw-package-row">
+              <span class="gw-package-logo logo--hara">λ</span><span><strong>hara.playground</strong><small>Live Hara programming surface</small></span>
+              <span><strong>Hara Lang</strong><small>6 maintainers</small></span>
+              <span><strong>2.4.1</strong><small>stable</small></span>
+              <span><i class="gw-trust-dot"></i> Verified</span><em>→</em>
+            </button>
+            <button type="button" class="gw-package-row update">
+              <span class="gw-package-logo logo--beacon">B</span><span><strong>greenways.beacon</strong><small>Presence and network discovery</small></span>
+              <span><strong>Greenways</strong><small>did:web verified</small></span>
+              <span><strong>1.3.0</strong><small>1.4.0 available</small></span>
+              <span><i class="gw-trust-dot"></i> Verified</span><em>→</em>
+            </button>
+            <button type="button" class="gw-package-row local">
+              <span class="gw-package-logo logo--atlas">A</span><span><strong>local.atlas-tools</strong><small>Private agent workflow helpers</small></span>
+              <span><strong>Chris</strong><small>local publisher</small></span>
+              <span><strong>0.3.7</strong><small>development</small></span>
+              <span><i class="gw-trust-dot"></i> Local</span><em>→</em>
+            </button>
+            <button type="button" class="gw-package-row">
+              <span class="gw-package-logo logo--statstrade">S</span><span><strong>statstrade.collector</strong><small>Campaign evidence connector</small></span>
+              <span><strong>Statstrade</strong><small>organisation</small></span>
+              <span><strong>0.6.2</strong><small>stable</small></span>
+              <span><i class="gw-trust-dot"></i> Verified</span><em>→</em>
+            </button>
+          </article>
+
+          <article class="gw-card gw-packages__detail">
+            <header class="gw-packages__detail-head"><span class="gw-package-logo logo--hestia large">H</span><div><span class="gw-pill gw-pill--verified">digest verified</span><h4>greenways.hestia</h4><p>0.8.1 · stable channel</p></div><button class="gw-more-button" type="button">•••</button></header>
+            <p class="gw-packages__description">Private rooms, signed document chains and recoverable collaboration built on the Greenways identity boundary.</p>
+            <dl class="gw-detail-list compact">
+              <div><dt>Publisher</dt><dd>Greenways Foundation <span>✓</span></dd></div>
+              <div><dt>Digest</dt><dd>sha256:89c4…a17e <button type="button">copy</button></dd></div>
+              <div><dt>Installed</dt><dd>14 August 2026</dd></div>
+              <div><dt>Runtime</dt><dd>Hara namespace · isolated</dd></div>
+            </dl>
+            <div class="gw-packages__section"><header><small>Declared capabilities</small><button type="button">Review all</button></header><div class="gw-capability-list"><span>identity.read</span><span>room.create</span><span>receipt.write</span><span>storage.private</span></div></div>
+            <div class="gw-packages__section"><header><small>Surfaces</small><span>3 registered</span></header><div class="gw-surface-list"><span><i class="surface-side"></i>Side panel</span><span><i class="surface-window"></i>Desktop window</span><span><i class="surface-command"></i>Command</span></div></div>
+            <div class="gw-packages__chain"><small>Release chain</small><div><span class="done">Publisher</span><i></i><span class="done">Digest</span><i></i><span class="done">Policy</span><i></i><span class="done">Install</span></div></div>
+            <button type="button" class="gw-button gw-button--quiet full">Open package receipt <span>→</span></button>
+          </article>
+        </div>
+      </section>
+
+      <section class="gw-screen gw-screen--receipts" id="greenways-receipts" data-greenways-panel="receipts" hidden>
+        <header class="gw-screen__intro">
+          <div><p class="gw-kicker"><span></span> Provenance & evidence</p><h3>Every meaningful action<br />leaves a legible receipt.</h3><p>Follow what happened, who authorised it, which evidence was sealed, and whether the result still verifies.</p></div>
+          <div class="gw-screen__intro-actions"><button type="button" class="gw-button gw-button--quiet">Import bundle</button><button type="button" class="gw-button gw-button--dark">Export receipts <span>↗</span></button></div>
+        </header>
+
+        <div class="gw-receipts__status">
+          <article><div class="gw-receipts__seal seal--verified"><i></i><i></i><i></i></div><div><small>Verification posture</small><strong>179 of 186 sealed</strong><span>No broken chains detected</span></div></article>
+          <div><span><i class="dot dot--green"></i>Confirmed <strong>179</strong></span><span><i class="dot dot--sand"></i>Local draft <strong>6</strong></span><span><i class="dot dot--amber"></i>Awaiting peer <strong>1</strong></span></div>
+          <button type="button">Run verification</button>
+        </div>
+
+        <div class="gw-receipts__toolbar">
+          <label><span>⌕</span><input type="search" placeholder="Search by actor, resource, digest or receipt" /></label>
+          <div><button class="active" type="button">All activity</button><button type="button">Packages</button><button type="button">Identity</button><button type="button">Rooms</button><button type="button">Work</button></div>
+          <button type="button" class="gw-filter-button">Last 30 days <span>⌄</span></button>
+        </div>
+
+        <div class="gw-receipts__layout">
+          <article class="gw-card gw-receipts__ledger">
+            <header class="gw-card__header"><div><small>Receipt ledger</small><h4>Wednesday, 19 August</h4></div><button type="button">Newest first <span>⌄</span></button></header>
+            <div class="gw-ledger-row active">
+              <span class="gw-ledger-row__time">10:42<small>today</small></span><span class="gw-ledger-row__node"><i></i></span>
+              <div><span class="gw-pill gw-pill--verified">confirmed</span><h5>Package installed</h5><p><strong>hara.playground@2.4.1</strong> authorised by Chris · Personal</p><small>rcpt_01J5P5…92VJ · sha256:6d18…a9c2</small></div><button type="button">→</button>
+            </div>
+            <div class="gw-ledger-row">
+              <span class="gw-ledger-row__time">09:18<small>today</small></span><span class="gw-ledger-row__node"><i></i></span>
+              <div><span class="gw-pill gw-pill--verified">confirmed</span><h5>Room invitation issued</h5><p><strong>Agent Room / Design review</strong> shared with Hara Maintainers</p><small>rcpt_01J5P2…C8Q4 · invitation evidence sealed</small></div><button type="button">→</button>
+            </div>
+            <div class="gw-ledger-row">
+              <span class="gw-ledger-row__time">08:51<small>today</small></span><span class="gw-ledger-row__node"><i></i></span>
+              <div><span class="gw-pill gw-pill--pending">peer pending</span><h5>Work checkpoint committed</h5><p><strong>campaign/import-43</strong> completed boundary 6 of 8</p><small>rcpt_01J5P1…TT10 · local evidence available</small></div><button type="button">→</button>
+            </div>
+            <div class="gw-ledger-row last">
+              <span class="gw-ledger-row__time">17:06<small>yesterday</small></span><span class="gw-ledger-row__node"><i></i></span>
+              <div><span class="gw-pill gw-pill--verified">confirmed</span><h5>Publishing key rotated</h5><p><strong>Greenways Publisher</strong> replaced key …79PE with …A40K</p><small>rcpt_01J5MV…4P0X · guardian acknowledgement 3/3</small></div><button type="button">→</button>
+            </div>
+          </article>
+
+          <article class="gw-card gw-receipts__detail">
+            <header class="gw-card__header"><div><small>Selected receipt</small><h4>Package installed</h4></div><span class="gw-pill gw-pill--verified">valid now</span></header>
+            <div class="gw-receipts__detail-seal"><div class="gw-receipts__seal seal--large"><i></i><i></i><i></i></div><div><small>Receipt ID</small><strong>rcpt_01J5P5F9R92VJ</strong><p>Confirmed by your local node at 10:42:18 AEST</p></div></div>
+            <dl class="gw-detail-list">
+              <div><dt>Action</dt><dd>package.install</dd></div>
+              <div><dt>Actor</dt><dd>Chris · Personal <span>✓</span></dd></div>
+              <div><dt>Resource</dt><dd>hara.playground@2.4.1</dd></div>
+              <div><dt>Authority</dt><dd>capability.install</dd></div>
+              <div><dt>Evidence</dt><dd>Package digest + policy snapshot</dd></div>
+            </dl>
+            <div class="gw-receipts__proof"><small>Verification path</small><ol><li class="done"><span>1</span><div><strong>Actor signature</strong><small>ed25519 · valid</small></div></li><li class="done"><span>2</span><div><strong>Package digest</strong><small>sha256 · exact match</small></div></li><li class="done"><span>3</span><div><strong>Capability decision</strong><small>policy snapshot sealed</small></div></li><li class="done"><span>4</span><div><strong>Local checkpoint</strong><small>greenwaysd · generation 841</small></div></li></ol></div>
+            <div class="gw-receipts__hash"><small>Receipt digest</small><code>89c411e7b7d0a5f8…c76d9a17e</code><button type="button">copy</button></div>
+            <button type="button" class="gw-button gw-button--dark full">Download evidence bundle <span>↓</span></button>
+          </article>
+        </div>
+      </section>
+
+      <section class="gw-screen gw-screen--publish" id="greenways-publish" data-greenways-panel="publish" hidden>
+        <header class="gw-screen__intro publish-intro">
+          <div><p class="gw-kicker"><span></span> Signed release</p><h3>Publish with proof<br />built into the path.</h3><p>Define the release, inspect the artifact, grant only the capabilities it needs, then sign an immutable publication receipt.</p></div>
+          <div class="gw-publish__draft-state"><i></i><span><small>Draft saved locally</small><strong>Hestia Rooms · 0.8.2</strong></span></div>
+        </header>
+
+        <nav class="gw-publish__steps" aria-label="Publish progress">
+          <button class="done" type="button"><span>1</span><div><strong>Define</strong><small>Package identity</small></div></button>
+          <i></i>
+          <button class="done" type="button"><span>2</span><div><strong>Attach</strong><small>Artifact & surfaces</small></div></button>
+          <i></i>
+          <button class="active" type="button"><span>3</span><div><strong>Authorise</strong><small>Capabilities</small></div></button>
+          <i></i>
+          <button type="button"><span>4</span><div><strong>Review</strong><small>Sign & publish</small></div></button>
+        </nav>
+
+        <div class="gw-publish__layout">
+          <div class="gw-publish__form">
+            <article class="gw-card gw-publish__section">
+              <header><span>01</span><div><small>Release identity</small><h4>Hestia Rooms</h4></div><button type="button">Edit</button></header>
+              <div class="gw-publish__identity-row"><span class="gw-package-logo logo--hestia large">H</span><div><strong>greenways.hestia</strong><p>0.8.2 · stable · Apache-2.0</p></div><span class="gw-pill gw-pill--verified">publisher verified</span></div>
+            </article>
+
+            <article class="gw-card gw-publish__section">
+              <header><span>02</span><div><small>Artifact & surfaces</small><h4>Reviewed build</h4></div><button type="button">Replace</button></header>
+              <div class="gw-publish__artifact"><span class="gw-file-icon"><i></i></span><div><strong>greenways-hestia-0.8.2.hal</strong><p>842 KB · sha256:7c20…19a4</p></div><span class="gw-pill gw-pill--verified">digest ready</span></div>
+              <div class="gw-publish__surface-summary"><span><i class="surface-side"></i><strong>Side panel</strong><small>Primary surface</small></span><span><i class="surface-window"></i><strong>Desktop</strong><small>Management view</small></span><span><i class="surface-command"></i><strong>Commands</strong><small>4 declared</small></span></div>
+            </article>
+
+            <article class="gw-card gw-publish__section active-section">
+              <header><span>03</span><div><small>Capability manifest</small><h4>Authorise what the package can do</h4></div><span class="gw-pill gw-pill--draft">reviewing</span></header>
+              <p class="gw-publish__hint">Capabilities are explicit and versioned with the release. New authority requires a new signed publication.</p>
+              <div class="gw-publish__capabilities">
+                <label><input type="checkbox" checked /><span><i></i></span><div><strong>identity.read</strong><small>Read public identity and trust projections</small></div><em>required</em></label>
+                <label><input type="checkbox" checked /><span><i></i></span><div><strong>room.create</strong><small>Create encrypted room envelopes</small></div><em>required</em></label>
+                <label><input type="checkbox" checked /><span><i></i></span><div><strong>storage.private</strong><small>Store encrypted documents in the private namespace</small></div><button type="button">scope: hestia/*</button></label>
+                <label><input type="checkbox" checked /><span><i></i></span><div><strong>receipt.write</strong><small>Commit evidence at durable boundaries</small></div><em>required</em></label>
+                <label class="off"><input type="checkbox" /><span><i></i></span><div><strong>network.external</strong><small>Request access to undeclared remote origins</small></div><em>not requested</em></label>
+              </div>
+              <button type="button" class="gw-publish__add-capability">＋ Add optional capability</button>
+            </article>
+          </div>
+
+          <aside class="gw-publish__review">
+            <article class="gw-card gw-publish__readiness">
+              <header><small>Publication readiness</small><span>3 / 4</span></header>
+              <div class="gw-publish__readiness-ring"><span><strong>75</strong><small>ready</small></span></div>
+              <ul><li class="done"><span>✓</span><div><strong>Artifact verified</strong><small>Digest matches the reviewed build</small></div></li><li class="done"><span>✓</span><div><strong>Publisher available</strong><small>Greenways Publisher · hardware key</small></div></li><li class="done"><span>✓</span><div><strong>Capabilities reviewed</strong><small>4 requested · 0 elevated</small></div></li><li><span>4</span><div><strong>Release notes</strong><small>Add a public summary before signing</small></div></li></ul>
+            </article>
+
+            <article class="gw-card gw-publish__publisher">
+              <small>Signing identity</small>
+              <div><span class="gw-identity-sigil sigil--studio"><i></i><i></i><i></i></span><span><strong>Greenways Publisher</strong><small>Secure Enclave · available</small></span><i class="gw-online-dot"></i></div>
+              <button type="button">Change publisher <span>⌄</span></button>
+            </article>
+
+            <article class="gw-publish__final">
+              <div><span aria-hidden="true">◇</span><p>Publishing creates an immutable receipt linking this artifact, capability manifest and publisher signature.</p></div>
+              <button type="button" disabled>Continue to review <span>→</span></button>
+              <small>Add release notes to continue</small>
+            </article>
+          </aside>
+        </div>
+      </section>
+    </main>
+  </div>
+</section>
+
+<script is:inline>
+  const setupGreenwaysControlPlane = (root) => {
+    if (!(root instanceof HTMLElement) || root.dataset.greenwaysReady === "true") return;
+    root.dataset.greenwaysReady = "true";
+
+    const buttons = Array.from(root.querySelectorAll("[data-greenways-screen]"));
+    const panels = Array.from(root.querySelectorAll("[data-greenways-panel]"));
+    const title = root.querySelector("[data-greenways-title]");
+    const breadcrumb = root.querySelector("[data-greenways-breadcrumb]");
+    const primaryAction = root.querySelector("[data-greenways-primary-action]");
+    const actionLabels = {
+      overview: "New connection",
+      keyring: "Create identity",
+      packages: "Install package",
+      receipts: "Export receipts",
+      publish: "New release",
+    };
+
+    const activate = (screen, updateHash = true) => {
+      const selected = buttons.find((button) => button.getAttribute("data-greenways-screen") === screen);
+      if (!selected) return;
+      root.dataset.activeScreen = screen;
+
+      buttons.forEach((button) => {
+        const active = button === selected;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-selected", active ? "true" : "false");
+      });
+
+      panels.forEach((panel) => {
+        panel.toggleAttribute("hidden", panel.getAttribute("data-greenways-panel") !== screen);
+      });
+
+      const label = selected.textContent?.trim().replace(/\d+$/, "").trim() || "Overview";
+      if (title) title.textContent = label;
+      if (breadcrumb) breadcrumb.textContent = label;
+      if (primaryAction) primaryAction.innerHTML = `<span aria-hidden="true">＋</span> ${actionLabels[screen] || "New"}`;
+      if (updateHash) history.replaceState(null, "", `#greenways-${screen}`);
+    };
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => activate(button.getAttribute("data-greenways-screen") || "overview"));
+      button.addEventListener("keydown", (event) => {
+        if (!(event instanceof KeyboardEvent) || !["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) return;
+        event.preventDefault();
+        const current = buttons.indexOf(button);
+        const direction = event.key === "ArrowRight" || event.key === "ArrowDown" ? 1 : -1;
+        const next = buttons[(current + direction + buttons.length) % buttons.length];
+        if (next instanceof HTMLElement) {
+          next.focus();
+          activate(next.getAttribute("data-greenways-screen") || "overview");
+        }
+      });
+    });
+
+    const requested = location.hash.match(/^#greenways-(overview|keyring|packages|receipts|publish)$/)?.[1];
+    activate(requested || root.dataset.activeScreen || "overview", false);
+  };
+
+  document.querySelectorAll("[data-greenways-control-plane]").forEach(setupGreenwaysControlPlane);
+  document.addEventListener("astro:page-load", () => document.querySelectorAll("[data-greenways-control-plane]").forEach(setupGreenwaysControlPlane));
+</script>
