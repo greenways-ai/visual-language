@@ -1,0 +1,602 @@
+---
+import type { GreenwaysScreenDefinition } from "../../greenways-product-screens";
+
+interface Props {
+  screen: GreenwaysScreenDefinition;
+  position: number;
+}
+
+const { screen, position } = Astro.props;
+const positionLabel = String(position + 1).padStart(2, "0");
+---
+
+<section class:list={["gw-screen", `gw-screen--${screen.tone}`]} data-greenways-screen={screen.id}>
+  <header class="gw-screen-header">
+    <div class="gw-screen-header__copy">
+      <p class="gw-eyebrow">Screen {positionLabel} of 07 · {screen.eyebrow}</p>
+      <h1>{screen.label}</h1>
+      <p class="gw-screen-header__summary">{screen.summary} {screen.outcome}</p>
+    </div>
+    <div class="gw-screen-header__actions">
+      <button class="gw-button" type="button">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12M10 4v12" /></svg>
+        {screen.secondaryAction}
+      </button>
+      <button class="gw-button gw-button--primary" type="button">
+        {screen.primaryAction}
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 4 6 6-6 6" /></svg>
+      </button>
+    </div>
+  </header>
+
+  {screen.id === "today" && (
+    <div class="gw-today-grid">
+      <div class="gw-today-main">
+        <article class="gw-daily-brief">
+          <div class="gw-daily-brief__top">
+            <span class="gw-daily-brief__date">Wednesday · Daily brief</span>
+            <span class="gw-state-chip gw-state-chip--live">Live</span>
+          </div>
+          <h2>Three decisions will unblock the rest of the week.</h2>
+          <p>
+            Review the studio release, approve the agent publishing grant and choose the campaign excerpt. Everything else is progressing inside its agreed boundary.
+          </p>
+          <div class="gw-daily-brief__footer">
+            <button class="gw-button gw-button--primary" type="button">Begin 25 minute focus</button>
+            <span class="gw-daily-brief__signal"><span aria-hidden="true"></span>Compiled from 6 workrooms and 14 receipts</span>
+          </div>
+        </article>
+
+        <section class="gw-panel" aria-labelledby="today-focus-title">
+          <div class="gw-panel__head">
+            <span class="gw-panel__title">
+              <strong id="today-focus-title">Focus</strong>
+              <small>Ordered by what unblocks other work</small>
+            </span>
+            <button class="gw-text-button" type="button">Reorder</button>
+          </div>
+          <div class="gw-focus-list">
+            <div class="gw-focus-item">
+              <span class="gw-focus-item__check" aria-hidden="true"></span>
+              <span class="gw-focus-item__copy">
+                <strong>Approve “Open distribution” release candidate</strong>
+                <small>Studio · requested by Mira · 9 min review</small>
+              </span>
+              <span class="gw-state-chip gw-state-chip--review">Review</span>
+            </div>
+            <div class="gw-focus-item">
+              <span class="gw-focus-item__check" aria-hidden="true"></span>
+              <span class="gw-focus-item__copy">
+                <strong>Scope Atlas agent to campaign reporting</strong>
+                <small>Keyring · grant expires in 30 days</small>
+              </span>
+              <span class="gw-state-chip gw-state-chip--blocked">Decision</span>
+            </div>
+            <div class="gw-focus-item">
+              <span class="gw-focus-item__check" aria-hidden="true"></span>
+              <span class="gw-focus-item__copy">
+                <strong>Select the short-form campaign excerpt</strong>
+                <small>Campaigns · three versions prepared</small>
+              </span>
+              <span class="gw-state-chip gw-state-chip--review">Review</span>
+            </div>
+            <div class="gw-focus-item">
+              <span class="gw-focus-item__check is-done" aria-hidden="true">
+                <svg viewBox="0 0 20 20"><path d="m4 10 4 4 8-8" /></svg>
+              </span>
+              <span class="gw-focus-item__copy">
+                <strong>Confirm package namespace maintainers</strong>
+                <small>Packages · completed 08:42</small>
+              </span>
+              <span class="gw-state-chip gw-state-chip--quiet">Done</span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <aside class="gw-today-rail" aria-label="Today supporting information">
+        <section class="gw-panel">
+          <div class="gw-panel__head">
+            <span class="gw-panel__title"><strong>Active now</strong><small>People and agents in your spaces</small></span>
+            <button class="gw-text-button" type="button">View map</button>
+          </div>
+          <div class="gw-panel__body gw-active-list">
+            <div class="gw-active-row">
+              <span class="gw-avatar gw-avatar--clay" aria-hidden="true">MR</span>
+              <span class="gw-active-row__copy"><strong>Mira</strong><small>Reviewing the release</small></span>
+              <span class="gw-online-dot" aria-label="Online"></span>
+            </div>
+            <div class="gw-active-row">
+              <span class="gw-avatar gw-avatar--sky" aria-hidden="true">AL</span>
+              <span class="gw-active-row__copy"><strong>Atlas agent</strong><small>Summarising campaign signals</small></span>
+              <span class="gw-online-dot" aria-label="Online"></span>
+            </div>
+            <div class="gw-active-row">
+              <span class="gw-avatar gw-avatar--gold" aria-hidden="true">SK</span>
+              <span class="gw-active-row__copy"><strong>Suki</strong><small>In package maintainers</small></span>
+              <span class="gw-online-dot" aria-label="Online"></span>
+            </div>
+            <div class="gw-active-row">
+              <span class="gw-avatar gw-avatar--violet" aria-hidden="true">HB</span>
+              <span class="gw-active-row__copy"><strong>Hara bot</strong><small>Waiting for approval</small></span>
+              <span class="gw-online-dot" aria-label="Online"></span>
+            </div>
+          </div>
+        </section>
+
+        <section class="gw-panel">
+          <div class="gw-panel__head">
+            <span class="gw-panel__title"><strong>Signals</strong><small>Movement since yesterday</small></span>
+          </div>
+          <div class="gw-panel__body gw-signal-list">
+            <div class="gw-signal">
+              <span class="gw-signal__icon" aria-hidden="true">RC</span>
+              <span class="gw-signal__copy"><strong>Receipts captured</strong><small>Across 4 workspaces</small></span>
+              <span class="gw-signal__value">+18</span>
+            </div>
+            <div class="gw-signal">
+              <span class="gw-signal__icon" aria-hidden="true">PK</span>
+              <span class="gw-signal__copy"><strong>Package installs</strong><small>visual.canvas leads</small></span>
+              <span class="gw-signal__value">+12%</span>
+            </div>
+            <div class="gw-signal">
+              <span class="gw-signal__icon" aria-hidden="true">CP</span>
+              <span class="gw-signal__copy"><strong>Campaign reach</strong><small>Verified interactions</small></span>
+              <span class="gw-signal__value">8.4k</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="gw-panel gw-snippet-card">
+          <div class="gw-panel__head">
+            <span class="gw-panel__title"><strong>Snippet of the day</strong><small>A small Hara pattern worth keeping</small></span>
+            <button class="gw-text-button" type="button">Copy</button>
+          </div>
+          <pre><code>{`(defn publish-receipt [work]
+  (-> work
+      sign
+      store
+      notify))`}</code></pre>
+        </section>
+      </aside>
+    </div>
+  )}
+
+  {screen.id === "workrooms" && (
+    <section class="gw-workrooms-layout" aria-label="Selected Greenways workroom">
+      <aside class="gw-room-list">
+        <div class="gw-subpane-head">
+          <strong>Workrooms</strong>
+          <button class="gw-icon-button" type="button" aria-label="Create workroom"><svg viewBox="0 0 20 20"><path d="M4 10h12M10 4v12" /></svg></button>
+        </div>
+        <label class="gw-room-search">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="4.5" /><path d="m12 12 4 4" /></svg>
+          <input type="search" placeholder="Find a workroom" />
+        </label>
+        <div class="gw-room-list__group">
+          <p class="gw-room-list__label">Pinned</p>
+          <button class="gw-room-row is-active" type="button">
+            <span class="gw-room-row__glyph" aria-hidden="true">OR</span>
+            <span class="gw-room-row__copy"><strong>Open distribution</strong><small>Release and campaign room</small></span>
+            <span class="gw-room-row__count">4</span>
+          </button>
+          <button class="gw-room-row" type="button">
+            <span class="gw-room-row__glyph" aria-hidden="true">VL</span>
+            <span class="gw-room-row__copy"><strong>Visual language</strong><small>Components and screens</small></span>
+            <span class="gw-room-row__count">2</span>
+          </button>
+          <button class="gw-room-row" type="button">
+            <span class="gw-room-row__glyph" aria-hidden="true">PK</span>
+            <span class="gw-room-row__copy"><strong>Package council</strong><small>Namespace stewardship</small></span>
+            <span class="gw-room-row__count"></span>
+          </button>
+        </div>
+        <div class="gw-room-list__group">
+          <p class="gw-room-list__label">Recent</p>
+          <button class="gw-room-row" type="button">
+            <span class="gw-room-row__glyph" aria-hidden="true">AU</span>
+            <span class="gw-room-row__copy"><strong>Agent onboarding</strong><small>Identity and permissions</small></span>
+            <span class="gw-room-row__count">1</span>
+          </button>
+          <button class="gw-room-row" type="button">
+            <span class="gw-room-row__glyph" aria-hidden="true">MU</span>
+            <span class="gw-room-row__copy"><strong>Music prototype</strong><small>Portable performance format</small></span>
+            <span class="gw-room-row__count"></span>
+          </button>
+          <button class="gw-room-row" type="button">
+            <span class="gw-room-row__glyph" aria-hidden="true">RS</span>
+            <span class="gw-room-row__copy"><strong>Registry research</strong><small>Accreditation model</small></span>
+            <span class="gw-room-row__count"></span>
+          </button>
+        </div>
+      </aside>
+
+      <div class="gw-room-thread">
+        <header class="gw-room-thread__head">
+          <span class="gw-room-title">
+            <strong>Open distribution</strong>
+            <small>6 people · 3 agents · private workroom</small>
+          </span>
+          <span class="gw-room-thread__actions">
+            <span class="gw-mini-avatar-stack" aria-label="Four active members">
+              <span class="gw-avatar gw-avatar--chris">CZ</span>
+              <span class="gw-avatar gw-avatar--clay">MR</span>
+              <span class="gw-avatar gw-avatar--sky">AL</span>
+              <span class="gw-avatar gw-avatar--gold">SK</span>
+            </span>
+            <button class="gw-icon-button" type="button" aria-label="Workroom call"><svg viewBox="0 0 20 20"><path d="M6 5h5a3 3 0 0 1 3 3v4a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3Z" /><path d="m14 9 3-2v6l-3-2" /></svg></button>
+            <button class="gw-icon-button" type="button" aria-label="Workroom settings"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="2.5" /><path d="M10 3v2M10 15v2M3 10h2M15 10h2M5.05 5.05l1.42 1.42M13.53 13.53l1.42 1.42M14.95 5.05l-1.42 1.42M6.47 13.53l-1.42 1.42" /></svg></button>
+          </span>
+        </header>
+
+        <div class="gw-thread-feed">
+          <div class="gw-thread-day">Today</div>
+          <article class="gw-message">
+            <span class="gw-avatar gw-avatar--clay" aria-hidden="true">MR</span>
+            <div class="gw-message__body">
+              <div class="gw-message__meta"><strong>Mira</strong><span>09:08</span></div>
+              <p>I tightened the release narrative around portable publishing. The new version explains the value before it introduces the registry.</p>
+              <div class="gw-message-card">
+                <div class="gw-message-card__head"><strong>Open distribution · Release 04</strong><span class="gw-state-chip gw-state-chip--review">Ready for review</span></div>
+                <p>Source, attribution and permitted derivatives travel together. Platforms receive a publishable package instead of another opaque upload.</p>
+              </div>
+            </div>
+          </article>
+          <article class="gw-message">
+            <span class="gw-avatar gw-avatar--sky" aria-hidden="true">AL</span>
+            <div class="gw-message__body">
+              <div class="gw-message__meta"><strong>Atlas agent</strong><span>09:12 · acting for Chris</span></div>
+              <p>I compared Release 04 with the campaign brief. The claims now align. One phrase still needs a source before external distribution.</p>
+              <div class="gw-message-card">
+                <div class="gw-message-card__head"><strong>Evidence request</strong><span class="gw-state-chip gw-state-chip--blocked">1 missing source</span></div>
+                <p>Attach the campaign measurement note to “measurable across platforms”, or soften the sentence.</p>
+              </div>
+            </div>
+          </article>
+          <article class="gw-message">
+            <span class="gw-avatar gw-avatar--chris" aria-hidden="true">CZ</span>
+            <div class="gw-message__body">
+              <div class="gw-message__meta"><strong>Chris</strong><span>09:19</span></div>
+              <p>Keep the sentence. I attached the measurement note and asked Atlas to prepare a receipt linking the claim, source and approval.</p>
+            </div>
+          </article>
+        </div>
+
+        <form class="gw-composer">
+          <textarea aria-label="Write to the workroom" placeholder="Write a message, ask an agent or drop a file…"></textarea>
+          <div class="gw-composer__footer">
+            <span class="gw-composer__tools">
+              <button type="button" aria-label="Attach file"><svg viewBox="0 0 20 20"><path d="m7 10 4.2-4.2a2.4 2.4 0 0 1 3.4 3.4l-5.4 5.4a3.5 3.5 0 0 1-5-5L9 4.8" /></svg></button>
+              <button type="button" aria-label="Mention a person or agent"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="6.5" /><path d="M12.5 8.5v3a2 2 0 0 0 4 0V10a6.5 6.5 0 1 0-2 4.7" /><circle cx="9.5" cy="10" r="2.5" /></svg></button>
+              <button type="button" aria-label="Add an action"><svg viewBox="0 0 20 20"><path d="M5 4.5h10v11H5zM7.5 8h5M7.5 11h3" /></svg></button>
+            </span>
+            <button class="gw-button gw-button--primary" type="submit">Send</button>
+          </div>
+        </form>
+      </div>
+
+      <aside class="gw-room-details">
+        <div class="gw-subpane-head"><strong>Room details</strong><button class="gw-kebab-button" type="button" aria-label="More room actions">···</button></div>
+        <section class="gw-room-details__section">
+          <div class="gw-detail-title"><strong>People and agents</strong><button class="gw-text-button" type="button">Manage</button></div>
+          <div class="gw-member-list">
+            <div class="gw-member-row"><span class="gw-avatar gw-avatar--chris">CZ</span><span class="gw-member-row__copy"><strong>Chris</strong><small>Owner</small></span><span class="gw-member-role">person</span></div>
+            <div class="gw-member-row"><span class="gw-avatar gw-avatar--clay">MR</span><span class="gw-member-row__copy"><strong>Mira</strong><small>Editor</small></span><span class="gw-member-role">person</span></div>
+            <div class="gw-member-row"><span class="gw-avatar gw-avatar--sky">AL</span><span class="gw-member-row__copy"><strong>Atlas</strong><small>Campaign analysis</small></span><span class="gw-member-role">agent</span></div>
+            <div class="gw-member-row"><span class="gw-avatar gw-avatar--violet">HB</span><span class="gw-member-row__copy"><strong>Hara bot</strong><small>Package notices</small></span><span class="gw-member-role">agent</span></div>
+          </div>
+        </section>
+        <section class="gw-room-details__section">
+          <div class="gw-detail-title"><strong>Shared files</strong><button class="gw-text-button" type="button">See all 12</button></div>
+          <div class="gw-file-list">
+            <div class="gw-file-row"><span class="gw-file-row__glyph">HAL</span><span class="gw-file-row__copy"><strong>release-04.hal</strong><small>Updated 7 min ago</small></span></div>
+            <div class="gw-file-row"><span class="gw-file-row__glyph">PDF</span><span class="gw-file-row__copy"><strong>measurement-note.pdf</strong><small>Attached by Chris</small></span></div>
+            <div class="gw-file-row"><span class="gw-file-row__glyph">MD</span><span class="gw-file-row__copy"><strong>campaign-brief.md</strong><small>Verified source</small></span></div>
+          </div>
+        </section>
+        <section class="gw-room-details__section">
+          <div class="gw-detail-title"><strong>Room policy</strong></div>
+          <p class="gw-recovery-note">Agents may read shared material. Publishing, external messaging and new grants require a person.</p>
+        </section>
+      </aside>
+    </section>
+  )}
+
+  {screen.id === "studio" && (
+    <section class="gw-studio-shell" aria-label="Greenways publication studio">
+      <header class="gw-studio-toolbar">
+        <span class="gw-studio-toolbar__group">
+          <button class="gw-tool-button is-active" type="button"><svg viewBox="0 0 20 20"><path d="m5 3 9 7-4 1-2 4Z" /></svg>Select</button>
+          <button class="gw-tool-button" type="button"><svg viewBox="0 0 20 20"><path d="M4 5h12v10H4z" /></svg>Frame</button>
+          <button class="gw-tool-button" type="button"><svg viewBox="0 0 20 20"><path d="M5 15 10 4l5 11M7 11h6" /></svg>Text</button>
+          <button class="gw-tool-button" type="button"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="6" /></svg>Shape</button>
+          <button class="gw-tool-button" type="button"><svg viewBox="0 0 20 20"><path d="M3 14.5 7.5 10l3 3 2-2 4.5 3.5M4 4h12v12H4z" /></svg>Media</button>
+        </span>
+        <span class="gw-studio-toolbar__group">
+          <span class="gw-state-chip gw-state-chip--live">Saved</span>
+          <button class="gw-tool-button" type="button">Preview</button>
+          <button class="gw-button gw-button--primary" type="button">Publish</button>
+        </span>
+      </header>
+
+      <aside class="gw-studio-assets">
+        <div class="gw-asset-tabs"><button class="is-active" type="button">Assets</button><button type="button">Files</button><button type="button">Data</button></div>
+        <section class="gw-asset-section">
+          <span class="gw-meta-label">Release media</span>
+          <div class="gw-asset-grid">
+            <article class="gw-asset-card"><div class="gw-asset-card__preview"></div><span>forest-cover.jpg</span></article>
+            <article class="gw-asset-card"><div class="gw-asset-card__preview"></div><span>registry-map.svg</span></article>
+            <article class="gw-asset-card"><div class="gw-asset-card__preview"></div><span>creator-still.jpg</span></article>
+            <article class="gw-asset-card"><div class="gw-asset-card__preview"></div><span>receipt-flow.svg</span></article>
+          </div>
+        </section>
+        <section class="gw-asset-section">
+          <span class="gw-meta-label">Reusable blocks</span>
+          <div class="gw-file-list" style="margin-top: 10px">
+            <div class="gw-file-row"><span class="gw-file-row__glyph">HD</span><span class="gw-file-row__copy"><strong>Editorial header</strong><small>Shared component</small></span></div>
+            <div class="gw-file-row"><span class="gw-file-row__glyph">QT</span><span class="gw-file-row__copy"><strong>Evidence quote</strong><small>Includes source</small></span></div>
+            <div class="gw-file-row"><span class="gw-file-row__glyph">RC</span><span class="gw-file-row__copy"><strong>Receipt footer</strong><small>Automatic metadata</small></span></div>
+          </div>
+        </section>
+      </aside>
+
+      <div class="gw-studio-canvas">
+        <article class="gw-artboard" aria-label="Open distribution cover design">
+          <div class="gw-artboard__copy">
+            <span>Greenways field note 04</span>
+            <h2>Open distribution, with the work still attached.</h2>
+            <p>A portable publication carries source, attribution and accountable change across every destination.</p>
+          </div>
+          <div class="gw-artboard__image"></div>
+          <div class="gw-selection-box" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+        </article>
+        <div class="gw-canvas-zoom"><button type="button" aria-label="Zoom out">−</button><span>74%</span><button type="button" aria-label="Zoom in">+</button></div>
+      </div>
+
+      <aside class="gw-studio-inspector">
+        <div class="gw-inspector-tabs"><button class="is-active" type="button">Design</button><button type="button">Receipt</button></div>
+        <section class="gw-inspector-section">
+          <div class="gw-inspector-section__head"><strong>Position</strong><button class="gw-kebab-button" type="button" aria-label="Position options">···</button></div>
+          <div class="gw-control-grid">
+            <div class="gw-control"><label>X</label><span>42</span></div><div class="gw-control"><label>Y</label><span>82</span></div>
+            <div class="gw-control"><label>W</label><span>248</span></div><div class="gw-control"><label>H</label><span>164</span></div>
+          </div>
+        </section>
+        <section class="gw-inspector-section">
+          <div class="gw-inspector-section__head"><strong>Typography</strong><span class="gw-meta-label">Heading / L</span></div>
+          <div class="gw-control-grid">
+            <div class="gw-control" style="grid-column: 1 / -1"><label>Typeface</label><span>Manrope 560</span></div>
+            <div class="gw-control"><label>Size</label><span>48</span></div><div class="gw-control"><label>Line</label><span>1.03</span></div>
+          </div>
+          <div class="gw-inspector-toggle"><span>Optical balance</span><span class="gw-toggle" aria-hidden="true"></span></div>
+        </section>
+        <section class="gw-inspector-section">
+          <div class="gw-inspector-section__head"><strong>Source relationship</strong><span class="gw-state-chip gw-state-chip--live">Attached</span></div>
+          <p class="gw-recovery-note">This headline derives from <strong>release-04.hal</strong>. Changes remain linked to the approved source.</p>
+        </section>
+        <section class="gw-inspector-section">
+          <div class="gw-inspector-section__head"><strong>Destinations</strong></div>
+          <div class="gw-package-compat"><span class="gw-chip">Web</span><span class="gw-chip">Newsletter</span><span class="gw-chip">Social</span><span class="gw-chip">Archive</span></div>
+        </section>
+      </aside>
+
+      <footer class="gw-studio-statusbar">
+        <span><span>Release 04</span><span>Canvas 1600 × 1000</span><span>sRGB</span></span>
+        <span><span>4 sources</span><span>2 reviewers</span><span>Receipt ready</span></span>
+      </footer>
+    </section>
+  )}
+
+  {screen.id === "campaigns" && (
+    <div>
+      <section class="gw-campaign-metrics" aria-label="Campaign measures">
+        <article class="gw-metric-card"><div class="gw-metric-card__top"><span>Verified reach</span><span class="gw-metric-card__trend">+14.2%</span></div><strong>84,260</strong><small>Across owned and partner channels</small></article>
+        <article class="gw-metric-card"><div class="gw-metric-card__top"><span>Meaningful actions</span><span class="gw-metric-card__trend">+8.7%</span></div><strong>6,418</strong><small>Saves, replies and package visits</small></article>
+        <article class="gw-metric-card"><div class="gw-metric-card__top"><span>Collaborators</span><span class="gw-metric-card__trend">12 active</span></div><strong>28</strong><small>5 publishers · 7 creators · 16 agents</small></article>
+        <article class="gw-metric-card"><div class="gw-metric-card__top"><span>Evidence coverage</span><span class="gw-metric-card__trend">+6 pts</span></div><strong>96%</strong><small>Of reported outcomes have a receipt</small></article>
+      </section>
+
+      <div class="gw-campaign-grid">
+        <div class="gw-campaign-main">
+          <article class="gw-campaign-hero">
+            <div class="gw-campaign-hero__copy">
+              <span class="gw-state-chip gw-state-chip--live">Live · week 2 of 4</span>
+              <h2>Open distribution</h2>
+              <p>A coordinated field note, package release and contributor series showing how portable creative work moves across platforms.</p>
+              <div class="gw-campaign-hero__progress">
+                <div><span>Campaign progress</span><span>58%</span></div>
+                <div class="gw-progress"><span style="width: 58%"></span></div>
+              </div>
+            </div>
+            <div class="gw-campaign-hero__visual" aria-hidden="true"></div>
+          </article>
+
+          <section class="gw-panel">
+            <div class="gw-panel__head"><span class="gw-panel__title"><strong>Distribution channels</strong><small>Outputs remain linked to the campaign source</small></span><button class="gw-text-button" type="button">Manage channels</button></div>
+            <div class="gw-channel-list">
+              <div class="gw-channel-row"><span class="gw-channel-icon">WW</span><span class="gw-channel-copy"><strong>Greenways website</strong><small>Field note and interactive receipt explorer</small></span><span class="gw-channel-stat"><strong>31.4k</strong><small>readers</small></span><span class="gw-channel-stat"><strong>18.2%</strong><small>engaged</small></span><span class="gw-state-chip gw-state-chip--live">Live</span></div>
+              <div class="gw-channel-row"><span class="gw-channel-icon">NL</span><span class="gw-channel-copy"><strong>What’s new newsletter</strong><small>Maintainer edition · segment A</small></span><span class="gw-channel-stat"><strong>18.8k</strong><small>delivered</small></span><span class="gw-channel-stat"><strong>42.7%</strong><small>opened</small></span><span class="gw-state-chip gw-state-chip--live">Sent</span></div>
+              <div class="gw-channel-row"><span class="gw-channel-icon">HN</span><span class="gw-channel-copy"><strong>Community syndication</strong><small>Hacker News, Reddit and partner feeds</small></span><span class="gw-channel-stat"><strong>22.1k</strong><small>views</small></span><span class="gw-channel-stat"><strong>642</strong><small>actions</small></span><span class="gw-state-chip gw-state-chip--review">Active</span></div>
+              <div class="gw-channel-row"><span class="gw-channel-icon">CR</span><span class="gw-channel-copy"><strong>Creator excerpts</strong><small>7 attributable short-form derivatives</small></span><span class="gw-channel-stat"><strong>11.9k</strong><small>views</small></span><span class="gw-channel-stat"><strong>9.4%</strong><small>engaged</small></span><span class="gw-state-chip gw-state-chip--review">Rolling</span></div>
+            </div>
+          </section>
+        </div>
+
+        <aside class="gw-campaign-rail">
+          <section class="gw-panel">
+            <div class="gw-panel__head"><span class="gw-panel__title"><strong>Milestones</strong><small>The next seven days</small></span><button class="gw-text-button" type="button">Calendar</button></div>
+            <div class="gw-panel__body gw-timeline">
+              <div class="gw-timeline-row"><span class="gw-timeline-date">Today</span><span class="gw-timeline-dot"></span><span class="gw-timeline-copy"><strong>Approve creator excerpt set</strong><small>Three edits awaiting a human decision</small></span></div>
+              <div class="gw-timeline-row"><span class="gw-timeline-date">Thu 20</span><span class="gw-timeline-dot"></span><span class="gw-timeline-copy"><strong>Package release 0.4</strong><small>visual.canvas and receipt.viewer</small></span></div>
+              <div class="gw-timeline-row"><span class="gw-timeline-date">Mon 24</span><span class="gw-timeline-dot"></span><span class="gw-timeline-copy"><strong>Maintainer conversation</strong><small>Live session with package stewards</small></span></div>
+              <div class="gw-timeline-row"><span class="gw-timeline-date">Wed 26</span><span class="gw-timeline-dot"></span><span class="gw-timeline-copy"><strong>Outcome review</strong><small>Campaign receipt and learnings</small></span></div>
+            </div>
+          </section>
+
+          <section class="gw-panel">
+            <div class="gw-panel__head"><span class="gw-panel__title"><strong>Approval queue</strong><small>2 items need you</small></span><button class="gw-text-button" type="button">Open all</button></div>
+            <div class="gw-panel__body gw-approval-list">
+              <article class="gw-approval-card"><div class="gw-approval-card__head"><strong>Excerpt 03 · “Receipts”</strong><span class="gw-state-chip gw-state-chip--review">Review</span></div><p>Copy and 14-second motion cut for creator channels.</p><div class="gw-approval-card__footer"><span>Prepared by Mira + Frame agent</span><span>8 min</span></div></article>
+              <article class="gw-approval-card"><div class="gw-approval-card__head"><strong>Partner feed addition</strong><span class="gw-state-chip gw-state-chip--blocked">Permission</span></div><p>Allow Open Source Weekly to republish the field note.</p><div class="gw-approval-card__footer"><span>Requested by Suki</span><span>2 min</span></div></article>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </div>
+  )}
+
+  {screen.id === "packages" && (
+    <div>
+      <section class="gw-packages-intro">
+        <article class="gw-package-search-hero">
+          <span class="gw-state-chip gw-state-chip--live">Registry online · 1,284 packages</span>
+          <h2>Find a capability, not a dependency maze.</h2>
+          <p>Packages show purpose, compatibility, maintainers and evidence of use before asking anyone to install them.</p>
+          <label class="gw-package-search">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="4.5" /><path d="m12 12 4 4" /></svg>
+            <input type="search" placeholder="Search packages, capabilities or maintainers" />
+            <kbd>/</kbd>
+          </label>
+        </article>
+        <article class="gw-panel gw-namespace-card">
+          <div class="gw-namespace-card__head"><span class="gw-namespace-mark">GW</span><span><strong>greenways.*</strong><small>Accredited namespace</small></span></div>
+          <p>Portable publishing, attribution and receipt primitives maintained in the open by the Greenways foundation.</p>
+          <div class="gw-namespace-stats"><div><strong>42</strong><small>packages</small></div><div><strong>8</strong><small>maintainers</small></div><div><strong>99.8%</strong><small>checks pass</small></div></div>
+        </article>
+      </section>
+
+      <div class="gw-package-layout">
+        <section class="gw-panel">
+          <div class="gw-panel__head"><span class="gw-panel__title"><strong>Recommended for this workspace</strong><small>Based on the open distribution release</small></span><button class="gw-text-button" type="button">See registry</button></div>
+          <div class="gw-package-list">
+            <article class="gw-package-row"><span class="gw-package-mark">VC</span><span class="gw-package-copy"><strong>visual.canvas</strong><small>Portable canvas, scene and embedded studio controls</small></span><span class="gw-package-compat"><span class="gw-chip">Web</span><span class="gw-chip">Wasm</span></span><span class="gw-package-version">0.8.4</span><button class="gw-button" type="button">Install</button></article>
+            <article class="gw-package-row"><span class="gw-package-mark">RV</span><span class="gw-package-copy"><strong>receipt.viewer</strong><small>Human-readable views for signed action receipts</small></span><span class="gw-package-compat"><span class="gw-chip">Web</span><span class="gw-chip">Node</span></span><span class="gw-package-version">1.2.0</span><button class="gw-button" type="button">Install</button></article>
+            <article class="gw-package-row"><span class="gw-package-mark">PW</span><span class="gw-package-copy"><strong>publish.workflow</strong><small>Review, approval and destination-aware release work</small></span><span class="gw-package-compat"><span class="gw-chip">JVM</span><span class="gw-chip">Rust</span></span><span class="gw-package-version">0.6.2</span><button class="gw-button" type="button">Install</button></article>
+            <article class="gw-package-row"><span class="gw-package-mark">AS</span><span class="gw-package-copy"><strong>attribution.schema</strong><small>Shared format for creators, sources and permitted derivatives</small></span><span class="gw-package-compat"><span class="gw-chip">All</span></span><span class="gw-package-version">2.0.1</span><button class="gw-button" type="button">Install</button></article>
+            <article class="gw-package-row"><span class="gw-package-mark">FA</span><span class="gw-package-copy"><strong>feed.aggregate</strong><small>Normalise incoming articles, posts and community references</small></span><span class="gw-package-compat"><span class="gw-chip">Node</span><span class="gw-chip">JVM</span></span><span class="gw-package-version">0.4.7</span><button class="gw-button" type="button">Install</button></article>
+          </div>
+        </section>
+
+        <aside style="display: grid; align-content: start; gap: 14px">
+          <section class="gw-panel gw-install-card">
+            <div class="gw-panel__head"><span class="gw-panel__title"><strong>Install with Hara</strong><small>Workspace manifest</small></span><button class="gw-text-button" type="button">Copy</button></div>
+            <div class="gw-code-block">{`(def.package open-release
+  {:requires
+   [visual.canvas       "0.8.4"
+    receipt.viewer      "1.2.0"
+    attribution.schema  "2.0.1"]})`}</div>
+          </section>
+          <section class="gw-panel">
+            <div class="gw-panel__head"><span class="gw-panel__title"><strong>Namespace maintainers</strong><small>People accountable for greenways.*</small></span><button class="gw-text-button" type="button">Governance</button></div>
+            <div class="gw-panel__body gw-maintainer-list">
+              <div class="gw-maintainer-row"><span class="gw-avatar gw-avatar--chris">CZ</span><span><strong>Chris Zheng</strong><small>Foundation and runtime</small></span><span class="gw-state-chip gw-state-chip--live">Active</span></div>
+              <div class="gw-maintainer-row"><span class="gw-avatar gw-avatar--clay">MR</span><span><strong>Mira Rao</strong><small>Publishing formats</small></span><span class="gw-state-chip gw-state-chip--live">Active</span></div>
+              <div class="gw-maintainer-row"><span class="gw-avatar gw-avatar--gold">SK</span><span><strong>Suki Kim</strong><small>Registry stewardship</small></span><span class="gw-state-chip gw-state-chip--quiet">Away</span></div>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </div>
+  )}
+
+  {screen.id === "keyring" && (
+    <div class="gw-keyring-layout">
+      <div class="gw-keyring-main">
+        <article class="gw-identity-card">
+          <div class="gw-identity-card__head">
+            <div class="gw-identity-owner"><span class="gw-avatar gw-avatar--chris">CZ</span><span><strong>Chris’s Greenways identity</strong><small>gw:person:chris-zheng</small></span></div>
+            <span class="gw-state-chip gw-state-chip--live">Healthy</span>
+          </div>
+          <p class="gw-identity-card__explanation">This identity owns the keys below. Agents act through named, time-bound grants, so a person can understand and revoke authority without reading a policy document.</p>
+          <div class="gw-identity-facts">
+            <div class="gw-identity-fact"><span>Primary proof</span><strong>GitHub · chris-zheng</strong></div>
+            <div class="gw-identity-fact"><span>Last verified</span><strong>Today · 08:31</strong></div>
+            <div class="gw-identity-fact"><span>Recovery</span><strong>4 guardians · 3 needed</strong></div>
+          </div>
+        </article>
+
+        <section class="gw-panel">
+          <div class="gw-panel__head"><span class="gw-panel__title"><strong>Keys and grants</strong><small>Authority is described in product language</small></span><button class="gw-text-button" type="button">Add key</button></div>
+          <div class="gw-key-list">
+            <article class="gw-key-row"><span class="gw-key-glyph"><svg viewBox="0 0 20 20"><circle cx="7" cy="10" r="3" /><path d="M10 10h7M14 10v2M16 10v2" /></svg></span><span class="gw-key-copy"><strong>Personal signing key</strong><small>gwk_92e4…7a31 · stored in this device keyring</small></span><span class="gw-key-scope"><strong>Approve and publish</strong><small>All owned workspaces</small></span><span class="gw-key-used"><strong>08:42 today</strong><small>Package council</small></span><span class="gw-state-chip gw-state-chip--live">Active</span></article>
+            <article class="gw-key-row"><span class="gw-key-glyph"><svg viewBox="0 0 20 20"><circle cx="7" cy="10" r="3" /><path d="M10 10h7M14 10v2M16 10v2" /></svg></span><span class="gw-key-copy"><strong>Atlas campaign grant</strong><small>agent:atlas · expires 18 September</small></span><span class="gw-key-scope"><strong>Read and analyse</strong><small>Open distribution campaign</small></span><span class="gw-key-used"><strong>09:12 today</strong><small>Campaign summary</small></span><span class="gw-state-chip gw-state-chip--review">Review</span></article>
+            <article class="gw-key-row"><span class="gw-key-glyph"><svg viewBox="0 0 20 20"><circle cx="7" cy="10" r="3" /><path d="M10 10h7M14 10v2M16 10v2" /></svg></span><span class="gw-key-copy"><strong>Studio device key</strong><small>Mac Studio · Melbourne workspace</small></span><span class="gw-key-scope"><strong>Edit and preview</strong><small>Studio projects only</small></span><span class="gw-key-used"><strong>Yesterday</strong><small>Release 04</small></span><span class="gw-state-chip gw-state-chip--live">Active</span></article>
+            <article class="gw-key-row"><span class="gw-key-glyph"><svg viewBox="0 0 20 20"><circle cx="7" cy="10" r="3" /><path d="M10 10h7M14 10v2M16 10v2" /></svg></span><span class="gw-key-copy"><strong>Former campaign exporter</strong><small>agent:frame-v1 · retained for receipt validation</small></span><span class="gw-key-scope"><strong>No current access</strong><small>Historical receipts only</small></span><span class="gw-key-used"><strong>12 Jul</strong><small>Export completed</small></span><span class="gw-state-chip gw-state-chip--quiet">Revoked</span></article>
+          </div>
+        </section>
+      </div>
+
+      <aside class="gw-keyring-rail">
+        <section class="gw-panel">
+          <div class="gw-panel__head"><span class="gw-panel__title"><strong>Connected agents</strong><small>Every agent has an owner and boundary</small></span><button class="gw-text-button" type="button">Register</button></div>
+          <div class="gw-panel__body gw-agent-list">
+            <article class="gw-agent-card"><span class="gw-agent-mark">AT</span><span class="gw-agent-copy"><strong>Atlas</strong><small>Campaign analysis · owned by Chris</small></span><span class="gw-state-chip gw-state-chip--review">1 review</span></article>
+            <article class="gw-agent-card"><span class="gw-agent-mark">HB</span><span class="gw-agent-copy"><strong>Hara bot</strong><small>Community notices · owned by Greenways</small></span><span class="gw-state-chip gw-state-chip--live">Active</span></article>
+            <article class="gw-agent-card"><span class="gw-agent-mark">FR</span><span class="gw-agent-copy"><strong>Frame</strong><small>Studio derivatives · owned by Chris</small></span><span class="gw-state-chip gw-state-chip--live">Active</span></article>
+          </div>
+        </section>
+
+        <section class="gw-panel gw-recovery-card">
+          <div class="gw-panel__head"><span class="gw-panel__title"><strong>Recovery circle</strong><small>3 of 4 guardians can restore access</small></span><span class="gw-state-chip gw-state-chip--live">Ready</span></div>
+          <div class="gw-panel__body">
+            <div class="gw-recovery-map" aria-label="Chris connected to four recovery guardians">
+              <svg viewBox="0 0 300 166" preserveAspectRatio="none" aria-hidden="true"><path d="M150 82 63 29M150 82l87-53M150 82l87 55M150 82l-87 55" /></svg>
+              <span class="gw-recovery-node gw-recovery-node--owner">You</span>
+              <span class="gw-recovery-node gw-recovery-node--one">Mira</span>
+              <span class="gw-recovery-node gw-recovery-node--two">Suki</span>
+              <span class="gw-recovery-node gw-recovery-node--three">ANU</span>
+              <span class="gw-recovery-node gw-recovery-node--four">Vault</span>
+            </div>
+            <p class="gw-recovery-note">Guardians can help restore the identity. They cannot read work, approve actions or impersonate the owner.</p>
+          </div>
+        </section>
+      </aside>
+    </div>
+  )}
+
+  {screen.id === "receipts" && (
+    <section class="gw-receipts-layout" aria-label="Greenways receipts browser">
+      <div class="gw-receipt-browser">
+        <div class="gw-receipt-tools">
+          <label class="gw-receipt-search"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="4.5" /><path d="m12 12 4 4" /></svg><input type="search" placeholder="Search actions, people or work" /></label>
+          <button class="gw-filter-button" type="button"><svg viewBox="0 0 20 20"><path d="M3 5h14M5 10h10M8 15h4" /></svg>Filter</button>
+          <button class="gw-filter-button" type="button">All workspaces</button>
+        </div>
+        <p class="gw-receipt-day-label">Today · 18 receipts</p>
+        <div class="gw-receipt-list">
+          <button class="gw-receipt-row is-active" type="button"><span class="gw-receipt-glyph"><svg viewBox="0 0 20 20"><path d="M5 3h8l3 3v11H5zM13 3v4h3M8 11l1.5 1.5L13 9" /></svg></span><span class="gw-receipt-row__copy"><strong>Release 04 approved for publication</strong><small>Chris · Open distribution · Studio</small></span><span class="gw-receipt-time">09:26</span></button>
+          <button class="gw-receipt-row" type="button"><span class="gw-receipt-glyph"><svg viewBox="0 0 20 20"><path d="M5 3h8l3 3v11H5zM13 3v4h3M8 11l1.5 1.5L13 9" /></svg></span><span class="gw-receipt-row__copy"><strong>Measurement source attached to claim</strong><small>Chris · Open distribution · Workrooms</small></span><span class="gw-receipt-time">09:19</span></button>
+          <button class="gw-receipt-row" type="button"><span class="gw-receipt-glyph"><svg viewBox="0 0 20 20"><path d="M5 3h8l3 3v11H5zM13 3v4h3M8 11l1.5 1.5L13 9" /></svg></span><span class="gw-receipt-row__copy"><strong>Atlas produced campaign comparison</strong><small>Atlas · authorised by Chris · Campaigns</small></span><span class="gw-receipt-time">09:12</span></button>
+          <button class="gw-receipt-row" type="button"><span class="gw-receipt-glyph"><svg viewBox="0 0 20 20"><path d="M5 3h8l3 3v11H5zM13 3v4h3M8 11l1.5 1.5L13 9" /></svg></span><span class="gw-receipt-row__copy"><strong>Release 04 submitted for review</strong><small>Mira · Open distribution · Studio</small></span><span class="gw-receipt-time">09:08</span></button>
+          <button class="gw-receipt-row" type="button"><span class="gw-receipt-glyph"><svg viewBox="0 0 20 20"><path d="M5 3h8l3 3v11H5zM13 3v4h3M8 11l1.5 1.5L13 9" /></svg></span><span class="gw-receipt-row__copy"><strong>Package maintainers confirmed</strong><small>Chris · greenways.* · Packages</small></span><span class="gw-receipt-time">08:42</span></button>
+          <button class="gw-receipt-row" type="button"><span class="gw-receipt-glyph"><svg viewBox="0 0 20 20"><path d="M5 3h8l3 3v11H5zM13 3v4h3M8 11l1.5 1.5L13 9" /></svg></span><span class="gw-receipt-row__copy"><strong>Personal identity verified</strong><small>GitHub · Chris · Keyring</small></span><span class="gw-receipt-time">08:31</span></button>
+        </div>
+        <p class="gw-receipt-day-label">Yesterday · 24 receipts</p>
+        <div class="gw-receipt-list">
+          <button class="gw-receipt-row" type="button"><span class="gw-receipt-glyph"><svg viewBox="0 0 20 20"><path d="M5 3h8l3 3v11H5zM13 3v4h3M8 11l1.5 1.5L13 9" /></svg></span><span class="gw-receipt-row__copy"><strong>Campaign channel plan accepted</strong><small>Chris + Mira · Campaigns</small></span><span class="gw-receipt-time">17:46</span></button>
+          <button class="gw-receipt-row" type="button"><span class="gw-receipt-glyph"><svg viewBox="0 0 20 20"><path d="M5 3h8l3 3v11H5zM13 3v4h3M8 11l1.5 1.5L13 9" /></svg></span><span class="gw-receipt-row__copy"><strong>Studio device grant refreshed</strong><small>Chris · Keyring</small></span><span class="gw-receipt-time">16:02</span></button>
+        </div>
+      </div>
+
+      <article class="gw-receipt-detail">
+        <header class="gw-receipt-detail__hero">
+          <div class="gw-receipt-detail__status"><span class="gw-state-chip gw-state-chip--live">Verified</span><div class="gw-button-row"><button class="gw-button gw-button--quiet" type="button">Copy link</button><button class="gw-button" type="button">Export</button></div></div>
+          <h2>Release 04 approved for publication</h2>
+          <p>Chris approved the prepared publication after the missing campaign evidence was attached. The approved source and all generated destinations share this receipt.</p>
+          <div class="gw-receipt-facts">
+            <div class="gw-receipt-fact"><span>Receipt</span><strong>rcpt_01J5…A92F</strong></div>
+            <div class="gw-receipt-fact"><span>Workspace</span><strong>Open distribution</strong></div>
+            <div class="gw-receipt-fact"><span>Visibility</span><strong>Collaborators</strong></div>
+          </div>
+        </header>
+        <section class="gw-receipt-trace" aria-labelledby="receipt-trace-title">
+          <span id="receipt-trace-title" class="gw-meta-label" style="display:block; margin-bottom: 20px">Action trace</span>
+          <div class="gw-trace-row"><span class="gw-trace-icon"><svg viewBox="0 0 20 20"><path d="M4 4h12v12H4zM7 8h6M7 11h4" /></svg></span><span class="gw-trace-copy"><strong>Publication source prepared</strong><p>Mira submitted <strong>release-04.hal</strong> with four linked sources and three destination previews.</p><code>source sha256:7cd2…e12a</code></span><span class="gw-trace-time">09:08:14</span></div>
+          <div class="gw-trace-row"><span class="gw-trace-icon"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="6" /><path d="M10 6v4l2.5 1.5" /></svg></span><span class="gw-trace-copy"><strong>Automated review completed</strong><p>Atlas checked campaign alignment and identified one unsupported phrase. No publication authority was exercised.</p><code>agent:atlas · grant:campaign-read</code></span><span class="gw-trace-time">09:12:03</span></div>
+          <div class="gw-trace-row"><span class="gw-trace-icon"><svg viewBox="0 0 20 20"><path d="M4 10h12M10 4v12" /></svg></span><span class="gw-trace-copy"><strong>Evidence attached</strong><p>Chris linked the campaign measurement note to the claim. The source relationship was validated.</p><code>evidence:measurement-note.pdf</code></span><span class="gw-trace-time">09:19:48</span></div>
+          <div class="gw-trace-row"><span class="gw-trace-icon"><svg viewBox="0 0 20 20"><path d="m4 10 4 4 8-8" /></svg></span><span class="gw-trace-copy"><strong>Human approval recorded</strong><p>Chris approved Release 04 for the website, newsletter, community feeds and creator excerpts.</p><code>signed by gw:person:chris-zheng</code></span><span class="gw-trace-time">09:26:11</span></div>
+        </section>
+      </article>
+    </section>
+  )}
+</section>
