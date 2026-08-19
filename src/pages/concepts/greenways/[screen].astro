@@ -1,0 +1,27 @@
+---
+import { greenwaysProductScreens } from "../../../greenways-product-screens";
+import GreenwaysProductView from "../../../site/components/GreenwaysProductView.astro";
+import GreenwaysProductShell from "../../../site/layouts/GreenwaysProductShell.astro";
+
+export function getStaticPaths() {
+  return greenwaysProductScreens.map((screen, position) => ({
+    params: { screen: screen.id },
+    props: { screen, position },
+  }));
+}
+
+interface Props {
+  screen: (typeof greenwaysProductScreens)[number];
+  position: number;
+}
+
+const { screen, position } = Astro.props;
+---
+
+<GreenwaysProductShell
+  title={`${screen.label} — Greenways`}
+  description={screen.summary}
+  screenId={screen.id}
+>
+  <GreenwaysProductView screen={screen} position={position} />
+</GreenwaysProductShell>
