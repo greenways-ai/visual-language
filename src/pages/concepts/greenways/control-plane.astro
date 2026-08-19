@@ -1,0 +1,77 @@
+---
+import ConceptShell from "../../../site/layouts/ConceptShell.astro";
+import GreenwaysControlPlaneArt from "../../../site/components/GreenwaysControlPlaneArt.astro";
+
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+---
+
+<ConceptShell
+  title="Greenways Control Plane"
+  description="A connected five-screen product concept for managing identity, packages, receipts, durable work, and signed publishing across the Greenways private network."
+  eyebrow="Greenways · Product concept"
+  worldLabel="Greenways"
+  kind="Five-screen control plane"
+  position="01 / 01"
+  backHref={`${base}concepts/`}
+  backLabel="Back to concept catalogue"
+  ogImage={`${base}artwork/www/world-confluence-day.webp`}
+>
+  <section class="concept-page__art greenways-control-plane-study">
+    <GreenwaysControlPlaneArt />
+  </section>
+
+  <section class="concept-spec-grid">
+    <article class="concept-spec">
+      <h2>Product specification</h2>
+      <dl>
+        <div><dt>Role</dt><dd>The shared management surface for Greenways Desktop, web control planes, and the browser bridge around the authoritative <code>greenwaysd</code> service.</dd></div>
+        <div><dt>Screen set</dt><dd>Overview, Keyring, Packages, Receipts, and Publish form one continuous path from private authority to verified release.</dd></div>
+        <div><dt>Authority model</dt><dd>The interface exposes public identity, custody class, scopes, origin, rotation, and last use. It never renders private key or credential material.</dd></div>
+        <div><dt>Software model</dt><dd>Packages are described by publisher, digest, runtime boundary, surfaces, capabilities, policy decision, and installation receipt—not an opaque app-store card.</dd></div>
+        <div><dt>Evidence model</dt><dd>Receipts make actor, action, resource, capability, evidence, checkpoint, and current verification state inspectable as one chain.</dd></div>
+        <div><dt>Responsive rule</dt><dd>The desktop rail becomes a horizontal product dock. Detail inspectors collapse after the primary list or workflow, preserving the core task on narrow screens.</dd></div>
+      </dl>
+    </article>
+
+    <article class="concept-rationale">
+      <small>Why this concept exists</small>
+      <h2>A private control plane, not a crypto wallet.</h2>
+      <p>Greenways needs a recognisable home for keys, software and proof without making users think in blockchains, low-level daemon state, or generic admin dashboards. The screens present authority as calm, inspectable product information.</p>
+      <ul>
+        <li>One shell keeps identity, packages, receipts and publishing causally connected.</li>
+        <li>Trust is described with exact evidence instead of vague shields and security scores.</li>
+        <li>The visual system is quiet and tactile: deep evergreen authority rails, warm mineral work surfaces, and living green reserved for healthy state.</li>
+        <li>Primary actions remain ordinary verbs—connect, install, export, publish—while protocol details stay available one layer down.</li>
+        <li>Every panel uses representative concept data only; no secret value is implied or displayed.</li>
+      </ul>
+    </article>
+  </section>
+
+  <section class="greenways-screen-map" aria-label="Greenways screen responsibilities">
+    <header><small>Screen architecture</small><h2>One journey, five clear responsibilities.</h2></header>
+    <ol>
+      <li><span>01</span><div><strong>Overview</strong><p>Network posture, durable work, recent proof, trusted connections, and the next meaningful action.</p></div></li>
+      <li><span>02</span><div><strong>Keyring</strong><p>Identity roots, custody, scopes, delegated authority, recovery posture, and lifecycle events.</p></div></li>
+      <li><span>03</span><div><strong>Packages</strong><p>Installed software, publisher trust, digests, capabilities, surfaces, runtime isolation, and updates.</p></div></li>
+      <li><span>04</span><div><strong>Receipts</strong><p>A searchable evidence ledger plus human-readable verification paths and exportable bundles.</p></div></li>
+      <li><span>05</span><div><strong>Publish</strong><p>A staged release path joining artifact, manifest, capabilities, publisher signature, and immutable receipt.</p></div></li>
+    </ol>
+  </section>
+</ConceptShell>
+
+<style>
+  .greenways-control-plane-study { margin-inline: clamp(-5rem, -5vw, -1rem); }
+  .concept-spec code { padding: .1rem .25rem; font-family: "IBM Plex Mono", monospace; font-size: .82em; background: color-mix(in srgb, currentColor 8%, transparent); border-radius: .25rem; }
+  .greenways-screen-map { margin-top: clamp(4rem, 8vw, 8rem); }
+  .greenways-screen-map > header { max-width: 48rem; margin-bottom: 2rem; }
+  .greenways-screen-map > header small { font: 700 .68rem "IBM Plex Mono", monospace; letter-spacing: .12em; text-transform: uppercase; }
+  .greenways-screen-map > header h2 { margin: .65rem 0 0; font: 400 clamp(2rem, 5vw, 4rem)/1 "Marcellus", Georgia, serif; }
+  .greenways-screen-map ol { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1px; margin: 0; padding: 1px; background: var(--sl-color-gray-5, rgba(120,120,120,.25)); list-style: none; }
+  .greenways-screen-map li { min-height: 15rem; display: flex; flex-direction: column; justify-content: space-between; gap: 2rem; padding: 1.35rem; background: var(--sl-color-bg, #f7f4ed); }
+  .greenways-screen-map li > span { color: #567b55; font: 700 .68rem "IBM Plex Mono", monospace; }
+  .greenways-screen-map li div { display: grid; gap: .55rem; }
+  .greenways-screen-map strong { font: 400 1.25rem "Marcellus", Georgia, serif; }
+  .greenways-screen-map p { margin: 0; opacity: .68; font-size: .72rem; line-height: 1.6; }
+  @media (max-width: 1100px) { .greenways-control-plane-study { margin-inline: 0; } .greenways-screen-map ol { grid-template-columns: repeat(2, minmax(0,1fr)); } .greenways-screen-map li:last-child { grid-column: 1 / -1; } }
+  @media (max-width: 620px) { .greenways-screen-map ol { grid-template-columns: 1fr; } .greenways-screen-map li, .greenways-screen-map li:last-child { grid-column: auto; min-height: 11rem; } }
+</style>
