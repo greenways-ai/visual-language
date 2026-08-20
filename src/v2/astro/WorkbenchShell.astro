@@ -1,0 +1,79 @@
+---
+import Status from "./Status.astro";
+import "../components.css";
+import "../workbench.css";
+
+type Tone = "neutral" | "info" | "success" | "warning" | "danger";
+type State = "initial" | "active" | "loading" | "empty" | "offline" | "danger";
+
+interface Props {
+  id: string;
+  title: string;
+  eyebrow?: string;
+  label?: string;
+  statusLabel?: string;
+  statusTone?: Tone;
+  state?: State;
+  class?: string;
+}
+
+const {
+  id,
+  title,
+  eyebrow = "Workbench",
+  label = title,
+  statusLabel = "Specimen data",
+  statusTone = "neutral",
+  state = "initial",
+  class: className = "",
+} = Astro.props;
+
+const hasCommands = Astro.slots.has("command-bar");
+const hasNavigation = Astro.slots.has("navigation");
+const hasInspector = Astro.slots.has("inspector");
+const hasActivity = Astro.slots.has("activity");
+const hasStatus = Astro.slots.has("status");
+---
+
+<section
+  id={id}
+  class:list={["gw-v2-component", "gw-v2-workbench", "gw-v2-workbench-shell", className]}
+  aria-label={label}
+  data-gw-v2-component="WorkbenchShell"
+  data-gw-v2-state={state}
+>
+  <header class="gw-v2-workbench__bar">
+    <div class="gw-v2-workbench__title">
+      <small>{eyebrow}</small>
+      <strong>{title}</strong>
+    </div>
+    {hasCommands && (
+      <div class="gw-v2-workbench__commands" role="toolbar" aria-label={`${title} commands`}>
+        <slot name="command-bar" />
+      </div>
+    )}
+  </header>
+
+  <div class="gw-v2-workbench__frame">
+    <nav class="gw-v2-workbench__rail" aria-label="Project and buildout navigation">
+      {hasNavigation ? <slot name="navigation" /> : <p>No navigation supplied.</p>}
+    </nav>
+
+    <section class="gw-v2-workbench__main" aria-label="Primary workspace" tabindex={0}>
+      <slot />
+    </section>
+
+    <aside class="gw-v2-workbench__inspector" aria-label="Inspector">
+      {hasInspector ? <slot name="inspector" /> : <p>No item selected for inspection.</p>}
+    </aside>
+
+    <aside class="gw-v2-workbench__activity" aria-label="Activity and log">
+      {hasActivity ? <slot name="activity" /> : <p>No activity supplied.</p>}
+    </aside>
+  </div>
+
+  <footer class="gw-v2-workbench__status" aria-label="Workbench status">
+    <Status label={statusLabel} tone={statusTone} />
+    {hasStatus && <div class="gw-v2-workbench__status-copy"><slot name="status" /></div>}
+  </footer>
+</section>
