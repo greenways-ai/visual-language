@@ -59,4 +59,48 @@ for (const surface of surfaces) {
   }
 }
 
-console.log(`verified Greenways OS V2 overview and ${surfaces.length} host-specific interface routes`);
+const runtimeRoot = "dist/greenways-os-v2";
+const runtimePages = [
+  "index.html",
+  "desktop.html",
+  "web.html",
+  "popup.html",
+  "sidepanel.html",
+  "options.html",
+  "approval.html",
+  "sandbox.html",
+];
+const runtimeScripts = [
+  "service-worker.js",
+  "sandbox.js",
+  "assets/model.js",
+  "assets/core.js",
+  "assets/desktop.js",
+  "assets/web.js",
+  "assets/popup.js",
+  "assets/sidepanel.js",
+  "assets/options.js",
+  "assets/approval.js",
+];
+
+for (const file of [...runtimePages, ...runtimeScripts, "manifest.json", "assets/greenways-os-v2.css", "README.md"]) {
+  await stat(`${runtimeRoot}/${file}`);
+}
+for (const size of [16, 32, 48, 128]) await stat(`${runtimeRoot}/assets/icon-${size}.png`);
+
+const manifest = JSON.parse(await readFile(`${runtimeRoot}/manifest.json`, "utf8"));
+if (manifest.manifest_version !== 3) {
+  throw new Error("Greenways OS V2 runtime is not a Manifest V3 extension");
+}
+if (manifest.chrome_url_overrides || manifest.host_permissions) {
+  throw new Error("Greenways OS V2 runtime must not override New Tab or request host permissions");
+}
+
+const desktop = await readFile(`${runtimeRoot}/desktop.html`, "utf8");
+for (const marker of ["frame-bar", "workspace-switcher", "buffer-strip", "pane-layout", "inspector-pane", "status-line"]) {
+  if (!desktop.includes(marker)) throw new Error(`Greenways OS V2 runtime desktop is missing ${marker}`);
+}
+
+console.log(
+  `verified Greenways OS V2 overview, ${surfaces.length} host-specific interface routes and the runnable extension/web runtime`,
+);

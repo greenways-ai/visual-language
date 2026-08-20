@@ -1,0 +1,22 @@
+---
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+const target = `${base}greenways-os-v2/`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Open the runnable Greenways OS v2 desktop, Chrome extension and web interface system." />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={target} />
+    <title>Greenways OS v2 runtime · Visual language</title>
+    <script is:inline define:vars={{ target }}>
+      window.location.replace(target);
+    </script>
+  </head>
+  <body>
+    <p><a href={target}>Open the runnable Greenways OS v2 interface system</a></p>
+  </body>
+</html>

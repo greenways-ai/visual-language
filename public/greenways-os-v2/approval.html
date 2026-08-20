@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Greenways OS scoped capability approval." />
+    <meta name="theme-color" content="#090b0e" />
+    <title>Review requested action · Greenways OS</title>
+    <link rel="stylesheet" href="./assets/greenways-os-v2.css" />
+  </head>
+  <body class="approval-page">
+    <section class="approval-window" aria-labelledby="approval-title">
+      <header class="approval-window__titlebar">
+        <a class="gw-wordmark" href="./index.html"><span class="gw-mark" aria-hidden="true"></span><span class="gw-wordmark__copy"><strong>Greenways Keyring</strong><small>scoped authority request</small></span></a>
+        <span class="status-pill status-pill--warn" data-approval-risk>medium risk</span>
+      </header>
+      <div class="approval-window__body">
+        <main class="approval-main">
+          <div data-approval-request>
+            <p class="eyebrow">Human decision required</p>
+            <h1 id="approval-title">An agent wants to perform a named effect.</h1>
+            <p>The sandbox has no direct browser or key authority. Review the actor, operation, object and grant before the provider is allowed to run.</p>
+            <dl class="request-box">
+              <div class="request-row"><dt>Actor</dt><dd data-approval-actor>Agent / release-editor</dd></div>
+              <div class="request-row"><dt>Operation</dt><dd><code data-approval-operation>keyring/sign</code></dd></div>
+              <div class="request-row"><dt>Object</dt><dd data-approval-scope>release/atlas-of-quiet-machines@0.8.0</dd></div>
+              <div class="request-row"><dt>Grant</dt><dd><code data-approval-grant>grant/publish-release</code></dd></div>
+              <div class="request-row"><dt>Provider</dt><dd data-approval-provider>Browser Keyring · encrypted local custody</dd></div>
+              <div class="request-row"><dt>Duration</dt><dd>One effect · this exact digest</dd></div>
+            </dl>
+            <label class="setting-row" style="padding-inline:0"><span><strong>Remember this exact scope</strong><small>Create a reusable grant only for this actor, operation and release digest.</small></span><span class="switch"><input type="checkbox" data-approval-remember /><span></span></span></label>
+            <div class="approval-actions">
+              <button class="btn btn--quiet" type="button" data-approval-decision="deny">Deny</button>
+              <button class="btn btn--primary" type="button" data-approval-decision="approve">Approve once</button>
+            </div>
+          </div>
+          <div data-approval-result hidden>
+            <p class="eyebrow">Decision recorded</p>
+            <h1 data-approval-result-title>Action approved.</h1>
+            <p data-approval-result-copy>The provider may now perform this exact effect. The decision and result share one receipt trail.</p>
+            <div class="approval-actions"><a class="btn btn--primary" href="./desktop.html#receipts">Open receipts</a><button class="btn" type="button" data-approval-next>Review next request</button></div>
+          </div>
+        </main>
+        <aside class="approval-preview">
+          <p class="eyebrow">Receipt preview</p>
+          <h2>What will be recorded</h2>
+          <div class="receipt-preview">
+            <code data-receipt-preview-op>grant/approve</code>
+            <dl><dt>Actor</dt><dd>profile/chris-zheng</dd><dt>Request</dt><dd data-receipt-preview-request>approval/publish-atlas</dd><dt>Operation</dt><dd data-receipt-preview-operation>keyring/sign</dd><dt>Grant</dt><dd data-receipt-preview-grant>grant/publish-release</dd><dt>Scope</dt><dd data-receipt-preview-scope>sha256:50e7…b91c</dd><dt>Evidence</dt><dd>request · decision · provider result · checkpoint</dd></dl>
+          </div>
+          <section class="inspector-section" style="margin-top:14px"><header><strong>Boundary</strong><span class="status-pill status-pill--good">narrow</span></header><p style="margin:0;color:var(--gw-text-faint);font-size:8px;line-height:1.55">Approval does not expose <code>chrome.*</code>, private keys or a general filesystem handle to the requesting package.</p></section>
+        </aside>
+      </div>
+    </section>
+    <div data-toast-region class="toast-region" aria-live="polite"></div>
+    <script type="module" src="./assets/approval.js"></script>
+  </body>
+</html>

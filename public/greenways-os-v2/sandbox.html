@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Isolated pure-operation sandbox preview for Greenways packages." />
+    <title>Hara sandbox · Greenways OS v2</title>
+    <link rel="stylesheet" href="./assets/greenways-os-v2.css" />
+  </head>
+  <body class="sandbox-page">
+    <main class="sandbox-shell">
+      <p class="eyebrow">Isolated extension page / no privileged APIs</p>
+      <h1>Hara package sandbox.</h1>
+      <p>This page accepts only declared pure operations and returns serialised values plus deterministic evidence. It cannot access browser tabs, keys, files, providers or <code>chrome.*</code>.</p>
+      <form class="sandbox-form" data-sandbox-form>
+        <label for="sandbox-text">Input text</label>
+        <textarea id="sandbox-text" name="text">Greenways packages describe transformations and user interface contributions. Privileged effects cross the capability broker as named operations and produce receipts.</textarea>
+        <button class="btn btn--primary" type="submit">Run text/summarise</button>
+      </form>
+      <p class="eyebrow">Serialised result</p>
+      <pre class="sandbox-output" data-sandbox-output>{
+  "status": "ready",
+  "operations": ["document/transform", "package/inspect", "text/summarise"]
+}</pre>
+    </main>
+    <script src="./sandbox.js"></script>
+  </body>
+</html>

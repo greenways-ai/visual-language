@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Greenways OS providers, key custody, permissions and durable workspace settings." />
+    <meta name="theme-color" content="#090b0e" />
+    <title>Settings · Greenways OS v2</title>
+    <link rel="stylesheet" href="./assets/greenways-os-v2.css" />
+  </head>
+  <body class="extension-page options-page">
+    <header class="surface-bar">
+      <div class="surface-bar__left">
+        <a class="gw-wordmark" href="./index.html" aria-label="Greenways OS home"><span class="gw-mark" aria-hidden="true"></span><span class="gw-wordmark__copy"><strong>Greenways OS</strong><small>extension settings</small></span></a>
+      </div>
+      <div class="surface-bar__centre"><span class="status-pill status-pill--good" data-options-status><span class="status-light status-light--good"></span>All changes saved</span></div>
+      <div class="surface-bar__right"><a class="btn btn--quiet" href="./desktop.html">Open desktop</a><button class="icon-btn" type="button" data-theme-toggle aria-label="Switch colour theme"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.2"></circle><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.35 4.35l1.4 1.4M14.25 14.25l1.4 1.4M4.35 15.65l1.4-1.4M14.25 5.75l1.4-1.4"></path></svg></button><span class="avatar">CZ</span></div>
+    </header>
+
+    <div class="options-shell">
+      <aside class="options-nav" aria-label="Settings navigation">
+        <a class="is-active" href="#providers"><span class="web-nav-icon">PV</span><span>Providers</span></a>
+        <a href="#custody"><span class="web-nav-icon">KY</span><span>Key custody</span></a>
+        <a href="#authority"><span class="web-nav-icon">GR</span><span>Authority</span></a>
+        <a href="#storage"><span class="web-nav-icon">ST</span><span>Storage</span></a>
+        <a href="#packages"><span class="web-nav-icon">PK</span><span>Packages</span></a>
+        <a href="#maintenance"><span class="web-nav-icon">MT</span><span>Maintenance</span></a>
+      </aside>
+
+      <main class="options-main">
+        <div class="options-main__inner">
+          <p class="eyebrow">Greenways OS / installation 02</p>
+          <h1>Capabilities stay visible.</h1>
+          <p class="options-main__intro">The extension is the browser shell and browser capability provider. Greenways OS remains a portable workspace model; native custody and long-running jobs stay optional through <code>greenwaysd</code>.</p>
+
+          <section id="providers" class="settings-section">
+            <h2>Runtime providers</h2>
+            <p>Providers perform named effects. Packages and sandboxed Hara code never receive direct browser authority.</p>
+            <div class="panel-card" data-provider-list>
+              <div class="provider-card" data-provider="provider/browser"><span class="provider-card__icon">BR</span><span><strong>Browser</strong><small>Capture · active tab · downloads · extension identity</small></span><span class="status-pill status-pill--good">connected</span></div>
+              <div class="provider-card" data-provider="provider/hestia"><span class="provider-card__icon">HS</span><span><strong>Hestia</strong><small>Documents · source archive · receipts · workspace sync</small></span><button class="btn btn--quiet" type="button" data-provider-toggle="provider/hestia">Connected</button></div>
+              <div class="provider-card" data-provider="provider/greenwaysd"><span class="provider-card__icon">GD</span><span><strong>greenwaysd</strong><small>OS keychain · local repositories · native files · durable jobs</small></span><button class="btn" type="button" data-provider-toggle="provider/greenwaysd">Connect native companion</button></div>
+            </div>
+          </section>
+
+          <section id="custody" class="settings-section">
+            <h2>Key custody</h2>
+            <p>The Keyring presents both levels in one place without pretending browser storage and OS-backed custody are equivalent.</p>
+            <div class="panel-card">
+              <label class="setting-row"><span><strong>Browser custody</strong><small>Encrypted extension-local keys, session credentials, provider OAuth and low/medium-value signatures.</small></span><span class="switch"><input type="checkbox" data-setting="browserCustody" checked /><span></span></span></label>
+              <label class="setting-row"><span><strong>Native custody</strong><small>Publisher master identity, recovery secrets and unattended policy through the optional native companion.</small></span><span class="switch"><input type="checkbox" data-setting="nativeCustody" /><span></span></span></label>
+            </div>
+          </section>
+
+          <section id="authority" class="settings-section">
+            <h2>Human decisions</h2>
+            <p>Privileged effects cross a narrow broker. The chosen policy is checked before the provider runs and the decision is attached to the receipt.</p>
+            <div class="panel-card">
+              <label class="setting-row"><span><strong>Confirm medium-risk effects</strong><small>Ask before signing releases, writing workspace files or changing a persistent provider grant.</small></span><span class="switch"><input type="checkbox" data-setting="confirmMediumRisk" checked /><span></span></span></label>
+              <label class="setting-row"><span><strong>Confirm high-risk effects</strong><small>Always ask before master-key, recovery, native execution or broad authority changes.</small></span><span class="switch"><input type="checkbox" data-setting="confirmHighRisk" checked /><span></span></span></label>
+              <label class="setting-row"><span><strong>Receipt every privileged effect</strong><small>Record actor, operation, scope, provider, outcome and evidence at meaningful capability boundaries.</small></span><span class="switch"><input type="checkbox" data-setting="receiptEveryEffect" checked /><span></span></span></label>
+            </div>
+          </section>
+
+          <section id="storage" class="settings-section">
+            <h2>Durable state</h2>
+            <p>The service worker may stop at any time. Frames reconstruct from serialisable workspace state rather than relying on a permanently alive background process.</p>
+            <div class="panel-card">
+              <label class="setting-row"><span><strong>Synchronise workspace metadata</strong><small>Sync selected providers, small preferences and workspace pointers; original documents remain in IndexedDB or Hestia.</small></span><span class="switch"><input type="checkbox" data-setting="syncWorkspace" checked /><span></span></span></label>
+              <div class="setting-row"><span><strong><code>chrome.storage.local</code></strong><small>Installation state, grants, provider metadata and recent-object indexes.</small></span><span class="status-pill">metadata</span></div>
+              <div class="setting-row"><span><strong>IndexedDB / Hestia</strong><small>Chats, original documents, publications, package artefacts, media and receipt evidence.</small></span><span class="status-pill status-pill--good">documents</span></div>
+              <div class="setting-row"><span><strong>greenwaysd</strong><small>Native files, local repositories, keychain-backed secrets and long-running jobs.</small></span><span class="status-pill">optional</span></div>
+            </div>
+          </section>
+
+          <section id="packages" class="settings-section">
+            <h2>Package execution classes</h2>
+            <p>Remote package logic never executes in a privileged extension context.</p>
+            <div class="panel-card">
+              <div class="setting-row"><span><strong>Theme, data and manifest</strong><small>Loaded as declarative data.</small></span><span class="status-pill status-pill--good">declarative</span></div>
+              <div class="setting-row"><span><strong>Document transformation</strong><small>Runs in the bundled pure Hara sandbox with no direct <code>chrome.*</code> access.</small></span><span class="status-pill status-pill--signal">sandbox</span></div>
+              <div class="setting-row"><span><strong>Privileged provider</strong><small>Must ship with an extension release or execute through a named remote/native provider.</small></span><span class="status-pill status-pill--warn">reviewed</span></div>
+            </div>
+          </section>
+
+          <section id="maintenance" class="settings-section">
+            <h2>Installation data</h2>
+            <p>Export the portable preview state or restore the design fixture.</p>
+            <div class="panel-card">
+              <div class="setting-row"><span><strong>Export workspace state</strong><small>Download workspaces, buffers, grants, providers and receipt summaries as JSON.</small></span><button class="btn" type="button" data-options-action="export">Export JSON</button></div>
+              <div class="setting-row"><span><strong>Restore prototype fixture</strong><small>Replace local preview changes with the reviewed Greenways OS v2 design state.</small></span><button class="btn btn--danger" type="button" data-options-action="reset">Restore fixture</button></div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <div data-toast-region class="toast-region" aria-live="polite"></div>
+    <script type="module" src="./assets/options.js"></script>
+  </body>
+</html>

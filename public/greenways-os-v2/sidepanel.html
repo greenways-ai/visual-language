@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Greenways OS persistent Chrome side panel." />
+    <meta name="theme-color" content="#090b0e" />
+    <title>Browser companion · Greenways</title>
+    <link rel="stylesheet" href="./assets/greenways-os-v2.css" />
+  </head>
+  <body class="extension-page sidepanel-page">
+    <header class="extension-header">
+      <a class="gw-wordmark" href="./index.html" aria-label="Greenways OS">
+        <span class="gw-mark" aria-hidden="true"></span>
+        <span class="gw-wordmark__copy"><strong>Greenways</strong><small>current browser context</small></span>
+      </a>
+      <div class="extension-header__actions">
+        <button class="icon-btn" type="button" data-side-action="open-desktop" aria-label="Open desktop">DT</button>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch colour theme"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.2"></circle><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.35 4.35l1.4 1.4M14.25 14.25l1.4 1.4M4.35 15.65l1.4-1.4M14.25 5.75l1.4-1.4"></path></svg></button>
+      </div>
+    </header>
+
+    <main class="sidepanel-content">
+      <section class="page-context-card">
+        <div class="page-context-card__visual"><span class="status-pill status-pill--good">source available</span></div>
+        <div class="page-context-card__copy">
+          <p class="eyebrow">Current page</p>
+          <h1 data-side-page-title>Greenways OS v2 interface system</h1>
+          <p data-side-page-url>oss.greenways.ai/visual-language/greenways-os-v2</p>
+        </div>
+      </section>
+
+      <div class="sidepanel-primary">
+        <button class="btn btn--primary" type="button" data-side-action="capture"><span>Save to Greenways</span></button>
+        <button class="btn" type="button" data-side-action="open-studio" aria-label="Open page in Studio">ST</button>
+      </div>
+
+      <section class="action-list" aria-label="Page actions">
+        <button class="action-list__item" type="button" data-side-action="add-workroom"><span class="action-list__icon">WR</span><span><strong>Add to a workroom</strong><small>Keep source, discussion and authority together</small></span><span>→</span></button>
+        <button class="action-list__item" type="button" data-side-action="ask-agent"><span class="action-list__icon">AG</span><span><strong>Ask an agent</strong><small>Propose work; do not grant browser authority</small></span><span>→</span></button>
+        <button class="action-list__item" type="button" data-side-action="inspect-source"><span class="action-list__icon">PV</span><span><strong>Inspect source</strong><small>Metadata, provenance and capture status</small></span><span>→</span></button>
+        <button class="action-list__item" type="button" data-side-action="view-receipts"><span class="action-list__icon">RC</span><span><strong>View page receipts</strong><small>Named effects associated with this source</small></span><span data-side-page-receipts>0</span></button>
+      </section>
+
+      <div class="sidepanel-tabs" role="tablist" aria-label="Browser companion views">
+        <button class="is-active" type="button" data-side-tab="approvals" role="tab" aria-selected="true">Approvals <span data-side-approval-count>3</span></button>
+        <button type="button" data-side-tab="agents" role="tab" aria-selected="false">Agents <span data-side-agent-count>3</span></button>
+        <button type="button" data-side-tab="receipts" role="tab" aria-selected="false">Receipts</button>
+      </div>
+
+      <section data-side-panel="approvals" aria-label="Pending approvals"><div data-side-approvals>
+        <article class="sidepanel-approval"><div class="sidepanel-approval__head"><span class="status-pill status-pill--warn">medium risk</span><code>keyring/sign</code></div><h3>Agent / release-editor</h3><p>release/atlas-of-quiet-machines@0.8.0<br /><strong>grant/publish-release</strong></p><div class="sidepanel-approval__actions"><button class="btn btn--quiet" type="button">Deny</button><button class="btn btn--primary" type="button">Approve</button></div></article>
+        <article class="sidepanel-approval"><div class="sidepanel-approval__head"><span class="status-pill">low risk</span><code>browser/capture</code></div><h3>Agent / source-curator</h3><p>github.com/greenways-ai/visual-language<br /><strong>grant/capture-current-page</strong></p><div class="sidepanel-approval__actions"><button class="btn btn--quiet" type="button">Deny</button><button class="btn btn--primary" type="button">Approve</button></div></article>
+      </div></section>
+      <section data-side-panel="agents" aria-label="Connected agents" hidden><div class="panel-card" data-side-agents><div class="provider-card"><span class="avatar avatar--agent">A</span><span><strong>Release editor</strong><small>Checking derived formats</small></span><span class="status-pill status-pill--good">working</span></div><div class="provider-card"><span class="avatar avatar--agent">A</span><span><strong>Source curator</strong><small>Awaiting page capture</small></span><span class="status-pill">idle</span></div></div></section>
+      <section data-side-panel="receipts" aria-label="Recent receipts" hidden><div class="panel-card"><div class="trace-list" data-side-receipts><div class="trace-item"><i class="trace-item__dot"></i><span><strong>document/save</strong><small>Release draft · 8m</small></span></div><div class="trace-item"><i class="trace-item__dot"></i><span><strong>package/inspect</strong><small>world.scene@2.4.1 · 19m</small></span></div></div></div></section>
+    </main>
+
+    <div data-toast-region class="toast-region" aria-live="polite"></div>
+    <script type="module" src="./assets/sidepanel.js"></script>
+  </body>
+</html>

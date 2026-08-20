@@ -1,0 +1,62 @@
+{
+    "manifest_version": 3,
+    "name": "Greenways OS v2",
+    "short_name": "Greenways",
+    "version": "0.2.0",
+    "description": "A programmable browser workspace for publishing, provenance, agents and accountable actions.",
+    "action": {
+        "default_title": "Open Greenways",
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "assets/icon-16.png",
+            "32": "assets/icon-32.png",
+            "48": "assets/icon-48.png",
+            "128": "assets/icon-128.png"
+        }
+    },
+    "icons": {
+        "16": "assets/icon-16.png",
+        "32": "assets/icon-32.png",
+        "48": "assets/icon-48.png",
+        "128": "assets/icon-128.png"
+    },
+    "background": {
+        "service_worker": "service-worker.js",
+        "type": "module"
+    },
+    "side_panel": {
+        "default_path": "sidepanel.html"
+    },
+    "options_page": "options.html",
+    "permissions": [
+        "activeTab",
+        "contextMenus",
+        "sidePanel",
+        "storage"
+    ],
+    "commands": {
+        "open-desktop": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+G",
+                "mac": "Command+Shift+G"
+            },
+            "description": "Open the Greenways desktop"
+        },
+        "capture-page": {
+            "suggested_key": {
+                "default": "Alt+Shift+S",
+                "mac": "Alt+Shift+S"
+            },
+            "description": "Save the current page to Greenways"
+        }
+    },
+    "sandbox": {
+        "pages": [
+            "sandbox.html"
+        ]
+    },
+    "content_security_policy": {
+        "extension_pages": "script-src 'self'; object-src 'self'",
+        "sandbox": "sandbox allow-scripts; script-src 'self'; object-src 'self'"
+    }
+}

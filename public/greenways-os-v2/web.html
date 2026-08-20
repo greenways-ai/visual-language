@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en" data-theme="dark" data-web-mode="reader">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Greenways web publishing and discovery surface." />
+    <meta name="theme-color" content="#090b0e" />
+    <title>Atlas of Quiet Machines · Greenways</title>
+    <link rel="stylesheet" href="./assets/greenways-os-v2.css" />
+  </head>
+  <body class="web-page">
+    <header class="surface-bar">
+      <div class="surface-bar__left">
+        <a class="gw-wordmark" href="./index.html" aria-label="Greenways home">
+          <span class="gw-mark" aria-hidden="true"></span>
+          <span class="gw-wordmark__copy"><strong>Greenways</strong><small>read · publish · discover</small></span>
+        </a>
+        <nav class="surface-bar__nav" aria-label="Greenways web navigation">
+          <a href="#article" aria-current="page">Read</a>
+          <a href="#discover">Discover</a>
+          <a href="#publisher" data-mode-link="publisher">Publish</a>
+        </nav>
+      </div>
+      <div class="surface-bar__centre">
+        <label class="search-field" aria-label="Search Greenways">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8" cy="8" r="4.5"></circle><path d="m11.5 11.5 4.5 4.5"></path></svg>
+          <input type="search" placeholder="Search worlds, books, feeds and people" />
+        </label>
+      </div>
+      <div class="surface-bar__right">
+        <a class="btn btn--quiet" href="./desktop.html">Open workspace</a>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch colour theme"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.2"></circle><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.35 4.35l1.4 1.4M14.25 14.25l1.4 1.4M4.35 15.65l1.4-1.4M14.25 5.75l1.4-1.4"></path></svg></button>
+        <span class="avatar" aria-label="Chris Zheng">CZ</span>
+      </div>
+    </header>
+
+    <div class="web-shell">
+      <aside class="web-sidebar" aria-label="Greenways library navigation">
+        <nav>
+          <section class="web-nav-group">
+            <small>Library</small>
+            <a class="web-nav-item is-active" href="#article"><span class="web-nav-icon">HM</span><span>Home</span><span>12</span></a>
+            <a class="web-nav-item" href="#following"><span class="web-nav-icon">FL</span><span>Following</span><span>4</span></a>
+            <a class="web-nav-item" href="#clippings"><span class="web-nav-icon">CL</span><span>Clippings</span><span>18</span></a>
+            <a class="web-nav-item" href="#workrooms"><span class="web-nav-icon">WR</span><span>Workrooms</span><span>3</span></a>
+          </section>
+          <section class="web-nav-group">
+            <small>Subscriptions</small>
+            <a class="web-nav-item" href="#field-notes"><span class="web-nav-icon">FN</span><span>Field Notes</span><span></span></a>
+            <a class="web-nav-item" href="#new-machines"><span class="web-nav-icon">NM</span><span>New Machines</span><span>2</span></a>
+            <a class="web-nav-item" href="#world-builders"><span class="web-nav-icon">WB</span><span>World Builders</span><span></span></a>
+          </section>
+          <section class="web-nav-group">
+            <small>Your Greenways</small>
+            <a class="web-nav-item" href="#publisher" data-mode-link="publisher"><span class="web-nav-icon">PB</span><span>Publisher</span><span></span></a>
+            <a class="web-nav-item" href="./desktop.html#studio"><span class="web-nav-icon">ST</span><span>Studio</span><span></span></a>
+            <a class="web-nav-item" href="./desktop.html#receipts"><span class="web-nav-icon">RC</span><span>Receipts</span><span></span></a>
+          </section>
+        </nav>
+      </aside>
+
+      <main class="web-main">
+        <header class="web-mode-bar">
+          <div class="web-mode-bar__path"><span>greenways.pub</span><span>/</span><strong data-web-path>chris-zheng / atlas-of-quiet-machines</strong></div>
+          <div class="segmented" aria-label="Web surface mode">
+            <button class="is-active" type="button" data-web-mode="reader" aria-pressed="true">Reader</button>
+            <button type="button" data-web-mode="publisher" aria-pressed="false">Publisher</button>
+          </div>
+        </header>
+
+        <article id="article" data-reader-view>
+          <header class="publication-hero">
+            <div class="publication-hero__copy">
+              <span class="status-pill status-pill--good">Portable publication · verified</span>
+              <h1>Atlas of Quiet Machines</h1>
+              <p class="publication-hero__dek">Field notes from tools that know when to disappear, and the people who build worlds around them.</p>
+              <div class="author-line"><span class="avatar">CZ</span><span><strong>Chris Zheng</strong> · Greenways Field Notes · 12 min read</span></div>
+            </div>
+          </header>
+
+          <div class="publication-body">
+            <div class="article-copy">
+              <p>A useful machine does not always announce itself. Sometimes it holds a room together, remembers the exact source of an image, or asks for permission at the moment permission matters. Its intelligence is visible in the shape of the work rather than in a stream of messages about itself.</p>
+              <p>Greenways begins with that quieter proposition. A publication is not only a page. It is an original document, a set of derivations, a history of human and agent decisions, and a portable object that can move without losing its authorship.</p>
+              <blockquote>Tools should make worlds more legible, not make their own machinery the centre of the world.</blockquote>
+              <h2>A frame, not a feed</h2>
+              <p>The desktop is built from workspaces, buffers and panes. A release draft can sit beside its source archive while the inspector explains who owns it, which provider can write it, and which action still needs approval. There is no second miniature window manager competing with the browser. There is one programmable frame.</p>
+              <p>The browser companion sees the current page and offers only the operations that make sense there: save the source, add it to a workroom, inspect provenance, ask an agent, or approve a requested effect. The public web then presents the finished work with the evidence that a reader actually needs.</p>
+              <h2>Receipts, not surveillance</h2>
+              <p>A receipt records a meaningful boundary: what operation ran, who authorised it, which object changed, which provider performed the effect, and what evidence can verify the result. It is deliberately narrower than continuous observation. The point is accountability without turning creative work into telemetry.</p>
+              <p>That distinction makes room for both people and agents. An agent can prepare formats, inspect a package or propose a campaign update. Authority still crosses a named grant, and every accepted effect leaves a compact trail that belongs to the workspace.</p>
+            </div>
+            <aside class="article-rail" aria-label="Article details">
+              <div class="article-rail__section"><strong>Edition</strong><small>0.8.0 · August 2026</small></div>
+              <div class="article-rail__section"><strong>Formats</strong><small>Web · EPUB · PDF · source</small></div>
+              <div class="article-rail__section"><strong>Rights</strong><small>Author retained · derivations declared</small></div>
+              <div class="article-rail__section"><strong>Citations</strong><small>17 linked sources</small></div>
+            </aside>
+          </div>
+        </article>
+
+        <section id="publisher" class="publisher-dashboard" data-publisher-view hidden>
+          <div class="section-intro">
+            <div><p class="eyebrow">Publisher / Chris Zheng</p><h2>Your work, without leaving the web.</h2></div>
+            <p>This web surface is a light publisher console. The full editing frame remains in Studio; releases, audience signals and portable artefacts stay visible here.</p>
+          </div>
+          <div class="publisher-grid">
+            <div class="panel-card publisher-stat"><strong>3</strong><small>Active releases</small></div>
+            <div class="panel-card publisher-stat"><strong>1,842</strong><small>Readers this month</small></div>
+            <div class="panel-card publisher-stat"><strong>96%</strong><small>Verified deliveries</small></div>
+          </div>
+          <section class="panel-card" style="margin-top:12px">
+            <header class="panel-card__head"><div><p class="eyebrow">Publications</p><h2>Release desk</h2></div><a class="btn btn--primary" href="./desktop.html#studio">New release in Studio</a></header>
+            <div class="publisher-work"><div class="publisher-work__art"></div><span><strong>Atlas of Quiet Machines</strong><small>0.8.0 · review ready · four portable formats</small></span><button class="btn" type="button" data-web-action="request-publish">Request signature</button></div>
+            <div class="publisher-work"><div class="publisher-work__art"></div><span><strong>Peacock Garden Studies</strong><small>1.2.3 · published · updated 2 days ago</small></span><button class="btn btn--quiet" type="button" data-web-action="open-analytics">View signals</button></div>
+            <div class="publisher-work"><div class="publisher-work__art"></div><span><strong>Hara Field Manual</strong><small>0.4.1 · draft · 17 source objects</small></span><a class="btn btn--quiet" href="./desktop.html#studio">Continue</a></div>
+          </section>
+        </section>
+      </main>
+
+      <aside class="web-context" aria-label="Publication context">
+        <section class="web-context__section">
+          <header><strong>Publication</strong><span class="status-pill status-pill--good">verified</span></header>
+          <div class="provenance-card">
+            <div class="provenance-card__head"><span class="gw-mark" aria-hidden="true"></span><span><strong>Portable release</strong><small>sha256:50e7…b91c</small></span></div>
+            <div class="provenance-chain"><div class="provenance-step"><i>1</i><span>Original manuscript retained</span></div><div class="provenance-step"><i>2</i><span>17 source citations linked</span></div><div class="provenance-step"><i>3</i><span>4 transforms declared</span></div><div class="provenance-step"><i>4</i><span>Publisher signature verified</span></div></div>
+          </div>
+        </section>
+        <section class="web-context__section">
+          <header><strong>Author</strong><a class="text-button" href="#profile">Profile</a></header>
+          <div class="agent-mini"><span class="avatar">CZ</span><span><strong>Chris Zheng</strong><small>Greenways · Hara · worlds</small></span><span class="status-light status-light--good"></span></div>
+          <button class="btn" type="button" data-web-action="follow-author" style="margin-top:8px">Follow Field Notes</button>
+        </section>
+        <section class="web-context__section">
+          <header><strong>Reader actions</strong><span>private</span></header>
+          <div class="action-list">
+            <button class="action-list__item" type="button" data-web-action="save-clipping"><span class="action-list__icon">CL</span><span><strong>Save clipping</strong><small>Keep the exact passage and source</small></span><span>⌥S</span></button>
+            <button class="action-list__item" type="button" data-web-action="add-workroom"><span class="action-list__icon">WR</span><span><strong>Add to workroom</strong><small>Share with people and agents</small></span><span>→</span></button>
+            <button class="action-list__item" type="button" data-web-action="inspect-receipt"><span class="action-list__icon">RC</span><span><strong>Inspect receipt</strong><small>See publication evidence</small></span><span>→</span></button>
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <div data-toast-region class="toast-region" aria-live="polite"></div>
+    <script type="module" src="./assets/web.js"></script>
+  </body>
+</html>
