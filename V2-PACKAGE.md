@@ -33,16 +33,99 @@ The document layer imports the existing typography and theme foundations, then t
 ```
 
 ```html
-<body class="gw-v2 gw-v2-workbench">
+<section class="gw-v2 gw-v2-workbench">
   <header class="gw-v2-workbench__bar">…</header>
   <div class="gw-v2-workbench__frame">…</div>
   <footer class="gw-v2-workbench__status">…</footer>
-</body>
+</section>
 ```
 
-The workbench entry imports the document foundation. It changes density and provides generic rail, workspace, inspector and status regions; it does not contain Foreman behaviour or presentation.
+The workbench entry imports the document foundation. It provides six product-neutral regions: command bar, project and buildout navigation, primary workspace, inspector, activity and log, and compact status. Density changes across document and workbench layers; identity and semantic tokens do not.
 
-### Machine-readable contract
+### Reusable component presentation
+
+```css
+@import "@greenways-ai/visual-language/v2/components.css";
+```
+
+The component layer imports the document foundation and styles the reusable Astro implementations. It contains no product data, provider call, state manager, command dispatcher, persistence or success simulation. Components expose state through semantic markup, text and data attributes rather than colour alone.
+
+## Authoritative catalogue and reusable implementations
+
+The merged catalogue remains the single inventory of shared component, workflow-state and workbench contracts:
+
+```js
+import {
+  greenwaysV2Components,
+  greenwaysV2WorkflowStates,
+  greenwaysV2Workflows,
+  greenwaysV2WorkbenchRegions,
+} from "@greenways-ai/visual-language/v2/component-catalogue.js";
+```
+
+The package adapter maps selected catalogue records to reusable Astro implementations without defining a competing inventory:
+
+```js
+import {
+  greenwaysV2AstroComponents,
+  greenwaysV2ComponentDefinitions,
+  getGreenwaysV2AstroComponent,
+} from "@greenways-ai/visual-language/v2/component-contract.js";
+```
+
+Every adapter record names the package export, source file, authoritative catalogue identifiers, behaviour owner and application boundary.
+
+## Astro components
+
+Each reusable implementation has an explicit export. For example:
+
+```astro
+---
+import Action from "@greenways-ai/visual-language/v2/astro/Action.astro";
+import ApprovalCard from "@greenways-ai/visual-language/v2/astro/ApprovalCard.astro";
+import WorkbenchShell from "@greenways-ai/visual-language/v2/astro/WorkbenchShell.astro";
+---
+
+<WorkbenchShell
+  id="project-workbench"
+  title="Project review"
+  statusLabel="Specimen data"
+>
+  <Action slot="command-bar" variant="primary">Review selection</Action>
+  <ApprovalCard
+    id="approval-1"
+    slot="inspector"
+    title="Read one project"
+    requestedBy="Review session"
+    requestedState="Approval requested"
+    actualState="Waiting for a person"
+    scope={["Read the selected project"]}
+  />
+</WorkbenchShell>
+```
+
+The stable Astro set is:
+
+- `Navigation`, `Action`, `Toggle`, `Field`, `Tabs`, `FilterBar`, `List`;
+- `Card`, `DataTable`, `Panel`, `Dialog`;
+- `Status`, `ActivityList`, `ApprovalCard`, `Receipt`;
+- `WorkbenchShell`.
+
+These implementations cover the merged catalogue’s navigation, command, field, tab, filter, list, card, table, panel, dialog, status, activity, approval, receipt and workbench contracts. Several merged catalogue records compose into one implementation where that produces a clearer stable boundary. For example, `WorkbenchShell` owns the generic command-bar, rail, inspector, activity-region and status-line structure while hosts supply all application content and behaviour.
+
+## Behaviour ownership
+
+The adapter distinguishes three behaviour owners:
+
+- **none** — presentation only; the component reports supplied data without interaction behaviour;
+- **native** — ordinary browser semantics such as links, forms or `<details>` are sufficient;
+- **host** — an application must supply data, commands and outcomes.
+
+A requested toggle state is not an actual connection. A submitted action is not a completed effect. An approval control is not an authorisation receipt. A styled receipt cannot replace supplied evidence. Components therefore expose requested state, actual state, actors, timestamps, identifiers and evidence as separate fields where applicable.
+
+The package owns semantic structure, accessible labels, focus, responsive presentation, state markers and reduced-motion behaviour. The host owns data, selection changes, commands, validation, authority evaluation, provider connections, persistence, external effects and evidence creation.
+
+## Machine-readable visual contract
 
 ```js
 import {
@@ -53,13 +136,13 @@ import {
 } from "@greenways-ai/visual-language/v2/contract.js";
 ```
 
-The contract is intended for tests, adapters and documentation generators. CSS remains the runtime source of token values.
+The visual contract is intended for tests, adapters and documentation generators. CSS remains the runtime source of token values, the component catalogue remains the authoritative semantic inventory, and Astro components remain the runtime source of reusable markup.
 
 ## Ownership boundary
 
-Package contracts live at exported `src/` paths. The executable catalogue, specimens, concept shells, product studies and route-specific CSS live under `src/site/**` or `src/pages/**` and are not exports. A visually useful laboratory component is not automatically a reusable package component.
+Package contracts live at exported `src/` paths. The executable catalogue, specimens, concept shells, product studies and route-specific CSS live under `src/site/**` or `src/pages/**` and are not exports. The `/v2/library/components/` and `/v2/library/workflows/` routes demonstrate the authoritative catalogue but their specimen data and page composition are not package contracts.
 
-A shared addition must be product-neutral, theme-complete, keyboard and narrow-screen safe, named in ordinary Greenways language, documented here, and protected by contract tests. Provider calls, persistence, commands and application state remain outside this package.
+A shared addition must be product-neutral, theme-complete, keyboard and narrow-screen safe, named in ordinary Greenways language, mapped to the catalogue, documented here, and protected by contract tests. Provider calls, persistence, commands and application state remain outside this package.
 
 ## Protected identity
 
@@ -80,7 +163,7 @@ Canvas, rails, work areas, panels, dialogs, seams and elevation use neutral valu
 - light mode: paper, off-white, stone, cool grey and charcoal;
 - dark mode: near-black, graphite, slate and soft white.
 
-Structural tokens must not resolve through a brand, signal, focus or semantic-state token. Document and workbench layers share the same neutral base; density may change, atmosphere may not.
+Structural tokens must not resolve through a brand, signal, focus or semantic-state token. Document, workbench and component layers share the same neutral base; density may change, atmosphere may not.
 
 ### Peacock brand
 
@@ -108,7 +191,7 @@ Focus uses the aqua brand anchor plus a neutral offset. No state or required act
 
 ## Theme contract
 
-Light, explicit dark and system-dark modes define every theme-scoped token. Spacing, type, radius and motion values are shared across themes. Components consume semantic variables rather than embedding theme colours. Reduced-motion handling is part of the document layer.
+Light, explicit dark and system-dark modes define every theme-scoped token. Spacing, type, radius and motion values are shared across themes. Components consume semantic variables rather than embedding theme colours. Reduced-motion handling is part of the document and component layers.
 
 ## Compatibility
 
