@@ -1,0 +1,131 @@
+---
+interface Props {
+  label?: string;
+  enabled?: boolean;
+}
+
+const { label = "On this page", enabled = true } = Astro.props;
+---
+
+{enabled && (
+  <nav
+    class="gw-v2-catalogue-section-nav"
+    aria-label={label}
+    hidden
+    data-gw-v2-section-nav
+    data-section-label={label}
+  >
+    <button
+      class="gw-v2-catalogue-section-trigger"
+      type="button"
+      aria-expanded="false"
+      aria-controls="gw-v2-catalogue-section-links"
+      data-gw-v2-section-trigger
+    >
+      <span>{label}</span>
+      <strong data-gw-v2-section-current>Overview</strong>
+      <span aria-hidden="true">⌄</span>
+    </button>
+    <div
+      class="gw-v2-catalogue-section-links"
+      id="gw-v2-catalogue-section-links"
+      data-gw-v2-section-links
+    ></div>
+  </nav>
+)}
+
+<script>
+  const initialiseGreenwaysSectionNavigation = () => {
+    document.querySelectorAll<HTMLElement>("[data-gw-v2-section-nav]").forEach((nav) => {
+      if (nav.dataset.ready === "true") return;
+      const main = document.querySelector<HTMLElement>("#gw-v2-main");
+      const links = nav.querySelector<HTMLElement>("[data-gw-v2-section-links]");
+      const trigger = nav.querySelector<HTMLButtonElement>("[data-gw-v2-section-trigger]");
+      const current = nav.querySelector<HTMLElement>("[data-gw-v2-section-current]");
+      if (!main || !links || !trigger) return;
+
+      const explicit = [...main.querySelectorAll<HTMLElement>("[data-catalogue-section][id]")];
+      const direct = [...main.querySelectorAll<HTMLElement>(":scope > section[id], :scope > article[id]")];
+      const sections = (explicit.length >= 2 ? explicit : direct).slice(0, 16);
+      if (sections.length < 2) return;
+
+      const labelFor = (section: HTMLElement) => {
+        const explicitLabel = section.dataset.sectionLabel?.trim();
+        if (explicitLabel) return explicitLabel;
+        const heading = section.querySelector<HTMLElement>("h1, h2, h3");
+        const headingLabel = heading?.textContent?.trim().replace(/\s+/g, " ");
+        if (headingLabel && headingLabel.length <= 48) return headingLabel;
+        return section.id.split("-").filter(Boolean).map((part) => part[0]?.toUpperCase() + part.slice(1)).join(" ");
+      };
+
+      nav.dataset.ready = "true";
+      links.replaceChildren();
+      const anchors = new Map<string, HTMLAnchorElement>();
+
+      const setOpen = (open: boolean, restoreFocus = false) => {
+        nav.dataset.open = String(open);
+        trigger.setAttribute("aria-expanded", String(open));
+        if (restoreFocus) trigger.focus();
+      };
+
+      const setCurrent = (id: string) => {
+        anchors.forEach((anchor, candidate) => {
+          if (candidate === id) anchor.setAttribute("aria-current", "location");
+          else anchor.removeAttribute("aria-current");
+        });
+        const active = anchors.get(id);
+        if (current && active) current.textContent = active.textContent || "Overview";
+        if (active && window.matchMedia("(min-width: 841px)").matches) {
+          const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          active.scrollIntoView({ block: "nearest", inline: "center", behavior: reduceMotion ? "auto" : "smooth" });
+        }
+      };
+
+      sections.forEach((section, index) => {
+        const anchor = document.createElement("a");
+        anchor.href = `#${section.id}`;
+        anchor.textContent = labelFor(section);
+        anchor.addEventListener("click", () => {
+          setCurrent(section.id);
+          setOpen(false);
+        });
+        links.append(anchor);
+        anchors.set(section.id, anchor);
+        if (index === 0) setCurrent(section.id);
+      });
+
+      const initial = window.location.hash.slice(1);
+      if (initial && anchors.has(initial)) setCurrent(initial);
+      nav.hidden = false;
+      setOpen(false);
+
+      trigger.addEventListener("click", () => setOpen(nav.dataset.open !== "true"));
+      window.addEventListener("hashchange", () => {
+        const id = window.location.hash.slice(1);
+        if (anchors.has(id)) setCurrent(id);
+      });
+
+      const observer = "IntersectionObserver" in window
+        ? new IntersectionObserver((entries) => {
+            const visible = entries
+              .filter((entry) => entry.isIntersecting)
+              .sort((left, right) => left.boundingClientRect.top - right.boundingClientRect.top)[0];
+            if (visible?.target instanceof HTMLElement) setCurrent(visible.target.id);
+          }, { rootMargin: "-28% 0px -64% 0px", threshold: [0, 0.05, 0.25] })
+        : undefined;
+      sections.forEach((section) => observer?.observe(section));
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape" || nav.dataset.open !== "true") return;
+        setOpen(false, true);
+      });
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initialiseGreenwaysSectionNavigation, { once: true });
+  } else {
+    initialiseGreenwaysSectionNavigation();
+  }
+  document.addEventListener("astro:page-load", initialiseGreenwaysSectionNavigation);
+</script>

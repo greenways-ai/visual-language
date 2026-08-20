@@ -1,0 +1,43 @@
+---
+import { catalogueHref } from "./catalogue-manifest.js";
+import { getCatalogueRouteContext } from "./catalogue-navigation.js";
+
+interface Props {
+  currentPath: string;
+  basePath?: string;
+}
+
+const { currentPath, basePath = import.meta.env.BASE_URL } = Astro.props;
+const context = getCatalogueRouteContext(currentPath, basePath);
+const href = (path: string) => catalogueHref(path, basePath);
+---
+
+{context && (
+  <footer class="gw-v2-catalogue-page-footer" aria-label="Catalogue page navigation">
+    <div class="gw-v2-catalogue-neighbours">
+      {context.previous
+        ? (
+          <a href={href(context.previous.path)} rel="prev">
+            <small>Previous</small>
+            <strong><span aria-hidden="true">←</span> {context.previous.label}</strong>
+          </a>
+        )
+        : <span aria-hidden="true"></span>}
+      {context.next
+        ? (
+          <a href={href(context.next.path)} rel="next">
+            <small>Next</small>
+            <strong>{context.next.label} <span aria-hidden="true">→</span></strong>
+          </a>
+        )
+        : <span aria-hidden="true"></span>}
+    </div>
+    <div class="gw-v2-catalogue-page-footer__home">
+      <a href={href(context.parentTarget.path)}>
+        {context.parent ? `Back to ${context.parent.label}` : "Catalogue home"}
+      </a>
+      <a href={href("/v2/")}>All catalogue routes</a>
+      <span>{context.statusLabel}</span>
+    </div>
+  </footer>
+)}

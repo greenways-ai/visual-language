@@ -1,0 +1,26 @@
+---
+import CatalogueHeader from "./CatalogueHeader.astro";
+import CatalogueRouteBar from "./CatalogueRouteBar.astro";
+import CatalogueSectionNav from "./CatalogueSectionNav.astro";
+import "./catalogue.css";
+import "./catalogue-navigation.css";
+
+interface Props {
+  currentPath: string;
+  basePath?: string;
+  sectionNavigation?: boolean;
+}
+
+const {
+  currentPath,
+  basePath = import.meta.env.BASE_URL,
+  sectionNavigation = true,
+} = Astro.props;
+---
+
+<a class="gw-v2-catalogue-skip" href="#gw-v2-main">Skip to content</a>
+<div class="gw-v2-layered-navigation" data-gw-v2-layered-navigation>
+  <CatalogueHeader currentPath={currentPath} basePath={basePath} />
+  <CatalogueRouteBar currentPath={currentPath} basePath={basePath} />
+  <CatalogueSectionNav enabled={sectionNavigation} />
+</div>
