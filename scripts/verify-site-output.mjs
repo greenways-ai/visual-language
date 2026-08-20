@@ -44,6 +44,7 @@ const required = [
   "dist/favicons/visual-language.svg",
   "dist/sigils/manifest.json",
   "dist/artwork/greenways/peacock-garden-day.webp",
+  "dist/artwork/greenways/peacock-garden-night.webp",
   "dist/artwork/tahto/paired-observatories-day.webp",
   "dist/artwork/ignatius/commitment-crossing-day.webp",
   "dist/statstrade/assets/arena-day-study.svg",
@@ -91,26 +92,50 @@ if (!conceptIndex.includes("Statstrade Feed")) throw new Error("concept index is
 
 const greenwaysIndex = await readFile("dist/concepts/greenways/index.html", "utf8");
 if (!greenwaysIndex.includes("These seven screens form the product spine")) {
-  throw new Error("Greenways product overview is missing its connected-screen premise");
+  throw new Error("Greenways desktop is missing its connected-application premise");
 }
-if (!greenwaysIndex.includes("gw-hara-v2")) {
-  throw new Error("Greenways product overview is missing the Hara v2 surface class");
+if (!greenwaysIndex.includes('data-greenways-environment="os"')) {
+  throw new Error("Greenways desktop is missing the operating-environment contract");
+}
+if (!greenwaysIndex.includes("data-greenways-os-shell")) {
+  throw new Error("Greenways desktop is missing its system shell");
+}
+if (!greenwaysIndex.includes("data-os-desktop-home")) {
+  throw new Error("Greenways overview is not rendering as the desktop home");
+}
+if (!greenwaysIndex.includes("gw-os-dock")) {
+  throw new Error("Greenways desktop is missing its application dock");
+}
+if (!greenwaysIndex.includes("data-command-layer")) {
+  throw new Error("Greenways desktop is missing its command palette");
 }
 if (!greenwaysIndex.includes("https://oss.greenways.ai/visual-language/concepts/greenways/")) {
-  throw new Error("Greenways product overview is missing its canonical deployment URL");
+  throw new Error("Greenways desktop is missing its canonical deployment URL");
 }
 
 for (const screen of greenwaysScreens) {
   const path = `dist/concepts/greenways/${screen}/index.html`;
   const page = await readFile(path, "utf8");
   if (!page.includes(`data-greenways-screen="${screen}"`)) {
-    throw new Error(`${path} does not render the ${screen} product screen`);
+    throw new Error(`${path} does not render the ${screen} product workflow`);
   }
   if (!page.includes(`data-greenways-surface="${screen}"`)) {
     throw new Error(`${path} is missing the shared Greenways surface contract`);
   }
-  if (!page.includes("gw-context-bar")) {
-    throw new Error(`${path} is missing the Hara-style context strip`);
+  if (!page.includes('data-greenways-environment="os"')) {
+    throw new Error(`${path} is not wrapped in the Greenways operating environment`);
+  }
+  if (!page.includes("data-os-window")) {
+    throw new Error(`${path} does not open inside an application window`);
+  }
+  if (!page.includes("data-window-minimise") || !page.includes("data-window-maximise")) {
+    throw new Error(`${path} is missing application window controls`);
+  }
+  if (!page.includes("gw-os-dock")) {
+    throw new Error(`${path} is missing the persistent application dock`);
+  }
+  if (page.includes('class="gw-sidebar"')) {
+    throw new Error(`${path} has regressed to the retired website sidebar`);
   }
 }
 
@@ -119,5 +144,5 @@ if (!openGate.includes("Open Gate")) throw new Error("Open Gate concept page is 
 if (!openGate.includes("Concept specification")) throw new Error("Open Gate concept page is missing its specification");
 
 console.log(
-  `verified ${required.length} required Astro site outputs, ${greenwaysScreens.length} Greenways screens and ${ogCards.length} social cards`,
+  `verified ${required.length} required Astro site outputs, ${greenwaysScreens.length} Greenways OS applications and ${ogCards.length} social cards`,
 );
