@@ -1,0 +1,65 @@
+---
+import "../components.css";
+
+type State = "initial" | "active" | "loading" | "empty" | "danger";
+interface Props {
+  id: string;
+  title: string;
+  eyebrow?: string;
+  description?: string;
+  state?: State;
+  collapsible?: boolean;
+  open?: boolean;
+  class?: string;
+}
+const {
+  id,
+  title,
+  eyebrow,
+  description,
+  state = "initial",
+  collapsible = false,
+  open = false,
+  class: className = "",
+} = Astro.props;
+const titleId = `${id}-title`;
+const hasActions = Astro.slots.has("actions");
+const hasFooter = Astro.slots.has("footer");
+---
+{collapsible ? (
+  <details
+    class:list={["gw-v2-component", "gw-v2-panel", className]}
+    open={open}
+    data-gw-v2-component="Panel"
+    data-gw-v2-state={state}
+  >
+    <summary>
+      <span class="gw-v2-stack" style="--gw-v2-stack-gap: var(--gw-v2-space-3xs);">
+        {eyebrow && <span class="gw-v2-panel__eyebrow">{eyebrow}</span>}
+        <strong id={titleId}>{title}</strong>
+        {description && <small>{description}</small>}
+      </span>
+      {hasActions && <span class="gw-v2-panel__actions"><slot name="actions" /></span>}
+    </summary>
+    <div class="gw-v2-panel__body"><slot /></div>
+    {hasFooter && <footer class="gw-v2-panel__footer"><slot name="footer" /></footer>}
+  </details>
+) : (
+  <section
+    class:list={["gw-v2-component", "gw-v2-panel", className]}
+    aria-labelledby={titleId}
+    data-gw-v2-component="Panel"
+    data-gw-v2-state={state}
+  >
+    <header class="gw-v2-panel__header">
+      <span class="gw-v2-stack" style="--gw-v2-stack-gap: var(--gw-v2-space-3xs);">
+        {eyebrow && <span class="gw-v2-panel__eyebrow">{eyebrow}</span>}
+        <h3 id={titleId}>{title}</h3>
+        {description && <small>{description}</small>}
+      </span>
+      {hasActions && <span class="gw-v2-panel__actions" aria-label={`${title} actions`}><slot name="actions" /></span>}
+    </header>
+    <div class="gw-v2-panel__body"><slot /></div>
+    {hasFooter && <footer class="gw-v2-panel__footer"><slot name="footer" /></footer>}
+  </section>
+)}
