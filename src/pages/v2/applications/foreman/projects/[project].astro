@@ -1,0 +1,215 @@
+---
+import ForemanShell from "../../../../../foreman/ForemanShell.astro";
+import {
+  foremanProjects,
+  getForemanBuildoutHref,
+} from "../../../../../foreman/projects-laboratory.js";
+import type {
+  ForemanBuildout,
+  ForemanProject,
+} from "../../../../../foreman/projects-laboratory.js";
+
+const projects = foremanProjects as readonly ForemanProject[];
+
+export function getStaticPaths() {
+  return projects.map((project: ForemanProject) => ({
+    params: { project: project.id },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: ForemanProject;
+}
+
+const { project } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const href = (path: string) => `${base.replace(/\/+$/, "")}${path}`;
+const selectedBuildout = project.buildouts[0];
+if (!selectedBuildout) throw new Error(`Foreman project ${project.id} has no buildout specimen.`);
+
+const laneDefinitions = [
+  { id: "active", label: "Active", states: ["active"] },
+  { id: "attention", label: "Needs attention", states: ["waiting-for-approval", "degraded", "failed"] },
+  { id: "completed", label: "Completed", states: ["completed"] },
+  { id: "inactive", label: "Paused or closed", states: ["planned", "paused", "cancelled"] },
+] as const;
+
+const lanes = laneDefinitions.map((lane) => ({
+  ...lane,
+  items: project.buildouts.filter((buildout: ForemanBuildout) => (lane.states as readonly string[]).includes(buildout.state)),
+}));
+
+const attention = project.buildouts.filter((buildout: ForemanBuildout) => buildout.attention);
+const representedProviders = [...new Set(project.buildouts.flatMap((buildout: ForemanBuildout) => buildout.providers))];
+const selectedHref = getForemanBuildoutHref(project.id, selectedBuildout.id, base);
+---
+
+<ForemanShell
+  title={project.label}
+  description={`Foreman project overview and buildout board for ${project.label}.`}
+  activeNav="buildouts"
+  layout="project"
+  project={{ id: project.id, label: project.label }}
+  buildout={{ id: selectedBuildout.id, label: selectedBuildout.label }}
+  attentionCount={project.attentionCount}
+  inspectorLabel="Selected buildout and project context"
+>
+  <div slot="rail" class="fm-app__rail-projects" aria-label="Project switcher">
+    {projects.map((entry: ForemanProject) => (
+      <a href={href(`/v2/applications/foreman/projects/${entry.id}/`)} aria-current={entry.id === project.id ? "page" : undefined}>
+        <strong>{entry.shortLabel}</strong>
+        <small>{entry.state} · {entry.activeCount} active</small>
+      </a>
+    ))}
+  </div>
+
+  <section class="fm-app__hero" aria-labelledby="project-heading">
+    <div class="fm-app__hero-copy">
+      <p class="fm-app__eyebrow">Project · {project.repository.label}</p>
+      <h1 id="project-heading">{project.label}</h1>
+      <p>{project.summary}</p>
+      <div class="fm-app__chip-row" aria-label="Project attribution">
+        <span class="fm-app__chip">Owner · {project.owner.label}</span>
+        <span class="fm-app__chip">{representedProviders.length} represented providers</span>
+        <span class="fm-app__chip">Observed 21 Aug · 07:27 AEST</span>
+      </div>
+    </div>
+    <div class="fm-app__hero-actions">
+      <a class="fm-app__button" data-variant="primary" href={selectedHref}>Open selected buildout</a>
+      <a class="fm-app__button" href={project.repository.url}>Repository ↗</a>
+    </div>
+  </section>
+
+  <section class="fm-app__metrics" aria-label="Project buildout summary">
+    <div class="fm-app__metric"><strong>{project.buildouts.length}</strong><small>buildouts represented</small></div>
+    <div class="fm-app__metric"><strong>{project.activeCount}</strong><small>active now</small></div>
+    <div class="fm-app__metric"><strong>{project.attentionCount}</strong><small>need attention</small></div>
+    <div class="fm-app__metric"><strong>{project.completedCount}</strong><small>completed with evidence</small></div>
+  </section>
+
+  {attention.length > 0 && (
+    <section id="attention" class="fm-app__section" aria-labelledby="project-attention-heading">
+      <header>
+        <div class="fm-app__section-heading">
+          <p class="fm-app__section-kicker">Attention queue</p>
+          <h2 id="project-attention-heading">Intervention stays attached to the affected work.</h2>
+          <p>Failures, approvals, missing evidence, and safe recovery actions remain visible together.</p>
+        </div>
+      </header>
+      <div class="fm-app__attention-grid">
+        {attention.map((buildout: ForemanBuildout) => (
+          <article class="fm-app__attention-card" data-state={buildout.state === "failed" ? "danger" : "warning"}>
+            <header>
+              <div><p class="fm-app__meta">{buildout.stateLabel}</p><h3>{buildout.label}</h3></div>
+              <span class="fm-app__state-label" data-state={buildout.state}>{buildout.stateLabel}</span>
+            </header>
+            <p>{buildout.attention}</p>
+            <small>{buildout.evidence}</small>
+            <a class="fm-app__button" href={getForemanBuildoutHref(project.id, buildout.id, base)}>Inspect buildout</a>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <section class="fm-app__section" aria-labelledby="buildout-board-heading" data-foreman-buildout-board>
+    <header>
+      <div class="fm-app__section-heading">
+        <p class="fm-app__section-kicker">Buildout board</p>
+        <h2 id="buildout-board-heading">Outcomes, not provider inboxes.</h2>
+        <p>Each card preserves lifecycle, provider attribution, evidence, and next attention without collapsing distinct sessions.</p>
+      </div>
+      <span class="fm-app__chip">{project.buildouts.length} total</span>
+    </header>
+
+    <form class="fm-app__filterbar" action="#buildout-board-heading" method="get" aria-label="Filter buildout specimens">
+      <label class="fm-app__field"><span>Search buildouts</span><input type="search" name="query" placeholder="Goal, state, or provider" /></label>
+      <label class="fm-app__field"><span>Provider</span><select name="provider"><option>All providers</option>{representedProviders.map((provider) => <option>{provider}</option>)}</select></label>
+      <button class="fm-app__button" type="submit">Apply filters</button>
+    </form>
+
+    <div class="fm-app__board">
+      {lanes.map((lane) => (
+        <section class="fm-app__lane" aria-labelledby={`lane-${lane.id}`}>
+          <header><h3 id={`lane-${lane.id}`}>{lane.label}</h3><span>{lane.items.length}</span></header>
+          {lane.items.length > 0 ? lane.items.map((buildout: ForemanBuildout) => (
+            <a
+              class="fm-app__buildout-card"
+              data-state={buildout.state}
+              data-selected={String(buildout.id === selectedBuildout.id)}
+              href={getForemanBuildoutHref(project.id, buildout.id, base)}
+            >
+              <header>
+                <span class="fm-app__state-label" data-state={buildout.state}>{buildout.stateLabel}</span>
+                <h4>{buildout.label}</h4>
+              </header>
+              <p>{buildout.goal}</p>
+              <div class="fm-app__provider-row" aria-label="Attributed providers">{buildout.providers.map((provider) => <span>{provider}</span>)}</div>
+              <div class="fm-app__progress">
+                <div class="fm-app__progress-track" aria-label={buildout.progress.label}><span style={`--fm-progress: ${(buildout.progress.completed / buildout.progress.total) * 100}%`}></span></div>
+                <small>{buildout.progress.label}</small>
+              </div>
+              <small>{buildout.evidence}</small>
+            </a>
+          )) : (
+            <div class="fm-app__empty-inspector"><span aria-hidden="true">○</span><strong>No buildouts</strong><p>This lane has no matching specimen.</p></div>
+          )}
+        </section>
+      ))}
+    </div>
+  </section>
+
+  <section id="connections" class="fm-app__section" aria-labelledby="connections-heading">
+    <header>
+      <div class="fm-app__section-heading">
+        <p class="fm-app__section-kicker">Connections</p>
+        <h2 id="connections-heading">Desired and observed state are separate facts.</h2>
+        <p>A ready provider connection does not imply permission to publish, merge, spend, or perform destructive actions.</p>
+      </div>
+    </header>
+    <ul class="fm-app__connection-list">
+      {project.connections.map((connection) => (
+        <li data-state={connection.state}>
+          <div class="fm-app__connection-copy"><strong>{connection.label}</strong><small>{connection.provider} · {connection.surface}</small></div>
+          <div class="fm-app__connection-states">
+            <span><small>Desired</small><strong>{connection.desiredState}</strong></span>
+            <span><small>Observed</small><strong>{connection.actualState}</strong></span>
+          </div>
+          <div class="fm-app__connection-authority">{connection.authority}</div>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <div slot="inspector" class="fm-app__inspector-stack">
+    <section class="fm-app__inspector-section" data-state={selectedBuildout.state}>
+      <header><span>Selected buildout</span><span class="fm-app__state-label" data-state={selectedBuildout.state}>{selectedBuildout.stateLabel}</span></header>
+      <h2>{selectedBuildout.label}</h2>
+      <p>{selectedBuildout.goal}</p>
+      <dl>
+        <dt>Current step</dt><dd>{selectedBuildout.currentStep}</dd>
+        <dt>Attention</dt><dd>{selectedBuildout.attention ?? "No human intervention represented"}</dd>
+        <dt>Providers</dt><dd>{selectedBuildout.providers.join(" · ")}</dd>
+        <dt>Evidence</dt><dd>{selectedBuildout.evidence}</dd>
+      </dl>
+      <a class="fm-app__button" data-variant="primary" href={selectedHref}>Open workbench</a>
+    </section>
+
+    <section class="fm-app__inspector-section">
+      <header><span>Project context</span></header>
+      <dl>
+        <dt>Owner</dt><dd>{project.owner.label}</dd>
+        <dt>Repository</dt><dd><a href={project.repository.url}>{project.repository.label} ↗</a></dd>
+        <dt>Connections</dt><dd>{project.connections.length} observed</dd>
+        <dt>Updated</dt><dd><time datetime={project.updatedAt}>21 Aug · 07:27 AEST</time></dd>
+      </dl>
+      <details>
+        <summary>Expanded attribution</summary>
+        <div><p>Provider names appear only where attribution matters. Sessions remain separate from agents and connections.</p></div>
+      </details>
+    </section>
+  </div>
+
+  <span slot="status">project · {project.id}</span>
+</ForemanShell>

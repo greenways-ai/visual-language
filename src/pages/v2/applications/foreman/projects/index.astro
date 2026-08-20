@@ -1,0 +1,145 @@
+---
+import ForemanShell from "../../../../../foreman/ForemanShell.astro";
+import {
+  FOREMAN_SELECTED_PROJECT_ID,
+  foremanProjectStateSpecimens,
+  foremanProjects,
+  getForemanProject,
+} from "../../../../../foreman/projects-laboratory.js";
+import type {
+  ForemanProject,
+  ForemanStateSpecimen,
+} from "../../../../../foreman/projects-laboratory.js";
+
+const projects = foremanProjects as readonly ForemanProject[];
+const stateSpecimens = foremanProjectStateSpecimens as readonly ForemanStateSpecimen[];
+const base = import.meta.env.BASE_URL.replace(/\/+$/, "");
+const href = (path: string) => `${base}${path}`;
+const selected = getForemanProject(FOREMAN_SELECTED_PROJECT_ID);
+if (!selected) throw new Error("Foreman selected project fixture is missing.");
+---
+
+<ForemanShell
+  title="Projects"
+  description="Choose a Foreman project and understand its active work, attention, ownership, repository context, and evidence."
+  activeNav="projects"
+  layout="project"
+  project={{ id: selected.id, label: selected.label }}
+  attentionCount={selected.attentionCount}
+  inspectorLabel="Selected project details"
+>
+  <div slot="rail" class="fm-app__rail-projects" aria-label="Project shortcuts">
+    {projects.map((project: ForemanProject) => (
+      <a href={href(`/v2/applications/foreman/projects/${project.id}/`)} aria-current={project.id === selected.id ? "page" : undefined}>
+        <strong>{project.shortLabel}</strong>
+        <small>{project.state} · {project.activeCount} active</small>
+      </a>
+    ))}
+  </div>
+
+  <section class="fm-app__hero" aria-labelledby="projects-heading">
+    <div class="fm-app__hero-copy">
+      <p class="fm-app__eyebrow">Projects · stable software efforts</p>
+      <h1 id="projects-heading">Choose the effort before choosing the task.</h1>
+      <p>Each project keeps its owner, repository, connections, buildouts, and attention boundaries visible. Foreman does not make provider accounts the product hierarchy.</p>
+    </div>
+    <div class="fm-app__hero-actions">
+      <a class="fm-app__button" data-variant="primary" href={href(`/v2/applications/foreman/projects/${selected.id}/`)}>Open selected project</a>
+      <button class="fm-app__button" type="button" disabled title="Static specimen; no project is created">New project specimen</button>
+    </div>
+  </section>
+
+  <form class="fm-app__filterbar" action="#project-list" method="get" aria-label="Filter project specimens">
+    <label class="fm-app__field">
+      <span>Search projects</span>
+      <input type="search" name="query" placeholder="Project or repository" />
+    </label>
+    <label class="fm-app__field">
+      <span>State</span>
+      <select name="state">
+        <option>Any state</option>
+        <option>Active</option>
+        <option>Paused</option>
+        <option>Degraded</option>
+        <option>Completed</option>
+      </select>
+    </label>
+    <button class="fm-app__button" type="submit" data-variant="primary">Apply filters</button>
+    <a class="fm-app__button" data-variant="quiet" href="#project-list">Clear</a>
+  </form>
+
+  <section id="project-list" class="fm-app__section" aria-labelledby="project-list-heading">
+    <header>
+      <div class="fm-app__section-heading">
+        <p class="fm-app__section-kicker">Project index</p>
+        <h2 id="project-list-heading">Three projects, one selected context.</h2>
+        <p>Repository links are exact external references. Counts and activity remain clearly marked as specimen data.</p>
+      </div>
+      <span class="fm-app__chip">{projects.length} projects</span>
+    </header>
+    <div class="fm-app__project-grid">
+      {projects.map((project: ForemanProject) => (
+        <article class="fm-app__project-card" data-selected={String(project.id === selected.id)} data-state={project.state}>
+          <header>
+            <div><p class="fm-app__meta">{project.repository.label}</p><h3>{project.label}</h3></div>
+            <span class="fm-app__state-label" data-state={project.state}>{project.state}</span>
+          </header>
+          <p>{project.summary}</p>
+          <dl>
+            <dt>Owner</dt><dd>{project.owner.label} · {project.owner.detail}</dd>
+            <dt>Active</dt><dd>{project.activeCount} buildouts</dd>
+            <dt>Attention</dt><dd>{project.attentionCount} items</dd>
+            <dt>Completed</dt><dd>{project.completedCount} evidenced buildouts</dd>
+          </dl>
+          <div class="fm-app__button-row">
+            <a class="fm-app__button" data-variant={project.id === selected.id ? "primary" : undefined} href={href(`/v2/applications/foreman/projects/${project.id}/`)}>Open project</a>
+            <a class="fm-app__button" data-variant="quiet" href={project.repository.url}>Repository ↗</a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="fm-app__section" aria-labelledby="project-states-heading">
+    <header>
+      <div class="fm-app__section-heading">
+        <p class="fm-app__section-kicker">Required states</p>
+        <h2 id="project-states-heading">Empty, loading, difficult, and evidenced outcomes.</h2>
+        <p>The project route cannot be reviewed only in its ideal active state.</p>
+      </div>
+    </header>
+    <div class="fm-app__state-grid">
+      {stateSpecimens.map((state: ForemanStateSpecimen) => (
+        <article class="fm-app__state-card" data-state={state.id}>
+          <span class="fm-app__state-label" data-state={state.id}>{state.label}</span>
+          <h3>{state.meaning}</h3>
+          <small>{state.evidence}</small>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <div slot="inspector" class="fm-app__inspector-stack">
+    <section class="fm-app__inspector-section" data-state={selected.state}>
+      <header><span>Selected project</span><span class="fm-app__state-label" data-state={selected.state}>{selected.state}</span></header>
+      <h2>{selected.label}</h2>
+      <p>{selected.summary}</p>
+      <dl>
+        <dt>Owner</dt><dd>{selected.owner.label}</dd>
+        <dt>Repository</dt><dd><a href={selected.repository.url}>{selected.repository.label} ↗</a></dd>
+        <dt>Active</dt><dd>{selected.activeCount}</dd>
+        <dt>Attention</dt><dd>{selected.attentionCount}</dd>
+        <dt>Observed</dt><dd><time datetime={selected.updatedAt}>21 Aug · 07:27 AEST</time></dd>
+      </dl>
+      <a class="fm-app__button" data-variant="primary" href={href(`/v2/applications/foreman/projects/${selected.id}/`)}>Open project overview</a>
+    </section>
+
+    <section class="fm-app__inspector-section">
+      <header><span>First-use boundary</span></header>
+      <strong>No projects means no invented activity.</strong>
+      <p>The empty state should show a setup checklist, ownership choice, and repository linking boundary.</p>
+    </section>
+  </div>
+
+  <span slot="status">project filter · specimen only</span>
+</ForemanShell>
