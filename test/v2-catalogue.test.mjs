@@ -1,10 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import {
   catalogueHref,
   flattenCatalogueRoutes,
   getCatalogueGroup,
+  getCataloguePlaceholderRoutes,
   getCatalogueRoute,
   getCatalogueStaticRoutes,
   greenwaysV2Catalogue,
@@ -23,6 +24,7 @@ test("the typed manifest has the required groups and unique routes", () => {
   assert.deepEqual(greenwaysV2Catalogue.map((group) => group.id), ["foundations", "library", "applications"]);
   assert.equal(greenwaysV2CatalogueHome.path, "/v2/");
   assert.equal(greenwaysV2CatalogueHome.status, "ready");
+  assert.equal(greenwaysV2CatalogueHome.implemented, true);
 
   assert.equal(new Set(routes.map((route) => route.id)).size, routes.length);
   assert.equal(new Set(routes.map((route) => route.path)).size, routes.length);
@@ -35,6 +37,7 @@ test("the typed manifest has the required groups and unique routes", () => {
     assert.ok(route.path.endsWith("/"), route.path);
     assert.ok(allowedStatuses.has(route.status), route.path);
     assert.ok(allowedOwnership.has(route.ownership), route.path);
+    if (route.implemented) assert.equal(route.status, "ready", route.path);
   }
 });
 
@@ -44,6 +47,7 @@ test("Foreman owns the primary application route family", () => {
   assert.ok(foreman);
   assert.equal(foreman.ownership, "product-laboratory");
   assert.equal(foreman.primary, true);
+  assert.equal(foreman.status, "in-progress");
   assert.deepEqual(foreman.children?.map((route) => route.id), [
     "foreman-model",
     "foreman-projects",
@@ -51,6 +55,7 @@ test("Foreman owns the primary application route family", () => {
     "foreman-surfaces",
   ]);
   assert.deepEqual(foreman.children?.map((route) => route.issue), [35, 36, 37, 38]);
+  assert.equal(foreman.children?.find((route) => route.id === "foreman-model")?.implemented, true);
 });
 
 test("historical Greenways routes remain reachable but secondary", () => {
@@ -70,6 +75,25 @@ test("static generation covers every declared v2 route and no historical route",
   const expected = routes.filter((route) => route.path.startsWith("/v2/") && route.path !== "/v2/");
   assert.deepEqual(getCatalogueStaticRoutes().map((route) => route.id), expected.map((route) => route.id));
   assert.ok(getCatalogueStaticRoutes().every((route) => route.status !== "exploration"));
+});
+
+test("implemented routes use explicit pages and are excluded from placeholders", async () => {
+  const implemented = routes.filter((route) => route.implemented);
+  assert.deepEqual(implemented.map((route) => route.id), [
+    "foundations-laboratory",
+    "component-laboratory",
+    "foreman-model",
+  ]);
+  assert.ok(getCataloguePlaceholderRoutes().every((route) => route.implemented !== true));
+  assert.ok(implemented.every((route) => !getCataloguePlaceholderRoutes().some((placeholder) => placeholder.id === route.id)));
+
+  for (const path of [
+    "src/pages/v2/foundations/index.astro",
+    "src/pages/v2/library/components/index.astro",
+    "src/pages/v2/applications/foreman/model.astro",
+  ]) {
+    await access(new URL(`../${path}`, import.meta.url));
+  }
 });
 
 test("path helpers preserve the Astro base and exact current state", () => {
@@ -94,7 +118,7 @@ test("the shared header derives one semantic disclosure tree from the manifest",
   assert.doesNotMatch(source, /<script/);
 });
 
-test("catalogue home and planned pages are generated from the same manifest", async () => {
+test("catalogue home and placeholder pages are generated from the same manifest", async () => {
   const [home, route, shell] = await Promise.all([
     read("src/pages/v2/index.astro"),
     read("src/pages/v2/[...route].astro"),
@@ -102,7 +126,7 @@ test("catalogue home and planned pages are generated from the same manifest", as
   ]);
   assert.match(home, /greenwaysV2Catalogue\.map/);
   assert.match(home, /route\.children\.map/);
-  assert.match(route, /getCatalogueStaticRoutes\(\)\.map/);
+  assert.match(route, /getCataloguePlaceholderRoutes\(\)\.map/);
   assert.match(route, /getStaticPaths/);
   assert.match(route, /Declared now\. Detailed later\./);
   assert.match(shell, /CatalogueHeader/);
