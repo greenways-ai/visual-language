@@ -11,6 +11,7 @@ interface Props {
   selected?: boolean;
   state?: State;
   class?: string;
+  "data-workflow-state"?: string;
 }
 
 const {
@@ -21,6 +22,7 @@ const {
   selected = false,
   state = selected ? "selected" : "initial",
   class: className = "",
+  "data-workflow-state": workflowState,
 } = Astro.props;
 
 const titleId = `${id}-title`;
@@ -35,6 +37,7 @@ const hasFooter = Astro.slots.has("footer");
   data-gw-v2-component="Card"
   data-gw-v2-state={state}
   data-selected={selected ? "true" : "false"}
+  data-workflow-state={workflowState}
 >
   {hasMedia && <div class="gw-v2-card__media"><slot name="media" /></div>}
 
