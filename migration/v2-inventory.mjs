@@ -61,6 +61,7 @@ export const v2PackageContracts = freeze([
   record("src/v2/components.css", "replace", "package", "Shared component presentation importing the document foundation.", "./v2/components.css"),
   record("src/v2/contract.js", "replace", "package", "Machine-readable entry, identity and token-family contract.", "./v2/contract.js"),
   record("src/v2/component-contract.js", "replace", "package", "Machine-readable component inventory, states, semantics and behaviour ownership.", "./v2/component-contract.js"),
+  record("src/v2/workflow-contract.js", "replace", "package", "Machine-readable workflow states, studies, evidence and behaviour ownership.", "./v2/workflow-contract.js"),
   ...v2ComponentFiles.map((path) => record(
     `src/v2/astro/${path}`,
     "replace",
@@ -76,6 +77,12 @@ export const v2SupportingSources = freeze([
     "retain",
     "package",
     "Type declaration paired with the machine-readable component contract.",
+  ),
+  record(
+    "src/v2/workflow-contract.d.ts",
+    "retain",
+    "package",
+    "Type declaration paired with the machine-readable workflow-state contract.",
   ),
 ]);
 
