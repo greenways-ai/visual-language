@@ -1,0 +1,148 @@
+---
+import {
+  foremanWorkbench as workbench,
+  getForemanAgent,
+  getForemanApproval,
+  getForemanArtifact,
+  getForemanBuildout,
+  getForemanExecutionHost,
+  getForemanExternalEffect,
+  getForemanProject,
+  getForemanSession,
+  getForemanWorkItem,
+} from "./workbench.js";
+const selectedProject = getForemanProject(workbench.selected.projectId);
+const selectedBuildout = getForemanBuildout(workbench.selected.buildoutId);
+const selectedWorkItem = getForemanWorkItem(workbench.selected.workItemId);
+const selectedWorkOwner = getForemanAgent(selectedWorkItem.ownerId);
+const selectedApproval = getForemanApproval(workbench.selected.approvalId);
+const selectedExternalEffect = getForemanExternalEffect(workbench.selected.externalEffectId);
+const selectedHost = getForemanExecutionHost(selectedBuildout.executionHostId ?? "host-mac-studio");
+const selectedLease = workbench.leases.find((item) => item.id === selectedBuildout.leaseId);
+const selectedRun = workbench.runs.find((item) => item.id === selectedBuildout.runId);
+const selectedSessions = selectedBuildout.sessionIds.map(getForemanSession);
+const selectedArtifacts = selectedBuildout.artifactIds.map(getForemanArtifact);
+const observeClient = workbench.clients.find((item) => item.actionState === "unavailable");
+const symbols: Record<string, string> = { active: "●", running: "●", completed: "✓", verified: "✓", cleaned: "✓", released: "✓", "waiting-for-approval": "!", pending: "!", requested: "○", observed: "◇", granted: "◆", checkpointed: "◆", uncertain: "?", degraded: "△", failed: "×", cancelled: "—", disconnected: "×", paused: "Ⅱ" };
+const symbolFor = (state: string) => symbols[state] ?? "·";
+const fmt = (value: string) => new Intl.DateTimeFormat("en-AU", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Australia/Melbourne" }).format(new Date(value));
+---
+<section id="fwb-workbench" class="fwb__view fwb__view--workbench" data-workbench-view="workbench" data-catalogue-section data-section-label="Selected buildout" hidden>
+          <header class="fwb__command-bar">
+            <div class="fwb__breadcrumb"><span>{selectedProject.name}</span><b aria-hidden="true">/</b><span>{selectedBuildout.title}</span><b aria-hidden="true">/</b><strong>{selectedWorkItem.title}</strong></div>
+            <div class="fwb__commands" aria-label="Static workbench commands">
+              <button type="button" data-specimen-action="Resume work">Resume</button>
+              <button type="button" data-specimen-action="Compose handoff">Hand off</button>
+              <button type="button" data-specimen-action="Review approval A17">Review approval</button>
+            </div>
+          </header>
+
+          <div class="fwb__workbench-grid">
+            <div class="fwb__workspace">
+              <header class="fwb__objective">
+                <div><p>Buildout objective</p><h2>{selectedBuildout.title}</h2><p>{selectedBuildout.goal}</p></div>
+                <dl><div><dt>State</dt><dd>{selectedBuildout.displayState}</dd></div><div><dt>Current work</dt><dd>{getForemanWorkItem(selectedBuildout.currentWorkItemId).title}</dd></div><div><dt>Attention</dt><dd>{selectedBuildout.attention}</dd></div></dl>
+              </header>
+
+              <div class="fwb__lanes" aria-label="Selected buildout timelines">
+                <details class="fwb__lane" data-lane="work" open>
+                  <summary><span>01</span><span><strong>Work</strong><small>Intent, work items, sessions, and decisions</small></span><b>{workbench.laneEvents.work.length}</b></summary>
+                  <ol>
+                    {workbench.laneEvents.work.map((event) => (
+                      <li data-state={event.state}>
+                        <time>{event.time}</time><span class="fwb__timeline-mark" aria-hidden="true">{symbolFor(event.state)}</span>
+                        <div><header><span>{event.kind}</span><strong>{event.title}</strong></header><p>{event.detail}</p><footer><code>{event.identity}</code><small>{event.evidence}</small></footer></div>
+                      </li>
+                    ))}
+                  </ol>
+                </details>
+
+                <details class="fwb__lane" data-lane="execution" open>
+                  <summary><span>02</span><span><strong>Execution</strong><small>Requested host, advertisement, lease, run, checkpoint, and cleanup</small></span><b>{workbench.laneEvents.execution.length}</b></summary>
+                  <ol>
+                    {workbench.laneEvents.execution.map((event) => (
+                      <li data-state={event.state}>
+                        <time>{event.time}</time><span class="fwb__timeline-mark" aria-hidden="true">{symbolFor(event.state)}</span>
+                        <div><header><span>{event.kind}</span><strong>{event.title}</strong></header><p>{event.detail}</p><footer><code>{event.identity}</code><small>{event.evidence}</small></footer></div>
+                      </li>
+                    ))}
+                  </ol>
+                </details>
+
+                <details class="fwb__lane" data-lane="external" open>
+                  <summary><span>03</span><span><strong>External effects</strong><small>Provider mutation, uncertain outcome, and authoritative read-back</small></span><b>{workbench.laneEvents.external.length}</b></summary>
+                  <ol>
+                    {workbench.laneEvents.external.map((event) => (
+                      <li data-state={event.state}>
+                        <time>{event.time}</time><span class="fwb__timeline-mark" aria-hidden="true">{symbolFor(event.state)}</span>
+                        <div><header><span>{event.kind}</span><strong>{event.title}</strong></header><p>{event.detail}</p><footer><code>{event.identity}</code><small>{event.evidence}</small></footer></div>
+                      </li>
+                    ))}
+                  </ol>
+                  <div class="fwb__external-comparison">
+                    <article data-state={selectedExternalEffect.state}>
+                      <span>Current requested effect</span><strong>{selectedExternalEffect.label}</strong><p>{selectedExternalEffect.truth}</p><small>Read-back · {selectedExternalEffect.readBackState} · no canonical URL</small>
+                    </article>
+                    {selectedBuildout.externalEffectIds.filter((id) => id !== selectedExternalEffect.id).map((id) => {
+                      const effect = getForemanExternalEffect(id);
+                      return <article data-state={effect.state}><span>Verified comparison</span><strong>{effect.label}</strong><p>{effect.truth}</p>{effect.canonicalUrl && <a href={effect.canonicalUrl}>Open canonical GitHub record ↗</a>}</article>;
+                    })}
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <aside class="fwb__inspector" aria-label="Selected work item inspector">
+              <header><p>Inspector</p><span class="fwb__state" data-state={selectedWorkItem.state}><i aria-hidden="true">{symbolFor(selectedWorkItem.state)}</i>{selectedWorkItem.state}</span></header>
+              <section>
+                <span>Selected work item</span><h3>{selectedWorkItem.title}</h3><p>{selectedWorkItem.expectedOutput}</p>
+                <dl><div><dt>Identity</dt><dd>{selectedWorkItem.id}</dd></div><div><dt>Next action</dt><dd>{selectedWorkItem.nextAction}</dd></div></dl>
+              </section>
+              <section>
+                <span>Owner and agent</span>
+                <div class="fwb__identity-card" data-identity="agent"><b aria-hidden="true">A</b><div><strong>{selectedWorkOwner.name}</strong><small>{selectedWorkOwner.purpose}</small></div></div>
+                <dl><div><dt>Mandate</dt><dd>{selectedWorkOwner.mandate}</dd></div><div><dt>Human owner</dt><dd>{getForemanAgent(selectedBuildout.ownerId).name}</dd></div></dl>
+              </section>
+              <section>
+                <span>Provider sessions and client</span>
+                <div class="fwb__identity-stack">
+                  {selectedSessions.map((session) => (
+                    <div class="fwb__identity-card" data-identity="session"><b aria-hidden="true">S</b><div><strong>{session.provider}</strong><small>{session.label} · {session.state} · {session.authority}</small></div></div>
+                  ))}
+                </div>
+                {observeClient && <div class="fwb__client-boundary"><strong>{observeClient.label}</strong><p>{observeClient.truth}</p><span>Observe only · actions unavailable</span></div>}
+              </section>
+              <section>
+                <span>Requested capabilities</span>
+                <ul>{selectedLease?.requestedCapabilities.map((capability) => <li>{capability}</li>)}</ul>
+                <details><summary>Excluded authority</summary><ul>{selectedLease?.excludedAuthority.map((authority) => <li>{authority}</li>)}</ul></details>
+              </section>
+              <section>
+                <span>Actual execution</span>
+                <div class="fwb__identity-card" data-identity="host"><b aria-hidden="true">H</b><div><strong>{selectedHost.label}</strong><small>{selectedHost.advertisedGeneration} · observed {fmt(selectedHost.observedAt)}</small></div></div>
+                <dl>
+                  <div><dt>Lease</dt><dd>{selectedLease?.id}</dd></div>
+                  <div><dt>Expiry</dt><dd>{selectedLease ? fmt(selectedLease.expiresAt) : "No lease"}</dd></div>
+                  <div><dt>Run</dt><dd>{selectedRun?.id}</dd></div>
+                  <div><dt>Cleanup</dt><dd>{selectedLease?.cleanupState}</dd></div>
+                </dl>
+              </section>
+              <section>
+                <span>Approval</span>
+                <h3>{selectedApproval.label}</h3><p>{selectedApproval.operation}</p>
+                <dl><div><dt>State</dt><dd>{selectedApproval.state}</dd></div><div><dt>Expiry</dt><dd>{fmt(selectedApproval.expiry)}</dd></div><div><dt>Consequence</dt><dd>{selectedApproval.consequence}</dd></div></dl>
+                <button type="button" data-specimen-action="Review exact approval A17">Review exact scope</button>
+              </section>
+              <section>
+                <span>Artifacts and evidence</span>
+                <ul class="fwb__artifacts">{selectedArtifacts.map((artifact) => <li data-state={artifact.state}><div><strong>{artifact.name}</strong><small>{artifact.type} · {artifact.state}</small></div><code>{artifact.digest ?? "not produced"}</code></li>)}</ul>
+              </section>
+            </aside>
+          </div>
+
+          <footer class="fwb__status-line" aria-label="Selected buildout status line">
+            {workbench.statusLine.map((item) => (
+              <div data-state={item.state}><span>{item.label}</span><strong>{item.value}</strong><small>{item.detail}</small></div>
+            ))}
+          </footer>
+        </section>

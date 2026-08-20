@@ -1,0 +1,84 @@
+---
+import {
+  foremanWorkbench as workbench,
+  getForemanAgent,
+  getForemanApproval,
+  getForemanBuildout,
+  getForemanBuildoutGroups,
+  getForemanExecutionHost,
+  getForemanExternalEffect,
+  getForemanProject,
+  getForemanSession,
+  getForemanWorkItem,
+} from "./workbench.js";
+const buildoutGroups = getForemanBuildoutGroups();
+const symbols: Record<string, string> = { active: "●", completed: "✓", verified: "✓", "waiting-for-approval": "!", pending: "!", uncertain: "?", degraded: "△", failed: "×", cancelled: "—", disconnected: "×", paused: "Ⅱ" };
+const symbolFor = (state: string) => symbols[state] ?? "·";
+const fmt = (value: string) => new Intl.DateTimeFormat("en-AU", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Australia/Melbourne" }).format(new Date(value));
+const projectForBuildout = (id: string) => getForemanProject(getForemanBuildout(id).projectId);
+const workForBuildout = (id: string) => getForemanWorkItem(getForemanBuildout(id).currentWorkItemId);
+const actorNames = (ids: readonly string[]) => ids.map((id) => getForemanAgent(id).name).join(" · ");
+const sessionsForBuildout = (id: string) => getForemanBuildout(id).sessionIds.map(getForemanSession);
+---
+<section id="fwb-board" class="fwb__view" data-workbench-view="board" data-catalogue-section data-section-label="Buildout board" hidden>
+          <header class="fwb__view-heading fwb__view-heading--board">
+            <div><p>02 · Buildout board</p><h2>Lifecycle without the Kanban fiction.</h2><p>Rows preserve work, owner, provider sessions, execution host, checkpoint, approval, and external-effect identity.</p></div>
+            <div class="fwb__board-legend" aria-label="Identity legend">
+              <span data-identity="agent">Agent</span><span data-identity="session">Session</span><span data-identity="host">Host</span><span data-identity="effect">External effect</span>
+            </div>
+          </header>
+
+          <div class="fwb__board" data-buildout-board>
+            {buildoutGroups.map((group) => (
+              <section class="fwb__board-group" data-buildout-group={group.id}>
+                <header><span>{group.label}</span><strong>{group.buildouts.length}</strong></header>
+                <div class="fwb__board-rows">
+                  {group.buildouts.map((buildout) => {
+                    const project = projectForBuildout(buildout.id);
+                    const currentWork = workForBuildout(buildout.id);
+                    const owner = getForemanAgent(buildout.ownerId);
+                    const sessions = sessionsForBuildout(buildout.id);
+                    const host = buildout.executionHostId ? getForemanExecutionHost(buildout.executionHostId) : null;
+                    const checkpoint = buildout.lastCheckpointId ? workbench.checkpoints.find((item) => item.id === buildout.lastCheckpointId) : null;
+                    const approval = buildout.approvalIds.length ? getForemanApproval(buildout.approvalIds[0]) : null;
+                    const effect = buildout.externalEffectIds.length ? getForemanExternalEffect(buildout.externalEffectIds[0]) : null;
+                    return (
+                      <article
+                        class="fwb__board-row"
+                        data-buildout-state={buildout.lifecycleState}
+                        data-searchable={`${project.name} ${buildout.title} ${buildout.goal} ${currentWork.title} ${owner.name} ${sessions.map((session) => `${session.provider} ${session.label}`).join(" ")} ${host?.label ?? ""} ${buildout.lastEvidence}`}
+                      >
+                        <header>
+                          <div><span>{project.code} · {buildout.code}</span><strong>{buildout.title}</strong><p>{buildout.goal}</p></div>
+                          <span class="fwb__state" data-state={buildout.lifecycleState}><i aria-hidden="true">{symbolFor(buildout.lifecycleState)}</i>{buildout.displayState}</span>
+                        </header>
+                        <dl class="fwb__board-fields">
+                          <div><dt>Current work</dt><dd><strong>{currentWork.title}</strong><small>{currentWork.state} · {currentWork.nextAction}</small></dd></div>
+                          <div><dt>Owner</dt><dd><span data-identity="person">Person</span><strong>{owner.name}</strong><small>Agents · {actorNames(buildout.agentIds)}</small></dd></div>
+                          <div><dt>Provider sessions</dt><dd>{sessions.length ? sessions.map((session) => <span class="fwb__identity-row" data-identity="session"><b>{session.provider}</b><small>{session.label} · {session.state}</small></span>) : <small>No active session</small>}</dd></div>
+                          <div><dt>Execution host</dt><dd>{host ? <><span data-identity="host">Host</span><strong>{host.label}</strong><small>{host.state} · {host.advertisedGeneration}</small></> : <small>No host selected</small>}</dd></div>
+                          <div><dt>Last checkpoint</dt><dd>{checkpoint ? <><strong>{checkpoint.label}</strong><small>{checkpoint.summary}</small></> : <small>No checkpoint recorded</small>}</dd></div>
+                          <div><dt>Approval</dt><dd>{approval ? <><span class="fwb__state" data-state={approval.state}><i aria-hidden="true">{symbolFor(approval.state)}</i>{approval.state}</span><small>{approval.label}</small></> : <small>No approval pending</small>}</dd></div>
+                          <div><dt>External effect</dt><dd>{effect ? <><span data-identity="effect">GitHub</span><strong>{effect.state}</strong><small>{effect.readBackState} · {effect.canonicalUrl ? "canonical record present" : "no canonical record"}</small></> : <small>No external effect requested</small>}</dd></div>
+                          <div><dt>Evidence</dt><dd><strong>{buildout.lastEvidence}</strong><small>{fmt(buildout.updatedAt)}</small></dd></div>
+                        </dl>
+                      </article>
+                    );
+                  })}
+                </div>
+              </section>
+            ))}
+          </div>
+
+          <section class="fwb__state-matrix" aria-labelledby="fwb-state-matrix-title" data-state-matrix>
+            <header><p>Complete state matrix</p><h3 id="fwb-state-matrix-title">Difficult states remain designed states.</h3></header>
+            <div>
+              {workbench.stateMatrix.map((state) => (
+                <article data-state={state.id} data-signal={state.signal} data-searchable={`${state.label} ${state.summary} ${state.evidence}`}>
+                  <header><span aria-hidden="true">{symbolFor(state.id)}</span><strong>{state.label}</strong></header>
+                  <p>{state.summary}</p><small>{state.evidence}</small>
+                </article>
+              ))}
+            </div>
+          </section>
+        </section>

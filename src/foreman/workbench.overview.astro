@@ -1,0 +1,76 @@
+---
+import {
+  foremanWorkbench as workbench,
+  getForemanAgent,
+  getForemanBuildout,
+  getForemanProject,
+} from "./workbench.js";
+const selectedProject = getForemanProject(workbench.selected.projectId);
+const selectedProjectBuildouts = selectedProject.buildoutIds.map(getForemanBuildout);
+const activeBuildouts = selectedProjectBuildouts.filter((item) => ["active", "waiting-for-approval", "degraded", "paused"].includes(item.lifecycleState));
+const selectedProjectApprovals = workbench.approvals.filter((item) => item.projectId === selectedProject.id && item.state === "pending");
+const symbols: Record<string, string> = { active: "●", completed: "✓", verified: "✓", "waiting-for-approval": "!", "host-unavailable": "×", "external-uncertain": "?", degraded: "△", paused: "Ⅱ" };
+const symbolFor = (state: string) => symbols[state] ?? "·";
+const fmt = (value: string, date = false) => new Intl.DateTimeFormat("en-AU", { ...(date ? { day: "2-digit", month: "short" } : {}), hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Australia/Melbourne" }).format(new Date(value));
+const actorNames = (ids: readonly string[]) => ids.map((id) => getForemanAgent(id).name).join(" · ");
+---
+<section id="fwb-overview" class="fwb__view" data-workbench-view="overview" data-catalogue-section data-section-label="Project overview">
+          <header class="fwb__view-heading">
+            <div>
+              <p>01 · Project overview</p>
+              <h2>{selectedProject.name}</h2>
+              <p>{selectedProject.outcome}</p>
+            </div>
+            <dl class="fwb__summary-strip" aria-label="Selected project summary">
+              <div><dt>Active buildouts</dt><dd>{activeBuildouts.length}</dd></div>
+              <div><dt>Approvals</dt><dd>{selectedProjectApprovals.length}</dd></div>
+              <div><dt>Sessions</dt><dd>{selectedProjectBuildouts.flatMap((buildout) => buildout.sessionIds).length}</dd></div>
+              <div><dt>Verified at</dt><dd>{fmt(selectedProject.lastVerifiedAt)}</dd></div>
+            </dl>
+          </header>
+
+          <div class="fwb__overview-grid">
+            <section class="fwb__attention" aria-labelledby="fwb-attention-title">
+              <header><p>Needs attention</p><h3 id="fwb-attention-title">Human intervention is explicit.</h3></header>
+              <div class="fwb__attention-list">
+                {workbench.attentionItems.map((item) => (
+                  <article data-state={item.state} data-searchable={`${item.label} ${item.summary} ${item.action}`}>
+                    <header><span aria-hidden="true">{symbolFor(item.state)}</span><strong>{item.label}</strong></header>
+                    <p>{item.summary}</p>
+                    <footer><span>{getForemanBuildout(item.buildoutId).title}</span><button type="button" data-specimen-action={item.action}>{item.action}</button></footer>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section class="fwb__verified-activity" aria-labelledby="fwb-activity-title">
+              <header><p>Recent verified activity</p><h3 id="fwb-activity-title">Evidence, not narration.</h3></header>
+              <ol>
+                {workbench.recentActivity.map((entry) => (
+                  <li data-state={entry.state}>
+                    <time datetime={entry.occurredAt}>{fmt(entry.occurredAt)}</time>
+                    <span aria-hidden="true">{symbolFor(entry.state)}</span>
+                    <div><strong>{getForemanAgent(entry.actorId).name}</strong><p>{entry.summary}</p><small>Evidence · {entry.evidenceId}</small></div>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          </div>
+
+          <section id="fwb-projects" class="fwb__active-buildouts" aria-labelledby="fwb-active-buildouts-title">
+            <header><div><p>Active buildouts</p><h3 id="fwb-active-buildouts-title">One project, several attributable work orders.</h3></div><button type="button" data-view-target="board">Open buildout board</button></header>
+            <div class="fwb__work-order-head" aria-hidden="true">
+              <span>Buildout / goal</span><span>State</span><span>Sessions</span><span>Last evidence</span>
+            </div>
+            <div class="fwb__work-orders">
+              {selectedProjectBuildouts.map((buildout) => (
+                <article data-buildout-state={buildout.lifecycleState} data-searchable={`${buildout.title} ${buildout.goal} ${buildout.displayState} ${buildout.lastEvidence}`}>
+                  <div class="fwb__work-order-title" data-label="Buildout / goal"><span>{buildout.code}</span><strong>{buildout.title}</strong><p>{buildout.goal}</p></div>
+                  <div data-label="State"><span class="fwb__state" data-state={buildout.lifecycleState}><i aria-hidden="true">{symbolFor(buildout.lifecycleState)}</i>{buildout.displayState}</span>{buildout.attention && <small>{buildout.attention}</small>}</div>
+                  <div data-label="Sessions"><strong>{buildout.sessionIds.length}</strong><small>{actorNames(buildout.agentIds)}</small></div>
+                  <div data-label="Last evidence"><strong>{buildout.lastEvidence}</strong><small>{fmt(buildout.updatedAt, true)}</small></div>
+                </article>
+              ))}
+            </div>
+          </section>
+        </section>

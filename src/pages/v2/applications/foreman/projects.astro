@@ -1,0 +1,189 @@
+---
+import CatalogueShell from "../../../../v2/CatalogueShell.astro";
+import ProjectsOverview from "../../../../foreman/workbench.overview.astro";
+import ProjectsBoard from "../../../../foreman/workbench.board.astro";
+import ProjectsSelected from "../../../../foreman/workbench.selected.astro";
+import { FOREMAN_WORKBENCH_VERSION, foremanWorkbench as workbench, getForemanProject } from "../../../../foreman/workbench.js";
+import "../../../../v2/foreman-workbench.css";
+const currentPath = "/v2/applications/foreman/projects/";
+const selectedProject = getForemanProject(workbench.selected.projectId);
+const fmt = (value: string) => new Intl.DateTimeFormat("en-AU", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Australia/Melbourne" }).format(new Date(value));
+const navigationView: Record<string, "overview" | "board" | "workbench"> = { projects: "overview", buildouts: "board", work: "workbench", sessions: "workbench", approvals: "workbench", activity: "overview" };
+---
+
+<CatalogueShell
+  title={workbench.meta.title}
+  description={workbench.meta.description}
+  currentPath={currentPath}
+  bodyClass="fwb-catalogue"
+  mainClass="fwb-catalogue__main"
+  sectionNavigation={false}
+>
+  <header class="fwb-review" data-catalogue-section data-section-label="Contract">
+    <div>
+      <p>Issue #36 · product laboratory · static work-order desk</p>
+      <h1>Foreman Projects and Buildouts</h1>
+      <p>
+        One project family keeps work, provider sessions, execution evidence, approvals, and external delivery
+        attributable without collapsing them into one agent or one success state.
+      </p>
+    </div>
+    <dl aria-label="Specimen contract">
+      <div><dt>Dataset</dt><dd>{FOREMAN_WORKBENCH_VERSION}</dd></div>
+      <div><dt>Projects</dt><dd>{workbench.projects.length}</dd></div>
+      <div><dt>Buildouts</dt><dd>{workbench.buildouts.length}</dd></div>
+      <div><dt>State specimens</dt><dd>{workbench.stateMatrix.length}</dd></div>
+    </dl>
+  </header>
+
+  <section
+    class="fwb"
+    aria-label="Foreman projects and buildouts product specimen"
+    data-foreman-workbench={FOREMAN_WORKBENCH_VERSION}
+    data-selected-project={selectedProject.id}
+    data-selected-buildout={workbench.selected.buildoutId}
+  >
+    <aside class="fwb__truth" role="note" aria-label="Prototype limitation">
+      <strong>{workbench.meta.specimenLabel}</strong>
+      <span>{workbench.meta.truthfulnessNote}</span>
+    </aside>
+
+    <header class="fwb__topbar">
+      <a class="fwb__brand" href="#fwb-overview" data-view-link="overview" aria-label="Foreman project overview">
+        <span class="fwb__mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span><strong>FOREMAN</strong><small>Projects and buildouts</small></span>
+      </a>
+
+      <div class="fwb__project-context">
+        <span>Project</span>
+        <strong>{selectedProject.name}</strong>
+        <small>{selectedProject.code}</small>
+      </div>
+
+      <label class="fwb__search">
+        <span>Search work orders</span>
+        <input type="search" placeholder="Search buildout, work, owner…" data-workbench-search />
+      </label>
+
+      <button class="fwb__attention-command" type="button" data-view-target="overview" aria-pressed="false">
+        <span aria-hidden="true">!</span>
+        <strong>{workbench.attentionItems.length} need attention</strong>
+      </button>
+    </header>
+
+    <div class="fwb__frame">
+      <aside class="fwb__rail" aria-label="Foreman project rail">
+        <div class="fwb__rail-heading">
+          <span>Project rail</span>
+          <strong>{selectedProject.name}</strong>
+          <small>Last verified {fmt(selectedProject.lastVerifiedAt)}</small>
+        </div>
+
+        <nav aria-label="Foreman primary sections">
+          {workbench.navigation.map((item) => (
+            <a class:list={["fwb__rail-link", { "is-current": item.id === "projects" }]} href={`#fwb-${navigationView[item.id]}`} data-view-link={navigationView[item.id]}>
+              <span aria-hidden="true">{item.id === "projects" ? "▰" : "□"}</span>
+              <span><strong>{item.label}</strong><small>{item.purpose}</small></span>
+              <b>{item.count}</b>
+            </a>
+          ))}
+        </nav>
+
+        <div class="fwb__project-list" aria-label="Projects in specimen">
+          <p>Projects</p>
+          {workbench.projects.map((project) => (
+            <article class:list={{ "is-selected": project.id === selectedProject.id }} data-project-state={project.state}>
+              <header><span>{project.code}</span><strong>{project.name}</strong></header>
+              <p>{project.outcome}</p>
+              <footer><span>{project.buildoutIds.length} buildouts</span><span>{project.attentionCount} attention</span></footer>
+            </article>
+          ))}
+        </div>
+
+        <details class="fwb__technical-disclosure">
+          <summary>Foreman technical evidence</summary>
+          <dl>
+            <div><dt>Application</dt><dd>Foreman</dd></div>
+            <div><dt>Dataset</dt><dd>{workbench.meta.version}</dd></div>
+            <div><dt>Tool surface</dt><dd>{workbench.meta.toolSurfaceVersion}</dd></div>
+            <div><dt>Repository</dt><dd>{selectedProject.repository}</dd></div>
+          </dl>
+        </details>
+      </aside>
+
+      <div class="fwb__content">
+        <nav class="fwb__view-switcher" aria-label="Connected Foreman views">
+          {workbench.viewDefinitions.map((view, index) => (
+            <button
+              type="button"
+              data-view-target={view.id}
+              aria-controls={`fwb-${view.id}`}
+              aria-pressed={index === 0 ? "true" : "false"}
+            >
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <span><strong>{view.label}</strong><small>{view.description}</small></span>
+            </button>
+          ))}
+        </nav>
+
+        <ProjectsOverview />
+        <ProjectsBoard />
+        <ProjectsSelected />
+
+        <p class="fwb__search-empty" data-search-empty hidden>No buildout, work item, owner, or evidence matches this search. Clear the search to restore all rows.</p>
+        <p class="fwb__live" aria-live="polite" data-workbench-live></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="fwb-adoption" data-catalogue-section data-section-label="Adoption">
+    <div><p>Production handoff</p><h2>Adopt the relationships, not the specimen data.</h2></div>
+    <p>The route is a static visual contract. Live Foreman, Fabric, provider, host, approval, handoff, GitHub, and persistence behaviour remains outside this laboratory.</p>
+  </section>
+
+  <script is:inline>
+    (() => {
+      const root = document.querySelector("[data-foreman-workbench]");
+      if (!root) return;
+      const viewButtons = [...root.querySelectorAll("[data-view-target]")];
+      const viewLinks = [...root.querySelectorAll("[data-view-link]")];
+      const views = [...root.querySelectorAll("[data-workbench-view]")];
+      const live = root.querySelector("[data-workbench-live]");
+      const search = root.querySelector("[data-workbench-search]");
+      const searchable = [...root.querySelectorAll("[data-searchable]")];
+      const empty = root.querySelector("[data-search-empty]");
+
+      const showView = (id, focus = false) => {
+        for (const view of views) view.hidden = view.dataset.workbenchView !== id;
+        for (const button of viewButtons) button.setAttribute("aria-pressed", String(button.dataset.viewTarget === id));
+        const active = views.find((view) => view.dataset.workbenchView === id);
+        if (focus) active?.querySelector("h2")?.focus?.();
+        history.replaceState(null, "", `#fwb-${id}`);
+      };
+
+      for (const button of viewButtons) button.addEventListener("click", () => showView(button.dataset.viewTarget, false));
+      for (const link of viewLinks) link.addEventListener("click", (event) => { event.preventDefault(); showView(link.dataset.viewLink, false); });
+
+      for (const button of root.querySelectorAll("[data-specimen-action]")) {
+        button.addEventListener("click", () => {
+          if (live) live.textContent = `${button.dataset.specimenAction}: specimen only. No work, approval, handoff, host, or external-effect request was sent.`;
+        });
+      }
+
+      search?.addEventListener("input", () => {
+        const query = search.value.trim().toLocaleLowerCase();
+        let shown = 0;
+        for (const item of searchable) {
+          const match = !query || item.dataset.searchable.toLocaleLowerCase().includes(query);
+          item.hidden = !match;
+          if (match) shown += 1;
+        }
+        if (empty) empty.hidden = shown !== 0;
+        if (live) live.textContent = query ? `${shown} specimen records match “${search.value}”.` : "Search cleared; all specimen records are visible.";
+      });
+
+      const requested = location.hash.match(/^#fwb-(overview|board|workbench)$/)?.[1];
+      showView(requested || "overview", false);
+    })();
+  </script>
+</CatalogueShell>
