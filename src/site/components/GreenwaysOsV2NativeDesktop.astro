@@ -1,0 +1,166 @@
+---
+import { greenwaysOsV2Applications } from "../../greenways-os-v2-surfaces";
+
+interface Props {
+  rootHref: string;
+}
+
+const { rootHref } = Astro.props;
+---
+
+    <section class="gw2-device gw2-device--native" data-gw2-native-desktop aria-label="Greenways native desktop interface">
+      <header class="gw2-native-titlebar">
+        <div class="gw2-window-controls" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="gw2-native-titlebar__title">
+          <span class="gw2-mark gw2-mark--small" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+          <strong>Greenways OS</strong>
+          <span>Workspace / Release 24</span>
+        </div>
+        <div class="gw2-native-titlebar__status">
+          <span><i class="gw2-live-dot"></i> greenwaysd</span>
+          <span>Local custody</span>
+          <time>10:42</time>
+        </div>
+      </header>
+
+      <div class="gw2-frame" data-gw2-frame data-inspector-open="true">
+        <aside class="gw2-activity-rail" aria-label="Greenways applications">
+          <a class="gw2-activity-brand" href={rootHref} aria-label="Greenways OS V2 overview">
+            <span class="gw2-mark gw2-mark--small" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+          </a>
+          <nav>
+            {greenwaysOsV2Applications.map((application, index) => (
+              <button
+                class:list={["gw2-activity-button", `gw2-signal--${application.signal}`, { "is-active": index === 0 }]}
+                type="button"
+                aria-label={`Open ${application.label}`}
+                aria-pressed={index === 0 ? "true" : "false"}
+                data-gw2-toast={`Opened ${application.label} buffer`}
+              >
+                <span>{application.code}</span>
+                {application.id === "today" && <b>3</b>}
+              </button>
+            ))}
+          </nav>
+          <div class="gw2-activity-rail__bottom">
+            <button type="button" aria-label="Search workspace" data-gw2-command-open>
+              <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8" cy="8" r="4.5"/><path d="m11.5 11.5 4 4"/></svg>
+            </button>
+            <button type="button" aria-label="Open profile" data-gw2-toast="Profile buffer opened"><span>CZ</span></button>
+          </div>
+        </aside>
+
+        <section class="gw2-workbench">
+          <header class="gw2-workbench-command">
+            <button class="gw2-workbench-command__workspace" type="button" data-gw2-toast="Workspace switcher opened">
+              <span>Workspace 01</span><strong>Publishing room</strong><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg>
+            </button>
+            <button class="gw2-workbench-command__input" type="button" data-gw2-command-open>
+              <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8" cy="8" r="4.5"/><path d="m11.5 11.5 4 4"/></svg>
+              <span>Search buffers, commands, rooms and sources</span><kbd>⌘K</kbd>
+            </button>
+            <button class="gw2-workbench-icon" type="button" data-gw2-inspector-toggle aria-label="Toggle inspector" aria-pressed="true">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3" width="15" height="14" rx="1.5"/><path d="M12 3v14"/></svg>
+            </button>
+          </header>
+
+          <nav class="gw2-buffer-bar" aria-label="Open buffers" role="tablist">
+            <button class="gw2-buffer is-active" type="button" role="tab" aria-selected="true" data-gw2-buffer data-buffer-label="Today / Decisions">
+              <span class="gw2-buffer__code gw2-signal--sage">TD</span><span>Today</span><small>3</small><i>×</i>
+            </button>
+            <button class="gw2-buffer" type="button" role="tab" aria-selected="false" data-gw2-buffer data-buffer-label="Studio / Release 24">
+              <span class="gw2-buffer__code gw2-signal--sky">ST</span><span>Release 24</span><b></b><i>×</i>
+            </button>
+            <button class="gw2-buffer" type="button" role="tab" aria-selected="false" data-gw2-buffer data-buffer-label="Workroom / Distribution">
+              <span class="gw2-buffer__code gw2-signal--clay">WR</span><span>Distribution</span><i>×</i>
+            </button>
+            <button class="gw2-buffer-add" type="button" aria-label="Open another buffer" data-gw2-command-open>+</button>
+            <span class="gw2-buffer-bar__spacer"></span>
+            <button class="gw2-buffer-layout" type="button" data-gw2-toast="Pane layout changed" aria-label="Change pane layout">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3" width="15" height="14" rx="1.5"/><path d="M10 3v14M10 10h7.5"/></svg>
+            </button>
+          </nav>
+
+          <div class="gw2-workbench-body">
+            <aside class="gw2-buffer-list" aria-label="Workspace buffers">
+              <header><span>Buffers</span><button type="button" data-gw2-command-open aria-label="Add buffer">+</button></header>
+              <nav>
+                <button class="is-active" type="button"><span>TD</span><strong>Today</strong><small>3 decisions</small></button>
+                <button type="button"><span>ST</span><strong>Release 24</strong><small>Draft · changed</small></button>
+                <button type="button"><span>WR</span><strong>Distribution</strong><small>6 collaborators</small></button>
+                <button type="button"><span>RC</span><strong>Receipt 8F2A</strong><small>Verified</small></button>
+              </nav>
+              <section class="gw2-provider-stack">
+                <p>Providers</p>
+                <div><i class="is-ready"></i><span><strong>greenwaysd</strong><small>Native · ready</small></span></div>
+                <div><i class="is-ready"></i><span><strong>Hestia</strong><small>Documents · synced</small></span></div>
+                <div><i></i><span><strong>Browser</strong><small>Extension · idle</small></span></div>
+              </section>
+            </aside>
+
+            <div class="gw2-pane-grid">
+              <section class="gw2-pane gw2-pane--primary" aria-labelledby="gw2-native-buffer-title">
+                <header class="gw2-pane-heading">
+                  <div><p>Thursday · 20 August</p><h2 id="gw2-native-buffer-title" data-gw2-active-buffer>Today / Decisions</h2></div>
+                  <div><button type="button" data-gw2-toast="Focus block started">Start focus</button><button type="button" data-gw2-command-open>•••</button></div>
+                </header>
+                <div class="gw2-briefing-banner">
+                  <span>Daily briefing</span>
+                  <h3>Three decisions unlock the release.</h3>
+                  <p>Everything else can continue without you.</p>
+                  <div><span>6 agents active</span><span>14 receipts verified</span><span>2 local jobs</span></div>
+                </div>
+                <div class="gw2-decision-stack">
+                  <article>
+                    <span class="gw2-decision-code gw2-signal--sky">ST</span>
+                    <div><p>Release 24</p><h3>Approve the public package manifest</h3><small>Mira prepared the exact source and derivation view.</small></div>
+                    <div class="gw2-decision-meta"><span>9 min</span><button type="button" data-gw2-toast="Studio review opened">Review</button></div>
+                  </article>
+                  <article>
+                    <span class="gw2-decision-code gw2-signal--coral">KY</span>
+                    <div><p>Authority</p><h3>Scope Atlas to campaign reporting</h3><small>Proposed grant expires in 30 days and excludes publishing.</small></div>
+                    <div class="gw2-decision-meta"><span>Grant</span><button type="button" data-gw2-toast="Grant review opened">Decide</button></div>
+                  </article>
+                  <article>
+                    <span class="gw2-decision-code gw2-signal--gold">CP</span>
+                    <div><p>Campaign</p><h3>Select the short-form excerpt</h3><small>Three variants retain the same publication identity.</small></div>
+                    <div class="gw2-decision-meta"><span>3 options</span><button type="button" data-gw2-toast="Campaign comparison opened">Choose</button></div>
+                  </article>
+                </div>
+              </section>
+
+              <aside class="gw2-pane gw2-pane--inspector" aria-label="Active buffer inspector">
+                <header><span>Inspector</span><button type="button" data-gw2-inspector-toggle aria-label="Close inspector">×</button></header>
+                <section class="gw2-inspector-section">
+                  <p>Active object</p>
+                  <div class="gw2-object-identity"><span class="gw2-signal--sky">ST</span><div><strong>Release 24</strong><small>greenways.release/24</small></div></div>
+                  <dl><div><dt>Owner</dt><dd>Chris Zheng</dd></div><div><dt>State</dt><dd><i class="gw2-state-dot"></i> Draft</dd></div><div><dt>Sources</dt><dd>12 original · 4 derived</dd></div></dl>
+                </section>
+                <section class="gw2-inspector-section">
+                  <p>Authority chain</p>
+                  <ol class="gw2-authority-chain"><li><i></i><span><strong>Human approval</strong><small>Required to publish</small></span></li><li><i></i><span><strong>Publisher identity</strong><small>Native key custody</small></span></li><li><i></i><span><strong>Publication receipt</strong><small>Written after effect</small></span></li></ol>
+                </section>
+                <section class="gw2-inspector-section">
+                  <p>Native capabilities</p>
+                  <div class="gw2-capability-chips"><span>files/read</span><span>repo/status</span><span>keyring/sign</span><span>job/run</span></div>
+                </section>
+              </aside>
+
+              <section class="gw2-pane gw2-pane--console" aria-label="Work and receipt stream">
+                <header><span>Work / Receipts</span><button type="button" data-gw2-toast="Receipt stream cleared">Clear</button></header>
+                <div class="gw2-console-lines">
+                  <p><time>10:41:52</time><span class="is-ok">verified</span><strong>receipt/8f2a</strong><small>source bundle synchronised</small></p>
+                  <p><time>10:42:03</time><span class="is-run">running</span><strong>work/render-preview</strong><small>local provider · 62%</small></p>
+                  <p><time>10:42:08</time><span class="is-wait">waiting</span><strong>grant/publish-release</strong><small>human decision required</small></p>
+                </div>
+              </section>
+            </div>
+          </div>
+
+          <footer class="gw2-mode-line">
+            <div><span class="gw2-mode-line__branch">release/24</span><span>4 changed</span><span>UTF-8</span><span>Hara</span></div>
+            <div><span><i class="gw2-live-dot"></i> local</span><span>greenwaysd 0.8</span><span>workspace saved</span></div>
+          </footer>
+        </section>
+      </div>
+    </section>

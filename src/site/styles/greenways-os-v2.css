@@ -1,0 +1,21 @@
+/*
+ * Greenways OS V2
+ * One portable workspace expressed through native desktop, browser extension,
+ * contextual panel, compact launcher and public web surfaces.
+ */
+
+@import "@fontsource/manrope/400.css";
+@import "@fontsource/manrope/500.css";
+@import "@fontsource/manrope/600.css";
+@import "@fontsource/marcellus/400.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+
+@import "./greenways-os-v2-foundation.css";
+@import "./greenways-os-v2-workbench-native.css";
+@import "./greenways-os-v2-workbench-browser.css";
+@import "./greenways-os-v2-side-panel.css";
+@import "./greenways-os-v2-popup.css";
+@import "./greenways-os-v2-web.css";
+@import "./greenways-os-v2-overview.css";
+@import "./greenways-os-v2-responsive.css";
