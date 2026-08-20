@@ -9,6 +9,8 @@
     "assets",
     "bin",
     "BRAND-ASSETS.md",
+    "V2-PACKAGE.md",
+    "V2-MIGRATION.md",
     "NOTICE"
   ],
   "exports": {
@@ -31,7 +33,11 @@
     "./statstrade.css": "./src/statstrade.css",
     "./statstrade-world.js": "./src/statstrade-world.js",
     "./StatstradeS.astro": "./src/StatstradeS.astro",
-    "./StatstradeGateway.astro": "./src/StatstradeGateway.astro"
+    "./StatstradeGateway.astro": "./src/StatstradeGateway.astro",
+    "./v2/tokens.css": "./src/v2/tokens.css",
+    "./v2/document.css": "./src/v2/document.css",
+    "./v2/workbench.css": "./src/v2/workbench.css",
+    "./v2/contract.js": "./src/v2/contract.js"
   },
   "bin": {
     "gw-visual-audit": "./bin/gw-visual-audit.mjs",
