@@ -107,11 +107,12 @@ test("catalogue home and planned pages are generated from the same manifest", as
   assert.match(route, /getStaticPaths/);
   assert.match(route, /Declared now\. Detailed later\./);
   assert.match(shell, /CatalogueNavigation/);
+  assert.match(shell, /CataloguePageFooter/);
   assert.match(shell, /"gw-v2", "gw-v2-document", "gw-v2-catalogue"/);
   assert.match(navigation, /CatalogueHeader/);
   assert.match(navigation, /CatalogueRouteBar/);
   assert.match(navigation, /CatalogueSectionNav/);
-  assert.match(navigation, /CataloguePageFooter/);
+  assert.doesNotMatch(navigation, /CataloguePageFooter/);
 });
 
 test("navigation remains compact and prevents document overflow at 320px", async () => {
