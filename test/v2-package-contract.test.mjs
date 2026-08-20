@@ -56,7 +56,9 @@ test("v2 package entry points are additive and resolvable", async () => {
     "@greenways-ai/visual-language/v2/tokens.css",
     "@greenways-ai/visual-language/v2/document.css",
     "@greenways-ai/visual-language/v2/workbench.css",
+    "@greenways-ai/visual-language/v2/components.css",
     "@greenways-ai/visual-language/v2/contract.js",
+    "@greenways-ai/visual-language/v2/component-contract.js",
   ]);
 
   for (const target of Object.values(packageJson.exports)) {
@@ -73,6 +75,7 @@ test("laboratory and product-specific sources are not accidentally exported", ()
     assert.doesNotMatch(target, /src\/(?:site|pages)\//);
     assert.doesNotMatch(target, /Foreman/i);
     assert.doesNotMatch(target, /greenways-(?:os-v2-surfaces|product-screens)/);
+    assert.doesNotMatch(target, /library\/components\/index\.astro/);
   }
 });
 
@@ -145,28 +148,33 @@ test("peacock identity, interaction signal and semantic state remain separate", 
   }
 });
 
-test("document and workbench layers share one colour-free semantic foundation", async () => {
-  const [documentCss, workbenchCss] = await Promise.all([
+test("document, workbench and component layers share one colour-free semantic foundation", async () => {
+  const [documentCss, workbenchCss, componentsCss] = await Promise.all([
     read("src/v2/document.css"),
     read("src/v2/workbench.css"),
+    read("src/v2/components.css"),
   ]);
   assert.match(documentCss, /@import "\.\.\/theme\.css";/);
   assert.match(documentCss, /@import "\.\/tokens\.css";/);
   assert.match(workbenchCss, /^@import "\.\/document\.css";/);
+  assert.match(componentsCss, /^@import "\.\/document\.css";/);
   assert.doesNotMatch(documentCss, /#[0-9a-f]{3,8}\b/i);
   assert.doesNotMatch(workbenchCss, /#[0-9a-f]{3,8}\b/i);
+  assert.doesNotMatch(componentsCss, /#[0-9a-f]{3,8}\b/i);
   assert.match(documentCss, /prefers-reduced-motion/);
+  assert.match(componentsCss, /prefers-reduced-motion/);
   assert.match(workbenchCss, /minmax\(0, 1fr\)/);
 });
 
 test("the protected Greenways identity remains mosaic, peacock, material and typographic", async () => {
-  const [logo, sigil, typography, tokens, documentCss, workbenchCss] = await Promise.all([
+  const [logo, sigil, typography, tokens, documentCss, workbenchCss, componentsCss] = await Promise.all([
     read("src/MosaicLogo.astro"),
     read("src/Sigil.astro"),
     read("src/typography.css"),
     read("src/v2/tokens.css"),
     read("src/v2/document.css"),
     read("src/v2/workbench.css"),
+    read("src/v2/components.css"),
   ]);
 
   assert.equal(greenwaysV2Identity.mark, "mosaic");
@@ -178,5 +186,5 @@ test("the protected Greenways identity remains mosaic, peacock, material and typ
   assert.match(sigil, /-dark\.svg/);
   for (const token of ["--gw-font-display", "--gw-font-sans", "--gw-font-mono"]) assert.match(typography, new RegExp(token));
   for (const token of greenwaysV2TokenFamilies.brand.tokens) assert.match(tokens, new RegExp(token));
-  assert.doesNotMatch(`${tokens}\n${documentCss}\n${workbenchCss}`, /hara/i);
+  assert.doesNotMatch(`${tokens}\n${documentCss}\n${workbenchCss}\n${componentsCss}`, /hara/i);
 });
