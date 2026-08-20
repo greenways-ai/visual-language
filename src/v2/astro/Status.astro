@@ -1,0 +1,42 @@
+---
+import "../components.css";
+
+type Tone = "neutral" | "info" | "success" | "warning" | "danger";
+type Live = "off" | "polite" | "assertive";
+
+interface Props {
+  label: string;
+  tone?: Tone;
+  detail?: string;
+  live?: Live;
+  class?: string;
+}
+
+const {
+  label,
+  tone = "neutral",
+  detail,
+  live = "off",
+  class: className = "",
+} = Astro.props;
+
+const marks: Record<Tone, string> = {
+  neutral: "•",
+  info: "i",
+  success: "✓",
+  warning: "!",
+  danger: "×",
+};
+---
+
+<span
+  class:list={["gw-v2-component", "gw-v2-status", className]}
+  data-gw-v2-component="Status"
+  data-gw-v2-state={tone}
+  role={live === "off" ? undefined : "status"}
+  aria-live={live === "off" ? undefined : live}
+>
+  <span class="gw-v2-status__mark" aria-hidden="true">{marks[tone]}</span>
+  <span>{label}</span>
+  {detail && <span class="gw-v2-status__detail">· {detail}</span>}
+</span>
