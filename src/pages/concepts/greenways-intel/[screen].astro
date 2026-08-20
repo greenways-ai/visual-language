@@ -1,0 +1,43 @@
+---
+import {
+  greenwaysIntelScreens,
+  type GreenwaysIntelScreen,
+} from "../../../greenways-intel-screens";
+import GreenwaysIntelWorkbench from "../../../site/components/GreenwaysIntelWorkbench.astro";
+import GreenwaysOsV2Shell from "../../../site/layouts/GreenwaysOsV2Shell.astro";
+
+export function getStaticPaths() {
+  return greenwaysIntelScreens.map((screen) => ({
+    params: { screen: screen.id },
+    props: { screen },
+  }));
+}
+
+interface Props {
+  screen: GreenwaysIntelScreen;
+}
+
+const { screen } = Astro.props;
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+const rootHref = `${base}concepts/greenways-intel/`;
+const osRootHref = `${base}concepts/greenways-v2/`;
+---
+
+<GreenwaysOsV2Shell
+  title={`Greenways Intel · ${screen.label}`}
+  description={screen.summary}
+  surfaceId="desktop"
+>
+  <section class="gwi-screen-page" data-gwi-route={screen.id}>
+    <header class="gwi-screen-intro">
+      <a href={rootHref}><span>IN</span><small>Screen atlas</small></a>
+      <div><p>{screen.eyebrow}</p><h1>{screen.title}</h1><span>{screen.summary}</span></div>
+      <dl><div><dt>Authority</dt><dd>Originals retained</dd></div><div><dt>Runtime</dt><dd>Historia + hara-lite</dd></div><div><dt>Host</dt><dd>Greenways desktop</dd></div></dl>
+    </header>
+    <GreenwaysIntelWorkbench screen={screen} rootHref={rootHref} osRootHref={osRootHref} />
+    <footer class="gwi-screen-footer">
+      <div><strong>{screen.code} · {screen.label}</strong><span>{screen.focus}</span></div>
+      <a href={rootHref}>All Intel screens</a>
+    </footer>
+  </section>
+</GreenwaysOsV2Shell>
