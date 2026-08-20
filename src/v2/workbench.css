@@ -1,0 +1,108 @@
+@import "./document.css";
+
+/* Dense composition layer. It inherits every document/product contract. */
+.gw-v2-workbench {
+  --gw-v2-workbench-row: 2.25rem;
+  --gw-v2-workbench-control: 2rem;
+  --gw-v2-workbench-rail: 15rem;
+  --gw-v2-workbench-inspector: 18rem;
+  --gw-v2-stack-gap: var(--gw-v2-space-sm);
+  --gw-v2-surface-padding: var(--gw-v2-space-sm);
+  min-block-size: 100%;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  color: var(--gw-v2-text);
+  background: var(--gw-v2-canvas);
+  font-size: var(--gw-v2-type-sm);
+}
+
+.gw-v2-workbench__bar {
+  min-inline-size: 0;
+  min-block-size: var(--gw-v2-workbench-row);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gw-v2-space-2xs);
+  padding: var(--gw-v2-space-2xs) var(--gw-v2-space-sm);
+  background: var(--gw-v2-surface-raised);
+  border-block-end: 1px solid var(--gw-v2-seam);
+}
+
+.gw-v2-workbench__frame {
+  min-inline-size: 0;
+  min-block-size: 0;
+  display: grid;
+  grid-template-columns:
+    minmax(0, var(--gw-v2-workbench-rail))
+    minmax(0, 1fr)
+    minmax(0, var(--gw-v2-workbench-inspector));
+}
+
+.gw-v2-workbench__rail,
+.gw-v2-workbench__main,
+.gw-v2-workbench__inspector {
+  min-inline-size: 0;
+  min-block-size: 0;
+  overflow: auto;
+}
+
+.gw-v2-workbench__rail {
+  background: var(--gw-v2-surface-muted);
+  border-inline-end: 1px solid var(--gw-v2-seam);
+}
+
+.gw-v2-workbench__main {
+  background: var(--gw-v2-canvas-subtle);
+}
+
+.gw-v2-workbench__inspector {
+  background: var(--gw-v2-surface);
+  border-inline-start: 1px solid var(--gw-v2-seam);
+}
+
+.gw-v2-workbench__status {
+  min-inline-size: 0;
+  min-block-size: var(--gw-v2-workbench-control);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gw-v2-space-xs);
+  padding-inline: var(--gw-v2-space-sm);
+  color: var(--gw-v2-text-muted);
+  background: var(--gw-v2-surface-recessed);
+  border-block-start: 1px solid var(--gw-v2-seam);
+  font-family: var(--gw-v2-font-code);
+  font-size: var(--gw-v2-type-xs);
+}
+
+@media (max-width: 64rem) {
+  .gw-v2-workbench__frame {
+    grid-template-columns: minmax(12rem, 15rem) minmax(0, 1fr);
+  }
+
+  .gw-v2-workbench__inspector {
+    grid-column: 1 / -1;
+    max-block-size: 18rem;
+    border-block-start: 1px solid var(--gw-v2-seam);
+    border-inline-start: 0;
+  }
+}
+
+@media (max-width: 44rem) {
+  .gw-v2-workbench__frame {
+    display: block;
+  }
+
+  .gw-v2-workbench__rail,
+  .gw-v2-workbench__inspector {
+    max-block-size: none;
+    overflow: visible;
+    border-inline: 0;
+    border-block: 1px solid var(--gw-v2-seam);
+  }
+
+  .gw-v2-workbench__bar,
+  .gw-v2-workbench__status {
+    align-items: flex-start;
+  }
+}
