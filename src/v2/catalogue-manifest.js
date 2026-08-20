@@ -187,6 +187,28 @@ export const greenwaysV2Catalogue = deepFreeze([
         ],
       },
       {
+        id: "greenways-platform",
+        label: "Greenways platform",
+        path: "/v2/applications/greenways-platform/",
+        summary: "The public publishing environment for worlds, books, documents, sites, and the workspace that shapes them.",
+        status: "in-progress",
+        ownership: "product-laboratory",
+        issue: 54,
+        primary: true,
+        children: [
+          {
+            id: "greenways-platform-homepage",
+            label: "www.greenways.ai homepage",
+            path: "/v2/applications/greenways-platform/homepage/",
+            summary: "A publication-led public doorway that places one work, its forms, and its release journey before OS and infrastructure detail.",
+            status: "ready",
+            ownership: "product-laboratory",
+            issue: 54,
+            primary: true,
+          },
+        ],
+      },
+      {
         id: "greenways-os-exploration",
         label: "Greenways OS interface atlas",
         path: "/concepts/greenways-v2/",

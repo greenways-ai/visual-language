@@ -1,0 +1,230 @@
+---
+import MosaicLogo from "../../../../MosaicLogo.astro";
+import CatalogueShell from "../../../../v2/CatalogueShell.astro";
+import {
+  GREENWAYS_PLATFORM_HOMEPAGE_VERSION,
+  greenwaysPlatformHomepage as homepage,
+} from "../../../../v2/greenways-platform-homepage.js";
+import "../../../../v2/greenways-platform-homepage.css";
+
+const currentPath = "/v2/applications/greenways-platform/homepage/";
+---
+
+<CatalogueShell title={homepage.meta.title} description={homepage.meta.description} currentPath={currentPath}>
+  <header class="gwp-review" data-greenways-platform-homepage={GREENWAYS_PLATFORM_HOMEPAGE_VERSION}>
+    <div class="gwp-review__copy">
+      <p>Issue #54 · product laboratory · public website</p>
+      <h1>{homepage.meta.title}</h1>
+      <p>
+        Greenways is presented as a publishing environment first. Greenways OS and Foreman appear only where they
+        explain how a work is made, coordinated, and released.
+      </p>
+    </div>
+    <div class="gwp-review__badges" aria-label="Specimen contract">
+      <span>High-fidelity static specimen</span>
+      <span>Neutral structure</span>
+      <span>Peacock identity</span>
+    </div>
+  </header>
+
+  <article id="top" class="gwp-home" aria-label="Proposed www.greenways.ai homepage">
+    <aside class="gwp-home__truth" role="note" aria-label="Prototype limitation">
+      <strong>{homepage.meta.specimenLabel}</strong>
+      <span>{homepage.meta.truthfulnessNote}</span>
+    </aside>
+
+    <header class="gwp-home__header">
+      <a class="gwp-home__brand" href="#top" aria-label="Greenways homepage specimen">
+        <MosaicLogo project="greenways" label="Greenways mosaic mark" class="gwp-home__mark" />
+        <span><strong>Greenways</strong><small>Publishing system</small></span>
+      </a>
+      <nav class="gwp-home__nav" aria-label="Homepage specimen navigation">
+        {homepage.navigation.items.map((item) => <a href={item.href}>{item.label}</a>)}
+      </nav>
+      <a class="gwp-home__enter" href={homepage.navigation.command.href}>
+        {homepage.navigation.command.label}<span aria-hidden="true">↓</span>
+      </a>
+    </header>
+
+    <section class="gwp-home__hero" aria-labelledby="gwp-home-hero-title">
+      <div class="gwp-home__hero-copy">
+        <p class="gwp-home__kicker"><span aria-hidden="true">01</span>{homepage.hero.kicker}</p>
+        <h2 id="gwp-home-hero-title">{homepage.hero.headline}</h2>
+        <p class="gwp-home__lede">{homepage.hero.introduction}</p>
+        <div class="gwp-home__actions" aria-label="Homepage specimen actions">
+          <a class="gwp-home__action gwp-home__action--primary" href={homepage.hero.primaryAction.href}>
+            {homepage.hero.primaryAction.label}<span aria-hidden="true">↓</span>
+          </a>
+          <a class="gwp-home__action" href={homepage.hero.secondaryAction.href}>
+            {homepage.hero.secondaryAction.label}<span aria-hidden="true">↘</span>
+          </a>
+        </div>
+      </div>
+
+      <figure class="gwp-work" aria-labelledby="gwp-work-title">
+        <figcaption class="gwp-work__caption">
+          <span>{homepage.featuredWork.index}</span>
+          <strong id="gwp-work-title">{homepage.featuredWork.title}</strong>
+          <small>{homepage.featuredWork.edition}</small>
+        </figcaption>
+        <div class="gwp-work__plate">
+          <div class="gwp-work__world" aria-label="World publication plate">
+            <span class="gwp-work__coordinate gwp-work__coordinate--north">N · 01</span>
+            <span class="gwp-work__coordinate gwp-work__coordinate--east">E · 04</span>
+            <div class="gwp-work__aperture">
+              <span class="gwp-work__orbit" aria-hidden="true"></span>
+              <MosaicLogo project="greenways" label="Greenways mosaic publication mark" class="gwp-work__mark" />
+            </div>
+            <div class="gwp-work__world-label">
+              <span>World plate</span>
+              <strong>{homepage.featuredWork.descriptor}</strong>
+            </div>
+          </div>
+          <ol class="gwp-work__forms" aria-label="Public forms of the featured work">
+            {homepage.featuredWork.forms.map((form) => (
+              <li data-form={form.id}>
+                <span>{form.index}</span>
+                <div><strong>{form.label}</strong><small>{form.detail}</small></div>
+                <i aria-hidden="true"></i>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <p class="gwp-work__source"><span aria-hidden="true">↳</span>{homepage.featuredWork.sourceNote}</p>
+      </figure>
+    </section>
+
+    <section id="publishing-sequence" class="gwp-home__section gwp-home__sequence" aria-labelledby="gwp-sequence-title">
+      <header class="gwp-home__section-heading">
+        <p>02 · Publishing sequence</p>
+        <h2 id="gwp-sequence-title">One motion from material to public work.</h2>
+      </header>
+      <ol class="gwp-sequence">
+        {homepage.sequence.map((step) => (
+          <li data-step={step.id}>
+            <header><span>{step.index}</span><strong>{step.label}</strong></header>
+            <p>{step.statement}</p>
+            <small>{step.detail}</small>
+            <i aria-hidden="true"></i>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section id="publication-forms" class="gwp-home__section gwp-home__forms" aria-labelledby="gwp-forms-title">
+      <header class="gwp-home__section-heading gwp-home__section-heading--wide">
+        <div><p>03 · Publication forms</p><h2 id="gwp-forms-title">The work chooses its shape.</h2></div>
+        <p>Do not rebuild the same idea four times. Let one work become the form its audience needs.</p>
+      </header>
+      <div class="gwp-form-grid">
+        {homepage.publicationForms.map((form) => (
+          <article data-publication-form={form.id}>
+            <div class="gwp-form-grid__diagram" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+            <header><span>{form.index}</span><h3>{form.label}</h3></header>
+            <p>{form.statement}</p>
+            <small>{form.detail}</small>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section id="publishing-desk" class="gwp-home__section gwp-home__desk" aria-labelledby="gwp-desk-title">
+      <div class="gwp-home__desk-copy">
+        <p class="gwp-home__kicker"><span aria-hidden="true">04</span>{homepage.desk.kicker}</p>
+        <h2 id="gwp-desk-title">{homepage.desk.headline}</h2>
+        <p>{homepage.desk.introduction}</p>
+        <dl class="gwp-home__desk-index">
+          <div><dt>Work</dt><dd>The Peacock Ballroom</dd></div>
+          <div><dt>Forms</dt><dd>World · Book · Document · Site</dd></div>
+          <div><dt>Release</dt><dd>Human decision required</dd></div>
+        </dl>
+      </div>
+
+      <div class="gwp-desk" aria-label="Greenways OS publishing desk specimen">
+        <header class="gwp-desk__bar">
+          <span class="gwp-desk__mosaic" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <strong>Greenways OS</strong>
+          <small>Peacock Ballroom · publication desk</small>
+          <span class="gwp-desk__status">Specimen</span>
+        </header>
+        <div class="gwp-desk__body">
+          <nav aria-label="Publishing desk sections">
+            <span>Work</span>
+            <a href="#publishing-desk" aria-current="page">Overview</a>
+            <a href="#publishing-desk">Sources</a>
+            <a href="#publishing-desk">World</a>
+            <a href="#publishing-desk">Book</a>
+            <a href="#publishing-desk">Site</a>
+          </nav>
+          <div class="gwp-desk__workspace">
+            <header><p>Release assembly</p><strong>One work · four public forms</strong></header>
+            <div class="gwp-desk__panels">
+              {homepage.desk.panels.map((panel) => (
+                <article data-desk-panel={panel.id}>
+                  <header><span>{panel.index}</span><small>{panel.label}</small></header>
+                  <strong>{panel.headline}</strong>
+                  <p>{panel.detail}</p>
+                  <div class="gwp-desk__meter" aria-hidden="true"><i></i><i></i><i></i></div>
+                </article>
+              ))}
+            </div>
+            <footer><span>Prepared for review</span><strong>No publication action is connected</strong></footer>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="gwp-home__section gwp-home__coordination" aria-labelledby="gwp-coordination-title">
+      <header>
+        <p>{homepage.coordination.kicker}</p>
+        <h2 id="gwp-coordination-title">{homepage.coordination.headline}</h2>
+        <span>{homepage.coordination.introduction}</span>
+      </header>
+      <ol>
+        {homepage.coordination.rules.map((rule, index) => (
+          <li><span>{String(index + 1).padStart(2, "0")}</span><div><strong>{rule.label}</strong><p>{rule.detail}</p></div></li>
+        ))}
+      </ol>
+    </section>
+
+    <section id="release-principles" class="gwp-home__section gwp-home__principles" aria-labelledby="gwp-principles-title">
+      <header class="gwp-home__section-heading">
+        <p>05 · Release principles</p>
+        <h2 id="gwp-principles-title">The publication remains understandable.</h2>
+      </header>
+      <ol>
+        {homepage.principles.map((principle) => (
+          <li data-principle={principle.id}><span>{principle.index}</span><h3>{principle.label}</h3><p>{principle.detail}</p></li>
+        ))}
+      </ol>
+    </section>
+
+    <section id="start" class="gwp-home__doorway" aria-labelledby="gwp-doorway-title">
+      <div class="gwp-home__doorway-mark" aria-hidden="true">
+        <MosaicLogo project="greenways" label="" class="gwp-home__doorway-logo" />
+      </div>
+      <div>
+        <p>{homepage.finalDoorway.kicker}</p>
+        <h2 id="gwp-doorway-title">{homepage.finalDoorway.headline}</h2>
+        <span>{homepage.finalDoorway.introduction}</span>
+      </div>
+      <a href={homepage.finalDoorway.action.href}>{homepage.finalDoorway.action.label}<span aria-hidden="true">↑</span></a>
+      <small>{homepage.finalDoorway.secondary}</small>
+    </section>
+
+    <footer class="gwp-home__footer">
+      <span>Greenways</span>
+      <nav aria-label="Homepage specimen footer"><a href="#top">About</a><a href="#top">Open foundations</a><a href="#top">Source note</a></nav>
+      <small>Public homepage study · not a live application</small>
+    </footer>
+  </article>
+
+  <section class="gwp-adoption" aria-labelledby="gwp-adoption-title">
+    <header><p>Production handoff</p><h2 id="gwp-adoption-title">What this route fixes before implementation.</h2></header>
+    <ol>{homepage.adoptionNotes.map((note, index) => <li><span>{String(index + 1).padStart(2, "0")}</span><p>{note}</p></li>)}</ol>
+    <p>
+      Production navigation, destinations, account state, publication state, and runtime behaviour remain owned by the
+      site that serves <code>www.greenways.ai</code>.
+    </p>
+  </section>
+</CatalogueShell>
