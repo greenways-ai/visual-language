@@ -1,0 +1,108 @@
+---
+import {
+  greenwaysV2ComponentGroups,
+  greenwaysV2Components,
+  greenwaysV2WorkbenchRegions,
+} from "../../../../v2/component-catalogue.js";
+import "../../../../v2/library.css";
+
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+type ComponentDefinition = (typeof greenwaysV2Components)[number];
+type ComponentGroup = (typeof greenwaysV2ComponentGroups)[number];
+const components = greenwaysV2Components as readonly ComponentDefinition[];
+const groups = (greenwaysV2ComponentGroups as readonly ComponentGroup[]).map((group) => ({
+  group,
+  items: components.filter((component) => component.group === group),
+}));
+const selected = components.find((component) => component.id === "approval-card");
+---
+
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="Executable Greenways v2 component catalogue and workbench structure laboratory." />
+    <title>Greenways v2 component catalogue</title>
+  </head>
+  <body class="gw-v2 gw-v2-library">
+    <header class="gw-v2-library__bar">
+      <a class="gw-v2-library__identity" href={`${base}v2/`}><strong>Greenways v2</strong><small>Component catalogue</small></a>
+      <nav class="gw-v2-library__nav" aria-label="Interface library">
+        <a href={`${base}v2/library/`}>Overview</a>
+        <a aria-current="page" href={`${base}v2/library/components/`}>Components</a>
+        <a href={`${base}v2/library/workflows/`}>Workflow states</a>
+      </nav>
+    </header>
+
+    <main class="gw-v2-library__main">
+      <section class="gw-v2-library__hero">
+        <p class="gw-v2-library__eyebrow">Shared semantics · application-neutral</p>
+        <h1>Stable names.<br />Accessible states.</h1>
+        <p>Every component records its semantic element, visible states, required accessible relationships and the behaviour that remains owned by the consuming application.</p>
+      </section>
+
+      <section class="gw-v2-library__section" aria-labelledby="control-specimens">
+        <header><p class="gw-v2-library__eyebrow">Control specimens</p><h2 id="control-specimens">Focus, labels and state remain visible.</h2></header>
+        <div class="gw-v2-cluster" role="group" aria-label="Button states">
+          <button class="gw-v2-specimen-control" type="button">Secondary command</button>
+          <button class="gw-v2-specimen-control" data-primary="true" type="button">Primary command</button>
+          <button class="gw-v2-specimen-control" type="button" aria-busy="true">Running…</button>
+          <button class="gw-v2-specimen-control" type="button" disabled>Unavailable</button>
+          <button class="gw-v2-specimen-control" role="switch" aria-checked="false" type="button">Preference off</button>
+        </div>
+        <label class="gw-v2-stack" style="--gw-v2-stack-gap: var(--gw-v2-space-2xs); max-inline-size: 34rem;">
+          <span>Project search</span>
+          <input class="gw-v2-specimen-control" type="search" aria-describedby="project-search-help" placeholder="Search projects and buildouts" />
+          <small id="project-search-help">Search changes the local view; it does not perform an external effect.</small>
+        </label>
+      </section>
+
+      <section class="gw-v2-library__section" aria-labelledby="component-inventory" data-gw-v2-component-catalogue>
+        <header><p class="gw-v2-library__eyebrow">Component inventory</p><h2 id="component-inventory">Twenty-one documented primitives.</h2><p>Each card is a contract record, not an application implementation.</p></header>
+        {groups.map((section) => (
+          <section class="gw-v2-library__section" data-component-group={section.group} aria-labelledby={`group-${section.group}`}>
+            <header><h3 id={`group-${section.group}`}>{section.group}</h3></header>
+            <div class="gw-v2-component-grid">
+              {section.items.map((component) => (
+                <article
+                  class="gw-v2-component"
+                  data-gw-v2-component={component.id}
+                  data-selected={component.id === selected?.id ? "true" : undefined}
+                >
+                  <p class="gw-v2-component__meta">{component.element} · {component.visualOwner}</p>
+                  <h3>{component.label}</h3>
+                  <p>{component.purpose}</p>
+                  <ul class="gw-v2-component__states" aria-label={`${component.label} states`}>
+                    {component.states.map((state) => <li>{state}</li>)}
+                  </ul>
+                  <ul class="gw-v2-component__attributes" aria-label={`${component.label} required semantics`}>
+                    {component.requiredAttributes.map((attribute) => <li>{attribute}</li>)}
+                  </ul>
+                  <small>{component.behaviourOwner}</small>
+                </article>
+              ))}
+            </div>
+          </section>
+        ))}
+      </section>
+
+      <section class="gw-v2-library__section" aria-labelledby="workbench-structure" data-gw-v2-workbench-study>
+        <header><p class="gw-v2-library__eyebrow">Dense composition</p><h2 id="workbench-structure">Workbench regions share one neutral foundation.</h2></header>
+        <div class="gw-v2-workbench gw-v2-workbench-study">
+          <header class="gw-v2-workbench__bar" aria-label="Command bar">
+            <strong>Project Confluence</strong><span>Buildout 24</span><button class="gw-v2-specimen-control" type="button">Search</button>
+          </header>
+          <div class="gw-v2-workbench__frame">
+            <nav class="gw-v2-workbench__rail" aria-label="Project and buildout navigation"><h3>Buildouts</h3><ul><li aria-current="page">Release 24</li><li>Browser handoff</li><li>Package audit</li></ul></nav>
+            <main class="gw-v2-workbench__main"><h3>Primary workspace</h3><p>Selected work remains central; contextual data does not displace it.</p></main>
+            <aside class="gw-v2-workbench__inspector" aria-label="Selected object inspector"><h3>Inspector</h3><ul><li>Owner · Builder</li><li>State · Waiting for approval</li><li>Evidence · Preview ready</li></ul></aside>
+          </div>
+          <footer class="gw-v2-workbench__status">
+            {greenwaysV2WorkbenchRegions.map((region) => <span>{region}</span>)}
+          </footer>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
