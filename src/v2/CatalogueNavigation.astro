@@ -1,6 +1,5 @@
 ---
 import CatalogueHeader from "./CatalogueHeader.astro";
-import CataloguePageFooter from "./CataloguePageFooter.astro";
 import CatalogueRouteBar from "./CatalogueRouteBar.astro";
 import CatalogueSectionNav from "./CatalogueSectionNav.astro";
 import "./catalogue.css";
@@ -25,4 +24,3 @@ const {
   <CatalogueRouteBar currentPath={currentPath} basePath={basePath} />
   <CatalogueSectionNav enabled={sectionNavigation} />
 </div>
-<CataloguePageFooter currentPath={currentPath} basePath={basePath} />
