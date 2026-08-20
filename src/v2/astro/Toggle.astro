@@ -1,0 +1,22 @@
+---
+import "../components.css";
+type ToggleState = "on" | "off" | "unknown";
+interface Props { id: string; label: string; name?: string; description?: string; checked?: boolean; disabled?: boolean; requestedState?: ToggleState; actualState?: ToggleState; class?: string; }
+const { id, label, name = id, description, checked, disabled = false, requestedState = "unknown", actualState = "unknown", class: className = "" } = Astro.props;
+const resolvedChecked = checked ?? actualState === "on";
+const descriptionId = description ? `${id}-description` : undefined;
+const comparisonId = `${id}-comparison`;
+const describedBy = [descriptionId, comparisonId].filter(Boolean).join(" ");
+const state = disabled ? "disabled" : requestedState !== actualState && actualState !== "unknown" ? "stale" : resolvedChecked ? "active" : "initial";
+---
+<label class:list={["gw-v2-component", "gw-v2-toggle", className]} data-gw-v2-component="Toggle" data-gw-v2-state={state} data-requested-state={requestedState} data-actual-state={actualState}>
+  <span class="gw-v2-toggle__control">
+    <input id={id} name={name} type="checkbox" role="switch" checked={resolvedChecked} disabled={disabled} aria-describedby={describedBy || undefined} />
+    <span class="gw-v2-toggle__track" aria-hidden="true"></span>
+  </span>
+  <span class="gw-v2-toggle__copy">
+    <strong>{label}</strong>
+    {description && <small id={descriptionId}>{description}</small>}
+    <span id={comparisonId} class="gw-v2-toggle__comparison">Requested: {requestedState}. Actual: {actualState}.</span>
+  </span>
+</label>
