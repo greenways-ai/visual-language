@@ -1,5 +1,6 @@
 ---
 import CatalogueNavigation from "../../../../v2/CatalogueNavigation.astro";
+import CataloguePageFooter from "../../../../v2/CataloguePageFooter.astro";
 import {
   FOREMAN_MODEL_VERSION,
   foremanCoreJourney,
@@ -177,6 +178,7 @@ const surfaceGroups: readonly SurfaceGroup[] = [
           <div class="fm__surfaces">{surfaceGroups.map((group) => <article data-surface={group.id}><h3>{group.label}</h3><ul>{group.routes.map((route) => <li><strong>{route.label}</strong><code>{route.pattern}</code><small>{route.states.join(" · ")}</small></li>)}</ul></article>)}</div>
         </section>
       </div>
+      <CataloguePageFooter currentPath="/v2/applications/foreman/model/" />
     </main>
 
     <script is:inline>
