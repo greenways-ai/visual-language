@@ -1,0 +1,82 @@
+@import "./tokens.css";
+
+/*
+ * Greenways OS structural bridge.
+ *
+ * The OS studies predate the v2 token contract and retain their own `--gw2-*`
+ * vocabulary. This final bridge maps every structural role to the protected
+ * neutral v2 family. Peacock and semantic state colours remain separate.
+ */
+
+:root,
+:root[data-theme="light"],
+:root[data-theme="dark"] {
+  --gw2-bg: var(--gw-v2-canvas);
+  --gw2-bg-deep: var(--gw-v2-canvas-subtle);
+  --gw2-field: var(--gw-v2-surface-recessed);
+  --gw2-field-2: var(--gw-v2-canvas-strong);
+  --gw2-surface: var(--gw-v2-surface);
+  --gw2-surface-2: var(--gw-v2-surface-muted);
+  --gw2-surface-3: var(--gw-v2-surface-raised);
+  --gw2-overlay: var(--gw-v2-surface-overlay);
+  --gw2-line: var(--gw-v2-seam);
+  --gw2-line-strong: var(--gw-v2-seam-strong);
+  --gw2-text: var(--gw-v2-text);
+  --gw2-text-2: var(--gw-v2-text-muted);
+  --gw2-muted: var(--gw-v2-text-muted);
+  --gw2-faint: var(--gw-v2-text-subtle);
+
+  --gw2-signal: var(--gw-v2-signal);
+  --gw2-signal-soft: var(--gw-v2-signal-soft);
+  --gw2-green: var(--gw-v2-state-success);
+  --gw2-green-soft: var(--gw-v2-state-success-soft);
+  --gw2-warm: var(--gw-v2-state-warning);
+  --gw2-coral: var(--gw-v2-state-danger);
+  --gw2-violet: var(--gw-v2-brand-violet);
+  --gw2-danger: var(--gw-v2-state-danger);
+
+  --gw2-shadow: var(--gw-v2-elevation-3);
+  --gw2-shadow-soft: var(--gw-v2-elevation-1);
+  --gw2-radius-sm: var(--gw-v2-radius-xs);
+  --gw2-radius: var(--gw-v2-radius-sm);
+  --gw2-radius-lg: var(--gw-v2-radius-md);
+  --gw2-display: var(--gw-v2-font-display);
+  --gw2-sans: var(--gw-v2-font-body);
+  --gw2-mono: var(--gw-v2-font-code);
+}
+
+/* Structural atmosphere is neutral; the mark remains the colour moment. */
+.gw2-body {
+  background:
+    radial-gradient(circle at 18% -5%, color-mix(in srgb, var(--gw-v2-text) 3%, transparent), transparent 30rem),
+    radial-gradient(circle at 82% 0%, color-mix(in srgb, var(--gw-v2-text) 2%, transparent), transparent 36rem),
+    linear-gradient(180deg, var(--gw-v2-canvas), var(--gw-v2-canvas-subtle));
+}
+
+.gw2-concept-bar {
+  background: color-mix(in srgb, var(--gw-v2-surface-overlay) 92%, transparent);
+}
+
+.gw2-command-scrim {
+  background: color-mix(in srgb, var(--gw-v2-canvas-inverse) 64%, transparent);
+}
+
+.gw2-mark::after {
+  background: var(--gw-v2-canvas-inverse);
+}
+
+/* Selection and focus are permitted restrained peacock interactions. */
+.gw2-surface-menu__item.is-active,
+.gw2-concept-button:focus-visible,
+.gw2-command-result:focus-visible,
+.gw2-command-results :is(a, button):focus-visible {
+  outline-color: var(--gw-v2-focus-ring);
+}
+
+/* Semantic status remains separate from the brand family. */
+.gw2-live-dot,
+.gw2-window-status__dot,
+.gw2-status-dot[data-state="success"] {
+  background: var(--gw-v2-state-success);
+  box-shadow: 0 0 0 0.2rem var(--gw-v2-state-success-soft);
+}
