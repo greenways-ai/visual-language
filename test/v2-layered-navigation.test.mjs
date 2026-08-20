@@ -45,12 +45,13 @@ test("Foreman routes retain a distinct product family and deterministic neighbou
   assert.deepEqual(context.siblings.map((route) => route.id), [
     "foreman",
     "foreman-model",
+    "foreman-tools",
     "foreman-projects",
     "foreman-handoffs",
     "foreman-surfaces",
   ]);
   assert.equal(context.previous?.id, "foreman");
-  assert.equal(context.next?.id, "foreman-projects");
+  assert.equal(context.next?.id, "foreman-tools");
   assert.equal(context.ownershipLabel, "Product laboratory");
 });
 
