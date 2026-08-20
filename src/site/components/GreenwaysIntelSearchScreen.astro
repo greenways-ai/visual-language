@@ -1,0 +1,98 @@
+<section class="gw2-pane-grid gwi-pane-grid" data-gwi-search-screen>
+  <section class="gw2-pane gw2-pane--primary gwi-pane-primary" aria-labelledby="gwi-search-title">
+    <header class="gw2-pane-heading gwi-pane-heading">
+      <div><p>Unified retrieval · exact trace-back</p><h2 id="gwi-search-title" data-gw2-active-buffer>Search / Retrieval</h2></div>
+      <div><button type="button" data-gw2-toast="Saved search created">Save search</button><button type="button" data-gw2-toast="Search filters opened">Filters</button></div>
+    </header>
+
+    <form class="gwi-search-box" role="search" onsubmit="return false">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8" cy="8" r="4.5"/><path d="m11.5 11.5 4 4"/></svg>
+      <input aria-label="Search Greenways Intel" value="provider broker request checkpoint" readonly />
+      <kbd>⌘↵</kbd>
+    </form>
+
+    <section class="gwi-search-toolbar" aria-label="Search scope">
+      <div><button class="is-active" type="button">All</button><button type="button">Originals</button><button type="button">Conversations</button><button type="button">GitHub work</button><button type="button">Code</button></div>
+      <span>12 results · 4 source families · 38 ms</span>
+    </section>
+
+    <div class="gwi-search-layout">
+      <section class="gwi-search-results" aria-label="Search results">
+        <article class="gwi-search-result is-selected">
+          <header><span class="gwi-result-kind is-code">CODE</span><strong>historia.provider.broker/execute</strong><small>0.98 exact</small></header>
+          <p>Validate the provider <mark>request</mark>, resolve the executor binding, run the checkpointed work step and validate the returned observation result.</p>
+          <footer><span>src-hara/historia/provider/broker.hal</span><span>lines 169–183</span><b class="is-original">original</b></footer>
+        </article>
+        <article class="gwi-search-result">
+          <header><span class="gwi-result-kind is-work">ISSUE</span><strong>Build the Hara-owned provider broker and durable acquisition receipts</strong><small>0.95 exact</small></header>
+          <p>The broker resolves a provider descriptor by ID, checks that the requested operation is declared and archives every original source document before normalization.</p>
+          <footer><span>greenways-ai/historia#89</span><span>body · lines 8–16</span><b class="is-original">original</b></footer>
+        </article>
+        <article class="gwi-search-result">
+          <header><span class="gwi-result-kind is-chat">CHAT</span><strong>Greenways Intel architecture discussion</strong><small>0.91 ranked</small></header>
+          <p>Providers should register in Historia Core, while the capability-owning runtime performs the download and advances an explicit <mark>checkpoint</mark>.</p>
+          <footer><span>ChatGPT · conversation-7842</span><span>message 18 · block 2</span><b class="is-derived">anchored</b></footer>
+        </article>
+        <article class="gwi-search-result">
+          <header><span class="gwi-result-kind is-work">PR</span><strong>Add the Hara provider broker and Git acquisition archive</strong><small>0.87 ranked</small></header>
+          <p>Skip executor invocation when an identical durable <mark>request</mark> receipt already exists and reject stale provider checkpoints.</p>
+          <footer><span>greenways-ai/historia#96</span><span>summary · block 1</span><b class="is-original">original</b></footer>
+        </article>
+        <article class="gwi-search-result">
+          <header><span class="gwi-result-kind is-code">CODE</span><strong>historia.source.archive/acquire</strong><small>0.84 semantic</small></header>
+          <p>Write original observation bytes, create provider-neutral documents, commit the receipt and atomically advance request and provider references.</p>
+          <footer><span>src-hara/historia/source/archive.hal</span><span>lines 174–232</span><b class="is-original">original</b></footer>
+        </article>
+      </section>
+
+      <aside class="gwi-result-preview" aria-label="Selected search result preview">
+        <header><span>Selected result</span><button type="button" data-gw2-toast="Result opened as document buffer">Open document</button></header>
+        <div class="gwi-code-preview">
+          <ol>
+            <li><span>169</span><code>(defn execute</code></li>
+            <li><span>170</span><code>  [broker request]</code></li>
+            <li class="is-highlighted"><span>171</span><code>  (let [request (validate-request! broker request)</code></li>
+            <li><span>172</span><code>        provider-id (get request "providerId")</code></li>
+            <li><span>173</span><code>        binding (binding! broker provider-id)</code></li>
+            <li class="is-highlighted"><span>174</span><code>        value (work/run (:host broker)</code></li>
+            <li><span>175</span><code>                        (:work binding)</code></li>
+            <li><span>176</span><code>                        request</code></li>
+            <li><span>177</span><code>                        &#123;:id (get request "requestId")&#125;)]</code></li>
+            <li><span>178</span><code>    (validate-result! request value)))</code></li>
+          </ol>
+        </div>
+        <footer><span>Exact lexical match</span><span>Symbol definition</span><span>Issue-linked</span></footer>
+      </aside>
+    </div>
+  </section>
+
+  <aside class="gw2-pane gw2-pane--inspector gwi-inspector" aria-label="Search result provenance">
+    <header><span>Result provenance</span><button type="button" data-gw2-inspector-toggle aria-label="Close inspector">×</button></header>
+    <section class="gwi-inspector-section">
+      <p>Stable identity</p>
+      <div class="gwi-object-identity"><span class="gw2-signal--sky">FN</span><div><strong>execute</strong><small>historia.provider.broker</small></div></div>
+      <div class="gwi-authority-badge is-derived"><i></i><span><strong>Derived fact</strong><small>From retained Git blob</small></span></div>
+    </section>
+    <section class="gwi-inspector-section">
+      <p>Exact source</p>
+      <dl class="gwi-inspector-list"><div><dt>Document</dt><dd>git:502dd91b:broker.hal</dd></div><div><dt>Revision</dt><dd>502dd91b8c3d</dd></div><div><dt>Byte range</dt><dd>6,104–6,522</dd></div><div><dt>Line range</dt><dd>169–178</dd></div></dl>
+    </section>
+    <section class="gwi-inspector-section">
+      <p>Why this matched</p>
+      <div class="gwi-score-list"><div><span>Exact terms</span><meter min="0" max="1" value="1"></meter><strong>1.00</strong></div><div><span>Symbol match</span><meter min="0" max="1" value="1"></meter><strong>1.00</strong></div><div><span>Repository context</span><meter min="0" max="1" value="0.96"></meter><strong>0.96</strong></div><div><span>Work links</span><meter min="0" max="1" value="0.84"></meter><strong>0.84</strong></div></div>
+    </section>
+    <section class="gwi-inspector-section">
+      <p>Related exact links</p>
+      <div class="gwi-related-list"><button type="button"><span>IS</span><strong>Issue #89</strong><small>explicit reference</small></button><button type="button"><span>PR</span><strong>PR #96</strong><small>commit contains symbol</small></button><button type="button"><span>CH</span><strong>Message 18</strong><small>candidate · 0.91</small></button></div>
+    </section>
+  </aside>
+
+  <section class="gw2-pane gw2-pane--console gwi-console" aria-label="Search trace stream">
+    <header><span>Query / Trace</span><button type="button" data-gw2-toast="Search explanation copied">Copy explanation</button></header>
+    <div class="gw2-console-lines">
+      <p><time>22:18:01</time><span class="is-ok">query</span><strong>search/7fa2</strong><small>4 terms · all source families</small></p>
+      <p><time>22:18:01</time><span class="is-run">ranked</span><strong>12 results</strong><small>exact 4 · asserted 2 · candidate 6</small></p>
+      <p><time>22:18:01</time><span class="is-ok">trace</span><strong>result/code-0188</strong><small>document and anchor verified</small></p>
+    </div>
+  </section>
+</section>
