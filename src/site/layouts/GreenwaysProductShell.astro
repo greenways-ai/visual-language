@@ -5,6 +5,7 @@ import {
 } from "../../greenways-product-screens";
 import "../styles/greenways-product.css";
 import "../styles/greenways-hara-v2.css";
+import "../styles/greenways-os.css";
 
 interface Props {
   title: string;
@@ -16,12 +17,18 @@ const { title, description, screenId } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const rootHref = `${base}concepts/greenways/`;
 const activeScreen = greenwaysProductScreens.find((screen) => screen.id === screenId);
+const activePosition = activeScreen
+  ? greenwaysProductScreens.findIndex((screen) => screen.id === activeScreen.id)
+  : -1;
 const screenHref = (id: string) => `${base}concepts/greenways/${id}/`;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
+const wallpaperDay = `${base}artwork/greenways/peacock-garden-day.webp`;
+const wallpaperNight = `${base}artwork/greenways/peacock-garden-night.webp`;
+const activeLabel = activeScreen?.label ?? "Desktop";
 ---
 
 <!doctype html>
-<html lang="en" data-theme="light" data-surface="hara-v2">
+<html lang="en" data-theme="light" data-surface="hara-v2" data-greenways-environment="os">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -29,7 +36,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
     <meta name="theme-color" content="#eef0ef" />
     <link rel="canonical" href={canonicalUrl} />
     <meta property="og:url" content={canonicalUrl} />
-    <title>{title} · Greenways product concepts</title>
+    <title>{title} · Greenways OS concepts</title>
     <script is:inline>
       (() => {
         try {
@@ -44,154 +51,271 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
       })();
     </script>
   </head>
-  <body class="gw-body gw-hara-v2" data-greenways-surface={screenId ?? "overview"}>
-    <a class="gw-skip-link" href="#greenways-main">Skip to the product screen</a>
+  <body
+    class="gw-body gw-hara-v2 gw-os"
+    data-greenways-surface={screenId ?? "overview"}
+    style={`--gw-os-wallpaper-day: url("${wallpaperDay}"); --gw-os-wallpaper-night: url("${wallpaperNight}");`}
+  >
+    <a class="gw-skip-link" href="#greenways-main">Skip to the active Greenways application</a>
 
-    <div class="gw-app-frame">
-      <aside class="gw-sidebar" aria-label="Greenways product navigation">
-        <div class="gw-sidebar__head">
-          <a class="gw-brand" href={rootHref} aria-label="Greenways screen collection">
-            <span class="gw-brand__mark" aria-hidden="true">
-              <span></span><span></span><span></span>
-            </span>
-            <span class="gw-brand__wordmark">
-              <strong>greenways</strong>
-              <small>product system</small>
-            </span>
-          </a>
-          <button class="gw-icon-button gw-sidebar__close" type="button" data-nav-close aria-label="Close navigation">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+    <div class="gw-os-shell" data-greenways-os-shell>
+      <header class="gw-os-menubar" aria-label="Greenways system menu bar">
+        <div class="gw-os-menubar__left">
+          <button
+            class="gw-os-brand-button"
+            type="button"
+            data-system-menu-open
+            aria-controls="greenways-system-menu"
+            aria-expanded="false"
+            aria-label="Open Greenways system menu"
+          >
+            <span class="gw-os-brand-button__mark" aria-hidden="true"></span>
           </button>
+          <strong class="gw-os-active-app">{activeLabel}</strong>
+          <nav class="gw-os-app-menu" aria-label={`${activeLabel} application menu`}>
+            <button class="gw-os-menu-button" type="button">File</button>
+            <button class="gw-os-menu-button" type="button">Edit</button>
+            <button class="gw-os-menu-button" type="button">View</button>
+            <button class="gw-os-menu-button" type="button" data-command-open>Go</button>
+            <button class="gw-os-menu-button" type="button">Window</button>
+            <button class="gw-os-menu-button" type="button">Help</button>
+          </nav>
         </div>
 
-        <div class="gw-context-switcher" aria-label="Current Greenways context">
-          <span class="gw-context-switcher__icon" aria-hidden="true">GW</span>
-          <span>
-            <small>Workspace</small>
-            <strong>Greenways</strong>
-          </span>
-          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4" /></svg>
+        <div class="gw-os-menubar__centre">
+          <div class="gw-os-workspace-switcher" aria-label="Virtual workspaces">
+            <button class="is-active" type="button" aria-label="Workspace one" aria-pressed="true">01</button>
+            <button type="button" aria-label="Workspace two" aria-pressed="false">02</button>
+            <button type="button" aria-label="Workspace three" aria-pressed="false">03</button>
+          </div>
         </div>
 
-        <nav class="gw-product-nav" aria-label="Product screens">
-          <p class="gw-nav-label">Workspace</p>
-          <a class:list={["gw-product-nav__overview", { "is-active": !screenId }]} href={rootHref} aria-current={!screenId ? "page" : undefined}>
-            <span class="gw-nav-glyph" aria-hidden="true">OV</span>
-            <span>Product overview</span>
-          </a>
-
-          <div class="gw-product-nav__items">
-            {greenwaysProductScreens.map((screen) => (
-              <a
-                class:list={["gw-product-nav__item", `gw-tone--${screen.tone}`, { "is-active": screen.id === screenId }]}
-                href={screenHref(screen.id)}
-                aria-current={screen.id === screenId ? "page" : undefined}
-              >
-                <span class="gw-nav-glyph" aria-hidden="true">{screen.navCode}</span>
-                <span class="gw-product-nav__copy">
-                  <strong>{screen.label}</strong>
-                  <small>{screen.eyebrow}</small>
-                </span>
-                {screen.id === "today" && <span class="gw-nav-count" aria-label="Three items need attention">3</span>}
-              </a>
-            ))}
-          </div>
-        </nav>
-
-        <div class="gw-sidebar__footer">
-          <div class="gw-network-status">
-            <span class="gw-status-dot" aria-hidden="true"></span>
-            <span>
-              <strong>Workspace healthy</strong>
-              <small>All receipts synchronised</small>
-            </span>
-          </div>
-          <a class="gw-back-link" href={`${base}concepts/`}>
-            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4.5 7 10l5.5 5.5M7.5 10H17" /></svg>
-            Visual language concepts
-          </a>
-        </div>
-      </aside>
-
-      <button class="gw-sidebar-scrim" type="button" data-nav-close aria-label="Close navigation"></button>
-
-      <div class="gw-workspace">
-        <header class="gw-topbar">
-          <div class="gw-topbar__left">
-            <button class="gw-icon-button gw-menu-button" type="button" data-nav-open aria-expanded="false" aria-label="Open navigation">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
-            </button>
-            <div class="gw-breadcrumbs" aria-label="Breadcrumb">
-              <a href={rootHref}>Greenways</a>
-              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3.5 4.5 4.5L6 12.5" /></svg>
-              <span aria-current="page">{activeScreen?.label ?? "Product overview"}</span>
-            </div>
-          </div>
-
-          <div class="gw-topbar__right">
-            <button class="gw-command" type="button" aria-label="Open command search">
+        <div class="gw-os-menubar__right">
+          <div class="gw-os-system-tray" aria-label="System status">
+            <button class="gw-os-command-trigger" type="button" data-command-open aria-label="Open command palette">
               <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="4.5" /><path d="m12 12 4 4" /></svg>
-              <span>Find anything</span>
-              <kbd>⌘ K</kbd>
+              <span>Command</span>
+              <kbd>⌘K</kbd>
             </button>
-            <button class="gw-icon-button" type="button" data-theme-toggle aria-label="Switch colour theme" aria-pressed="false">
+            <button class="gw-os-tray-button" type="button" aria-label="Workspace synchronised">
+              <span class="gw-os-sync-light" aria-hidden="true"></span>
+              <span class="gw-os-sync-label">Synced</span>
+            </button>
+            <button class="gw-os-tray-button gw-os-tray-button--network" type="button" aria-label="Network connected">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 8.5a10 10 0 0 1 14 0M5.8 11.3a6 6 0 0 1 8.4 0M8.6 14.1a2 2 0 0 1 2.8 0M10 16.5h.01" /></svg>
+            </button>
+            <button class="gw-os-tray-button" type="button" data-theme-toggle aria-label="Switch colour theme" aria-pressed="false">
               <svg class="gw-theme-icon gw-theme-icon--sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.5" /><path d="M12 2v2.5M12 19.5V22M4.93 4.93 6.7 6.7M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M4.93 19.07 6.7 17.3M17.3 6.7l1.77-1.77" /></svg>
               <svg class="gw-theme-icon gw-theme-icon--moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 15.4A8.5 8.5 0 0 1 8.6 3.8 8.5 8.5 0 1 0 20.2 15.4Z" /></svg>
             </button>
-            <button class="gw-icon-button gw-notification-button" type="button" aria-label="Open notifications">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 8.5h18C21 16 18 16 18 9ZM9.5 21h5" /></svg>
-              <span aria-hidden="true"></span>
-            </button>
-            <button class="gw-profile-button" type="button" aria-label="Open profile menu">
+            <time class="gw-os-clock" data-os-clock aria-label="Local time">--:--</time>
+            <button class="gw-os-tray-button gw-os-user-button" type="button" aria-label="Open Chris profile">
               <span class="gw-avatar gw-avatar--chris" aria-hidden="true">CZ</span>
-              <span class="gw-profile-button__copy">
-                <strong>Chris</strong>
-                <small>Maintainer</small>
-              </span>
-              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4" /></svg>
             </button>
           </div>
-        </header>
-
-        <div class="gw-context-bar" aria-label="Current Greenways interface context">
-          <div class="gw-context-bar__path">
-            <a href={rootHref}>Greenways OS</a>
-            <span class="gw-context-bar__separator" aria-hidden="true">/</span>
-            <strong>{activeScreen?.label ?? "System map"}</strong>
-            {activeScreen && (
-              <>
-                <span class="gw-context-bar__separator" aria-hidden="true">·</span>
-                <span>{activeScreen.eyebrow}</span>
-              </>
-            )}
-          </div>
-          <span class="gw-context-bar__status">Hara v2 surface · prototype</span>
         </div>
+      </header>
 
-        <main id="greenways-main" class="gw-main" tabindex="-1">
-          <slot />
-        </main>
+      <section
+        id="greenways-system-menu"
+        class="gw-os-popover gw-os-system-menu"
+        data-system-menu-panel
+        aria-label="Greenways system menu"
+        hidden
+      >
+        <header class="gw-os-system-menu__head">
+          <strong>Greenways OS</strong>
+          <small>Workspace 01 · Personal environment</small>
+        </header>
+        <div class="gw-os-system-menu__section">
+          <small>Applications</small>
+          <a class="gw-os-system-menu__item" href={rootHref}><span>Desktop</span><kbd>⌘0</kbd></a>
+          {greenwaysProductScreens.map((screen, index) => (
+            <a class="gw-os-system-menu__item" href={screenHref(screen.id)}>
+              <span>{screen.label}</span>
+              <kbd>⌘{index + 1}</kbd>
+            </a>
+          ))}
+        </div>
+        <div class="gw-os-system-menu__section">
+          <a class="gw-os-system-menu__item" href={`${base}concepts/`}><span>Visual language concepts</span><kbd>↗</kbd></a>
+          <button class="gw-os-system-menu__item" type="button" data-command-open><span>Search everything</span><kbd>⌘K</kbd></button>
+        </div>
+        <div class="gw-os-system-menu__section">
+          <a class="gw-os-system-menu__item" href={rootHref}><span>Lock workspace</span><kbd>⌃⌘Q</kbd></a>
+        </div>
+      </section>
+
+      <main id="greenways-main" class="gw-os-desktop" tabindex="-1">
+        <span class="gw-os-desktop__orbit gw-os-desktop__orbit--one" aria-hidden="true"></span>
+        <span class="gw-os-desktop__orbit gw-os-desktop__orbit--two" aria-hidden="true"></span>
+
+        {activeScreen ? (
+          <section
+            class:list={["gw-os-window", `gw-os-window--${activeScreen.id}`, `gw-tone--${activeScreen.tone}`]}
+            data-os-window
+            aria-label={`${activeScreen.label} application window`}
+          >
+            <header class="gw-os-window__titlebar" data-window-titlebar>
+              <div class="gw-os-window__controls" aria-label="Window controls">
+                <a class="gw-os-window-control gw-os-window-control--close" href={rootHref} aria-label={`Close ${activeScreen.label}`}>
+                  <span>Close</span>
+                </a>
+                <button class="gw-os-window-control gw-os-window-control--minimise" type="button" data-window-minimise aria-label={`Minimise ${activeScreen.label}`}>
+                  <span>Minimise</span>
+                </button>
+                <button class="gw-os-window-control gw-os-window-control--maximise" type="button" data-window-maximise aria-label={`Maximise ${activeScreen.label}`} aria-pressed="false">
+                  <span>Maximise</span>
+                </button>
+              </div>
+
+              <div class="gw-os-window__identity">
+                <span class:list={["gw-os-app-icon", `gw-tone--${activeScreen.tone}`]} aria-hidden="true">{activeScreen.navCode}</span>
+                <span class="gw-os-window__identity-copy">
+                  <strong>{activeScreen.label}</strong>
+                  <small>{activeScreen.eyebrow}</small>
+                </span>
+              </div>
+
+              <div class="gw-os-window__tools">
+                <button class="gw-os-window-tool" type="button" data-command-open aria-label="Find in Greenways">
+                  <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="4.5" /><path d="m12 12 4 4" /></svg>
+                </button>
+                <button class="gw-os-window-tool gw-os-window-tool--secondary" type="button" aria-label="Split application view">
+                  <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="4" width="14" height="12" rx="1.5" /><path d="M10 4v12" /></svg>
+                </button>
+                <button class="gw-os-window-tool" type="button" aria-label="Application options">
+                  <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="4" cy="10" r="1" /><circle cx="10" cy="10" r="1" /><circle cx="16" cy="10" r="1" /></svg>
+                </button>
+              </div>
+            </header>
+
+            <div class="gw-os-window__toolbar">
+              <nav class="gw-os-window__tabs" aria-label={`${activeScreen.label} views`}>
+                <button class="gw-os-tab is-active" type="button" aria-pressed="true">Workspace</button>
+                <button class="gw-os-tab" type="button" aria-pressed="false">Activity</button>
+                <button class="gw-os-tab" type="button" aria-pressed="false">Inspector</button>
+              </nav>
+              <div class="gw-os-window__location" aria-label="Application location">
+                <span>Workspace 01</span>
+                <span aria-hidden="true">/</span>
+                <strong>{activeScreen.label}</strong>
+              </div>
+            </div>
+
+            <div class="gw-os-window__viewport">
+              <slot />
+            </div>
+
+            <footer class="gw-os-window__statusbar">
+              <div class="gw-os-window__status-left">
+                <span>{activeScreen.outcome}</span>
+              </div>
+              <div class="gw-os-window__status-right">
+                <span class="gw-os-window__status-dot" aria-hidden="true"></span>
+                <span>Synced</span>
+                <span>App {String(activePosition + 1).padStart(2, "0")} / 07</span>
+              </div>
+            </footer>
+          </section>
+        ) : (
+          <div class="gw-os-desktop__home" data-os-desktop-home>
+            <slot />
+          </div>
+        )}
+      </main>
+
+      <div class="gw-os-dock-wrap">
+        <nav class="gw-os-dock" aria-label="Greenways applications">
+          <a
+            class:list={["gw-os-dock__item", { "is-active": !activeScreen }]}
+            href={rootHref}
+            aria-current={!activeScreen ? "page" : undefined}
+            aria-label="Open Desktop"
+          >
+            <span class="gw-os-app-icon gw-os-app-icon--desktop" aria-hidden="true">GW</span>
+            <span class="gw-os-dock__label">Desktop</span>
+          </a>
+          <span class="gw-os-dock__separator" aria-hidden="true"></span>
+          {greenwaysProductScreens.map((screen) => (
+            <a
+              class:list={["gw-os-dock__item", `gw-tone--${screen.tone}`, { "is-active": screen.id === screenId }]}
+              href={screenHref(screen.id)}
+              aria-current={screen.id === screenId ? "page" : undefined}
+              aria-label={`Open ${screen.label}`}
+              data-active-dock-item={screen.id === screenId ? "true" : undefined}
+            >
+              {screen.id === "today" && <span class="gw-os-dock__badge" aria-label="Three decisions">3</span>}
+              <span class:list={["gw-os-app-icon", `gw-tone--${screen.tone}`]} aria-hidden="true">{screen.navCode}</span>
+              <span class="gw-os-dock__label">{screen.label}</span>
+            </a>
+          ))}
+          <span class="gw-os-dock__separator" aria-hidden="true"></span>
+          <a class="gw-os-dock__item" href={`${base}concepts/`} aria-label="Open visual language concepts">
+            <span class="gw-os-app-icon gw-os-app-icon--external" aria-hidden="true">VL</span>
+            <span class="gw-os-dock__label">Concepts</span>
+          </a>
+        </nav>
       </div>
+
+      {activeScreen && (
+        <div class="gw-os-saved-indicator" aria-label="Workspace saved">
+          <span aria-hidden="true"></span>
+          All changes saved
+        </div>
+      )}
+    </div>
+
+    <div class="gw-os-command-layer" data-command-layer hidden>
+      <button class="gw-os-command-scrim" type="button" data-command-close aria-label="Close command palette"></button>
+      <section class="gw-os-command-palette" role="dialog" aria-modal="true" aria-label="Greenways command palette">
+        <label class="gw-os-command-search">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="4.5" /><path d="m12 12 4 4" /></svg>
+          <input type="search" data-command-input placeholder="Open an application, room, document or command…" autocomplete="off" />
+          <kbd>esc</kbd>
+        </label>
+        <div class="gw-os-command-results" data-command-results>
+          <a class="gw-os-command-result" href={rootHref} data-command-item data-command-search="desktop home system workspace">
+            <span class="gw-os-app-icon gw-os-app-icon--desktop" aria-hidden="true">GW</span>
+            <span class="gw-os-command-result__copy"><strong>Desktop</strong><small>Return to the Greenways workspace</small></span>
+            <kbd>⌘0</kbd>
+          </a>
+          {greenwaysProductScreens.map((screen, index) => (
+            <a
+              class:list={["gw-os-command-result", `gw-tone--${screen.tone}`]}
+              href={screenHref(screen.id)}
+              data-command-item
+              data-command-search={`${screen.label} ${screen.eyebrow} ${screen.summary}`}
+            >
+              <span class:list={["gw-os-app-icon", `gw-tone--${screen.tone}`]} aria-hidden="true">{screen.navCode}</span>
+              <span class="gw-os-command-result__copy"><strong>Open {screen.label}</strong><small>{screen.eyebrow}</small></span>
+              <kbd>⌘{index + 1}</kbd>
+            </a>
+          ))}
+        </div>
+        <footer class="gw-os-command-footer">
+          <span>Type to filter</span>
+          <span>↵ open · esc close</span>
+        </footer>
+      </section>
     </div>
 
     <script is:inline>
       (() => {
         const root = document.documentElement;
-        const navButton = document.querySelector("[data-nav-open]");
-        const closeButtons = document.querySelectorAll("[data-nav-close]");
         const themeButton = document.querySelector("[data-theme-toggle]");
-
-        const closeNavigation = () => {
-          root.removeAttribute("data-nav-open");
-          navButton?.setAttribute("aria-expanded", "false");
-        };
-
-        navButton?.addEventListener("click", () => {
-          const willOpen = !root.hasAttribute("data-nav-open");
-          root.toggleAttribute("data-nav-open", willOpen);
-          navButton.setAttribute("aria-expanded", String(willOpen));
-        });
-        closeButtons.forEach((button) => button.addEventListener("click", closeNavigation));
+        const systemButton = document.querySelector("[data-system-menu-open]");
+        const systemPanel = document.querySelector("[data-system-menu-panel]");
+        const commandLayer = document.querySelector("[data-command-layer]");
+        const commandInput = document.querySelector("[data-command-input]");
+        const commandItems = [...document.querySelectorAll("[data-command-item]")];
+        const commandOpenButtons = document.querySelectorAll("[data-command-open]");
+        const commandCloseButtons = document.querySelectorAll("[data-command-close]");
+        const minimiseButton = document.querySelector("[data-window-minimise]");
+        const maximiseButton = document.querySelector("[data-window-maximise]");
+        const windowTitlebar = document.querySelector("[data-window-titlebar]");
+        const activeDockItem = document.querySelector("[data-active-dock-item='true']");
+        const clock = document.querySelector("[data-os-clock]");
 
         const syncThemeButton = () => {
           const dark = root.dataset.theme === "dark";
@@ -208,10 +332,101 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
           syncThemeButton();
         });
 
-        document.addEventListener("keydown", (event) => {
-          if (event.key === "Escape") closeNavigation();
+        const closeSystemMenu = () => {
+          if (!systemPanel || !systemButton) return;
+          systemPanel.hidden = true;
+          systemButton.setAttribute("aria-expanded", "false");
+        };
+
+        const toggleSystemMenu = () => {
+          if (!systemPanel || !systemButton) return;
+          const open = systemPanel.hidden;
+          systemPanel.hidden = !open;
+          systemButton.setAttribute("aria-expanded", String(open));
+        };
+
+        systemButton?.addEventListener("click", (event) => {
+          event.stopPropagation();
+          toggleSystemMenu();
         });
+
+        systemPanel?.addEventListener("click", (event) => event.stopPropagation());
+        document.addEventListener("click", closeSystemMenu);
+
+        const filterCommands = () => {
+          const query = commandInput?.value.trim().toLowerCase() || "";
+          for (const item of commandItems) {
+            const search = (item.getAttribute("data-command-search") || "").toLowerCase();
+            item.hidden = query.length > 0 && !search.includes(query);
+          }
+        };
+
+        const openCommandPalette = () => {
+          if (!commandLayer) return;
+          closeSystemMenu();
+          commandLayer.hidden = false;
+          requestAnimationFrame(() => commandInput?.focus());
+        };
+
+        const closeCommandPalette = () => {
+          if (!commandLayer) return;
+          commandLayer.hidden = true;
+          if (commandInput) commandInput.value = "";
+          filterCommands();
+        };
+
+        commandOpenButtons.forEach((button) => button.addEventListener("click", openCommandPalette));
+        commandCloseButtons.forEach((button) => button.addEventListener("click", closeCommandPalette));
+        commandInput?.addEventListener("input", filterCommands);
+
+        minimiseButton?.addEventListener("click", () => {
+          root.setAttribute("data-window-minimized", "");
+        });
+
+        activeDockItem?.addEventListener("click", (event) => {
+          if (!root.hasAttribute("data-window-minimized")) return;
+          event.preventDefault();
+          root.removeAttribute("data-window-minimized");
+        });
+
+        const toggleMaximise = () => {
+          const maximised = !root.hasAttribute("data-window-maximized");
+          root.toggleAttribute("data-window-maximized", maximised);
+          maximiseButton?.setAttribute("aria-pressed", String(maximised));
+          maximiseButton?.setAttribute("aria-label", maximised ? "Restore application window" : "Maximise application window");
+        };
+
+        maximiseButton?.addEventListener("click", toggleMaximise);
+        windowTitlebar?.addEventListener("dblclick", (event) => {
+          if (event.target.closest("button, a")) return;
+          toggleMaximise();
+        });
+
+        const updateClock = () => {
+          if (!clock) return;
+          const now = new Date();
+          clock.textContent = new Intl.DateTimeFormat([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }).format(now);
+          clock.setAttribute("datetime", now.toISOString());
+        };
+
+        document.addEventListener("keydown", (event) => {
+          if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+            event.preventDefault();
+            openCommandPalette();
+            return;
+          }
+          if (event.key === "Escape") {
+            closeCommandPalette();
+            closeSystemMenu();
+          }
+        });
+
         syncThemeButton();
+        updateClock();
+        window.setInterval(updateClock, 30_000);
       })();
     </script>
   </body>

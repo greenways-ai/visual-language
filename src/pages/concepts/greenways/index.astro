@@ -7,68 +7,92 @@ const screenHref = (id: string) => `${base}concepts/greenways/${id}/`;
 ---
 
 <GreenwaysProductShell
-  title="Greenways product screens"
-  description="Seven connected product concepts for coordinating creative work, agents, publishing, distribution, packages, identity and accountable receipts."
+  title="Greenways OS desktop"
+  description="A desktop operating environment for creative work, shared rooms, publishing, distribution, packages, identity and accountable receipts."
 >
-  <div class="gw-overview">
-    <section class="gw-overview-hero">
-      <div class="gw-overview-hero__copy">
-        <p class="gw-eyebrow">Greenways product direction</p>
-        <h1>One calm place for work that has to travel.</h1>
-        <p class="gw-overview-hero__lede">
-          Greenways joins private preparation, shared work, open distribution and verifiable outcomes without turning the product into a blockchain console or an agent control panel. These seven screens form the product spine.
-        </p>
-        <div class="gw-button-row">
-          <a class="gw-button gw-button--primary" href={screenHref("today")}>Enter the workspace <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 4 6 6-6 6" /></svg></a>
-          <a class="gw-button" href="#screen-collection">Explore all seven screens</a>
-        </div>
-        <p class="gw-overview-hero__promise"><span aria-hidden="true">01</span>Designed as a connected product, not a gallery of unrelated dashboards.</p>
-      </div>
-
-      <div class="gw-overview-map" aria-label="Greenways product journey">
-        <div class="gw-overview-map__line" aria-hidden="true"></div>
-        <div class="gw-overview-map__items">
-          {greenwaysProductScreens.map((screen, index) => (
-            <a class:list={["gw-overview-map__item", `gw-screen--${screen.tone}`]} href={screenHref(screen.id)}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <span><strong>{screen.label}</strong><small>{screen.eyebrow}</small></span>
-              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 4 6 6-6 6" /></svg>
-            </a>
-          ))}
-        </div>
+  <div class="gw-os-home" data-os-home>
+    <section class="gw-os-home__welcome" aria-labelledby="greenways-os-title">
+      <p class="gw-os-home__eyebrow">Workspace 01 · Personal environment · Ready</p>
+      <h1 id="greenways-os-title">Greenways OS.</h1>
+      <p>
+        A programmable creative environment for preparing work privately, collaborating with people and agents, and publishing portable outcomes with useful receipts.
+      </p>
+      <div class="gw-os-home__actions">
+        <a class="gw-button gw-button--primary" href={screenHref("today")}>Open Today</a>
+        <a class="gw-button" href={screenHref("studio")}>Open Studio</a>
+        <button class="gw-button" type="button" data-command-open>Search workspace</button>
       </div>
     </section>
 
-    <section id="screen-collection" class="gw-overview-section" aria-labelledby="screen-collection-title">
-      <header class="gw-section-heading">
-        <div><span class="gw-meta-label">Seven connected surfaces</span><h2 id="screen-collection-title">A product spine from intent to evidence</h2></div>
-        <p>Each surface has a distinct job. Navigation, language, identity and receipts remain consistent as work moves between them.</p>
-      </header>
+    <nav class="gw-os-desktop-apps" aria-label="Greenways desktop applications">
+      {greenwaysProductScreens.map((screen) => (
+        <a class:list={["gw-os-desktop-app", `gw-tone--${screen.tone}`]} href={screenHref(screen.id)}>
+          <span class="gw-os-app-icon" aria-hidden="true">{screen.navCode}</span>
+          <strong>{screen.label}</strong>
+          <small>{screen.eyebrow}</small>
+        </a>
+      ))}
+    </nav>
 
-      <div class="gw-screen-card-grid">
-        {greenwaysProductScreens.map((screen, index) => (
-          <a class:list={["gw-screen-card", `gw-screen--${screen.tone}`]} href={screenHref(screen.id)}>
-            <div class="gw-screen-card__preview" aria-hidden="true"></div>
-            <div class="gw-screen-card__meta">
-              <span><strong>{String(index + 1).padStart(2, "0")} · {screen.label}</strong><small>{screen.outcome}</small></span>
-              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 4 6 6-6 6" /></svg>
-            </div>
+    <section class="gw-os-widget gw-os-widget--now gw-tone--sage" aria-labelledby="greenways-now-title" data-os-widget-window>
+      <header class="gw-os-widget__titlebar">
+        <span class="gw-os-widget__title">
+          <span class="gw-os-app-icon" aria-hidden="true">TD</span>
+          <span><strong id="greenways-now-title">Today</strong> <small>Daily briefing</small></span>
+        </span>
+        <span class="gw-os-widget__meta">3 decisions · live</span>
+      </header>
+      <div class="gw-os-widget__body">
+        <article class="gw-os-now-brief">
+          <span>What needs you</span>
+          <h2>Three decisions will unblock the rest of the week.</h2>
+        </article>
+        <div class="gw-os-decision-list">
+          <a class="gw-os-decision" href={screenHref("studio")}>
+            <span class="gw-os-decision__mark" aria-hidden="true">ST</span>
+            <span class="gw-os-decision__copy">
+              <strong>Approve “Open distribution” release candidate</strong>
+              <small>Studio · requested by Mira · 9 minute review</small>
+            </span>
+            <span class="gw-os-decision__state">Review</span>
           </a>
-        ))}
+          <a class="gw-os-decision" href={screenHref("keyring")}>
+            <span class="gw-os-decision__mark" aria-hidden="true">KY</span>
+            <span class="gw-os-decision__copy">
+              <strong>Scope Atlas to campaign reporting</strong>
+              <small>Keyring · proposed grant expires in 30 days</small>
+            </span>
+            <span class="gw-os-decision__state">Decision</span>
+          </a>
+          <a class="gw-os-decision" href={screenHref("campaigns")}>
+            <span class="gw-os-decision__mark" aria-hidden="true">CP</span>
+            <span class="gw-os-decision__copy">
+              <strong>Select the short-form campaign excerpt</strong>
+              <small>Campaigns · three versions prepared</small>
+            </span>
+            <span class="gw-os-decision__state">Choose</span>
+          </a>
+        </div>
       </div>
     </section>
 
-    <section class="gw-overview-section" aria-labelledby="greenways-principles-title">
-      <header class="gw-section-heading">
-        <div><span class="gw-meta-label">Product principles</span><h2 id="greenways-principles-title">The interface makes the architecture understandable</h2></div>
-        <p>The screens deliberately foreground usefulness and human agency. Technical proof remains available, but it never becomes the product’s first sentence.</p>
+    <section class="gw-os-widget gw-os-widget--system" aria-labelledby="greenways-system-title" data-os-widget-window>
+      <header class="gw-os-widget__titlebar">
+        <span class="gw-os-widget__title">
+          <span class="gw-os-app-icon gw-os-app-icon--desktop" aria-hidden="true">GW</span>
+          <span><strong id="greenways-system-title">System</strong> <small>Workspace health</small></span>
+        </span>
+        <span class="gw-os-widget__meta">All services available</span>
       </header>
-      <div class="gw-principles-grid">
-        <article class="gw-principle"><span>01</span><h3>Human decisions stay visible</h3><p>Agents can prepare, compare and execute within a grant. Irreversible or externally visible actions surface as explicit human decisions.</p></article>
-        <article class="gw-principle"><span>02</span><h3>Receipts, not surveillance</h3><p>Meaningful boundaries create useful evidence. The product does not log every gesture or expose private work merely because it can.</p></article>
-        <article class="gw-principle"><span>03</span><h3>Portable by default</h3><p>Source, attribution, rights and derivation travel with a publication so creators do not have to reconstruct context at every destination.</p></article>
-        <article class="gw-principle"><span>04</span><h3>Open systems feel approachable</h3><p>Packages and namespaces show purpose, compatibility and accountable maintainers before presenting implementation detail.</p></article>
+      <div class="gw-os-widget__body gw-os-system-grid">
+        <a class="gw-os-system-cell" href={screenHref("keyring")}><span>Identity</span><strong>4 active grants</strong><small>Healthy</small></a>
+        <a class="gw-os-system-cell" href={screenHref("packages")}><span>Packages</span><strong>18 installed</strong><small>Compatible</small></a>
+        <a class="gw-os-system-cell" href={screenHref("receipts")}><span>Receipts</span><strong>14 synchronised</strong><small>Verified</small></a>
       </div>
     </section>
+
+    <p class="gw-os-home__principle">
+      These seven screens form the product spine. Applications share identity, permissions, files, agents and receipts while remaining separate tools inside one environment.
+    </p>
   </div>
 </GreenwaysProductShell>
