@@ -1,5 +1,6 @@
 ---
 import CatalogueNavigation from "../../../v2/CatalogueNavigation.astro";
+import CataloguePageFooter from "../../../v2/CataloguePageFooter.astro";
 import "../../../v2/document.css";
 import "../../../v2/workbench.css";
 ---
@@ -13,7 +14,7 @@ import "../../../v2/workbench.css";
   </head>
   <body class="gw-v2 gw-v2-document gw-v2-catalogue">
     <CatalogueNavigation currentPath="/v2/foundations/" />
-    <main id="gw-v2-main" class="gw-v2-page">
+    <main id="gw-v2-main" class="gw-v2-page" tabindex="-1">
       <section id="foundation-premise" data-catalogue-section data-section-label="Premise" class="gw-v2-surface">
         <p>Foundation contract · Issue #33</p>
         <h1>Neutral structure. Peacock identity.</h1>
@@ -34,6 +35,7 @@ import "../../../v2/workbench.css";
           <p>Emerald, aqua, sapphire and violet belong to the mark and signals.</p>
         </article>
       </section>
+      <CataloguePageFooter currentPath="/v2/foundations/" />
     </main>
   </body>
 </html>
