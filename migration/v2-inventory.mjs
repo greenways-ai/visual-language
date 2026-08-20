@@ -35,11 +35,48 @@ export const legacyPackageExports = freeze([
   record("src/StatstradeGateway.astro", "deprecate", "package", "Compatibility-only product presentation export.", "./StatstradeGateway.astro"),
 ]);
 
+const v2ComponentFiles = [
+  "Navigation.astro",
+  "Action.astro",
+  "Toggle.astro",
+  "Field.astro",
+  "Tabs.astro",
+  "FilterBar.astro",
+  "List.astro",
+  "Card.astro",
+  "DataTable.astro",
+  "Panel.astro",
+  "Dialog.astro",
+  "Status.astro",
+  "ActivityList.astro",
+  "ApprovalCard.astro",
+  "Receipt.astro",
+  "WorkbenchShell.astro",
+];
+
 export const v2PackageContracts = freeze([
   record("src/v2/tokens.css", "replace", "package", "Semantic v2 token source; opt-in and theme-complete.", "./v2/tokens.css"),
   record("src/v2/document.css", "replace", "package", "Calm document and product foundation.", "./v2/document.css"),
   record("src/v2/workbench.css", "replace", "package", "Dense layer importing the document foundation.", "./v2/workbench.css"),
+  record("src/v2/components.css", "replace", "package", "Shared component presentation importing the document foundation.", "./v2/components.css"),
   record("src/v2/contract.js", "replace", "package", "Machine-readable entry, identity and token-family contract.", "./v2/contract.js"),
+  record("src/v2/component-contract.js", "replace", "package", "Machine-readable component inventory, states, semantics and behaviour ownership.", "./v2/component-contract.js"),
+  ...v2ComponentFiles.map((path) => record(
+    `src/v2/astro/${path}`,
+    "replace",
+    "package",
+    "Stable semantic Astro primitive; application data, commands and effects remain host-owned.",
+    `./v2/astro/${path}`,
+  )),
+]);
+
+export const v2SupportingSources = freeze([
+  record(
+    "src/v2/component-contract.d.ts",
+    "retain",
+    "package",
+    "Type declaration paired with the machine-readable component contract.",
+  ),
 ]);
 
 const componentFiles = [
@@ -153,6 +190,7 @@ export const generatedAssetSources = freeze([
 export const greenwaysV2MigrationInventory = freeze([
   ...legacyPackageExports,
   ...v2PackageContracts,
+  ...v2SupportingSources,
   ...siteOnlySources,
   ...conceptRouteSources,
   ...generatedAssetSources,
