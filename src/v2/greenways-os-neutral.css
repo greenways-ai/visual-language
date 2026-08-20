@@ -1,0 +1,647 @@
+@import "./tokens.css";
+
+/*
+ * Greenways OS structural bridge and atlas adoption layer
+ *
+ * This file owns no colour values. It bridges the historical atlas vocabulary
+ * onto the shared Greenways v2 contract, then removes the remaining hue-biased
+ * structural treatments from the five host-specific interface studies.
+ */
+
+:root,
+:root[data-theme="light"],
+:root[data-theme="dark"] {
+  --gw2-bg: var(--gw-v2-canvas);
+  --gw2-bg-deep: var(--gw-v2-canvas-subtle);
+  --gw2-field: var(--gw-v2-surface-recessed);
+  --gw2-field-2: var(--gw-v2-canvas-strong);
+  --gw2-surface: var(--gw-v2-surface);
+  --gw2-surface-2: var(--gw-v2-surface-muted);
+  --gw2-surface-3: var(--gw-v2-surface-raised);
+  --gw2-overlay: var(--gw-v2-surface-overlay);
+  --gw2-line: var(--gw-v2-seam);
+  --gw2-line-strong: var(--gw-v2-seam-strong);
+  --gw2-text: var(--gw-v2-text);
+  --gw2-text-2: var(--gw-v2-text-muted);
+  --gw2-muted: var(--gw-v2-text-muted);
+  --gw2-faint: var(--gw-v2-text-subtle);
+  --gw2-signal: var(--gw-v2-signal);
+  --gw2-signal-soft: var(--gw-v2-signal-soft);
+  --gw2-green: var(--gw-v2-state-success);
+  --gw2-green-soft: var(--gw-v2-state-success-soft);
+  --gw2-warm: var(--gw-v2-state-warning);
+  --gw2-coral: var(--gw-v2-state-danger);
+  --gw2-violet: var(--gw-v2-brand-violet);
+  --gw2-danger: var(--gw-v2-state-danger);
+  --gw2-shadow: var(--gw-v2-elevation-3);
+  --gw2-shadow-soft: var(--gw-v2-elevation-1);
+  --gw2-radius-sm: var(--gw-v2-radius-xs);
+  --gw2-radius: var(--gw-v2-radius-sm);
+  --gw2-radius-lg: var(--gw-v2-radius-md);
+  --gw2-display: var(--gw-v2-font-display);
+  --gw2-sans: var(--gw-v2-font-body);
+  --gw2-mono: var(--gw-v2-font-code);
+}
+
+html {
+  background: var(--gw-v2-canvas);
+}
+
+.gw2-body {
+  color: var(--gw-v2-text);
+  background-color: var(--gw-v2-canvas);
+  background-image:
+    var(--gw-v2-material-grain),
+    linear-gradient(180deg, var(--gw-v2-canvas), var(--gw-v2-canvas-subtle));
+  background-size: 9rem 9rem, 100% 100%;
+}
+
+.gw2-body :where(a, button, input, textarea, select, summary) {
+  transition:
+    color var(--gw-v2-motion-fast) var(--gw-v2-ease-standard),
+    background-color var(--gw-v2-motion-fast) var(--gw-v2-ease-standard),
+    border-color var(--gw-v2-motion-fast) var(--gw-v2-ease-standard),
+    box-shadow var(--gw-v2-motion-fast) var(--gw-v2-ease-standard),
+    transform var(--gw-v2-motion-fast) var(--gw-v2-ease-standard);
+}
+
+.gw2-body :where(a, button, input, textarea, select, summary):focus-visible {
+  outline: 3px solid var(--gw-v2-focus-ring);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px var(--gw-v2-focus-offset);
+}
+
+.gw2-body ::selection {
+  color: var(--gw-v2-on-signal);
+  background: var(--gw-v2-signal);
+}
+
+/* Identity stays peacock-coloured; application identity remains a small accent. */
+.gw2-mark i {
+  background: var(--gw-v2-brand-spectrum);
+  filter: none;
+}
+
+.gw2-mark::after {
+  border-color: color-mix(in srgb, var(--gw-v2-text-inverse) 58%, transparent);
+  background: var(--gw-v2-canvas-inverse);
+}
+
+.gw2-live-dot,
+.gw2-window-status__dot,
+.gw2-status-dot[data-state="success"] {
+  background: var(--gw-v2-state-success);
+  box-shadow: 0 0 0 0.2rem var(--gw-v2-state-success-soft);
+}
+
+.gw2-signal--sage {
+  --gw2-item-signal: var(--gw-v2-brand-emerald);
+}
+
+.gw2-signal--clay {
+  --gw2-item-signal: color-mix(
+    in srgb,
+    var(--gw-v2-brand-emerald) 52%,
+    var(--gw-v2-brand-violet)
+  );
+}
+
+.gw2-signal--sky {
+  --gw2-item-signal: var(--gw-v2-brand-aqua);
+}
+
+.gw2-signal--gold {
+  --gw2-item-signal: color-mix(
+    in srgb,
+    var(--gw-v2-brand-aqua) 45%,
+    var(--gw-v2-brand-sapphire)
+  );
+}
+
+.gw2-signal--violet {
+  --gw2-item-signal: var(--gw-v2-brand-violet);
+}
+
+.gw2-signal--coral {
+  --gw2-item-signal: color-mix(
+    in srgb,
+    var(--gw-v2-brand-violet) 58%,
+    var(--gw-v2-brand-sapphire)
+  );
+}
+
+.gw2-signal--ink {
+  --gw2-item-signal: var(--gw-v2-state-neutral);
+}
+
+/* Atlas chrome: matte neutral fields, quiet seams, restrained elevation. */
+.gw2-concept-bar {
+  color: var(--gw-v2-text-muted);
+  background: color-mix(in srgb, var(--gw-v2-surface-overlay) 96%, transparent);
+  border-bottom-color: var(--gw-v2-seam);
+  backdrop-filter: blur(16px);
+}
+
+.gw2-concept-button,
+.gw2-command-input kbd,
+.gw2-concept-button kbd {
+  background: var(--gw-v2-surface-raised);
+  border-color: var(--gw-v2-seam);
+}
+
+.gw2-surface-menu,
+.gw2-command-palette,
+.gw2-toast {
+  background: var(--gw-v2-surface-overlay);
+  border-color: var(--gw-v2-seam-strong);
+  border-radius: var(--gw-v2-radius-md);
+  box-shadow: var(--gw-v2-elevation-3);
+  backdrop-filter: blur(18px);
+}
+
+.gw2-command-scrim {
+  background: color-mix(in srgb, var(--gw-v2-canvas-inverse) 58%, transparent);
+}
+
+.gw2-surface-menu__item:hover,
+.gw2-surface-menu__item.is-active,
+.gw2-command-results a:hover,
+.gw2-command-results button:hover,
+.gw2-command-results a:focus-visible,
+.gw2-command-results button:focus-visible {
+  background: var(--gw-v2-signal-soft);
+}
+
+.gw2-surface-menu__item.is-active {
+  box-shadow: inset 2px 0 var(--gw-v2-signal);
+}
+
+.gw2-device,
+.gw2-popup-stage {
+  background: var(--gw-v2-surface-recessed);
+  border-color: var(--gw-v2-seam-strong);
+  border-radius: var(--gw-v2-radius-md);
+  box-shadow: var(--gw-v2-elevation-2);
+}
+
+.gw2-surface-card,
+.gw2-architecture-layer > header,
+.gw2-architecture-layer article,
+.gw2-surface-next a {
+  background: var(--gw-v2-surface);
+  border-color: var(--gw-v2-seam);
+  border-radius: var(--gw-v2-radius-sm);
+  box-shadow: var(--gw-v2-elevation-0);
+}
+
+.gw2-surface-card:hover,
+.gw2-surface-next a:hover {
+  border-color: var(--gw-v2-seam-strong);
+  box-shadow: var(--gw-v2-elevation-1);
+}
+
+.gw2-surface-card__preview {
+  background: var(--gw-v2-surface-recessed);
+}
+
+.gw2-mini-frame,
+.gw2-mini-panel-preview > aside,
+.gw2-mini-popup-preview > div {
+  background: var(--gw-v2-surface);
+  border-color: var(--gw-v2-seam);
+  box-shadow: var(--gw-v2-elevation-1);
+}
+
+.gw2-mini-panel-preview,
+.gw2-mini-popup-preview,
+.gw2-mini-web-preview {
+  background: var(--gw-v2-canvas-subtle);
+}
+
+.gw2-mini-panel-preview > main,
+.gw2-mini-web-preview header {
+  background: var(--gw-v2-surface-raised);
+  border-color: var(--gw-v2-seam);
+}
+
+.gw2-mini-web-preview {
+  background: var(--gw-v2-canvas);
+}
+
+.gw2-mini-web-preview main i {
+  background: var(--gw-v2-text-muted);
+}
+
+.gw2-mini-web-preview main div:last-child {
+  background: var(--gw-v2-brand-spectrum);
+  opacity: 0.62;
+}
+
+.gw2-system-core {
+  background: var(--gw-v2-surface-raised);
+  border-color: var(--gw-v2-seam-strong);
+  box-shadow: var(--gw-v2-elevation-2);
+}
+
+.gw2-orbit-node {
+  background: var(--gw-v2-surface-overlay);
+  border-color: var(--gw-v2-seam);
+  box-shadow: var(--gw-v2-elevation-1);
+}
+
+.gw2-orbit-provider {
+  background: var(--gw-v2-surface);
+  border-color: var(--gw-v2-seam);
+}
+
+.gw2-architecture-layer--core article {
+  background: var(--gw-v2-signal-soft);
+  border-color: color-mix(in srgb, var(--gw-v2-signal) 28%, var(--gw-v2-seam));
+}
+
+/* The command signal owns primary interaction; green remains success only. */
+.gw2-overview-hero__actions a:first-child,
+.gw2-extension-contextbar__actions button:first-child,
+.gw2-pane-heading button:first-child,
+.gw2-agent-composer > div button,
+.gw2-web-hero__copy button:first-child,
+.gw2-web-header > div button:nth-child(2),
+.gw2-web-workspace__copy > button {
+  color: var(--gw-v2-on-signal);
+  background: var(--gw-v2-signal);
+  border-color: var(--gw-v2-signal);
+}
+
+.gw2-overview-hero__actions a:first-child:hover,
+.gw2-extension-contextbar__actions button:first-child:hover,
+.gw2-pane-heading button:first-child:hover,
+.gw2-agent-composer > div button:hover,
+.gw2-web-hero__copy button:first-child:hover,
+.gw2-web-header > div button:nth-child(2):hover,
+.gw2-web-workspace__copy > button:hover {
+  background: var(--gw-v2-signal-hover);
+  border-color: var(--gw-v2-signal-hover);
+}
+
+.gw2-panel-primary-actions button:first-child,
+.gw2-popup-actions button.is-primary {
+  color: var(--gw-v2-text);
+  background: var(--gw-v2-signal-soft);
+  border-color: color-mix(in srgb, var(--gw-v2-signal) 32%, var(--gw-v2-seam));
+}
+
+.gw2-panel-primary-actions button:first-child svg,
+.gw2-popup-actions button.is-primary .gw2-popup-action-icon {
+  color: var(--gw-v2-signal);
+}
+
+.gw2-mode-line__branch {
+  color: var(--gw-v2-on-signal);
+  background: var(--gw-v2-signal);
+}
+
+/* Native and browser workbench structure. */
+.gw2-native-titlebar,
+.gw2-activity-rail,
+.gw2-workbench-command,
+.gw2-buffer-list,
+.gw2-room-rail,
+.gw2-context-inspector,
+.gw2-panel,
+.gw2-popup {
+  background: var(--gw-v2-surface);
+}
+
+.gw2-frame,
+.gw2-extension-workspace,
+.gw2-pane,
+.gw2-pane--primary,
+.gw2-pane-grid {
+  background: var(--gw-v2-surface-recessed);
+}
+
+.gw2-buffer-bar,
+.gw2-mode-line,
+.gw2-panel__footer,
+.gw2-popup__footer {
+  background: var(--gw-v2-surface-muted);
+}
+
+.gw2-buffer.is-active {
+  background: var(--gw-v2-surface-recessed);
+}
+
+.gw2-console-lines,
+html[data-theme="light"] .gw2-console-lines {
+  background: var(--gw-v2-canvas);
+}
+
+.gw2-briefing-banner {
+  background: var(--gw-v2-signal-soft);
+  border-color: color-mix(in srgb, var(--gw-v2-signal) 24%, var(--gw-v2-seam));
+}
+
+.gw2-briefing-banner::after {
+  border-color: color-mix(in srgb, var(--gw-v2-signal) 18%, transparent);
+  box-shadow:
+    inset 0 0 0 2.4rem color-mix(in srgb, var(--gw-v2-signal) 5%, transparent),
+    inset 0 0 0 4.8rem color-mix(in srgb, var(--gw-v2-signal) 3%, transparent);
+}
+
+.gw2-briefing-banner > span {
+  color: var(--gw-v2-signal);
+}
+
+.gw2-briefing-banner > div span,
+html[data-theme="light"] .gw2-briefing-banner > div span {
+  background: var(--gw-v2-surface-overlay);
+}
+
+/* Browser chrome is host context, but it still uses the neutral v2 material. */
+html:root .gw2-browser-tabs {
+  color: var(--gw-v2-text-muted);
+  background: var(--gw-v2-canvas-strong);
+}
+
+html:root .gw2-browser-tab,
+html:root[data-theme="light"] .gw2-browser-tab {
+  background: var(--gw-v2-surface-muted);
+}
+
+html:root .gw2-browser-address,
+html:root[data-theme="light"] .gw2-browser-address {
+  color: var(--gw-v2-text-muted);
+  background: var(--gw-v2-surface-muted);
+  border-bottom-color: var(--gw-v2-seam);
+}
+
+html:root .gw2-browser-address > div,
+html:root[data-theme="light"] .gw2-browser-address > div {
+  color: var(--gw-v2-text-muted);
+  background: var(--gw-v2-surface-recessed);
+  border-color: var(--gw-v2-seam);
+}
+
+.gw2-browser-extension-mark.is-active {
+  background: var(--gw-v2-signal-soft);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gw-v2-signal) 36%, transparent);
+}
+
+.gw2-browser-avatar,
+.gw2-avatar--human,
+.gw2-activity-rail__bottom span {
+  color: var(--gw-v2-text);
+  background: var(--gw-v2-state-neutral-soft);
+}
+
+.gw2-extension-contextbar {
+  background: var(--gw-v2-surface);
+}
+
+/* Side-panel host page and popup background lose the pale-green cast. */
+.gw2-browser-and-panel,
+.gw2-popup-stage {
+  background-color: var(--gw-v2-canvas-subtle);
+  background-image: var(--gw-v2-material-grain);
+  background-size: 9rem 9rem;
+}
+
+.gw2-simulated-webpage {
+  color: var(--gw-v2-text);
+  background: var(--gw-v2-canvas);
+}
+
+.gw2-simulated-webpage > header {
+  background: var(--gw-v2-surface-raised);
+  border-bottom-color: var(--gw-v2-seam);
+}
+
+.gw2-simulated-webpage > header nav,
+.gw2-simulated-webpage > header button,
+.gw2-page-lede {
+  color: var(--gw-v2-text-muted);
+}
+
+.gw2-simulated-webpage > header button {
+  background: var(--gw-v2-surface);
+  border-color: var(--gw-v2-seam);
+}
+
+.gw2-page-layout > aside {
+  background: var(--gw-v2-surface-muted);
+  border-right-color: var(--gw-v2-seam);
+}
+
+.gw2-page-layout > aside p {
+  color: var(--gw-v2-text-subtle);
+}
+
+.gw2-page-layout > aside span {
+  color: var(--gw-v2-text-muted);
+}
+
+.gw2-page-layout > aside span.is-active {
+  color: var(--gw-v2-text);
+  background: var(--gw-v2-signal-soft);
+  box-shadow: inset 2px 0 var(--gw-v2-signal);
+}
+
+.gw2-page-eyebrow {
+  color: var(--gw-v2-signal);
+}
+
+.gw2-page-code {
+  color: var(--gw-v2-text-inverse);
+  background: var(--gw-v2-canvas-inverse);
+  border: 1px solid var(--gw-v2-seam-strong);
+  box-shadow: var(--gw-v2-elevation-1);
+}
+
+.gw2-page-table {
+  border-color: var(--gw-v2-seam);
+}
+
+.gw2-page-table span {
+  border-color: var(--gw-v2-seam);
+}
+
+.gw2-page-table span:nth-child(-n+3) {
+  color: var(--gw-v2-text-muted);
+  background: var(--gw-v2-surface-muted);
+}
+
+.gw2-popup-browser-toolbar {
+  color: var(--gw-v2-text-muted);
+  background: var(--gw-v2-surface-raised);
+  border-bottom-color: var(--gw-v2-seam);
+}
+
+.gw2-popup-browser-toolbar > div,
+.gw2-popup-page-ghost section {
+  background: var(--gw-v2-surface-muted);
+}
+
+.gw2-popup-page-ghost aside {
+  background: var(--gw-v2-surface-muted);
+  border-right-color: var(--gw-v2-seam);
+}
+
+.gw2-popup-page-ghost main > i,
+.gw2-popup-page-ghost h2,
+.gw2-popup-page-ghost p {
+  background: var(--gw-v2-state-neutral-soft);
+}
+
+.gw2-popup-browser-toolbar b {
+  color: var(--gw-v2-text);
+  background: var(--gw-v2-state-neutral-soft);
+}
+
+/* Public web shell: rich publication artwork remains coloured; chrome is neutral. */
+.gw2-device--web {
+  color: var(--gw-v2-text);
+  background: var(--gw-v2-canvas);
+}
+
+.gw2-web-header {
+  background: color-mix(in srgb, var(--gw-v2-surface-overlay) 94%, transparent);
+  border-bottom-color: var(--gw-v2-seam);
+}
+
+.gw2-web-brand small,
+.gw2-web-header > nav a,
+.gw2-web-header > div button,
+.gw2-web-hero__copy > p:nth-of-type(2),
+.gw2-web-hero__copy > small,
+.gw2-web-world-card p {
+  color: var(--gw-v2-text-muted);
+}
+
+.gw2-web-header > nav a.is-active,
+.gw2-web-world-card footer > span {
+  color: var(--gw-v2-signal);
+}
+
+.gw2-web-header > nav a.is-active::after {
+  background: var(--gw-v2-signal);
+}
+
+.gw2-web-header > div button {
+  background: var(--gw-v2-surface);
+  border-color: var(--gw-v2-seam);
+}
+
+.gw2-web-hero {
+  background: var(--gw-v2-canvas);
+}
+
+.gw2-web-hero__copy > p:first-child,
+.gw2-web-worlds > header p,
+.gw2-web-workspace__copy > p {
+  color: var(--gw-v2-signal);
+}
+
+.gw2-web-hero__copy button:nth-child(2),
+.gw2-web-worlds > header button {
+  color: var(--gw-v2-text);
+  background: var(--gw-v2-surface);
+  border-color: var(--gw-v2-seam);
+}
+
+.gw2-web-hero__world {
+  border-color: var(--gw-v2-seam);
+  box-shadow: var(--gw-v2-elevation-2);
+}
+
+.gw2-world-caption {
+  color: var(--gw-v2-text);
+  background: var(--gw-v2-surface-overlay);
+  border-color: var(--gw-v2-seam-strong);
+}
+
+.gw2-world-caption > span {
+  color: var(--gw-v2-text-muted);
+}
+
+.gw2-world-caption > div span {
+  background: var(--gw-v2-surface-muted);
+}
+
+.gw2-web-proof {
+  color: var(--gw-v2-text);
+  background: var(--gw-v2-surface-recessed);
+}
+
+.gw2-web-proof > p,
+.gw2-web-proof article > span {
+  color: var(--gw-v2-signal);
+}
+
+.gw2-web-proof > div,
+.gw2-web-proof article {
+  border-color: var(--gw-v2-seam);
+}
+
+.gw2-web-proof article p {
+  color: var(--gw-v2-text-muted);
+}
+
+.gw2-web-worlds {
+  background: var(--gw-v2-canvas-subtle);
+}
+
+.gw2-web-world-card {
+  background: var(--gw-v2-surface);
+  border-color: var(--gw-v2-seam);
+  box-shadow: var(--gw-v2-elevation-0);
+}
+
+.gw2-web-world-card:hover {
+  border-color: var(--gw-v2-seam-strong);
+  box-shadow: var(--gw-v2-elevation-1);
+}
+
+.gw2-web-workspace {
+  color: var(--gw-v2-text);
+  background: var(--gw-v2-canvas-strong);
+}
+
+.gw2-web-workspace__copy > p:nth-of-type(2),
+.gw2-web-workspace__copy dd {
+  color: var(--gw-v2-text-muted);
+}
+
+.gw2-web-workspace__copy dl div {
+  border-color: var(--gw-v2-seam);
+}
+
+.gw2-web-workspace__copy dt {
+  color: var(--gw-v2-text);
+}
+
+.gw2-web-workspace__frame {
+  border-color: var(--gw-v2-seam-strong);
+  box-shadow: var(--gw-v2-elevation-3);
+}
+
+.gw2-web-workspace__frame > nav button.is-active {
+  color: var(--gw-v2-signal);
+  background: var(--gw-v2-signal-soft);
+}
+
+.gw2-web-footer {
+  color: var(--gw-v2-text-muted);
+  background: var(--gw-v2-surface-recessed);
+}
+
+.gw2-web-footer > div strong {
+  color: var(--gw-v2-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gw2-body *,
+  .gw2-body *::before,
+  .gw2-body *::after {
+    transition-duration: var(--gw-v2-motion-instant) !important;
+  }
+}

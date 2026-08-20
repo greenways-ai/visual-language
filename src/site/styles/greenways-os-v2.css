@@ -19,3 +19,6 @@
 @import "./greenways-os-v2-web.css";
 @import "./greenways-os-v2-overview.css";
 @import "./greenways-os-v2-responsive.css";
+
+/* Final structural authority: neutral v2 surfaces with restrained peacock accents. */
+@import "../../v2/greenways-os-neutral.css";
