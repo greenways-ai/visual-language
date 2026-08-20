@@ -1,5 +1,6 @@
 ---
 import CatalogueNavigation from "../../../../v2/CatalogueNavigation.astro";
+import CataloguePageFooter from "../../../../v2/CataloguePageFooter.astro";
 import GreenwaysV2EvidenceSpecimens from "../../../../v2/EvidenceSpecimens.astro";
 import {
   greenwaysV2ComponentGroups,
@@ -39,7 +40,7 @@ const workbenchRegions = greenwaysV2WorkbenchRegions as readonly string[];
       </nav>
     </header>
 
-    <main id="gw-v2-main" class="gw-v2-library__main">
+    <main id="gw-v2-main" class="gw-v2-library__main" tabindex="-1">
       <section id="component-overview" data-catalogue-section data-section-label="Overview" class="gw-v2-library__hero">
         <p class="gw-v2-library__eyebrow">Shared semantics · application-neutral</p>
         <h1>Stable names.<br />Accessible states.</h1>
@@ -111,6 +112,7 @@ const workbenchRegions = greenwaysV2WorkbenchRegions as readonly string[];
           </footer>
         </div>
       </section>
+      <CataloguePageFooter currentPath="/v2/library/components/" />
     </main>
   </body>
 </html>
