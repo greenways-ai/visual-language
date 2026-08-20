@@ -5,6 +5,7 @@ import "../components.css";
 type Method = "get" | "post";
 
 interface Props {
+  id?: string;
   label: string;
   queryLabel?: string;
   queryName?: string;
@@ -18,6 +19,7 @@ interface Props {
 }
 
 const {
+  id,
   label,
   queryLabel = "Search",
   queryName = "query",
@@ -35,6 +37,7 @@ const hasActions = Astro.slots.has("actions");
 ---
 
 <form
+  id={id}
   class:list={["gw-v2-component", "gw-v2-filter-bar", className]}
   action={action}
   method={method}
