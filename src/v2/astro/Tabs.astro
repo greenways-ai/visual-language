@@ -1,0 +1,22 @@
+---
+import "../components.css";
+interface TabItem { id: string; label: string; href?: string; count?: number; disabled?: boolean; }
+interface Props { label: string; items: readonly TabItem[]; currentId: string; panelIdPrefix?: string; class?: string; }
+const { label, items, currentId, panelIdPrefix = "gw-v2-tab-panel", class: className = "" } = Astro.props;
+---
+<div class:list={["gw-v2-component", "gw-v2-tabs", className]} data-gw-v2-component="Tabs" data-gw-v2-state="initial">
+  <div class="gw-v2-tabs__list" role="tablist" aria-label={label}>
+    {items.map((item) => {
+      const selected = item.id === currentId;
+      const controls = `${panelIdPrefix}-${item.id}`;
+      return item.disabled ? (
+        <span class="gw-v2-tab" role="tab" aria-selected="false" aria-disabled="true" aria-controls={controls} tabindex={-1}>{item.label}{item.count !== undefined && <span class="gw-v2-tab__count">{item.count}</span>}</span>
+      ) : item.href ? (
+        <a class="gw-v2-tab" href={item.href} role="tab" aria-selected={selected ? "true" : "false"} aria-current={selected ? "page" : undefined} aria-controls={controls} tabindex={selected ? 0 : -1} data-gw-v2-state={selected ? "selected" : "initial"}>{item.label}{item.count !== undefined && <span class="gw-v2-tab__count">{item.count}</span>}</a>
+      ) : (
+        <button class="gw-v2-tab" type="button" role="tab" aria-selected={selected ? "true" : "false"} aria-controls={controls} tabindex={selected ? 0 : -1} data-gw-v2-state={selected ? "selected" : "initial"}>{item.label}{item.count !== undefined && <span class="gw-v2-tab__count">{item.count}</span>}</button>
+      );
+    })}
+  </div>
+  <slot />
+</div>
