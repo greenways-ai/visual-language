@@ -1,0 +1,52 @@
+---
+import Action from "./Action.astro";
+import "../components.css";
+
+type State = "initial" | "active" | "loading" | "danger";
+
+interface Props {
+  id: string;
+  title: string;
+  description?: string;
+  open?: boolean;
+  modal?: boolean;
+  state?: State;
+  class?: string;
+}
+
+const {
+  id,
+  title,
+  description,
+  open = false,
+  modal = false,
+  state = open ? "active" : "initial",
+  class: className = "",
+} = Astro.props;
+
+const titleId = `${id}-title`;
+const descriptionId = description ? `${id}-description` : undefined;
+const hasActions = Astro.slots.has("actions");
+---
+
+<dialog
+  id={id}
+  class:list={["gw-v2-component", "gw-v2-dialog", className]}
+  open={open}
+  aria-labelledby={titleId}
+  aria-describedby={descriptionId}
+  aria-modal={modal ? "true" : undefined}
+  data-gw-v2-component="Dialog"
+  data-gw-v2-state={state}
+>
+  <header class="gw-v2-dialog__header">
+    <h2 id={titleId}>{title}</h2>
+    {description && <p id={descriptionId}>{description}</p>}
+  </header>
+
+  <div class="gw-v2-dialog__body"><slot /></div>
+
+  <form class="gw-v2-dialog__actions" method="dialog" aria-label={`${title} actions`}>
+    {hasActions ? <slot name="actions" /> : <Action type="submit">Close</Action>}
+  </form>
+</dialog>
