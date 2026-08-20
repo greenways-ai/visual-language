@@ -9,6 +9,7 @@ export const greenwaysV2Entries = freeze({
   components: "@greenways-ai/visual-language/v2/components.css",
   contract: "@greenways-ai/visual-language/v2/contract.js",
   componentContract: "@greenways-ai/visual-language/v2/component-contract.js",
+  workflowContract: "@greenways-ai/visual-language/v2/workflow-contract.js",
 });
 
 export const greenwaysV2Identity = freeze({
