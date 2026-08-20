@@ -1,4 +1,5 @@
 ---
+import CatalogueNavigation from "../../../v2/CatalogueNavigation.astro";
 import "../../../v2/library.css";
 const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
 ---
@@ -11,7 +12,8 @@ const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
     <meta name="description" content="Greenways v2 shared component and workflow-state laboratory." />
     <title>Greenways v2 interface library</title>
   </head>
-  <body class="gw-v2 gw-v2-library">
+  <body class="gw-v2 gw-v2-library gw-v2-catalogue">
+    <CatalogueNavigation currentPath="/v2/library/" />
     <header class="gw-v2-library__bar">
       <a class="gw-v2-library__identity" href={`${base}v2/`}><strong>Greenways v2</strong><small>Interface library</small></a>
       <nav class="gw-v2-library__nav" aria-label="Interface library">
@@ -21,15 +23,15 @@ const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
       </nav>
     </header>
 
-    <main class="gw-v2-library__main">
-      <section class="gw-v2-library__hero">
+    <main id="gw-v2-main" class="gw-v2-library__main">
+      <section id="library-overview" data-catalogue-section data-section-label="Overview" class="gw-v2-library__hero">
         <p class="gw-v2-library__eyebrow">Issue #34 · shared visual contract</p>
         <h1>Reusable structures.<br />Truthful states.</h1>
         <p>The library defines accessible visual semantics for calm product surfaces and dense workbenches. Applications retain ownership of data, commands, validation, authority and effects.</p>
       </section>
 
-      <section class="gw-v2-library__section" aria-labelledby="library-routes">
-        <header><p class="gw-v2-library__eyebrow">Two laboratories</p><h2 id="library-routes">Shared contracts before application composition.</h2></header>
+      <section id="library-routes" data-catalogue-section data-section-label="Laboratories" class="gw-v2-library__section" aria-labelledby="library-routes-heading">
+        <header><p class="gw-v2-library__eyebrow">Two laboratories</p><h2 id="library-routes-heading">Shared contracts before application composition.</h2></header>
         <div class="gw-v2-component-grid">
           <article class="gw-v2-component" data-gw-v2-component="catalogue-link">
             <p class="gw-v2-component__meta">21 stable component definitions</p>
@@ -46,8 +48,8 @@ const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
         </div>
       </section>
 
-      <section class="gw-v2-library__section" aria-labelledby="ownership-boundary">
-        <header><p class="gw-v2-library__eyebrow">Ownership boundary</p><h2 id="ownership-boundary">Visual language is not application behaviour.</h2></header>
+      <section id="ownership-boundary" data-catalogue-section data-section-label="Ownership" class="gw-v2-library__section" aria-labelledby="ownership-boundary-heading">
+        <header><p class="gw-v2-library__eyebrow">Ownership boundary</p><h2 id="ownership-boundary-heading">Visual language is not application behaviour.</h2></header>
         <div class="gw-v2-component-grid">
           <article class="gw-v2-component"><h3>Shared visual contract</h3><p>Semantic markup, state markers, focus, density, responsive collapse and non-colour cues.</p></article>
           <article class="gw-v2-component"><h3>Application-owned behaviour</h3><p>Routing, commands, validation, providers, persistence, authority, execution and verified external effects.</p></article>
