@@ -15,6 +15,7 @@ const groups = (greenwaysV2ComponentGroups as readonly ComponentGroup[]).map((gr
   items: components.filter((component) => component.group === group),
 }));
 const selected = components.find((component) => component.id === "approval-card");
+const workbenchRegions = greenwaysV2WorkbenchRegions as readonly string[];
 ---
 
 <!doctype html>
@@ -99,7 +100,7 @@ const selected = components.find((component) => component.id === "approval-card"
             <aside class="gw-v2-workbench__inspector" aria-label="Selected object inspector"><h3>Inspector</h3><ul><li>Owner · Builder</li><li>State · Waiting for approval</li><li>Evidence · Preview ready</li></ul></aside>
           </div>
           <footer class="gw-v2-workbench__status">
-            {greenwaysV2WorkbenchRegions.map((region) => <span>{region}</span>)}
+            {workbenchRegions.map((region) => <span>{region}</span>)}
           </footer>
         </div>
       </section>
