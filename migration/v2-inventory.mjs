@@ -35,11 +35,44 @@ export const legacyPackageExports = freeze([
   record("src/StatstradeGateway.astro", "deprecate", "package", "Compatibility-only product presentation export.", "./StatstradeGateway.astro"),
 ]);
 
+const v2AstroComponents = [
+  "Navigation.astro",
+  "Action.astro",
+  "Toggle.astro",
+  "Field.astro",
+  "Tabs.astro",
+  "FilterBar.astro",
+  "List.astro",
+  "Card.astro",
+  "DataTable.astro",
+  "Panel.astro",
+  "Dialog.astro",
+  "Status.astro",
+  "ActivityList.astro",
+  "ApprovalCard.astro",
+  "Receipt.astro",
+  "WorkbenchShell.astro",
+];
+
 export const v2PackageContracts = freeze([
   record("src/v2/tokens.css", "replace", "package", "Semantic v2 token source; opt-in and theme-complete.", "./v2/tokens.css"),
   record("src/v2/document.css", "replace", "package", "Calm document and product foundation.", "./v2/document.css"),
-  record("src/v2/workbench.css", "replace", "package", "Dense layer importing the document foundation.", "./v2/workbench.css"),
+  record("src/v2/workbench.css", "replace", "package", "Dense six-region layer importing the document foundation.", "./v2/workbench.css"),
+  record("src/v2/components.css", "replace", "package", "Product-neutral presentation for reusable component implementations.", "./v2/components.css"),
   record("src/v2/contract.js", "replace", "package", "Machine-readable entry, identity and token-family contract.", "./v2/contract.js"),
+  record("src/v2/component-catalogue.js", "replace", "package", "Authoritative merged component, workflow-state and workbench inventory.", "./v2/component-catalogue.js"),
+  record("src/v2/component-contract.js", "replace", "package", "Adapter mapping authoritative catalogue records to reusable Astro implementations.", "./v2/component-contract.js"),
+  ...v2AstroComponents.map((name) => record(
+    `src/v2/astro/${name}`,
+    "replace",
+    "package",
+    "Reusable semantic Astro implementation mapped to the authoritative component catalogue.",
+    `./v2/astro/${name}`,
+  )),
+]);
+
+export const v2SupportingSources = freeze([
+  record("src/v2/component-contract.d.ts", "retain", "package", "Type declaration paired with the reusable component adapter."),
 ]);
 
 const componentFiles = [
@@ -113,7 +146,6 @@ export const conceptRouteSources = freeze([
   "src/pages/concepts/greenways/[screen].astro",
   "src/pages/concepts/greenways/control-plane.astro",
   "src/pages/concepts/greenways/index.astro",
-  "src/pages/concepts/index.astro",
   "src/pages/concepts/statstrade/arena.astro",
   "src/pages/concepts/statstrade/feed.astro",
 ].map((path) => record(path, "retain", "historical", "Existing concept route remains reachable and is labelled as an exploration in v2 navigation.")));
@@ -153,6 +185,7 @@ export const generatedAssetSources = freeze([
 export const greenwaysV2MigrationInventory = freeze([
   ...legacyPackageExports,
   ...v2PackageContracts,
+  ...v2SupportingSources,
   ...siteOnlySources,
   ...conceptRouteSources,
   ...generatedAssetSources,
