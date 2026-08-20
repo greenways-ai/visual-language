@@ -1,4 +1,5 @@
 ---
+import CatalogueNavigation from "../../../v2/CatalogueNavigation.astro";
 import "../../../v2/document.css";
 import "../../../v2/workbench.css";
 ---
@@ -10,15 +11,16 @@ import "../../../v2/workbench.css";
     <meta name="viewport" content="width=device-width" />
     <title>Greenways v2 foundations laboratory</title>
   </head>
-  <body class="gw-v2 gw-v2-document">
-    <main class="gw-v2-page">
-      <section class="gw-v2-surface">
+  <body class="gw-v2 gw-v2-document gw-v2-catalogue">
+    <CatalogueNavigation currentPath="/v2/foundations/" />
+    <main id="gw-v2-main" class="gw-v2-page">
+      <section id="foundation-premise" data-catalogue-section data-section-label="Premise" class="gw-v2-surface">
         <p>Foundation contract · Issue #33</p>
         <h1>Neutral structure. Peacock identity.</h1>
         <p>The foundation laboratory verifies the visual language before application surfaces are built.</p>
       </section>
 
-      <section class="gw-v2-grid">
+      <section id="foundation-surfaces" data-catalogue-section data-section-label="Surface roles" class="gw-v2-grid">
         <article class="gw-v2-surface">
           <h2>Light surface</h2>
           <p>Paper, stone, charcoal, neutral seams.</p>
