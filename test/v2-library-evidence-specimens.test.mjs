@@ -4,10 +4,10 @@ import { readFile } from "node:fs/promises";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
-test("component catalogue composes the site-owned evidence laboratory", async () => {
+test("component catalogue composes the non-exported evidence laboratory", async () => {
   const [page, specimen] = await Promise.all([
     read("src/pages/v2/library/components/index.astro"),
-    read("src/site/components/GreenwaysV2EvidenceSpecimens.astro"),
+    read("src/v2/EvidenceSpecimens.astro"),
   ]);
 
   assert.match(page, /import GreenwaysV2EvidenceSpecimens/);
@@ -32,7 +32,7 @@ test("component catalogue composes the site-owned evidence laboratory", async ()
 });
 
 test("evidence presentation is semantic-token-only and responsive", async () => {
-  const css = await read("src/site/styles/greenways-v2-evidence-specimens.css");
+  const css = await read("src/v2/evidence-specimens.css");
 
   for (const selector of [
     ".gw-v2-evidence-grid",
@@ -57,7 +57,7 @@ test("the evidence laboratory remains outside the public package contract", asyn
   const packageJson = JSON.parse(await read("package.json"));
   const targets = Object.values(packageJson.exports).map(String);
 
-  assert.ok(targets.every((target) => !target.includes("GreenwaysV2EvidenceSpecimens")));
-  assert.ok(targets.every((target) => !target.includes("greenways-v2-evidence-specimens")));
-  assert.ok(targets.every((target) => !target.includes("src/site/")));
+  assert.ok(targets.every((target) => !target.includes("EvidenceSpecimens")));
+  assert.ok(targets.every((target) => !target.includes("evidence-specimens")));
+  assert.ok(targets.every((target) => !target.endsWith("/v2/evidence-specimens.css")));
 });
