@@ -1,0 +1,73 @@
+---
+import "../styles/greenways-v2-evidence-specimens.css";
+---
+
+<section class="gw-v2-library__section" aria-labelledby="evidence-specimens" data-gw-v2-evidence-specimens>
+  <header>
+    <p class="gw-v2-library__eyebrow">Truthful evidence specimens</p>
+    <h2 id="evidence-specimens">Desired, observed and verified states remain separate.</h2>
+    <p>These static specimens keep actor, scope, consequence and evidence adjacent. None of the controls dispatch an application command.</p>
+  </header>
+
+  <div class="gw-v2-evidence-grid">
+    <section class="gw-v2-evidence-stack" aria-labelledby="status-specimens">
+      <header><h3 id="status-specimens">Text-first status</h3><small>Symbol + label + detail</small></header>
+      <ul class="gw-v2-status-list" aria-label="Semantic status specimens">
+        <li><span class="gw-v2-status-specimen" data-gw-v2-state="neutral"><span aria-hidden="true">○</span><span><strong>Idle</strong><small>No session loaded</small></span></span></li>
+        <li><span class="gw-v2-status-specimen" data-gw-v2-state="info"><span aria-hidden="true">●</span><span><strong>Running</strong><small>Step 2 of 4</small></span></span></li>
+        <li><span class="gw-v2-status-specimen" data-gw-v2-state="success"><span aria-hidden="true">✓</span><span><strong>Verified</strong><small>Receipt attached</small></span></span></li>
+        <li><span class="gw-v2-status-specimen" data-gw-v2-state="warning"><span aria-hidden="true">!</span><span><strong>Stale</strong><small>Last observed 8 minutes ago</small></span></span></li>
+        <li><span class="gw-v2-status-specimen" data-gw-v2-state="danger"><span aria-hidden="true">×</span><span><strong>Failed</strong><small>No external effect sent</small></span></span></li>
+      </ul>
+    </section>
+
+    <article class="gw-v2-evidence-card" data-gw-v2-state="warning" aria-labelledby="approval-specimen-title" data-gw-v2-approval-specimen>
+      <header>
+        <div><p class="gw-v2-library__eyebrow">Approval specimen</p><h3 id="approval-specimen-title">Publish one branch to GitHub</h3></div>
+        <span class="gw-v2-status-specimen" data-gw-v2-state="warning"><span aria-hidden="true">!</span><span><strong>Human decision</strong><small>Not yet authorised</small></span></span>
+      </header>
+      <dl>
+        <dt>Requester</dt><dd>Foreman agent</dd>
+        <dt>Scope</dt><dd>Write <code>agent/catalogue-evidence</code> and open one draft pull request</dd>
+        <dt>Consequence</dt><dd>Repository collaborators can inspect the proposed code</dd>
+        <dt>Not included</dt><dd>Merge, release, deployment, credentials or unrelated repository writes</dd>
+      </dl>
+      <footer>
+        <small>Static review specimen. These buttons do not request authority.</small>
+        <div class="gw-v2-evidence-actions">
+          <button class="gw-v2-specimen-control" type="button">Decline specimen</button>
+          <button class="gw-v2-specimen-control" data-primary="true" type="button">Approve specimen</button>
+        </div>
+      </footer>
+    </article>
+
+    <article class="gw-v2-evidence-card" data-gw-v2-state="success" aria-labelledby="receipt-specimen-title" data-gw-v2-receipt-specimen>
+      <header>
+        <div><p class="gw-v2-library__eyebrow">Receipt specimen</p><h3 id="receipt-specimen-title">Component catalogue checked</h3></div>
+        <span class="gw-v2-status-specimen" data-gw-v2-state="success"><span aria-hidden="true">✓</span><span><strong>Verified</strong><small>Example state only</small></span></span>
+      </header>
+      <dl>
+        <dt>Receipt</dt><dd><code>gwv2-catalogue-example-001</code></dd>
+        <dt>Outcome</dt><dd>Twenty-one component contracts classified</dd>
+        <dt>Actor</dt><dd>Foreman agent</dd>
+        <dt>Recorded</dt><dd><time datetime="2026-08-21T03:18:00+08:00">21 August 2026, 03:18 SGT</time></dd>
+        <dt>Evidence</dt><dd><a href="https://github.com/greenways-ai/visual-language/pull/46">Merged library implementation ↗</a></dd>
+      </dl>
+      <footer><small>Example data. This is not an authoritative delivery receipt.</small></footer>
+    </article>
+
+    <section class="gw-v2-evidence-stack" aria-labelledby="activity-specimens">
+      <header><h3 id="activity-specimens">Ordered activity</h3><small>Actor + event + evidence + time</small></header>
+      <ol class="gw-v2-activity-specimen">
+        <li data-gw-v2-state="success">
+          <span class="gw-v2-activity-specimen__marker" aria-hidden="true"></span>
+          <div><strong>Package boundary checked</strong><p>Foreman agent found no laboratory source in the public export map.</p><time datetime="2026-08-21T03:16:00+08:00">03:16 SGT</time></div>
+        </li>
+        <li data-gw-v2-state="info">
+          <span class="gw-v2-activity-specimen__marker" aria-hidden="true"></span>
+          <div><strong>Evidence specimens prepared</strong><p>Status, approval, activity and receipt records retain visible non-colour cues.</p><time datetime="2026-08-21T03:12:00+08:00">03:12 SGT</time></div>
+        </li>
+      </ol>
+    </section>
+  </div>
+</section>
