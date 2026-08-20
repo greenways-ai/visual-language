@@ -46,11 +46,12 @@ test("Foreman owns the primary application route family", () => {
   assert.equal(foreman.primary, true);
   assert.deepEqual(foreman.children?.map((route) => route.id), [
     "foreman-model",
+    "foreman-tools",
     "foreman-projects",
     "foreman-handoffs",
     "foreman-surfaces",
   ]);
-  assert.deepEqual(foreman.children?.map((route) => route.issue), [35, 36, 37, 38]);
+  assert.deepEqual(foreman.children?.map((route) => route.issue), [35, 50, 36, 37, 38]);
 });
 
 test("historical Greenways routes remain reachable but secondary", () => {
