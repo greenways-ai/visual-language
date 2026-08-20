@@ -1,0 +1,160 @@
+---
+import ForemanShell from "../../../../foreman/ForemanShell.astro";
+import {
+  FOREMAN_SELECTED_BUILDOUT_ID,
+  FOREMAN_SELECTED_PROJECT_ID,
+  foremanProjects,
+  getForemanBuildout,
+  getForemanBuildoutHref,
+  getForemanProject,
+} from "../../../../foreman/projects-laboratory.js";
+import type {
+  ForemanBuildout,
+  ForemanProject,
+} from "../../../../foreman/projects-laboratory.js";
+
+const projects = foremanProjects as readonly ForemanProject[];
+const base = import.meta.env.BASE_URL;
+const href = (path: string) => `${base.replace(/\/+$/, "")}${path}`;
+const project = getForemanProject(FOREMAN_SELECTED_PROJECT_ID);
+const selectedBuildout = getForemanBuildout(FOREMAN_SELECTED_PROJECT_ID, FOREMAN_SELECTED_BUILDOUT_ID);
+if (!project || !selectedBuildout) throw new Error("Foreman selected project fixture is incomplete.");
+
+const activeBuildouts = project.buildouts.filter((entry: ForemanBuildout) => entry.state === "active");
+const attentionBuildouts = project.buildouts.filter((entry: ForemanBuildout) => entry.attention);
+const recentVerified = project.buildouts.filter((entry: ForemanBuildout) => entry.state === "completed").slice(0, 2);
+const buildoutHref = getForemanBuildoutHref(project.id, selectedBuildout.id, base);
+---
+
+<ForemanShell
+  title="Overview"
+  description="Foreman overview for project attention, active buildouts, and recent evidenced movement."
+  activeNav="overview"
+  layout="overview"
+  project={{ id: project.id, label: project.label }}
+  buildout={{ id: selectedBuildout.id, label: selectedBuildout.label }}
+  attentionCount={project.attentionCount}
+  inspectorLabel="Selected buildout summary"
+>
+  <div slot="rail" class="fm-app__rail-projects" aria-label="Recent projects">
+    {projects.map((entry: ForemanProject) => (
+      <a href={href(`/v2/applications/foreman/projects/${entry.id}/`)} aria-current={entry.id === project.id ? "page" : undefined}>
+        <strong>{entry.shortLabel}</strong>
+        <small>{entry.activeCount} active · {entry.attentionCount} need attention</small>
+      </a>
+    ))}
+  </div>
+
+  <section class="fm-app__hero" aria-labelledby="foreman-overview-title">
+    <div class="fm-app__hero-copy">
+      <p class="fm-app__eyebrow">Foreman · issue #36 · specimen data</p>
+      <h1 id="foreman-overview-title">Know what is moving. See what needs you.</h1>
+      <p>{project.label} is selected. Active work, human attention, provider attribution, and evidence appear before diagnostics or infrastructure.</p>
+    </div>
+    <div class="fm-app__hero-actions">
+      <a class="fm-app__button" data-variant="primary" href={href(`/v2/applications/foreman/projects/${project.id}/`)}>Open project</a>
+      <a class="fm-app__button" href={buildoutHref}>Inspect active buildout</a>
+    </div>
+  </section>
+
+  <section class="fm-app__metrics" aria-label="Selected project summary">
+    <div class="fm-app__metric"><strong>{project.activeCount}</strong><small>active buildouts</small></div>
+    <div class="fm-app__metric"><strong>{project.attentionCount}</strong><small>need human attention</small></div>
+    <div class="fm-app__metric"><strong>{project.completedCount}</strong><small>completed with evidence</small></div>
+    <div class="fm-app__metric"><strong>{project.connections.length}</strong><small>observed connections</small></div>
+  </section>
+
+  <section id="attention" class="fm-app__section" aria-labelledby="attention-heading">
+    <header>
+      <div class="fm-app__section-heading">
+        <p class="fm-app__section-kicker">Human attention</p>
+        <h2 id="attention-heading">Three decisions remain visible.</h2>
+        <p>Attention is attached to the affected buildout, not hidden in a global notification stream.</p>
+      </div>
+      <a class="fm-app__button" data-variant="quiet" href={`${buildoutHref}#approvals`}>Open approval context</a>
+    </header>
+    <div class="fm-app__attention-grid">
+      {attentionBuildouts.slice(0, 3).map((entry: ForemanBuildout) => (
+        <article class="fm-app__attention-card" data-state={entry.state === "failed" ? "danger" : "warning"}>
+          <header>
+            <div><p class="fm-app__meta">{entry.stateLabel}</p><h3>{entry.label}</h3></div>
+            <span class="fm-app__state-label" data-state={entry.state}>{entry.stateLabel}</span>
+          </header>
+          <p>{entry.attention}</p>
+          <small>{entry.evidence}</small>
+          <a class="fm-app__button" href={getForemanBuildoutHref(project.id, entry.id, base)}>Inspect context</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="fm-app__section" aria-labelledby="active-buildouts-heading">
+    <header>
+      <div class="fm-app__section-heading">
+        <p class="fm-app__section-kicker">Active work</p>
+        <h2 id="active-buildouts-heading">One project outcome, several attributable contexts.</h2>
+        <p>Sessions and providers remain separate while Foreman presents the shared buildout goal.</p>
+      </div>
+      <a class="fm-app__button" href={href(`/v2/applications/foreman/projects/${project.id}/`)}>View buildout board</a>
+    </header>
+    <div class="fm-app__project-grid">
+      {activeBuildouts.map((entry: ForemanBuildout) => (
+        <article class="fm-app__project-card" data-selected="true" data-state={entry.state}>
+          <header>
+            <div><p class="fm-app__meta">Active buildout</p><h3>{entry.label}</h3></div>
+            <span class="fm-app__state-label" data-state={entry.state}>{entry.stateLabel}</span>
+          </header>
+          <p>{entry.goal}</p>
+          <div class="fm-app__provider-row" aria-label="Attributed providers">{entry.providers.map((provider) => <span>{provider}</span>)}</div>
+          <div class="fm-app__progress">
+            <div class="fm-app__progress-track" aria-label={entry.progress.label}><span style={`--fm-progress: ${(entry.progress.completed / entry.progress.total) * 100}%`}></span></div>
+            <small>{entry.progress.label}</small>
+          </div>
+          <a class="fm-app__button" data-variant="primary" href={getForemanBuildoutHref(project.id, entry.id, base)}>Open workbench</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="fm-app__section" aria-labelledby="recent-movement-heading">
+    <header>
+      <div class="fm-app__section-heading">
+        <p class="fm-app__section-kicker">Recent verified movement</p>
+        <h2 id="recent-movement-heading">Completion claims stay beside evidence.</h2>
+      </div>
+    </header>
+    <div class="fm-app__project-grid">
+      {recentVerified.map((entry: ForemanBuildout) => (
+        <article class="fm-app__project-card" data-state="completed">
+          <header><h3>{entry.label}</h3><span class="fm-app__state-label" data-state="completed">Completed</span></header>
+          <p>{entry.goal}</p>
+          <small>{entry.evidence}</small>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <div slot="inspector" class="fm-app__inspector-stack">
+    <section class="fm-app__inspector-section" data-state={selectedBuildout.state}>
+      <header><span>Selected buildout</span><span class="fm-app__state-label" data-state={selectedBuildout.state}>{selectedBuildout.stateLabel}</span></header>
+      <h2>{selectedBuildout.label}</h2>
+      <p>{selectedBuildout.goal}</p>
+      <dl>
+        <dt>Current step</dt><dd>{selectedBuildout.currentStep}</dd>
+        <dt>Attention</dt><dd>{selectedBuildout.attention}</dd>
+        <dt>Progress</dt><dd>{selectedBuildout.progress.label}</dd>
+        <dt>Providers</dt><dd>{selectedBuildout.providers.join(" · ")}</dd>
+      </dl>
+      <a class="fm-app__button" data-variant="primary" href={buildoutHref}>Open full workbench</a>
+    </section>
+
+    <section class="fm-app__inspector-section">
+      <header><span>Truthfulness</span></header>
+      <strong>A selected command is not a completed effect.</strong>
+      <p>Publication and provider state become verified only after authoritative read-back.</p>
+      <a href={href("/v2/applications/foreman/model/")}>Review the product model →</a>
+    </section>
+  </div>
+
+  <span slot="status">selected · {project.shortLabel} / {selectedBuildout.shortLabel}</span>
+</ForemanShell>

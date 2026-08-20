@@ -1,0 +1,300 @@
+---
+import ForemanShell from "../../../../../../../foreman/ForemanShell.astro";
+import {
+  foremanProjects,
+  getForemanBuildoutHref,
+} from "../../../../../../../foreman/projects-laboratory.js";
+import type {
+  ForemanBuildout,
+  ForemanProject,
+  ForemanSession,
+  ForemanWorkItem,
+} from "../../../../../../../foreman/projects-laboratory.js";
+
+const projects = foremanProjects as readonly ForemanProject[];
+
+export function getStaticPaths() {
+  return projects.flatMap((project: ForemanProject) => project.buildouts.map((buildout: ForemanBuildout) => ({
+    params: { project: project.id, buildout: buildout.id },
+    props: { project, buildout },
+  })));
+}
+
+interface Props {
+  project: ForemanProject;
+  buildout: ForemanBuildout;
+}
+
+const { project, buildout } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const href = (path: string) => `${base.replace(/\/+$/, "")}${path}`;
+const workItems = buildout.workItems ?? [];
+const sessions = buildout.sessions ?? [];
+const approvals = buildout.approvals ?? [];
+const artifacts = buildout.artifacts ?? [];
+const activity = buildout.activity ?? [];
+const selectedWorkItem = workItems.find((entry: ForemanWorkItem) => entry.state === "active") ?? workItems[0];
+const selectedSession = sessions.find((entry: ForemanSession) => entry.state === "active") ?? sessions[0];
+const progressPercent = buildout.progress.total > 0 ? (buildout.progress.completed / buildout.progress.total) * 100 : 0;
+const siblings = project.buildouts.filter((entry: ForemanBuildout) => entry.id !== buildout.id).slice(0, 4);
+const canonicalBuildoutHref = getForemanBuildoutHref(project.id, buildout.id, base);
+---
+
+<ForemanShell
+  title={buildout.label}
+  description={`Selected Foreman buildout workbench for ${buildout.label}.`}
+  activeNav="buildouts"
+  layout="workbench"
+  project={{ id: project.id, label: project.label }}
+  buildout={{ id: buildout.id, label: buildout.label }}
+  attentionCount={buildout.attention ? 1 : 0}
+  inspectorLabel="Selected work item, session, and evidence"
+>
+  <div slot="rail" class="fm-app__rail-projects" aria-label="Sibling buildouts">
+    <a href={href(`/v2/applications/foreman/projects/${project.id}/`)}><strong>Buildout board</strong><small>{project.buildouts.length} outcomes</small></a>
+    <a href={canonicalBuildoutHref} aria-current="page"><strong>{buildout.shortLabel}</strong><small>{buildout.stateLabel}</small></a>
+    {siblings.map((entry: ForemanBuildout) => (
+      <a href={getForemanBuildoutHref(project.id, entry.id, base)}><strong>{entry.shortLabel}</strong><small>{entry.stateLabel}</small></a>
+    ))}
+  </div>
+
+  <header class="fm-app__workbench-header" data-foreman-selected-buildout data-state={buildout.state}>
+    <div class="fm-app__workbench-title">
+      <div>
+        <p class="fm-app__eyebrow">Buildout · {project.shortLabel} · specimen data</p>
+        <span class="fm-app__state-label" data-state={buildout.state}>{buildout.stateLabel}</span>
+        <h1>{buildout.label}</h1>
+        <p>{buildout.goal}</p>
+      </div>
+      <div class="fm-app__button-row" aria-describedby="specimen-controls-note">
+        <button class="fm-app__button" type="button" data-variant="primary">Resume specimen</button>
+        <button class="fm-app__button" type="button">Approve specimen</button>
+        <button class="fm-app__button" type="button">Hand off specimen</button>
+        {buildout.issue && <a class="fm-app__button" data-variant="quiet" href={buildout.issue.url}>Open issue #{buildout.issue.number} ↗</a>}
+      </div>
+    </div>
+
+    <div class="fm-app__progress">
+      <div class="fm-app__progress-track" aria-label={buildout.progress.label}><span style={`--fm-progress: ${progressPercent}%`}></span></div>
+      <small>{buildout.progress.label}</small>
+    </div>
+
+    <div class="fm-app__summary-strip">
+      <div class="fm-app__summary-item"><span>Current step</span><strong>{buildout.currentStep}</strong></div>
+      <div class="fm-app__summary-item"><span>Work items</span><strong>{workItems.length || "Not represented"}</strong></div>
+      <div class="fm-app__summary-item"><span>Sessions</span><strong>{sessions.length || "Not represented"}</strong></div>
+      <div class="fm-app__summary-item"><span>Providers</span><strong>{buildout.providers.join(" · ")}</strong></div>
+    </div>
+    <p id="specimen-controls-note" class="fm-app__specimen-note">These controls are static review specimens. They do not resume a session, grant authority, send a handoff, or mutate GitHub.</p>
+  </header>
+
+  {buildout.attention && (
+    <section id="attention" class="fm-app__section" aria-labelledby="buildout-attention-heading">
+      <header>
+        <div class="fm-app__section-heading">
+          <p class="fm-app__section-kicker">Human attention</p>
+          <h2 id="buildout-attention-heading">The blocked transition and safe decision share one view.</h2>
+        </div>
+      </header>
+      <article class="fm-app__attention-card" data-state={buildout.state === "failed" ? "danger" : "warning"}>
+        <header>
+          <div><p class="fm-app__meta">Attention required</p><h3>{buildout.attention}</h3></div>
+          <span class="fm-app__state-label" data-state={buildout.state}>{buildout.stateLabel}</span>
+        </header>
+        <p>{buildout.evidence}</p>
+        <div class="fm-app__button-row">
+          <button class="fm-app__button" type="button">Keep paused</button>
+          <button class="fm-app__button" type="button" data-variant="primary">Review exact scope</button>
+        </div>
+      </article>
+    </section>
+  )}
+
+  <section id="work-items" class="fm-app__section" aria-labelledby="work-items-heading">
+    <header>
+      <div class="fm-app__section-heading">
+        <p class="fm-app__section-kicker">Work items</p>
+        <h2 id="work-items-heading">Bounded tasks retain owners, outputs, and evidence.</h2>
+        <p>A completed label is not shown without adjacent completion evidence.</p>
+      </div>
+      <span class="fm-app__chip">{workItems.length} represented</span>
+    </header>
+
+    {workItems.length > 0 ? (
+      <div class="fm-app__table-wrap" tabindex="0" role="region" aria-label="Work items; scroll horizontally on narrow screens">
+        <table class="fm-app__table">
+          <caption>Selected buildout work items and their current specimen evidence.</caption>
+          <thead><tr><th scope="col">Work item</th><th scope="col">Owner</th><th scope="col">State</th><th scope="col">Expected output</th><th scope="col">Evidence and next action</th></tr></thead>
+          <tbody>
+            {workItems.map((item) => (
+              <tr data-state={item.state}>
+                <th scope="row"><a href={`#inspect-${item.id}`}>{item.label}</a></th>
+                <td>{item.owner.label}<br /><small>{item.owner.kind}</small></td>
+                <td><span class="fm-app__state-label" data-state={item.state}>{item.stateLabel}</span></td>
+                <td>{item.expectedOutput}</td>
+                <td>{item.evidence}<br /><small>Next · {item.nextAction}</small></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    ) : (
+      <div class="fm-app__empty-inspector"><span aria-hidden="true">○</span><strong>No work-item detail represented</strong><p>This summary buildout preserves its state and evidence without inventing task rows.</p></div>
+    )}
+  </section>
+
+  <section id="sessions" class="fm-app__section" aria-labelledby="sessions-heading">
+    <header>
+      <div class="fm-app__section-heading">
+        <p class="fm-app__section-kicker">Sessions</p>
+        <h2 id="sessions-heading">Provider, connection, agent, and session stay distinct.</h2>
+        <p>Desired and actual state appear together. No session is merged merely because it contributes to the same buildout.</p>
+      </div>
+    </header>
+    {sessions.length > 0 ? (
+      <div class="fm-app__session-grid">
+        {sessions.map((session) => (
+          <article class="fm-app__session-card" data-state={session.state}>
+            <header>
+              <div><p class="fm-app__meta">{session.provider} · {session.surface}</p><h3>{session.label}</h3></div>
+              <span class="fm-app__state-label" data-state={session.state}>{session.state}</span>
+            </header>
+            <p>{session.currentWorkItem}</p>
+            <dl class="fm-app__fact-list">
+              <dt>Agent</dt><dd>{session.agent.label} · {session.agent.kind}</dd>
+              <dt>Connection</dt><dd>{session.connectionId}</dd>
+              <dt>Desired</dt><dd>{session.desiredState}</dd>
+              <dt>Observed</dt><dd>{session.actualState}</dd>
+              <dt>Last activity</dt><dd><time datetime={session.lastActivity}>21 Aug · 07:27 AEST</time></dd>
+            </dl>
+            <small>{session.evidence}</small>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <div class="fm-app__empty-inspector"><span aria-hidden="true">○</span><strong>No session detail represented</strong><p>The buildout summary does not invent a provider connection.</p></div>
+    )}
+  </section>
+
+  <section id="approvals" class="fm-app__section" aria-labelledby="approvals-heading">
+    <header>
+      <div class="fm-app__section-heading">
+        <p class="fm-app__section-kicker">Approvals</p>
+        <h2 id="approvals-heading">Authority is exact, expiring, and separate from execution.</h2>
+      </div>
+    </header>
+    {approvals.length > 0 ? approvals.map((approval) => (
+      <article class="fm-app__approval" data-state="waiting-for-approval">
+        <header>
+          <div><p class="fm-app__meta">Approval request</p><h3>{approval.label}</h3></div>
+          <span class="fm-app__state-label" data-state="waiting-for-approval">{approval.state}</span>
+        </header>
+        <dl>
+          <dt>Requester</dt><dd>{approval.requestingActor.label} · {approval.requestingActor.kind}</dd>
+          <dt>Decision owner</dt><dd>{approval.decisionOwner.label}</dd>
+          <dt>Scope</dt><dd>{approval.scope}</dd>
+          <dt>Consequence</dt><dd>{approval.consequence}</dd>
+          <dt>Not included</dt><dd>{approval.excludes}</dd>
+          <dt>Expires</dt><dd><time datetime={approval.expiresAt}>21 Aug · 18:00 AEST</time></dd>
+        </dl>
+        <footer>
+          <small>Specimen decision controls; no authority request is sent.</small>
+          <div class="fm-app__button-row"><button class="fm-app__button" type="button">Decline specimen</button><button class="fm-app__button" type="button" data-variant="primary">Approve specimen</button></div>
+        </footer>
+      </article>
+    )) : (
+      <div class="fm-app__empty-inspector"><span aria-hidden="true">○</span><strong>No approval represented</strong><p>This buildout has no consequential request in the fixture.</p></div>
+    )}
+  </section>
+
+  <section id="artifacts" class="fm-app__section" aria-labelledby="artifacts-heading">
+    <header>
+      <div class="fm-app__section-heading">
+        <p class="fm-app__section-kicker">Artifacts and GitHub projection</p>
+        <h2 id="artifacts-heading">Outputs preserve producer, ancestry, and availability.</h2>
+      </div>
+    </header>
+    <div class="fm-app__artifact-grid">
+      {artifacts.map((artifact) => (
+        <article class="fm-app__artifact-card" data-state={artifact.state}>
+          <header><div><p class="fm-app__meta">{artifact.type}</p><h3>{artifact.label}</h3></div><span class="fm-app__state-label" data-state={artifact.state}>{artifact.state}</span></header>
+          <p>{artifact.ancestry}</p>
+          <dl class="fm-app__fact-list"><dt>Producer</dt><dd>{artifact.producer.label}</dd><dt>Evidence</dt><dd>{artifact.evidence}</dd></dl>
+        </article>
+      ))}
+      {buildout.github && (
+        <article class="fm-app__artifact-card" data-state={buildout.github.state}>
+          <header><div><p class="fm-app__meta">GitHub projection</p><h3>{buildout.github.issue.label}</h3></div><span class="fm-app__state-label" data-state={buildout.github.state}>Observed issue</span></header>
+          <p>{buildout.github.actualState}</p>
+          <dl class="fm-app__fact-list"><dt>Requested effect</dt><dd>{buildout.github.requestedEffect}</dd><dt>Verification</dt><dd>{buildout.github.verification}</dd></dl>
+          <a class="fm-app__button" href={buildout.github.issue.url}>Open issue #{buildout.github.issue.number} ↗</a>
+        </article>
+      )}
+    </div>
+  </section>
+
+  <section id="activity" class="fm-app__section" aria-labelledby="activity-heading">
+    <header>
+      <div class="fm-app__section-heading">
+        <p class="fm-app__section-kicker">Activity</p>
+        <h2 id="activity-heading">Actor, event, affected object, and evidence remain attributable.</h2>
+      </div>
+    </header>
+    {activity.length > 0 ? (
+      <ol class="fm-app__timeline">
+        {activity.map((entry) => (
+          <li data-state={entry.state}>
+            <span class="fm-app__timeline-marker" aria-hidden="true"></span>
+            <div class="fm-app__timeline-copy"><strong>{entry.event}</strong><p>{entry.actor.label} · {entry.actor.kind} · {entry.affectedObject}</p><small>Evidence · {entry.evidence}</small></div>
+            <time datetime={entry.time}>21 Aug · {entry.time.slice(11, 16)} AEST</time>
+          </li>
+        ))}
+      </ol>
+    ) : (
+      <div class="fm-app__empty-inspector"><span aria-hidden="true">○</span><strong>No detailed activity represented</strong><p>The summary evidence remains visible without inventing chronological records.</p></div>
+    )}
+  </section>
+
+  <div slot="inspector" class="fm-app__inspector-stack">
+    {selectedWorkItem && (
+      <section id={`inspect-${selectedWorkItem.id}`} class="fm-app__inspector-section" data-state={selectedWorkItem.state}>
+        <header><span>Selected work item</span><span class="fm-app__state-label" data-state={selectedWorkItem.state}>{selectedWorkItem.stateLabel}</span></header>
+        <h2>{selectedWorkItem.label}</h2>
+        <dl>
+          <dt>Owner</dt><dd>{selectedWorkItem.owner.label} · {selectedWorkItem.owner.kind}</dd>
+          <dt>Output</dt><dd>{selectedWorkItem.expectedOutput}</dd>
+          <dt>Evidence</dt><dd>{selectedWorkItem.evidence}</dd>
+          <dt>Next</dt><dd>{selectedWorkItem.nextAction}</dd>
+        </dl>
+        <button class="fm-app__button" type="button">Open work-item specimen</button>
+      </section>
+    )}
+
+    {selectedSession && (
+      <section class="fm-app__inspector-section" data-state={selectedSession.state}>
+        <header><span>Selected session</span><span class="fm-app__state-label" data-state={selectedSession.state}>{selectedSession.state}</span></header>
+        <h2>{selectedSession.label}</h2>
+        <dl>
+          <dt>Provider</dt><dd>{selectedSession.provider}</dd>
+          <dt>Agent</dt><dd>{selectedSession.agent.label}</dd>
+          <dt>Desired</dt><dd>{selectedSession.desiredState}</dd>
+          <dt>Observed</dt><dd>{selectedSession.actualState}</dd>
+          <dt>Work item</dt><dd>{selectedSession.currentWorkItem}</dd>
+        </dl>
+        <details>
+          <summary>Expanded session evidence</summary>
+          <div><p>{selectedSession.evidence}</p><code>{selectedSession.id}</code><code>{selectedSession.connectionId}</code></div>
+        </details>
+      </section>
+    )}
+
+    <section class="fm-app__inspector-section" data-state={buildout.state}>
+      <header><span>Buildout evidence</span></header>
+      <strong>{buildout.evidence}</strong>
+      <p>Completion or connection cannot be inferred from the selected controls above.</p>
+      {buildout.issue && <a href={buildout.issue.url}>Inspect issue #{buildout.issue.number} ↗</a>}
+    </section>
+  </div>
+
+  <span slot="status">buildout · {project.id}/{buildout.id}</span>
+</ForemanShell>

@@ -1,0 +1,158 @@
+---
+import ThemeButton from "../ThemeButton.astro";
+import GreenwaysThemeProvider from "../site/components/GreenwaysThemeProvider.astro";
+import { foremanPrimaryNavigation } from "./language.js";
+import "../v2/workbench.css";
+import "../v2/library.css";
+import "./projects.css";
+
+interface ProjectContext {
+  id: string;
+  label: string;
+}
+
+interface BuildoutContext {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  activeNav?: string;
+  layout?: "overview" | "project" | "workbench";
+  project?: ProjectContext;
+  buildout?: BuildoutContext;
+  inspectorLabel?: string;
+  attentionCount?: number;
+}
+
+type NavigationItem = {
+  id: string;
+  label: string;
+  route: string;
+  purpose: string;
+};
+
+const {
+  title,
+  description,
+  activeNav = "overview",
+  layout = "overview",
+  project,
+  buildout,
+  inspectorLabel = "Context inspector",
+  attentionCount = 0,
+} = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/+$/, "");
+const href = (path: string) => `${base}${path.startsWith("/") ? path : `/${path}`}`;
+const selectedProject = project?.id ?? "greenways-visual-language";
+const selectedBuildout = buildout?.id ?? "foreman-project-workbench";
+const buildoutPath = `/v2/applications/foreman/projects/${selectedProject}/buildouts/${selectedBuildout}/`;
+const navigationHrefs: Record<string, string> = {
+  overview: "/v2/applications/foreman/",
+  projects: "/v2/applications/foreman/projects/",
+  buildouts: `/v2/applications/foreman/projects/${selectedProject}/`,
+  "work-items": `${buildoutPath}#work-items`,
+  sessions: `${buildoutPath}#sessions`,
+  "people-agents": "/v2/applications/foreman/model/#foreman-entities",
+  connections: `/v2/applications/foreman/projects/${selectedProject}/#connections`,
+  approvals: `${buildoutPath}#approvals`,
+  activity: `${buildoutPath}#activity`,
+};
+const navigation = foremanPrimaryNavigation as readonly NavigationItem[];
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
+---
+
+<!doctype html>
+<html lang="en" data-project="visual-language">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={href("/favicon.svg")} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={`${title} · Foreman`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <title>{title} · Foreman</title>
+    <GreenwaysThemeProvider />
+  </head>
+  <body class:list={["gw-v2", "gw-v2-workbench", "fm-app", `fm-app--${layout}`]} data-foreman-laboratory>
+    <a class="fm-app__skip" href="#foreman-main">Skip to Foreman workspace</a>
+
+    <header class="fm-app__topbar">
+      <a class="fm-app__identity" href={href("/v2/applications/foreman/")} aria-label="Foreman overview">
+        <span class="fm-app__mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+        <span><strong>Foreman</strong><small>Project operations</small></span>
+      </a>
+
+      <nav class="fm-app__breadcrumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href={href("/v2/applications/foreman/")}>Foreman</a></li>
+          {project && <li><a href={href(`/v2/applications/foreman/projects/${project.id}/`)}>{project.label}</a></li>}
+          {buildout && <li aria-current="page">{buildout.label}</li>}
+        </ol>
+      </nav>
+
+      <div class="fm-app__top-actions">
+        {attentionCount > 0 && <a class="fm-app__attention-link" href={`${href(buildoutPath)}#attention`}><span>{attentionCount}</span> need attention</a>}
+        <a class="fm-app__top-link" href={href("/v2/")}>Catalogue</a>
+        <a class="fm-app__top-link" href="https://github.com/greenways-ai/visual-language/issues/36">Issue #36</a>
+        <ThemeButton />
+      </div>
+    </header>
+
+    <div class="fm-app__frame">
+      <aside class="fm-app__rail" aria-label="Foreman navigation">
+        <div class="fm-app__rail-heading">
+          <span>Workspace</span>
+          <strong>{project?.label ?? "All projects"}</strong>
+          {buildout && <small>{buildout.label}</small>}
+        </div>
+        <nav class="fm-app__navigation" aria-label="Foreman primary navigation">
+          <ul>
+            {navigation.map((item, index) => (
+              <li>
+                <a
+                  href={href(navigationHrefs[item.id] ?? "/v2/applications/foreman/model/")}
+                  aria-current={activeNav === item.id ? "page" : undefined}
+                  data-nav-id={item.id}
+                >
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <span><strong>{item.label}</strong><small>{item.purpose}</small></span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <div class="fm-app__rail-slot"><slot name="rail" /></div>
+        <p class="fm-app__specimen-note">Specimen data only. Controls on these routes do not dispatch commands or claim provider effects.</p>
+      </aside>
+
+      <main id="foreman-main" class="fm-app__main" tabindex="-1">
+        <slot />
+      </main>
+
+      <aside class="fm-app__inspector" aria-label={inspectorLabel}>
+        <slot name="inspector">
+          <div class="fm-app__empty-inspector">
+            <span aria-hidden="true">◇</span>
+            <strong>No object selected</strong>
+            <p>Choose a project, buildout, work item, or session to inspect its evidence.</p>
+          </div>
+        </slot>
+      </aside>
+    </div>
+
+    <footer class="fm-app__statusline">
+      <span><i data-state="ready"></i> specimen ready</span>
+      <span>desired state ≠ observed state</span>
+      <span>person · agent · connection · session remain distinct</span>
+      <span>320 px safe</span>
+      <slot name="status" />
+    </footer>
+  </body>
+</html>
