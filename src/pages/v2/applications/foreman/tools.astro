@@ -1,0 +1,430 @@
+---
+import {
+  FOREMAN_TOOL_SURFACE_VERSION,
+  foremanArchitectureLayers,
+  foremanClientProfiles,
+  foremanExecutionHosts,
+  foremanLeaseSpecimen,
+  foremanRecoveryStates,
+  foremanRunTimeline,
+  foremanToolClasses,
+  foremanTools,
+  foremanTrustLaws,
+} from "../../../../foreman/tool-surface.js";
+import "../../../../v2/document.css";
+import "../../../../v2/foreman-tools.css";
+
+const toolsFor = (classId: string) => foremanTools.filter((tool) => tool.classId === classId);
+const stateSymbol: Record<string, string> = {
+  ready: "✓",
+  "approval-required": "!",
+  degraded: "△",
+  requested: "○",
+  granted: "✓",
+  allocating: "↻",
+  running: "●",
+  checkpointed: "◆",
+  completed: "✓",
+  cleaned: "✓",
+};
+---
+
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta
+      name="description"
+      content="Static Foreman architecture laboratory for MCP clients, browser consent, Fabric authority, and enrolled sandbox hosts."
+    />
+    <title>Foreman MCP and sandbox tools · Greenways visual language</title>
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem("greenways-v2-theme");
+          document.documentElement.dataset.theme =
+            stored || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        } catch {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+  </head>
+  <body class="gw-v2 fm-tools" data-foreman-tool-surface-version={FOREMAN_TOOL_SURFACE_VERSION}>
+    <a class="fm-tools__skip" href="#foreman-tools-main">Skip to Foreman tool architecture</a>
+
+    <header class="fm-tools__topbar">
+      <div class="fm-tools__brand">
+        <span class="fm-tools__mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <div>
+          <strong>Foreman</strong>
+          <small>MCP and sandbox-host coordination</small>
+        </div>
+      </div>
+      <div class="fm-tools__topbar-actions">
+        <span class="fm-tools__connection"><span aria-hidden="true">●</span> Specimen only</span>
+        <button type="button" data-theme-toggle aria-label="Switch to dark theme">Theme</button>
+      </div>
+    </header>
+
+    <div class="fm-tools__frame">
+      <aside class="fm-tools__rail" aria-label="Foreman architecture context">
+        <p class="fm-tools__eyebrow">Buildout context</p>
+        <h2>Hara · #838</h2>
+        <p>Eliminate structural evaluator re-entry through one direct callable catalogue.</p>
+
+        <dl class="fm-tools__context">
+          <div><dt>Work item</dt><dd>Cross-runtime conformance</dd></div>
+          <div><dt>Attached session</dt><dd>ChatGPT Pro · this tab</dd></div>
+          <div><dt>Selected host</dt><dd>Mac Studio</dd></div>
+          <div><dt>Attention</dt><dd>Sandbox approval</dd></div>
+        </dl>
+
+        <nav aria-label="Foreman specimen sections">
+          <a href="#client-capability">Client capability</a>
+          <a href="#tool-catalogue">Tool catalogue</a>
+          <a href="#authority-path">Authority path</a>
+          <a href="#sandbox-approval">Sandbox approval</a>
+          <a href="#execution-run">Execution run</a>
+          <a href="#trust-laws">Trust laws</a>
+        </nav>
+
+        <p class="fm-tools__rail-note">
+          MCP is one connection into Foreman. It is not Foreman, the Fabric, or the sandbox runtime.
+        </p>
+      </aside>
+
+      <main id="foreman-tools-main" class="fm-tools__main" tabindex="-1">
+        <section class="fm-tools__hero">
+          <div>
+            <p class="fm-tools__eyebrow">Issue #50 · Static architecture specimen</p>
+            <h1>Foreman owns the work.<br />The Fabric grants the route.<br />The host runs the sandbox.</h1>
+            <p>
+              One product surface spans ChatGPT, the browser companion, the Greenways Fabric, and an enrolled
+              execution host without passing credentials through or turning Foreman into a shell.
+            </p>
+          </div>
+          <div class="fm-tools__hero-status" aria-label="Current specimen summary">
+            <article>
+              <span>Client</span>
+              <strong>Read-only MCP</strong>
+              <small>Observed read/fetch capability</small>
+            </article>
+            <article>
+              <span>Authority</span>
+              <strong>Approval required</strong>
+              <small>Exact lease scope is visible</small>
+            </article>
+            <article>
+              <span>Host</span>
+              <strong>Mac Studio ready</strong>
+              <small>45-minute isolated lease</small>
+            </article>
+          </div>
+        </section>
+
+        <section id="client-capability" class="fm-tools__section" data-foreman-client-profiles>
+          <header>
+            <p class="fm-tools__eyebrow">01 · Client capability</p>
+            <h2>Observed tools, not assumed authority.</h2>
+            <p>
+              A subscription label or successful login never determines what the client can do. Foreman shows the
+              actual advertised tool class and then applies Greenways authority independently.
+            </p>
+          </header>
+
+          <div class="fm-tools__profiles">
+            {foremanClientProfiles.map((profile) => (
+              <article
+                class:list={[
+                  "fm-tools__profile",
+                  { "is-read-only": profile.id === "read-only-mcp" },
+                ]}
+                data-client-profile={profile.id}
+              >
+                <div class="fm-tools__profile-heading">
+                  <span>{profile.kind === "remote-mcp-client" ? "MCP client" : "Application host"}</span>
+                  <strong>{profile.label}</strong>
+                </div>
+                <dl>
+                  <div><dt>Observed</dt><dd>{profile.observedCapability}</dd></div>
+                  <div><dt>Tool classes</dt><dd>{profile.toolClasses.join(" · ")}</dd></div>
+                  <div><dt>Action state</dt><dd>{profile.actionState}</dd></div>
+                </dl>
+                <p>{profile.truth}</p>
+                {profile.id === "read-only-mcp" ? (
+                  <button type="button" disabled aria-describedby="read-only-explanation">
+                    Actions unavailable in this client
+                  </button>
+                ) : (
+                  <button type="button" disabled>
+                    Action still requires Greenways authority
+                  </button>
+                )}
+              </article>
+            ))}
+          </div>
+          <p id="read-only-explanation" class="fm-tools__annotation">
+            Current reference specimen: ChatGPT Pro custom MCP is presented as an Observe-only connection. The design
+            does not disguise a durable action as fetch.
+          </p>
+        </section>
+
+        <section id="tool-catalogue" class="fm-tools__section" data-foreman-tool-surface>
+          <header>
+            <p class="fm-tools__eyebrow">02 · Foreman tool surface</p>
+            <h2>One application catalogue across every delivery surface.</h2>
+            <p>
+              The installed Foreman package owns these names and schemas. Desktop, CLI, browser companion, and MCP
+              clients consume the same application operations through different capability profiles.
+            </p>
+          </header>
+
+          <div class="fm-tools__tool-groups">
+            {foremanToolClasses.map((toolClass) => (
+              <article class="fm-tools__tool-group" data-tool-class={toolClass.id}>
+                <header>
+                  <span>{toolClass.effect}</span>
+                  <h3>{toolClass.label}</h3>
+                  <p>{toolClass.purpose}</p>
+                </header>
+                <ul>
+                  {toolsFor(toolClass.id).map((tool) => (
+                    <li>
+                      <div>
+                        <strong>{tool.label}</strong>
+                        <code>{tool.name}</code>
+                      </div>
+                      <small>{tool.resultEvidence}</small>
+                    </li>
+                  ))}
+                </ul>
+                <footer><strong>Required evidence</strong><span>{toolClass.evidence}</span></footer>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="authority-path" class="fm-tools__section" data-foreman-control-plane data-foreman-data-plane>
+          <header>
+            <p class="fm-tools__eyebrow">03 · Ownership path</p>
+            <h2>Control and data planes meet at the Fabric authority.</h2>
+            <p>
+              Credentials terminate at their own boundary. The browser companion can approve and revoke; large logs
+              and artifacts can travel directly between the Fabric and host after a bounded lease is granted.
+            </p>
+          </header>
+
+          <ol class="fm-tools__architecture" aria-label="Foreman MCP and sandbox architecture">
+            {foremanArchitectureLayers.map((layer, index) => (
+              <li data-layer={layer.id}>
+                <span class="fm-tools__architecture-index">{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <strong>{layer.label}</strong>
+                  <p><b>Owns:</b> {layer.owns}</p>
+                  <p><b>Does not own:</b> {layer.mustNotOwn}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <div class="fm-tools__plane-diagram" aria-label="Control plane and data plane separation">
+            <article>
+              <span>Control plane</span>
+              <strong>Browser companion</strong>
+              <p>Visible tab · consent · host choice · lease inspection · revocation</p>
+            </article>
+            <div aria-hidden="true">→</div>
+            <article class="is-authority">
+              <span>Authority</span>
+              <strong>Greenways Fabric</strong>
+              <p>Actor/app/client grant · host generation · Work identity · durable evidence</p>
+            </article>
+            <div aria-hidden="true">→</div>
+            <article>
+              <span>Data plane</span>
+              <strong>Execution host</strong>
+              <p>Exact checkout · isolated run · progress · artifacts · cleanup</p>
+            </article>
+          </div>
+
+          <aside class="fm-tools__boundary-callout">
+            <strong>No token passthrough</strong>
+            <p>
+              The MCP token never reaches the extension or host. Browser and host credentials never reach ChatGPT.
+              The Fabric correlates independently authenticated identities and issues one short-lived, request-bound
+              capability.
+            </p>
+          </aside>
+        </section>
+
+        <section id="sandbox-approval" class="fm-tools__section" data-foreman-lease-specimen>
+          <header>
+            <p class="fm-tools__eyebrow">04 · Browser consent</p>
+            <h2>Approve the exact sandbox, not a machine.</h2>
+            <p>
+              Scope, shared data, host, network, expiry, and excluded authority remain adjacent to the human decision.
+            </p>
+          </header>
+
+          <div class="fm-tools__approval-layout">
+            <article class="fm-tools__approval">
+              <header>
+                <div>
+                  <span>Sandbox lease</span>
+                  <h3>{foremanLeaseSpecimen.workItem}</h3>
+                </div>
+                <span class="fm-tools__status" data-state={foremanLeaseSpecimen.state}>
+                  <span aria-hidden="true">!</span> Approval required
+                </span>
+              </header>
+              <dl>
+                <div><dt>Origin context</dt><dd>{foremanLeaseSpecimen.originContext}</dd></div>
+                <div><dt>Requested by</dt><dd>{foremanLeaseSpecimen.requestedBy}</dd></div>
+                <div><dt>Project / buildout</dt><dd>{foremanLeaseSpecimen.project} · {foremanLeaseSpecimen.buildout}</dd></div>
+                <div><dt>Host</dt><dd>{foremanLeaseSpecimen.host}</dd></div>
+                <div><dt>Capabilities</dt><dd>{foremanLeaseSpecimen.capabilities.join(" · ")}</dd></div>
+                <div><dt>Network</dt><dd>{foremanLeaseSpecimen.network}</dd></div>
+                <div><dt>Expiry</dt><dd>{foremanLeaseSpecimen.expiry}</dd></div>
+                <div><dt>Not included</dt><dd>{foremanLeaseSpecimen.excludedAuthority.join(" · ")}</dd></div>
+              </dl>
+              <footer>
+                <p>Static review controls. No lease or authority request is sent.</p>
+                <div>
+                  <button type="button" disabled>Decline specimen</button>
+                  <button type="button" disabled data-primary="true">Approve specimen</button>
+                </div>
+              </footer>
+            </article>
+
+            <aside class="fm-tools__companion" data-foreman-compact-companion>
+              <header>
+                <div><strong>Foreman</strong><small>Browser companion</small></div>
+                <span aria-label="Connected">●</span>
+              </header>
+              <section>
+                <span>Current context</span>
+                <strong>ChatGPT Pro · Hara #838</strong>
+                <small>Visible tab attached to one Foreman run</small>
+              </section>
+              <section>
+                <span>Human attention</span>
+                <strong>Sandbox approval</strong>
+                <small>Mac Studio · 45 minutes · bounded tests</small>
+              </section>
+              <section>
+                <span>Excluded</span>
+                <p>Cookies, credentials, host files, GitHub push, merge, deployment.</p>
+              </section>
+              <footer>
+                <button type="button" disabled>Open approval in Foreman</button>
+              </footer>
+            </aside>
+          </div>
+        </section>
+
+        <section id="execution-run" class="fm-tools__section" data-foreman-execution-hosts data-foreman-run-timeline>
+          <header>
+            <p class="fm-tools__eyebrow">05 · Execution choices and run</p>
+            <h2>The host is selected; the Work run remains canonical.</h2>
+            <p>
+              Foreman presents user choices and evidence. Provider implementation stays expanded or diagnostic, and
+              no host receives independent GitHub authority.
+            </p>
+          </header>
+
+          <div class="fm-tools__hosts">
+            {foremanExecutionHosts.map((host) => (
+              <article data-host-state={host.state}>
+                <header>
+                  <div><span>{host.trust}</span><h3>{host.label}</h3><p>{host.summary}</p></div>
+                  <span class="fm-tools__status" data-state={host.state}>
+                    <span aria-hidden="true">{stateSymbol[host.state] || "○"}</span> {host.state.replaceAll("-", " ")}
+                  </span>
+                </header>
+                <dl>
+                  <div><dt>Capabilities</dt><dd>{host.capabilities.join(" · ")}</dd></div>
+                  <div><dt>Bounds</dt><dd>{host.bounds.join(" · ")}</dd></div>
+                  <div><dt>Network</dt><dd>{host.network}</dd></div>
+                  <div><dt>Observed</dt><dd><time datetime={host.observedAt}>{host.observedAt}</time></dd></div>
+                </dl>
+                <details>
+                  <summary>Expanded implementation</summary>
+                  <p>{host.expandedImplementation}. This is not the normal product label.</p>
+                </details>
+              </article>
+            ))}
+          </div>
+
+          <div class="fm-tools__run-board">
+            <article class="fm-tools__timeline">
+              <header><span>Run specimen</span><h3>Exact revision → tests → artifact → cleanup</h3></header>
+              <ol>
+                {foremanRunTimeline.map((state) => (
+                  <li data-run-state={state.id}>
+                    <span aria-hidden="true">{stateSymbol[state.id] || "○"}</span>
+                    <div><strong>{state.label}</strong><p>{state.evidence}</p></div>
+                  </li>
+                ))}
+              </ol>
+            </article>
+
+            <article class="fm-tools__recovery">
+              <header><span>Recovery states</span><h3>Difficult outcomes remain first-class.</h3></header>
+              <ul>
+                {foremanRecoveryStates.map((state) => (
+                  <li><strong>{state.label}</strong><p>{state.evidence}</p></li>
+                ))}
+              </ul>
+            </article>
+          </div>
+
+          <aside class="fm-tools__evidence">
+            <div><span>Sandbox result</span><strong>Completed</strong><small>Native conformance artifact · SHA-256 recorded</small></div>
+            <div><span>Workspace</span><strong>Cleaned</strong><small>Host cleanup evidence observed at 07:59 AEST</small></div>
+            <div><span>GitHub</span><strong>Not requested</strong><small>No push, PR, merge, deployment, or publication implied</small></div>
+          </aside>
+        </section>
+
+        <section id="trust-laws" class="fm-tools__section" data-foreman-trust-laws>
+          <header>
+            <p class="fm-tools__eyebrow">06 · Product laws</p>
+            <h2>The interface makes the architecture enforceable.</h2>
+          </header>
+          <ol class="fm-tools__laws">
+            {foremanTrustLaws.map((law, index) => (
+              <li data-law={law.id}><span>{String(index + 1).padStart(2, "0")}</span><p>{law.statement}</p></li>
+            ))}
+          </ol>
+        </section>
+
+        <footer class="fm-tools__page-footer">
+          <p>
+            Static design evidence for visual-language #50. Production behavior belongs to Greenways OS #56 and #155.
+          </p>
+        </footer>
+      </main>
+    </div>
+
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        const button = document.querySelector("[data-theme-toggle]");
+        const sync = () =>
+          button?.setAttribute(
+            "aria-label",
+            root.dataset.theme === "dark" ? "Switch to light theme" : "Switch to dark theme",
+          );
+        button?.addEventListener("click", () => {
+          root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+          try {
+            localStorage.setItem("greenways-v2-theme", root.dataset.theme);
+          } catch {}
+          sync();
+        });
+        sync();
+      })();
+    </script>
+  </body>
+</html>
