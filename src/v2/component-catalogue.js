@@ -32,6 +32,11 @@
  * @property {string} nonColourCue
  */
 
+/**
+ * @template T
+ * @param {T} value
+ * @returns {T}
+ */
 const deepFreeze = (value) => {
   if (value && typeof value === "object" && !Object.isFrozen(value)) {
     Object.freeze(value);
