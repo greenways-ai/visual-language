@@ -1,4 +1,5 @@
 ---
+import CatalogueNavigation from "../../../../v2/CatalogueNavigation.astro";
 import {
   greenwaysV2Workflows,
   greenwaysV2WorkflowStates,
@@ -41,7 +42,8 @@ const cueFor = (id: string) => ({
       })();
     </script>
   </head>
-  <body class="gw-v2 gw-v2-library">
+  <body class="gw-v2 gw-v2-library gw-v2-catalogue">
+    <CatalogueNavigation currentPath="/v2/library/workflows/" />
     <header class="gw-v2-library__bar">
       <a class="gw-v2-library__identity" href={`${base}v2/`}><strong>Greenways v2</strong><small>Workflow states</small></a>
       <nav class="gw-v2-library__nav" aria-label="Interface library">
@@ -52,15 +54,15 @@ const cueFor = (id: string) => ({
       </nav>
     </header>
 
-    <main class="gw-v2-library__main">
-      <section class="gw-v2-library__hero">
+    <main id="gw-v2-main" class="gw-v2-library__main">
+      <section id="workflow-overview" data-catalogue-section data-section-label="Overview" class="gw-v2-library__hero">
         <p class="gw-v2-library__eyebrow">Desired state ≠ observed state</p>
         <h1>The difficult states<br />are part of the product.</h1>
         <p>Every study keeps the current step, evidence and safe next action visible. A toggle, request or provider login never stands in for completion or authority.</p>
       </section>
 
-      <section class="gw-v2-library__section" aria-labelledby="workflow-studies" data-gw-v2-workflow-catalogue>
-        <header><p class="gw-v2-library__eyebrow">Composed studies</p><h2 id="workflow-studies">Four repeatable workflow shapes.</h2></header>
+      <section id="workflow-studies" data-catalogue-section data-section-label="Workflows" class="gw-v2-library__section" aria-labelledby="workflow-studies-heading" data-gw-v2-workflow-catalogue>
+        <header><p class="gw-v2-library__eyebrow">Composed studies</p><h2 id="workflow-studies-heading">Four repeatable workflow shapes.</h2></header>
         <div class="gw-v2-workflow-grid">
           {workflows.map((workflow) => (
             <article class="gw-v2-workflow" data-gw-v2-workflow={workflow.id}>
@@ -76,8 +78,8 @@ const cueFor = (id: string) => ({
         </div>
       </section>
 
-      <section class="gw-v2-library__section" aria-labelledby="state-specimens" data-gw-v2-state-catalogue>
-        <header><p class="gw-v2-library__eyebrow">Required state inventory</p><h2 id="state-specimens">Eleven states with non-colour cues.</h2><p>Border style and colour supplement explicit labels, evidence and actions; they never carry meaning alone.</p></header>
+      <section id="state-specimens" data-catalogue-section data-section-label="States" class="gw-v2-library__section" aria-labelledby="state-specimens-heading" data-gw-v2-state-catalogue>
+        <header><p class="gw-v2-library__eyebrow">Required state inventory</p><h2 id="state-specimens-heading">Eleven states with non-colour cues.</h2><p>Border style and colour supplement explicit labels, evidence and actions; they never carry meaning alone.</p></header>
         <div class="gw-v2-state-grid">
           {states.map((state) => (
             <article class="gw-v2-state" data-state={state.id} data-gw-v2-state={state.id}>
@@ -93,8 +95,8 @@ const cueFor = (id: string) => ({
         </div>
       </section>
 
-      <section class="gw-v2-library__section" aria-labelledby="truthful-connection">
-        <header><p class="gw-v2-library__eyebrow">Connection specimen</p><h2 id="truthful-connection">Configured, observed and authorised are different.</h2></header>
+      <section id="truthful-connection" data-catalogue-section data-section-label="Connection truth" class="gw-v2-library__section" aria-labelledby="truthful-connection-heading">
+        <header><p class="gw-v2-library__eyebrow">Connection specimen</p><h2 id="truthful-connection-heading">Configured, observed and authorised are different.</h2></header>
         <div class="gw-v2-component-grid">
           <article class="gw-v2-component"><p class="gw-v2-component__meta">Desired</p><h3>Provider configured</h3><p>The user asked Foreman to use this connection.</p><span data-gw-v2-state="neutral">Configuration saved</span></article>
           <article class="gw-v2-component"><p class="gw-v2-component__meta">Observed</p><h3>Connection offline</h3><p>Last successful observation was 18 minutes ago.</p><button class="gw-v2-specimen-control" type="button">Reconnect</button></article>
