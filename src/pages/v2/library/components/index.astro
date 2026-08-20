@@ -1,0 +1,601 @@
+---
+import CatalogueShell from "../../../../v2/CatalogueShell.astro";
+import Action from "../../../../v2/astro/Action.astro";
+import ActivityList from "../../../../v2/astro/ActivityList.astro";
+import ApprovalCard from "../../../../v2/astro/ApprovalCard.astro";
+import Card from "../../../../v2/astro/Card.astro";
+import DataTable from "../../../../v2/astro/DataTable.astro";
+import Dialog from "../../../../v2/astro/Dialog.astro";
+import Field from "../../../../v2/astro/Field.astro";
+import FilterBar from "../../../../v2/astro/FilterBar.astro";
+import List from "../../../../v2/astro/List.astro";
+import Navigation from "../../../../v2/astro/Navigation.astro";
+import Panel from "../../../../v2/astro/Panel.astro";
+import Receipt from "../../../../v2/astro/Receipt.astro";
+import Status from "../../../../v2/astro/Status.astro";
+import Tabs from "../../../../v2/astro/Tabs.astro";
+import Toggle from "../../../../v2/astro/Toggle.astro";
+import WorkbenchShell from "../../../../v2/astro/WorkbenchShell.astro";
+import {
+  greenwaysV2Components,
+  greenwaysV2WorkbenchRegions,
+} from "../../../../v2/component-contract.js";
+import "../../../../v2/components.css";
+
+const componentRows = greenwaysV2Components.map((component) => ({
+  component: component.name,
+  semantics: component.semanticRoot,
+  behaviour: component.behaviourOwner === "host" ? "Host owned" : component.behaviourOwner === "native" ? "Native only" : "Presentation only",
+  states: component.states.join(", "),
+}));
+
+const inventoryColumns = [
+  { key: "component", label: "Component" },
+  { key: "semantics", label: "Semantic root" },
+  { key: "behaviour", label: "Behaviour" },
+  { key: "states", label: "Declared states" },
+] as const;
+
+const navigationItems = [
+  { id: "project", label: "Project overview", href: "#project-overview", description: "Goals, buildouts and attention", current: true, status: "Current", tone: "info" as const },
+  { id: "sessions", label: "Sessions", href: "#sessions", description: "Distinct provider and interface contexts", status: "3 active", tone: "success" as const },
+  { id: "approvals", label: "Approvals", href: "#approvals", description: "Exact scope and human decisions", status: "1 waiting", tone: "warning" as const },
+  { id: "future", label: "Future destination", href: "#future", description: "Unavailable in this specimen", disabled: true, status: "Unavailable", tone: "neutral" as const },
+] as const;
+
+const listItems = [
+  {
+    id: "work-12",
+    label: "Define the component contract",
+    description: "Stable names, semantic markup and package ownership.",
+    meta: "Work item WI-12 · specimen data",
+    selected: true,
+    status: "In review",
+    tone: "info" as const,
+  },
+  {
+    id: "work-13",
+    label: "Compose workflow states",
+    description: "Follow-up delivery after the primitive inventory merges.",
+    meta: "Work item WI-13 · specimen data",
+    status: "Planned",
+    tone: "neutral" as const,
+  },
+  {
+    id: "work-14",
+    label: "Review compact layouts",
+    description: "Keyboard, touch, reduced motion and narrow-screen review.",
+    meta: "Work item WI-14 · specimen data",
+    status: "Waiting",
+    tone: "warning" as const,
+  },
+] as const;
+
+const activityItems = [
+  {
+    id: "activity-1",
+    actor: "Chris",
+    action: "requested a component inventory review.",
+    time: "09:12",
+    datetime: "2026-08-21T09:12:00+08:00",
+    detail: "The request covers shared semantics only; application behaviour is excluded.",
+    status: "Recorded",
+    tone: "info" as const,
+    evidenceHref: "#contract-inventory",
+    evidenceLabel: "Open inventory",
+  },
+  {
+    id: "activity-2",
+    actor: "Review session",
+    action: "reported one approval waiting for a human decision.",
+    time: "09:19",
+    datetime: "2026-08-21T09:19:00+08:00",
+    detail: "No authority has been granted and no external action has run.",
+    status: "Waiting",
+    tone: "warning" as const,
+  },
+  {
+    id: "activity-3",
+    actor: "Build check",
+    action: "attached specimen validation evidence.",
+    time: "09:27",
+    datetime: "2026-08-21T09:27:00+08:00",
+    detail: "This is catalogue specimen data, not a live GitHub or provider result.",
+    status: "Specimen",
+    tone: "neutral" as const,
+  },
+] as const;
+
+const workbenchNavigation = [
+  { id: "buildout-a", label: "Component library", href: "#workbench", description: "16 shared primitives", current: true, status: "Active", tone: "info" as const },
+  { id: "buildout-b", label: "Workflow states", href: "#workflow-boundary", description: "Separate follow-up", status: "Planned", tone: "neutral" as const },
+] as const;
+
+const stateRows = [
+  { state: "Initial", cue: "Name + neutral marker", meaning: "Nothing has started or been selected." },
+  { state: "Loading", cue: "Text + progress form", meaning: "Data is being requested; success is not implied." },
+  { state: "Stale", cue: "Text + timestamp", meaning: "Shown data may no longer match the source." },
+  { state: "Partial", cue: "Text + evidence count", meaning: "Some results exist and missing parts remain explicit." },
+  { state: "Offline", cue: "Text + disconnected marker", meaning: "The surface cannot currently reach its source." },
+] as const;
+
+const stateColumns = [
+  { key: "state", label: "State" },
+  { key: "cue", label: "Non-colour cue" },
+  { key: "meaning", label: "Meaning" },
+] as const;
+---
+
+<CatalogueShell
+  title="Greenways v2 component library"
+  description="Stable, semantic Greenways v2 primitives and workbench regions with application behaviour kept outside the visual-language package."
+  currentPath="/v2/library/components/"
+>
+  <article
+    class="gw-v2-component-catalogue gw-v2-stack"
+    data-component-catalogue
+    data-shared-contract
+    data-product-behaviour="host-owned"
+  >
+    <header class="gw-v2-component-hero gw-v2-surface" data-elevation="raised">
+      <div class="gw-v2-stack">
+        <p class="gw-v2-component-kicker">Library · Issue #34 · shared contract</p>
+        <h1>Components that describe a product without pretending to run it.</h1>
+        <p class="gw-v2-prose">
+          These primitives own structure, semantics, focus, responsive presentation and truthful state labels.
+          Applications own data, commands, persistence, authority, provider calls and evidence creation.
+        </p>
+        <div class="gw-v2-cluster" aria-label="Component library status">
+          <Status label={`${greenwaysV2Components.length} primitives`} tone="success" />
+          <Status label={`${greenwaysV2WorkbenchRegions.length} workbench regions`} tone="info" />
+          <Status label="No live behaviour" tone="neutral" />
+        </div>
+      </div>
+      <dl class="gw-v2-component-hero__facts">
+        <div><dt>Package layer</dt><dd>Stable shared contracts</dd></div>
+        <div><dt>Catalogue layer</dt><dd>Executable specimens</dd></div>
+        <div><dt>Application layer</dt><dd>Commands and outcomes</dd></div>
+      </dl>
+    </header>
+
+    <section id="contract-inventory" class="gw-v2-component-section gw-v2-stack" aria-labelledby="component-inventory-title">
+      <header class="gw-v2-component-section__header">
+        <div>
+          <p class="gw-v2-component-kicker">01 · Inventory</p>
+          <h2 id="component-inventory-title">One named contract for every shared primitive.</h2>
+        </div>
+        <p>Each row names the semantic root, behaviour owner and visible state vocabulary.</p>
+      </header>
+      <DataTable
+        caption="Greenways v2 shared component inventory"
+        columns={inventoryColumns}
+        rows={componentRows}
+      />
+    </section>
+
+    <section class="gw-v2-component-section gw-v2-stack" aria-labelledby="navigation-title">
+      <header class="gw-v2-component-section__header">
+        <div>
+          <p class="gw-v2-component-kicker">02 · Find and choose</p>
+          <h2 id="navigation-title">Navigation, tabs, filters and lists.</h2>
+        </div>
+        <p>Current location, selection, result state and unavailable destinations remain explicit in text.</p>
+      </header>
+
+      <div class="gw-v2-component-specimen-grid">
+        <Panel id="navigation-specimen" title="Navigation" eyebrow="Native links" description="No hover-only destinations.">
+          <Navigation label="Component specimen destinations" items={navigationItems} />
+        </Panel>
+
+        <Panel id="tabs-specimen" title="Tabs and filters" eyebrow="Host-owned selection" description="Semantics are stable; result calculation is not packaged.">
+          <Tabs
+            label="Buildout views"
+            currentId="work"
+            panelIdPrefix="component-tab"
+            items={[
+              { id: "work", label: "Work items", count: 3, href: "#work-items" },
+              { id: "activity", label: "Activity", count: 3, href: "#activity" },
+              { id: "archive", label: "Archive", disabled: true },
+            ]}
+          />
+          <FilterBar
+            label="Filter specimen work items"
+            queryLabel="Search work items"
+            queryPlaceholder="Title or identifier"
+            resultSummary="3 specimen work items shown."
+          >
+            <select slot="filters" name="state" aria-label="State">
+              <option value="all">All states</option>
+              <option value="waiting">Waiting</option>
+              <option value="active">Active</option>
+            </select>
+            <Action slot="actions" type="submit" size="compact" variant="primary">Apply filter</Action>
+            <Action slot="actions" type="reset" size="compact" variant="quiet">Clear</Action>
+          </FilterBar>
+        </Panel>
+      </div>
+
+      <Panel id="work-items" title="List" eyebrow="Selection with evidence" description="The selected row remains a supplied state, not a command result.">
+        <List id="component-work-items" label="Specimen work items" items={listItems} />
+      </Panel>
+    </section>
+
+    <section class="gw-v2-component-section gw-v2-stack" aria-labelledby="controls-title">
+      <header class="gw-v2-component-section__header">
+        <div>
+          <p class="gw-v2-component-kicker">03 · Express intent</p>
+          <h2 id="controls-title">Actions, toggles and fields.</h2>
+        </div>
+        <p>Controls can request an outcome. They cannot claim an external effect happened without new actual state or evidence.</p>
+      </header>
+
+      <div class="gw-v2-component-specimen-grid">
+        <Panel id="actions-specimen" title="Actions" eyebrow="Commands remain host-owned">
+          <div class="gw-v2-cluster">
+            <Action variant="primary">Primary action</Action>
+            <Action>Secondary action</Action>
+            <Action variant="quiet">Quiet action</Action>
+            <Action variant="danger">Destructive action</Action>
+            <Action pending>Submitting</Action>
+            <Action disabled>Unavailable</Action>
+          </div>
+        </Panel>
+
+        <Panel id="toggle-specimen" title="Toggle" eyebrow="Requested is not actual">
+          <Toggle
+            id="provider-connection"
+            label="Use connected session"
+            description="The control expresses intent; connection evidence must arrive separately."
+            requestedState="on"
+            actualState="off"
+          />
+        </Panel>
+
+        <Panel id="fields-specimen" title="Fields" eyebrow="Labels, hints and errors">
+          <div class="gw-v2-grid" style="--gw-v2-grid-min: 14rem;">
+            <Field
+              id="component-project"
+              label="Project"
+              value="Visual Language v2"
+              hint="The host owns storage and validation."
+              required
+            />
+            <Field
+              id="component-deliverable"
+              label="Expected deliverable"
+              kind="select"
+              value="component-library"
+              options={[
+                { value: "component-library", label: "Component library" },
+                { value: "workflow-study", label: "Workflow study" },
+              ]}
+            />
+            <Field
+              id="component-expiry"
+              label="Expiry"
+              value=""
+              placeholder="Choose a bounded expiry"
+              error="An expiry is required before authority can be requested."
+            />
+          </div>
+        </Panel>
+      </div>
+    </section>
+
+    <section class="gw-v2-component-section gw-v2-stack" aria-labelledby="content-title">
+      <header class="gw-v2-component-section__header">
+        <div>
+          <p class="gw-v2-component-kicker">04 · Compose information</p>
+          <h2 id="content-title">Cards, panels, tables and dialogs.</h2>
+        </div>
+        <p>Content primitives preserve heading order, grouping, comparison and disclosure without becoming application models.</p>
+      </header>
+
+      <div class="gw-v2-component-specimen-grid">
+        <Card id="component-card" title="Component library" eyebrow="Selected specimen" selected state="selected">
+          <p>Shared semantics and token-backed presentation for sixteen primitives.</p>
+          <Action slot="actions" size="compact" variant="quiet">Inspect</Action>
+          <span slot="footer">Selection is indicated by text, border and inset marker.</span>
+        </Card>
+
+        <Panel
+          id="component-disclosure"
+          title="Package boundary"
+          eyebrow="Native disclosure"
+          description="Open without JavaScript and readable without hover."
+          collapsible
+          open
+        >
+          <p>Stable components are exported. Catalogue examples and Foreman presentation remain unexported.</p>
+          <ul>
+            <li>Package: semantic primitives and token-backed CSS.</li>
+            <li>Catalogue: realistic specimen data and review composition.</li>
+            <li>Host: commands, state management, persistence and effects.</li>
+          </ul>
+        </Panel>
+      </div>
+
+      <DataTable caption="Required non-colour state cues" columns={stateColumns} rows={stateRows} />
+
+      <div class="gw-v2-dialog-stage" aria-label="Dialog specimen stage">
+        <Dialog
+          id="component-dialog"
+          title="Approve requested scope"
+          description="This open dialog is a static catalogue specimen. No decision has been recorded."
+          open
+        >
+          <p>The request asks to read one project and create one draft artifact. Publishing and merging are excluded.</p>
+          <Action slot="actions" type="submit" variant="quiet">Cancel</Action>
+          <Action slot="actions" type="button" variant="primary">Approve in host</Action>
+        </Dialog>
+      </div>
+    </section>
+
+    <section id="approvals" class="gw-v2-component-section gw-v2-stack" aria-labelledby="evidence-title">
+      <header class="gw-v2-component-section__header">
+        <div>
+          <p class="gw-v2-component-kicker">05 · Explain what happened</p>
+          <h2 id="evidence-title">Status, activity, approvals and receipts.</h2>
+        </div>
+        <p>Desired state, actual state, human decisions, timestamps and evidence stay independently visible.</p>
+      </header>
+
+      <Panel id="status-specimen" title="Status vocabulary" eyebrow="Text + shape + colour">
+        <div class="gw-v2-cluster">
+          <Status label="Neutral" tone="neutral" />
+          <Status label="Information" tone="info" />
+          <Status label="Verified" tone="success" />
+          <Status label="Waiting" tone="warning" />
+          <Status label="Failed" tone="danger" />
+        </div>
+      </Panel>
+
+      <div class="gw-v2-component-specimen-grid">
+        <ActivityList id="activity" label="Specimen activity" items={activityItems} />
+
+        <ApprovalCard
+          id="approval-component-review"
+          title="Review shared package exports"
+          requestedBy="Component review session"
+          requestedState="Approval requested"
+          actualState="Waiting for a person"
+          summary="No package publication, merge or provider action is implied by this card."
+          scope={[
+            "Read the component contract and catalogue specimens",
+            "Approve or deny this bounded review request",
+            "Exclude publication, merge and destructive actions",
+          ]}
+          tone="warning"
+          expiresAt="2026-08-21T18:00:00+08:00"
+          expiresLabel="21 August 2026, 18:00 SGT"
+        >
+          <Action slot="actions" variant="primary">Approve in host</Action>
+          <Action slot="actions">Deny in host</Action>
+        </ApprovalCard>
+      </div>
+
+      <Receipt
+        id="receipt-specimen-001"
+        title="Component specimen reviewed"
+        status="Specimen only"
+        tone="neutral"
+        issuedAt="2026-08-21T09:27:00+08:00"
+        issuedLabel="21 August 2026, 09:27 SGT"
+        actor="Catalogue fixture"
+        digest="sha256:specimen-not-production"
+        evidence={[
+          { label: "Component contract inventory", href: "#contract-inventory" },
+          { label: "Workbench region specimen", href: "#workbench" },
+          { label: "No external operation is represented" },
+        ]}
+      />
+    </section>
+
+    <section id="workbench" class="gw-v2-component-section gw-v2-stack" aria-labelledby="workbench-title">
+      <header class="gw-v2-component-section__header">
+        <div>
+          <p class="gw-v2-component-kicker">06 · Dense composition</p>
+          <h2 id="workbench-title">One workbench, six named regions.</h2>
+        </div>
+        <p>Desktop uses a rail, workspace, inspector and activity region; compact widths preserve the same reading order linearly.</p>
+      </header>
+
+      <WorkbenchShell
+        id="component-workbench"
+        title="Visual Language v2"
+        eyebrow="Component library buildout"
+        statusLabel="Specimen data"
+        statusTone="neutral"
+        state="active"
+      >
+        <Action slot="command-bar" size="compact" variant="primary">Review selection</Action>
+        <Action slot="command-bar" size="compact">Open activity</Action>
+
+        <Navigation slot="navigation" label="Specimen buildouts" items={workbenchNavigation} compact />
+
+        <div class="gw-v2-stack">
+          <div class="gw-v2-cluster">
+            <Status label="In review" tone="info" />
+            <Status label="1 approval waiting" tone="warning" />
+          </div>
+          <h3>Stable component inventory</h3>
+          <p>
+            The primary workspace composes the same shared primitives used throughout this page. It does not own
+            commands, runtime state or provider connections.
+          </p>
+          <List id="workbench-items" label="Current work" items={listItems.slice(0, 2)} />
+        </div>
+
+        <Panel slot="inspector" id="workbench-inspector" title="Inspector" eyebrow="Selected work item">
+          <dl class="gw-v2-component-inspector-list">
+            <div><dt>Identifier</dt><dd>WI-12</dd></div>
+            <div><dt>Owner</dt><dd>Visual-language package</dd></div>
+            <div><dt>Behaviour</dt><dd>Host-owned</dd></div>
+            <div><dt>Evidence</dt><dd>Catalogue specimen</dd></div>
+          </dl>
+        </Panel>
+
+        <ActivityList slot="activity" id="workbench-activity" label="Recent activity" items={activityItems.slice(0, 2)} />
+
+        <span slot="status">16 primitives</span>
+        <span slot="status">6 regions</span>
+        <span slot="status">No live connection</span>
+      </WorkbenchShell>
+    </section>
+
+    <section id="workflow-boundary" class="gw-v2-component-boundary gw-v2-surface" data-depth="recessed">
+      <p class="gw-v2-component-kicker">Next delivery</p>
+      <h2>Workflow-state compositions remain a separate review.</h2>
+      <p>
+        This package slice establishes the shared vocabulary. The follow-up for issue #34 will compose search,
+        validation, approval, session recovery and connection workflows across initial, loading, stale, partial,
+        offline, recoverable-error, fatal-error and success states.
+      </p>
+    </section>
+  </article>
+</CatalogueShell>
+
+<style>
+  .gw-v2-component-catalogue {
+    --gw-v2-stack-gap: clamp(var(--gw-v2-space-xl), 6vw, var(--gw-v2-space-3xl));
+    min-inline-size: 0;
+  }
+
+  .gw-v2-component-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(15rem, 0.55fr);
+    gap: clamp(var(--gw-v2-space-lg), 5vw, var(--gw-v2-space-2xl));
+    padding: clamp(var(--gw-v2-space-lg), 5vw, var(--gw-v2-space-2xl));
+  }
+
+  .gw-v2-component-hero h1 {
+    max-inline-size: 16ch;
+    font-size: var(--gw-v2-type-2xl);
+  }
+
+  .gw-v2-component-kicker {
+    color: var(--gw-v2-text-muted);
+    font-family: var(--gw-v2-font-code);
+    font-size: var(--gw-v2-type-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .gw-v2-component-hero__facts,
+  .gw-v2-component-inspector-list {
+    display: grid;
+    align-content: start;
+    gap: var(--gw-v2-space-xs);
+    margin: 0;
+  }
+
+  .gw-v2-component-hero__facts > div,
+  .gw-v2-component-inspector-list > div {
+    min-inline-size: 0;
+    display: grid;
+    gap: var(--gw-v2-space-3xs);
+    padding: var(--gw-v2-space-xs);
+    background: var(--gw-v2-surface-muted);
+    border: 1px solid var(--gw-v2-seam);
+    border-radius: var(--gw-v2-radius-sm);
+  }
+
+  .gw-v2-component-hero__facts dt,
+  .gw-v2-component-inspector-list dt {
+    color: var(--gw-v2-text-muted);
+    font-size: var(--gw-v2-type-xs);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .gw-v2-component-hero__facts dd,
+  .gw-v2-component-inspector-list dd {
+    min-inline-size: 0;
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .gw-v2-component-section {
+    --gw-v2-stack-gap: var(--gw-v2-space-lg);
+    min-inline-size: 0;
+  }
+
+  .gw-v2-component-section__header {
+    min-inline-size: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(15rem, 0.8fr);
+    gap: var(--gw-v2-space-lg);
+    align-items: end;
+    padding-block-end: var(--gw-v2-space-sm);
+    border-block-end: 1px solid var(--gw-v2-seam);
+  }
+
+  .gw-v2-component-section__header > div {
+    display: grid;
+    gap: var(--gw-v2-space-2xs);
+  }
+
+  .gw-v2-component-section__header h2,
+  .gw-v2-component-boundary h2 {
+    font-size: var(--gw-v2-type-xl);
+  }
+
+  .gw-v2-component-section__header > p,
+  .gw-v2-component-boundary > p:last-child {
+    color: var(--gw-v2-text-muted);
+  }
+
+  .gw-v2-component-specimen-grid {
+    min-inline-size: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gw-v2-space-lg);
+  }
+
+  .gw-v2-dialog-stage {
+    min-block-size: 28rem;
+    display: grid;
+    place-items: center;
+    padding: var(--gw-v2-space-lg);
+    background: var(--gw-v2-surface-recessed);
+    border: 1px solid var(--gw-v2-seam);
+    border-radius: var(--gw-v2-radius-lg);
+  }
+
+  .gw-v2-dialog-stage dialog {
+    position: relative;
+    inset: auto;
+    margin: 0;
+  }
+
+  .gw-v2-component-boundary {
+    display: grid;
+    gap: var(--gw-v2-space-sm);
+    padding: clamp(var(--gw-v2-space-lg), 5vw, var(--gw-v2-space-2xl));
+  }
+
+  @media (max-width: 52rem) {
+    .gw-v2-component-hero,
+    .gw-v2-component-section__header,
+    .gw-v2-component-specimen-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .gw-v2-component-hero,
+    .gw-v2-component-boundary {
+      padding: var(--gw-v2-space-sm);
+    }
+
+    .gw-v2-dialog-stage {
+      min-block-size: 0;
+      padding: var(--gw-v2-space-xs);
+    }
+
+    .gw-v2-dialog-stage dialog {
+      inline-size: 100%;
+    }
+  }
+</style>
