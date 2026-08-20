@@ -6,7 +6,10 @@ export const greenwaysV2Entries = freeze({
   tokens: "@greenways-ai/visual-language/v2/tokens.css",
   document: "@greenways-ai/visual-language/v2/document.css",
   workbench: "@greenways-ai/visual-language/v2/workbench.css",
+  components: "@greenways-ai/visual-language/v2/components.css",
   contract: "@greenways-ai/visual-language/v2/contract.js",
+  componentCatalogue: "@greenways-ai/visual-language/v2/component-catalogue.js",
+  componentContract: "@greenways-ai/visual-language/v2/component-contract.js",
 });
 
 export const greenwaysV2Identity = freeze({
