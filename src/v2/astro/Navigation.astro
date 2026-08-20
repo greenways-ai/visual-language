@@ -1,0 +1,67 @@
+---
+import Status from "./Status.astro";
+import "../components.css";
+
+type Tone = "neutral" | "info" | "success" | "warning" | "danger";
+
+interface NavigationItem {
+  id: string;
+  label: string;
+  href: string;
+  description?: string;
+  current?: boolean;
+  disabled?: boolean;
+  status?: string;
+  tone?: Tone;
+}
+
+interface Props {
+  label: string;
+  items: readonly NavigationItem[];
+  compact?: boolean;
+  class?: string;
+}
+
+const {
+  label,
+  items,
+  compact = false,
+  class: className = "",
+} = Astro.props;
+---
+
+<nav
+  class:list={["gw-v2-component", "gw-v2-navigation", className]}
+  aria-label={label}
+  data-gw-v2-component="Navigation"
+  data-compact={compact ? "true" : "false"}
+>
+  <ul role="list">
+    {items.map((item) => (
+      <li data-item-id={item.id}>
+        {item.disabled ? (
+          <span class="gw-v2-navigation__item" aria-disabled="true">
+            <span class="gw-v2-navigation__copy">
+              <strong>{item.label}</strong>
+              {item.description && <small>{item.description}</small>}
+            </span>
+            {item.status && <Status label={item.status} tone={item.tone ?? "neutral"} />}
+          </span>
+        ) : (
+          <a
+            class="gw-v2-navigation__item"
+            href={item.href}
+            aria-current={item.current ? "page" : undefined}
+            data-gw-v2-state={item.current ? "selected" : "initial"}
+          >
+            <span class="gw-v2-navigation__copy">
+              <strong>{item.label}</strong>
+              {item.description && <small>{item.description}</small>}
+            </span>
+            {item.status && <Status label={item.status} tone={item.tone ?? "neutral"} />}
+          </a>
+        )}
+      </li>
+    ))}
+  </ul>
+</nav>
