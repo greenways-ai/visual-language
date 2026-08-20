@@ -1,0 +1,16 @@
+---
+import GreenwaysIntelOverview from "../../../site/components/GreenwaysIntelOverview.astro";
+import GreenwaysOsV2Shell from "../../../site/layouts/GreenwaysOsV2Shell.astro";
+import "../../../site/styles/greenways-intel.css";
+
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+const rootHref = `${base}concepts/greenways-intel/`;
+---
+
+<GreenwaysOsV2Shell
+  title="Greenways Intel interface atlas"
+  description="Five Greenways Intel screens for provider intake, source-first retrieval, typed graph traversal, evidence review and document provenance inside the Greenways OS V2 workspace."
+  surfaceId="desktop"
+>
+  <GreenwaysIntelOverview rootHref={rootHref} />
+</GreenwaysOsV2Shell>
