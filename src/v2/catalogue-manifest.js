@@ -22,6 +22,11 @@
  * @property {readonly GreenwaysV2CatalogueRoute[]} routes
  */
 
+/**
+ * @template T
+ * @param {T} value
+ * @returns {T}
+ */
 const deepFreeze = (value) => {
   if (value && typeof value === "object" && !Object.isFrozen(value)) {
     Object.freeze(value);
@@ -260,7 +265,10 @@ export const greenwaysV2Catalogue = deepFreeze([
   },
 ]);
 
-/** @param {readonly GreenwaysV2CatalogueRoute[]} routes */
+/**
+ * @param {readonly GreenwaysV2CatalogueRoute[]} routes
+ * @returns {GreenwaysV2CatalogueRoute[]}
+ */
 const flattenRoutes = (routes) => routes.flatMap((route) => [route, ...flattenRoutes(route.children ?? [])]);
 
 /**
