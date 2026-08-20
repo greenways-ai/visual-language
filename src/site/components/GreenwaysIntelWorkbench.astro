@@ -1,0 +1,176 @@
+---
+import {
+  greenwaysIntelScreens,
+  type GreenwaysIntelScreen,
+} from "../../greenways-intel-screens";
+import GreenwaysIntelDocumentScreen from "./GreenwaysIntelDocumentScreen.astro";
+import GreenwaysIntelEvidenceScreen from "./GreenwaysIntelEvidenceScreen.astro";
+import GreenwaysIntelGraphScreen from "./GreenwaysIntelGraphScreen.astro";
+import GreenwaysIntelSearchScreen from "./GreenwaysIntelSearchScreen.astro";
+import GreenwaysIntelSourcesScreen from "./GreenwaysIntelSourcesScreen.astro";
+import "../styles/greenways-intel.css";
+
+interface Props {
+  screen: GreenwaysIntelScreen;
+  rootHref: string;
+  osRootHref: string;
+}
+
+const { screen, rootHref, osRootHref } = Astro.props;
+const screenHref = (id: string) => `${rootHref}${id}/`;
+const applicationRail = [
+  ["TD", "Today", "sage"],
+  ["WR", "Workrooms", "clay"],
+  ["IN", "Greenways Intel", "violet"],
+  ["ST", "Studio", "sky"],
+  ["PK", "Packages", "violet"],
+  ["KY", "Keyring", "coral"],
+  ["RC", "Receipts", "ink"],
+] as const;
+---
+
+<section
+  class="gw2-device gw2-device--native gwi-device"
+  data-gw2-native-desktop
+  data-greenways-intel-workbench
+  data-greenways-intel-screen={screen.id}
+  aria-label={`Greenways Intel ${screen.label} screen`}
+>
+  <header class="gw2-native-titlebar">
+    <div class="gw2-window-controls" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="gw2-native-titlebar__title">
+      <span class="gw2-mark gw2-mark--small" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+      <strong>Greenways OS</strong>
+      <span>Intel / {screen.label}</span>
+    </div>
+    <div class="gw2-native-titlebar__status">
+      <span><i class="gw2-live-dot"></i> historia</span>
+      <span>Originals verified</span>
+      <time>22:18</time>
+    </div>
+  </header>
+
+  <div class="gw2-frame gwi-frame" data-gw2-frame data-inspector-open="true">
+    <aside class="gw2-activity-rail" aria-label="Greenways applications">
+      <a class="gw2-activity-brand" href={osRootHref} aria-label="Greenways OS V2 overview">
+        <span class="gw2-mark gw2-mark--small" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+      </a>
+      <nav>
+        {applicationRail.map(([code, label, signal]) => (
+          code === "IN" ? (
+            <a
+              class:list={["gw2-activity-button", `gw2-signal--${signal}`, "is-active"]}
+              href={screenHref("sources")}
+              aria-label={`Open ${label}`}
+              aria-current="page"
+            >
+              <span>{code}</span><b>4</b>
+            </a>
+          ) : (
+            <button
+              class:list={["gw2-activity-button", `gw2-signal--${signal}`]}
+              type="button"
+              aria-label={`Open ${label}`}
+              data-gw2-toast={`Opened ${label} buffer`}
+            >
+              <span>{code}</span>
+            </button>
+          )
+        ))}
+      </nav>
+      <div class="gw2-activity-rail__bottom">
+        <button type="button" aria-label="Search Intel" data-gw2-command-open>
+          <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8" cy="8" r="4.5"/><path d="m11.5 11.5 4 4"/></svg>
+        </button>
+        <button type="button" aria-label="Open profile" data-gw2-toast="Profile buffer opened"><span>CZ</span></button>
+      </div>
+    </aside>
+
+    <section class="gw2-workbench">
+      <header class="gw2-workbench-command">
+        <button class="gw2-workbench-command__workspace" type="button" data-gw2-toast="Intel workspace switcher opened">
+          <span>Workspace 02</span><strong>Local intelligence archive</strong><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg>
+        </button>
+        <a class="gw2-workbench-command__input gwi-global-search" href={screenHref("search")}>
+          <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8" cy="8" r="4.5"/><path d="m11.5 11.5 4 4"/></svg>
+          <span>Search originals, chats, issues, symbols and evidence</span><kbd>⌘K</kbd>
+        </a>
+        <button class="gw2-workbench-icon" type="button" data-gw2-inspector-toggle aria-label="Toggle inspector" aria-pressed="true">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3" width="15" height="14" rx="1.5"/><path d="M12 3v14"/></svg>
+        </button>
+      </header>
+
+      <nav class="gw2-buffer-bar" aria-label="Open Intel buffers" role="tablist">
+        <a
+          class:list={["gw2-buffer", `gw2-signal--${screen.signal}`, "is-active"]}
+          href={screenHref(screen.id)}
+          role="tab"
+          aria-selected="true"
+          data-gw2-buffer
+          data-buffer-label={screen.title}
+        >
+          <span class:list={["gw2-buffer__code", `gw2-signal--${screen.signal}`]}>{screen.code}</span>
+          <span>{screen.label}</span><small>{screen.id === "evidence" ? "4" : "1"}</small><i>×</i>
+        </a>
+        <a
+          class="gw2-buffer gw2-signal--coral"
+          href={screenHref("document")}
+          role="tab"
+          aria-selected="false"
+          data-gw2-buffer
+          data-buffer-label="Document / chatgpt:conversation-7842"
+        >
+          <span class="gw2-buffer__code gw2-signal--coral">DO</span><span>conversation-7842</span><b></b><i>×</i>
+        </a>
+        <a
+          class="gw2-buffer gw2-signal--gold"
+          href={screenHref("evidence")}
+          role="tab"
+          aria-selected="false"
+          data-gw2-buffer
+          data-buffer-label="Evidence / candidate-0047"
+        >
+          <span class="gw2-buffer__code gw2-signal--gold">EV</span><span>candidate-0047</span><i>×</i>
+        </a>
+        <button class="gw2-buffer-add" type="button" aria-label="Open another Intel buffer" data-gw2-command-open>+</button>
+        <span class="gw2-buffer-bar__spacer"></span>
+        <button class="gw2-buffer-layout" type="button" data-gw2-toast="Intel pane layout changed" aria-label="Change pane layout">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3" width="15" height="14" rx="1.5"/><path d="M10 3v14M10 10h7.5"/></svg>
+        </button>
+      </nav>
+
+      <div class="gw2-workbench-body">
+        <aside class="gw2-buffer-list gwi-navigation" aria-label="Greenways Intel views">
+          <header><span>Intel</span><a href={rootHref} aria-label="Open screen atlas">↗</a></header>
+          <nav>
+            {greenwaysIntelScreens.map((candidate) => (
+              <a class:list={[{ "is-active": candidate.id === screen.id }]} href={screenHref(candidate.id)} aria-current={candidate.id === screen.id ? "page" : undefined}>
+                <span class:list={[`gw2-signal--${candidate.signal}`]}>{candidate.code}</span>
+                <strong>{candidate.label}</strong>
+                <small>{candidate.focus}</small>
+              </a>
+            ))}
+          </nav>
+          <section class="gw2-provider-stack">
+            <p>Acquisition providers</p>
+            <div><i class="is-ready"></i><span><strong>ChatGPT web</strong><small>Browser · capture ready</small></span></div>
+            <div><i class="is-ready"></i><span><strong>OpenAI export</strong><small>Archive · verified</small></span></div>
+            <div><i class="is-ready"></i><span><strong>GitHub</strong><small>Work graph · synced</small></span></div>
+            <div><i class="is-ready"></i><span><strong>Git</strong><small>Code graph · indexed</small></span></div>
+          </section>
+        </aside>
+
+        {screen.id === "sources" && <GreenwaysIntelSourcesScreen />}
+        {screen.id === "search" && <GreenwaysIntelSearchScreen />}
+        {screen.id === "graph" && <GreenwaysIntelGraphScreen />}
+        {screen.id === "evidence" && <GreenwaysIntelEvidenceScreen />}
+        {screen.id === "document" && <GreenwaysIntelDocumentScreen />}
+      </div>
+
+      <footer class="gw2-mode-line">
+        <div><span class="gw2-mode-line__branch">intel/local</span><span>historia-core/0-alpha</span><span>UTF-8</span><span>Hara</span></div>
+        <div><span><i class="gw2-live-dot"></i> local</span><span>hara-lite</span><span>projection rebuildable</span></div>
+      </footer>
+    </section>
+  </div>
+</section>
