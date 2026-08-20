@@ -89,16 +89,15 @@ test("section navigation progressively enhances meaningful page sections", async
   assert.match(source, /astro:page-load/);
 });
 
-test("previous and next navigation is manifest-derived and mounted once", async () => {
+test("previous and next navigation is manifest-derived and server-rendered", async () => {
   const source = await read("src/v2/CataloguePageFooter.astro");
   assert.match(source, /getCatalogueRouteContext/);
   assert.match(source, /rel="prev"/);
   assert.match(source, /rel="next"/);
   assert.match(source, /context\.previous/);
   assert.match(source, /context\.next/);
-  assert.match(source, /#gw-v2-main/);
-  assert.match(source, /cloneNode\(true\)/);
-  assert.match(source, /astro:page-load/);
+  assert.match(source, /<footer class="gw-v2-catalogue-page-footer"/);
+  assert.doesNotMatch(source, /<template|cloneNode|DOMContentLoaded|astro:page-load/);
 });
 
 test("the shared shell composes global, route, section and footer navigation", async () => {
@@ -110,9 +109,9 @@ test("the shared shell composes global, route, section and footer navigation", a
     "CatalogueHeader",
     "CatalogueRouteBar",
     "CatalogueSectionNav",
-    "CataloguePageFooter",
   ]) assert.match(navigation, new RegExp(component));
   assert.match(shell, /CatalogueNavigation/);
+  assert.match(shell, /CataloguePageFooter/);
   assert.match(shell, /id="gw-v2-main"/);
   assert.match(shell, /sectionNavigation/);
   assert.doesNotMatch(navigation, /<nav[^>]+on(?:mouse|pointer|touch)/i);
@@ -130,6 +129,7 @@ test("custom catalogue pages use the same layered navigation contract", async ()
   for (const path of paths) {
     const source = await read(path);
     assert.match(source, /CatalogueNavigation/, path);
+    assert.match(source, /CataloguePageFooter/, path);
     assert.match(source, /gw-v2-catalogue/, path);
     assert.match(source, /id="gw-v2-main"/, path);
     assert.match(source, /data-catalogue-section/, path);
