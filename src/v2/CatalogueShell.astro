@@ -1,6 +1,6 @@
 ---
 import GreenwaysThemeProvider from "../site/components/GreenwaysThemeProvider.astro";
-import CatalogueHeader from "./CatalogueHeader.astro";
+import CatalogueNavigation from "./CatalogueNavigation.astro";
 import { catalogueHref } from "./catalogue-manifest.js";
 import "./document.css";
 import "./catalogue.css";
@@ -9,12 +9,18 @@ interface Props {
   title: string;
   description: string;
   currentPath?: string;
+  bodyClass?: string;
+  mainClass?: string;
+  sectionNavigation?: boolean;
 }
 
 const {
   title,
   description,
   currentPath = Astro.url.pathname,
+  bodyClass,
+  mainClass,
+  sectionNavigation = true,
 } = Astro.props;
 
 const basePath = import.meta.env.BASE_URL;
@@ -38,11 +44,14 @@ const canonical = new URL(Astro.url.pathname, origin).toString();
     <title>{title} · Greenways visual language</title>
     <GreenwaysThemeProvider />
   </head>
-  <body class="gw-v2 gw-v2-document gw-v2-catalogue">
-    <a class="gw-v2-catalogue-skip" href="#gw-v2-main">Skip to content</a>
-    <CatalogueHeader currentPath={currentPath} basePath={basePath} />
+  <body class:list={["gw-v2", "gw-v2-document", "gw-v2-catalogue", bodyClass]}>
+    <CatalogueNavigation
+      currentPath={currentPath}
+      basePath={basePath}
+      sectionNavigation={sectionNavigation}
+    />
 
-    <main id="gw-v2-main" class="gw-v2-catalogue-main gw-v2-page">
+    <main id="gw-v2-main" class:list={["gw-v2-catalogue-main", "gw-v2-page", mainClass]}>
       <slot />
     </main>
 
