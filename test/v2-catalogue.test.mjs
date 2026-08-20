@@ -95,18 +95,23 @@ test("the shared header derives one semantic disclosure tree from the manifest",
 });
 
 test("catalogue home and planned pages are generated from the same manifest", async () => {
-  const [home, route, shell] = await Promise.all([
+  const [home, route, shell, navigation] = await Promise.all([
     read("src/pages/v2/index.astro"),
     read("src/pages/v2/[...route].astro"),
     read("src/v2/CatalogueShell.astro"),
+    read("src/v2/CatalogueNavigation.astro"),
   ]);
   assert.match(home, /greenwaysV2Catalogue\.map/);
   assert.match(home, /route\.children\.map/);
   assert.match(route, /getCatalogueStaticRoutes\(\)\.map/);
   assert.match(route, /getStaticPaths/);
   assert.match(route, /Declared now\. Detailed later\./);
-  assert.match(shell, /CatalogueHeader/);
-  assert.match(shell, /class="gw-v2 gw-v2-document gw-v2-catalogue"/);
+  assert.match(shell, /CatalogueNavigation/);
+  assert.match(shell, /"gw-v2", "gw-v2-document", "gw-v2-catalogue"/);
+  assert.match(navigation, /CatalogueHeader/);
+  assert.match(navigation, /CatalogueRouteBar/);
+  assert.match(navigation, /CatalogueSectionNav/);
+  assert.match(navigation, /CataloguePageFooter/);
 });
 
 test("navigation remains compact and prevents document overflow at 320px", async () => {
