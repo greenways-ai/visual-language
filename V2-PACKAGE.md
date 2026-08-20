@@ -46,6 +46,7 @@ The workbench entry imports the document foundation. It changes density and prov
 
 ```js
 import {
+  greenwaysV2ColourRoles,
   greenwaysV2Entries,
   greenwaysV2Identity,
   greenwaysV2TokenFamilies,
@@ -62,7 +63,48 @@ A shared addition must be product-neutral, theme-complete, keyboard and narrow-s
 
 ## Protected identity
 
-The v2 layers preserve the existing mosaic mark and semantic `Sigil`/`MosaicLogo` entry points. Display, body and code typography continue to come from `--gw-font-display`, `--gw-font-sans` and `--gw-font-mono`. Verdigris, gold, terracotta and silver remain the material colour anchors. Neither v2 layer substitutes another project’s mark, vocabulary or imagery.
+The v2 layers preserve the existing mosaic mark and semantic `Sigil`/`MosaicLogo` entry points. Display, body and code typography continue to come from `--gw-font-display`, `--gw-font-sans` and `--gw-font-mono`.
+
+Greenways identity uses a peacock spectrum of emerald, aqua, sapphire and violet. The mark is the strongest multicolour identity moment. These colours may appear as restrained interaction and data accents, but they are not the application background.
+
+Neither v2 layer substitutes another project’s mark, vocabulary or imagery.
+
+## Colour-role contract
+
+The interface is neutral. The mark is peacock-coloured. Colour behaves like a jewel-like signal rather than an ambient field.
+
+### Neutral structure
+
+Canvas, rails, work areas, panels, dialogs, seams and elevation use neutral values in both themes:
+
+- light mode: paper, off-white, stone, cool grey and charcoal;
+- dark mode: near-black, graphite, slate and soft white.
+
+Structural tokens must not resolve through a brand, signal, focus or semantic-state token. Document and workbench layers share the same neutral base; density may change, atmosphere may not.
+
+### Peacock brand
+
+The protected brand family is:
+
+```text
+--gw-v2-brand-emerald
+--gw-v2-brand-aqua
+--gw-v2-brand-sapphire
+--gw-v2-brand-violet
+--gw-v2-brand-spectrum
+```
+
+Use it for the Greenways mark, identity details and small data emphasis. Do not use it for page-wide gradients, broad sidebars, work surfaces or dialogs.
+
+### Interaction signal
+
+`--gw-v2-signal*` is the restrained primary interaction family. It is appropriate for selection, primary commands, links and small badges. It is deliberately sapphire-led rather than success-green.
+
+### Semantic state
+
+`--gw-v2-state-*` communicates neutral, information, success, warning and danger states. These tokens are separately named and tested. Success green is not the Greenways brand atmosphere, and brand colour cannot replace warning or danger.
+
+Focus uses the aqua brand anchor plus a neutral offset. No state or required action may depend on colour alone.
 
 ## Theme contract
 
