@@ -1,0 +1,143 @@
+---
+import { greenwaysIntelScreens } from "../../greenways-intel-screens";
+
+interface Props {
+  rootHref: string;
+}
+
+const { rootHref } = Astro.props;
+const screenHref = (id: string) => `${rootHref}${id}/`;
+---
+
+<article class="gwi-atlas" data-greenways-intel-atlas data-gwi-screen-map>
+  <section class="gwi-atlas-hero" aria-labelledby="gwi-atlas-title">
+    <div class="gwi-atlas-hero__copy">
+      <p>Historia application · Greenways OS V2</p>
+      <h1 id="gwi-atlas-title">Originals first.<br />Intelligence second.</h1>
+      <p>
+        Greenways Intel is the inspection and retrieval application above Historia. It keeps provider documents
+        authoritative, derived indexes disposable, and every graph edge traceable to exact source bytes.
+      </p>
+      <div class="gwi-atlas-hero__actions">
+        <a href={screenHref("sources")}>Inspect source intake</a>
+        <a href={screenHref("search")}>Search the archive</a>
+        <button type="button" data-gw2-command-open>Open command palette</button>
+      </div>
+      <dl class="gwi-atlas-hero__facts">
+        <div><dt>Runtime</dt><dd>Historia + hara-lite</dd></div>
+        <div><dt>Archive</dt><dd>Content-addressed originals</dd></div>
+        <div><dt>Graphs</dt><dd>Code · conversation · work · evidence</dd></div>
+      </dl>
+    </div>
+
+    <div class="gwi-intake-diagram" aria-label="Greenways Intel source and projection model">
+      <div class="gwi-intake-diagram__providers">
+        <span>ChatGPT web</span><span>OpenAI export</span><span>GitHub</span><span>Git</span>
+      </div>
+      <div class="gwi-flow-arrow"><i></i><small>observe · pull</small></div>
+      <section class="gwi-flow-stage gwi-flow-stage--authoritative">
+        <p>01 · AUTHORITATIVE</p>
+        <strong>Original source archive</strong>
+        <span>Exact provider bytes, revisions, digests and acquisition receipts.</span>
+      </section>
+      <div class="gwi-flow-arrow"><i></i><small>derive</small></div>
+      <section class="gwi-flow-stage">
+        <p>02 · REBUILDABLE</p>
+        <strong>Anchored artifacts</strong>
+        <span>Messages, Markdown blocks, code fences, virtual files and analyzer facts.</span>
+      </section>
+      <div class="gwi-flow-arrow"><i></i><small>project</small></div>
+      <section class="gwi-flow-stage gwi-flow-stage--graphs">
+        <p>03 · TYPED</p>
+        <strong>Intel graphs</strong>
+        <div><span>Code</span><span>Conversation</span><span>Work</span><span>Evidence</span></div>
+      </section>
+    </div>
+  </section>
+
+  <section class="gwi-atlas-principle" aria-labelledby="gwi-principle-title">
+    <span>01</span>
+    <h2 id="gwi-principle-title">The answer is never<br />the only thing retained.</h2>
+    <p>
+      Search results, graph edges and summaries are views over evidence. Intel always preserves the original document,
+      the exact anchor, the derivation path and whether a relationship is exact, accepted, rejected or merely a candidate.
+    </p>
+  </section>
+
+  <section class="gwi-screen-atlas" aria-labelledby="gwi-screen-atlas-title">
+    <header>
+      <div><p>Application atlas</p><h2 id="gwi-screen-atlas-title">Five screens for one evidence workspace.</h2></div>
+      <span>Each view uses the same buffers, inspector, provider line and receipt stream as Greenways OS V2.</span>
+    </header>
+
+    <div class="gwi-screen-grid">
+      {greenwaysIntelScreens.map((screen, index) => (
+        <a class:list={["gwi-screen-card", `gwi-screen-card--${screen.id}`]} href={screenHref(screen.id)}>
+          <header>
+            <span class:list={["gwi-screen-code", `gw2-signal--${screen.signal}`]}>{screen.code}</span>
+            <small>0{index + 1}</small>
+          </header>
+          <div class="gwi-screen-preview" aria-hidden="true">
+            {screen.id === "sources" && (
+              <div class="gwi-mini-sources"><i></i><i></i><i></i><i></i><b></b><b></b><b></b></div>
+            )}
+            {screen.id === "search" && (
+              <div class="gwi-mini-search"><header></header><i></i><i></i><i></i><aside></aside></div>
+            )}
+            {screen.id === "graph" && (
+              <div class="gwi-mini-graph"><i></i><i></i><i></i><i></i><i></i><span></span><span></span><span></span></div>
+            )}
+            {screen.id === "evidence" && (
+              <div class="gwi-mini-evidence"><section></section><section></section><footer></footer></div>
+            )}
+            {screen.id === "document" && (
+              <div class="gwi-mini-document"><header></header><ol><li></li><li></li><li></li><li></li><li></li></ol><aside></aside></div>
+            )}
+          </div>
+          <footer>
+            <p>{screen.eyebrow}</p>
+            <h3>{screen.label}</h3>
+            <span>{screen.summary}</span>
+          </footer>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="gwi-boundary" data-gwi-architecture aria-labelledby="gwi-boundary-title">
+    <header>
+      <div><p>Application boundary</p><h2 id="gwi-boundary-title">One product, three clear layers.</h2></div>
+      <span>Portable contracts stay separate from acquisition authority and from the visual retrieval application.</span>
+    </header>
+    <div class="gwi-boundary-stack">
+      <article>
+        <span>03 · APPLICATION</span>
+        <strong>Greenways Intel</strong>
+        <p>Search, typed traversal, document inspection and durable evidence review inside the Greenways workspace.</p>
+        <div><i>buffers</i><i>queries</i><i>graphs</i><i>review</i></div>
+      </article>
+      <article>
+        <span>02 · RUNTIME</span>
+        <strong>Historia</strong>
+        <p>Provider broker, original-byte archive, acquisition receipts, normalization, analyzer dispatch and projections.</p>
+        <div><i>hara-lite</i><i>work/step</i><i>Git vault</i><i>SQLite</i></div>
+      </article>
+      <article>
+        <span>01 · CONTRACTS</span>
+        <strong>historia-core</strong>
+        <p>Capability-free source documents, anchors, provider descriptors, artifacts, analyses and link records.</p>
+        <div><i>portable</i><i>credential-blind</i><i>rebuildable</i></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="gwi-authority-legend" aria-labelledby="gwi-legend-title">
+    <header><p>Visible authority</p><h2 id="gwi-legend-title">The interface says what can be trusted.</h2></header>
+    <div>
+      <article class="is-original"><i></i><strong>Original</strong><span>Immutable provider bytes and acquisition receipt.</span></article>
+      <article class="is-asserted"><i></i><strong>Asserted</strong><span>Durable accepted or rejected human judgment.</span></article>
+      <article class="is-derived"><i></i><strong>Derived</strong><span>Artifact, analyzer fact or deterministic projection.</span></article>
+      <article class="is-candidate"><i></i><strong>Candidate</strong><span>Ranked, explainable and safe to rebuild or discard.</span></article>
+    </div>
+  </section>
+</article>
