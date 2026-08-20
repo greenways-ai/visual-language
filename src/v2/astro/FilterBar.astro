@@ -1,0 +1,15 @@
+---
+import Action from "./Action.astro";
+import "../components.css";
+type Method = "get" | "post";
+interface Props { id?: string; label: string; queryLabel?: string; queryName?: string; queryValue?: string; queryPlaceholder?: string; action?: string; method?: Method; resultSummary?: string; loading?: boolean; class?: string; }
+const { id, label, queryLabel = "Search", queryName = "query", queryValue = "", queryPlaceholder = "Search", action = "", method = "get", resultSummary, loading = false, class: className = "" } = Astro.props;
+const hasFilters = Astro.slots.has("filters");
+const hasActions = Astro.slots.has("actions");
+---
+<form id={id} class:list={["gw-v2-component", "gw-v2-filter-bar", className]} action={action} method={method} role="search" aria-label={label} data-gw-v2-component="FilterBar" data-gw-v2-state={loading ? "loading" : queryValue ? "active" : "initial"}>
+  <label class="gw-v2-filter-bar__query"><span>{queryLabel}</span><input type="search" name={queryName} value={queryValue} placeholder={queryPlaceholder} aria-busy={loading ? "true" : undefined} /></label>
+  {hasFilters && <div class="gw-v2-filter-bar__filters"><slot name="filters" /></div>}
+  <div class="gw-v2-filter-bar__actions" aria-label="Filter actions">{hasActions ? <slot name="actions" /> : <Action type="submit" size="compact" pending={loading}>Apply</Action>}</div>
+  {resultSummary && <p class="gw-v2-filter-bar__summary" aria-live="polite">{resultSummary}</p>}
+</form>
