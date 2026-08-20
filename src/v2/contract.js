@@ -19,7 +19,8 @@ export const greenwaysV2Identity = freeze({
     code: "--gw-font-mono",
   }),
   material: freeze(["mosaic", "smalti", "paper", "stone"]),
-  colourAnchors: freeze(["verdigris", "gold", "terracotta", "silver"]),
+  structuralBase: "neutral",
+  colourAnchors: freeze(["emerald", "aqua", "sapphire", "violet"]),
 });
 
 const family = (scope, tokens) => freeze({ scope, tokens: freeze(tokens) });
@@ -50,6 +51,13 @@ export const greenwaysV2TokenFamilies = freeze({
     "--gw-v2-seam",
     "--gw-v2-seam-subtle",
     "--gw-v2-seam-strong",
+  ]),
+  brand: family("theme", [
+    "--gw-v2-brand-emerald",
+    "--gw-v2-brand-aqua",
+    "--gw-v2-brand-sapphire",
+    "--gw-v2-brand-violet",
+    "--gw-v2-brand-spectrum",
   ]),
   signal: family("theme", [
     "--gw-v2-signal",
@@ -125,8 +133,32 @@ export const greenwaysV2TokenFamilies = freeze({
   ]),
 });
 
+export const greenwaysV2ColourRoles = freeze({
+  structure: freeze({
+    character: "neutral",
+    families: freeze(["canvas", "surface", "seam", "elevation"]),
+    rule: "Structural canvas, rails, work areas, panels and dialogs cannot resolve through brand, signal, focus or state tokens.",
+  }),
+  brand: freeze({
+    character: "peacock-spectrum",
+    family: "brand",
+    use: freeze(["mark", "identity detail", "small data emphasis"]),
+  }),
+  signal: freeze({
+    character: "restrained-interaction",
+    family: "signal",
+    use: freeze(["selection", "primary command", "link", "small badge"]),
+  }),
+  state: freeze({
+    character: "semantic",
+    family: "state",
+    use: freeze(["neutral", "information", "success", "warning", "danger"]),
+  }),
+});
+
 export const greenwaysV2ProtectedContracts = freeze({
   entries: freeze(Object.values(greenwaysV2Entries)),
   identity: greenwaysV2Identity,
   tokenFamilies: greenwaysV2TokenFamilies,
+  colourRoles: greenwaysV2ColourRoles,
 });
