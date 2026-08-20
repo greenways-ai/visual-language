@@ -1,0 +1,28 @@
+---
+import "../components.css";
+type Kind = "input" | "textarea" | "select";
+type InputType = "text" | "search" | "email" | "url" | "password" | "number";
+interface FieldOption { value: string; label: string; disabled?: boolean; }
+interface Props { id: string; label: string; name?: string; kind?: Kind; type?: InputType; value?: string; placeholder?: string; hint?: string; error?: string; required?: boolean; disabled?: boolean; autocomplete?: string; options?: readonly FieldOption[]; rows?: number; class?: string; }
+const { id, label, name = id, kind = "input", type = "text", value = "", placeholder, hint, error, required = false, disabled = false, autocomplete, options = [], rows = 4, class: className = "" } = Astro.props;
+const hintId = hint ? `${id}-hint` : undefined;
+const errorId = error ? `${id}-error` : undefined;
+const describedBy = [hintId, errorId].filter(Boolean).join(" ");
+const state = disabled ? "disabled" : error ? "danger" : value ? "active" : "initial";
+const common = { id, name, disabled, required, "aria-describedby": describedBy || undefined, "aria-invalid": error ? true : undefined };
+---
+<div class:list={["gw-v2-component", "gw-v2-field", className]} data-gw-v2-component="Field" data-gw-v2-state={state}>
+  <label class="gw-v2-field__label" for={id}>{label}{required && <span aria-hidden="true"> *</span>}</label>
+  {kind === "textarea" ? (
+    <textarea {...common} rows={rows} placeholder={placeholder}>{value}</textarea>
+  ) : kind === "select" ? (
+    <select {...common}>
+      {placeholder && <option value="" selected={!value}>{placeholder}</option>}
+      {options.map((option) => <option value={option.value} selected={option.value === value} disabled={option.disabled}>{option.label}</option>)}
+    </select>
+  ) : (
+    <input {...common} type={type} value={value} placeholder={placeholder} autocomplete={autocomplete} />
+  )}
+  {hint && <span id={hintId} class="gw-v2-field__hint">{hint}</span>}
+  {error && <span id={errorId} class="gw-v2-field__error" role="alert">{error}</span>}
+</div>
