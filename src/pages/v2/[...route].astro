@@ -25,7 +25,14 @@ const href = (path: string) => catalogueHref(path, basePath);
 ---
 
 <CatalogueShell title={route.label} description={route.summary} currentPath={route.path}>
-  <header class="gw-v2-route-hero" data-route-id={route.id} data-route-status={route.status}>
+  <header
+    id="route-overview"
+    data-catalogue-section
+    data-section-label="Overview"
+    class="gw-v2-route-hero"
+    data-route-id={route.id}
+    data-route-status={route.status}
+  >
     <p class="gw-v2-route-meta">Greenways v2 catalogue</p>
     <h1>{route.label}</h1>
     <p>{route.summary}</p>
@@ -36,7 +43,13 @@ const href = (path: string) => catalogueHref(path, basePath);
     </div>
   </header>
 
-  <section class="gw-v2-route-placeholder" aria-labelledby="gw-v2-route-next">
+  <section
+    id="route-delivery"
+    data-catalogue-section
+    data-section-label={route.children?.length ? "Routes" : "Delivery"}
+    class="gw-v2-route-placeholder"
+    aria-labelledby="gw-v2-route-next"
+  >
     <h2 id="gw-v2-route-next">Declared now. Detailed later.</h2>
     <p>
       This route is registered by the shared manifest so navigation, ownership, and status are stable before its
