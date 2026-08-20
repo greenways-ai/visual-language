@@ -1,0 +1,77 @@
+---
+import Status from "./Status.astro";
+import "../components.css";
+
+type Tone = "neutral" | "info" | "success" | "warning" | "danger";
+
+interface ListItem {
+  id: string;
+  label: string;
+  description?: string;
+  meta?: string;
+  href?: string;
+  selected?: boolean;
+  status?: string;
+  tone?: Tone;
+}
+
+interface Props {
+  id: string;
+  label: string;
+  items: readonly ListItem[];
+  emptyMessage?: string;
+  class?: string;
+}
+
+const {
+  id,
+  label,
+  items,
+  emptyMessage = "No items to show.",
+  class: className = "",
+} = Astro.props;
+const titleId = `${id}-title`;
+---
+
+<section
+  class:list={["gw-v2-component", "gw-v2-list", className]}
+  aria-labelledby={titleId}
+  data-gw-v2-component="List"
+  data-gw-v2-state={items.length === 0 ? "empty" : "initial"}
+>
+  <h3 id={titleId}>{label}</h3>
+  {items.length === 0 ? (
+    <p class="gw-v2-list__empty">{emptyMessage}</p>
+  ) : (
+    <ul role="list">
+      {items.map((item) => (
+        <li data-item-id={item.id}>
+          {item.href ? (
+            <a
+              class="gw-v2-list__item"
+              href={item.href}
+              data-selected={item.selected ? "true" : "false"}
+              aria-current={item.selected ? "true" : undefined}
+            >
+              <span class="gw-v2-list__copy">
+                <strong>{item.label}</strong>
+                {item.description && <small>{item.description}</small>}
+                {item.meta && <span class="gw-v2-list__meta">{item.meta}</span>}
+              </span>
+              {item.status && <Status label={item.status} tone={item.tone ?? "neutral"} />}
+            </a>
+          ) : (
+            <div class="gw-v2-list__item" data-selected={item.selected ? "true" : "false"}>
+              <span class="gw-v2-list__copy">
+                <strong>{item.label}</strong>
+                {item.description && <small>{item.description}</small>}
+                {item.meta && <span class="gw-v2-list__meta">{item.meta}</span>}
+              </span>
+              {item.status && <Status label={item.status} tone={item.tone ?? "neutral"} />}
+            </div>
+          )}
+        </li>
+      ))}
+    </ul>
+  )}
+</section>
