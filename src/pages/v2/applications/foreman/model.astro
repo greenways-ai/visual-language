@@ -12,10 +12,94 @@ import {
 } from "../../../../foreman/product-model.js";
 import "../../../../v2/document.css";
 
-const surfaceGroups = [
-  { id: "desktop", label: "Desktop and browser workspace", routes: foremanRouteInventory.desktop },
-  { id: "browser-companion", label: "Browser companion", routes: foremanRouteInventory.browserCompanion },
-  { id: "cli", label: "CLI companion", routes: foremanRouteInventory.cli },
+type NavigationItem = {
+  id: string;
+  label: string;
+  route: string;
+  purpose: string;
+};
+
+type JourneyItem = {
+  step: number;
+  label: string;
+  route: string;
+  outcome: string;
+};
+
+type EntityDefinition = {
+  id: string;
+  label: string;
+  owner: string;
+  visibility: string;
+  purpose: string;
+  parents: readonly string[];
+  lifecycle: readonly string[];
+  normalFields: readonly string[];
+};
+
+type ExperienceState = {
+  id: string;
+  label: string;
+  meaning: string;
+  evidence: string;
+};
+
+type TruthfulnessRule = {
+  id: string;
+  statement: string;
+};
+
+type Relationship = {
+  from: string;
+  to: string;
+  cardinality: string;
+  rule: string;
+};
+
+type DetailLayer = {
+  id: string;
+  label: string;
+  purpose: string;
+  includes: readonly string[];
+};
+
+type RouteItem = {
+  id: string;
+  pattern: string;
+  label: string;
+  states: readonly string[];
+};
+
+type SurfaceGroup = {
+  id: string;
+  label: string;
+  routes: readonly RouteItem[];
+};
+
+const navigation = foremanPrimaryNavigation as readonly NavigationItem[];
+const journey = foremanCoreJourney as readonly JourneyItem[];
+const entities = foremanEntityDefinitions as readonly EntityDefinition[];
+const experienceStates = foremanExperienceStates as readonly ExperienceState[];
+const truthfulnessRules = foremanTruthfulnessRules as readonly TruthfulnessRule[];
+const relationships = foremanRelationships as readonly Relationship[];
+const detailLayers = foremanDetailLayers as readonly DetailLayer[];
+
+const surfaceGroups: readonly SurfaceGroup[] = [
+  {
+    id: "desktop",
+    label: "Desktop and browser workspace",
+    routes: foremanRouteInventory.desktop as readonly RouteItem[],
+  },
+  {
+    id: "browser-companion",
+    label: "Browser companion",
+    routes: foremanRouteInventory.browserCompanion as readonly RouteItem[],
+  },
+  {
+    id: "cli",
+    label: "CLI companion",
+    routes: foremanRouteInventory.cli as readonly RouteItem[],
+  },
 ];
 ---
 
@@ -45,7 +129,7 @@ const surfaceGroups = [
     <div class="fm__frame">
       <nav class="fm__nav" aria-label="Proposed Foreman primary navigation" data-foreman-primary-navigation>
         <p>Primary navigation</p>
-        {foremanPrimaryNavigation.map((item, index) => (
+        {navigation.map((item, index) => (
           <div class:list={["fm__nav-item", { "is-active": index === 1 }]}><span>{String(index + 1).padStart(2, "0")}</span><div><strong>{item.label}</strong><small>{item.purpose}</small></div></div>
         ))}
         <p class="fm__note">Infrastructure belongs in Settings → Diagnostics, not ordinary navigation.</p>
@@ -56,34 +140,34 @@ const surfaceGroups = [
 
         <section class="fm__section" data-foreman-core-journey>
           <header><p>01 · Core journey</p><h2>Five steps, one evidence trail.</h2></header>
-          <ol class="fm__journey">{foremanCoreJourney.map((item) => <li><span>{item.step}</span><div><strong>{item.label}</strong><code>{item.route}</code><small>{item.outcome}</small></div></li>)}</ol>
+          <ol class="fm__journey">{journey.map((item) => <li><span>{item.step}</span><div><strong>{item.label}</strong><code>{item.route}</code><small>{item.outcome}</small></div></li>)}</ol>
         </section>
 
         <section class="fm__section" data-foreman-entities>
           <header><p>02 · Domain</p><h2>Entities do not blur together.</h2></header>
-          <div class="fm__grid">{foremanEntityDefinitions.map((entity) => (
+          <div class="fm__grid">{entities.map((entity) => (
             <article data-foreman-entity={entity.id}><header><span>{entity.visibility}</span><strong>{entity.label}</strong></header><p>{entity.purpose}</p><dl><div><dt>Owner</dt><dd>{entity.owner}</dd></div><div><dt>Parents</dt><dd>{entity.parents.join(", ") || "None"}</dd></div></dl><details><summary>Required fields and states</summary><p><b>Normal:</b> {entity.normalFields.join(" · ")}</p><p><b>States:</b> {entity.lifecycle.join(" · ")}</p></details></article>
           ))}</div>
         </section>
 
         <section class="fm__section" data-foreman-experience-states>
           <header><p>03 · Required states</p><h2>The difficult states are part of the product.</h2></header>
-          <div class="fm__states">{foremanExperienceStates.map((state) => <article data-state={state.id}><strong>{state.label}</strong><p>{state.meaning}</p><small>{state.evidence}</small></article>)}</div>
+          <div class="fm__states">{experienceStates.map((state) => <article data-state={state.id}><strong>{state.label}</strong><p>{state.meaning}</p><small>{state.evidence}</small></article>)}</div>
         </section>
 
         <section class="fm__section" data-foreman-truthfulness>
           <header><p>04 · Truthfulness</p><h2>A request is not a result.</h2></header>
-          <ol class="fm__truth">{foremanTruthfulnessRules.map((rule) => <li data-rule={rule.id}>{rule.statement}</li>)}</ol>
+          <ol class="fm__truth">{truthfulnessRules.map((rule) => <li data-rule={rule.id}>{rule.statement}</li>)}</ol>
         </section>
 
         <section class="fm__section" data-foreman-relationships>
           <header><p>05 · Relationships</p><h2>One buildout, many attributable contexts.</h2></header>
-          <div class="fm__relations">{foremanRelationships.map((relation) => <article><code>{relation.from}</code><span>{relation.cardinality}</span><code>{relation.to}</code><p>{relation.rule}</p></article>)}</div>
+          <div class="fm__relations">{relationships.map((relation) => <article><code>{relation.from}</code><span>{relation.cardinality}</span><code>{relation.to}</code><p>{relation.rule}</p></article>)}</div>
         </section>
 
         <section class="fm__section" data-foreman-detail-layers>
           <header><p>06 · Disclosure</p><h2>Technical detail stays available, not dominant.</h2></header>
-          <div class="fm__layers">{foremanDetailLayers.map((layer) => <article><strong>{layer.label}</strong><p>{layer.purpose}</p><small>{layer.includes.join(" · ")}</small></article>)}</div>
+          <div class="fm__layers">{detailLayers.map((layer) => <article><strong>{layer.label}</strong><p>{layer.purpose}</p><small>{layer.includes.join(" · ")}</small></article>)}</div>
         </section>
 
         <section class="fm__section" data-foreman-surface-inventory>
