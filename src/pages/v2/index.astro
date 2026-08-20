@@ -17,7 +17,7 @@ const href = (path: string) => catalogueHref(path, basePath);
   description={greenwaysV2CatalogueHome.summary}
   currentPath={greenwaysV2CatalogueHome.path}
 >
-  <header class="gw-v2-catalogue-hero">
+  <header id="catalogue-overview" data-catalogue-section data-section-label="Overview" class="gw-v2-catalogue-hero">
     <div class="gw-v2-catalogue-hero__copy">
       <p class="gw-v2-catalogue-eyebrow">Shared contracts · executable laboratories</p>
       <h1>One catalogue.<br />Clear ownership.</h1>
@@ -30,7 +30,13 @@ const href = (path: string) => catalogueHref(path, basePath);
 
   <div class="gw-v2-catalogue-groups" data-gw-v2-catalogue-home>
     {greenwaysV2Catalogue.map((group) => (
-      <section class="gw-v2-catalogue-group" aria-labelledby={`gw-v2-group-${group.id}`}>
+      <section
+        id={`catalogue-${group.id}`}
+        data-catalogue-section
+        data-section-label={group.label}
+        class="gw-v2-catalogue-group"
+        aria-labelledby={`gw-v2-group-${group.id}`}
+      >
         <header>
           <p class="gw-v2-catalogue-eyebrow">{group.id}</p>
           <h2 id={`gw-v2-group-${group.id}`}>{group.label}</h2>
