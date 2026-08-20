@@ -1,0 +1,43 @@
+---
+import "../components.css";
+
+type State = "initial" | "selected" | "loading" | "success" | "warning" | "danger";
+interface Props {
+  id: string;
+  title: string;
+  eyebrow?: string;
+  href?: string;
+  selected?: boolean;
+  state?: State;
+  class?: string;
+}
+const {
+  id,
+  title,
+  eyebrow,
+  href,
+  selected = false,
+  state = selected ? "selected" : "initial",
+  class: className = "",
+} = Astro.props;
+const titleId = `${id}-title`;
+const hasActions = Astro.slots.has("actions");
+const hasFooter = Astro.slots.has("footer");
+---
+<article
+  class:list={["gw-v2-component", "gw-v2-card", className]}
+  aria-labelledby={titleId}
+  data-gw-v2-component="Card"
+  data-gw-v2-state={state}
+  data-selected={selected ? "true" : "false"}
+>
+  <header class="gw-v2-card__header">
+    <div class="gw-v2-stack" style="--gw-v2-stack-gap: var(--gw-v2-space-3xs);">
+      {eyebrow && <p class="gw-v2-card__eyebrow">{eyebrow}</p>}
+      <h3 id={titleId}>{href ? <a href={href}>{title}</a> : title}</h3>
+    </div>
+    {hasActions && <div class="gw-v2-card__actions" aria-label={`${title} actions`}><slot name="actions" /></div>}
+  </header>
+  <div class="gw-v2-card__body"><slot /></div>
+  {hasFooter && <footer class="gw-v2-card__footer"><slot name="footer" /></footer>}
+</article>
