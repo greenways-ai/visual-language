@@ -1,0 +1,133 @@
+---
+import type {
+  ForemanExecutionLaneId,
+  ForemanProjectExecutionContract,
+} from "./projects-execution.js";
+import "./projects/execution.css";
+
+interface Props {
+  execution: ForemanProjectExecutionContract;
+}
+
+const { execution } = Astro.props;
+const currentEffect = execution.externalEffects.find((entry) => entry.id === execution.selected.currentExternalEffectId);
+const verifiedEffect = execution.externalEffects.find((entry) => entry.id === execution.selected.verifiedExternalEffectId);
+const requestedHost = execution.runs[0]?.requestedHostId;
+const actualHost = execution.hostAdvertisements[0];
+const selectedRun = execution.runs[0];
+const selectedLease = execution.leases[0];
+const marker: Record<string, string> = {
+  active: "●",
+  observed: "◇",
+  running: "▶",
+  requested: "○",
+  "approval-required": "!",
+  granted: "◆",
+  allocating: "◇",
+  checkpointed: "◆",
+  completed: "✓",
+  cleaned: "✓",
+  verified: "✓",
+  uncertain: "?",
+};
+const laneIndex = (id: ForemanExecutionLaneId) => String(execution.laneOrder.indexOf(id) + 1).padStart(2, "0");
+---
+
+<section
+  id="execution-evidence"
+  class="fm-app__section fm-app__execution-workbench"
+  data-foreman-execution-workbench={execution.meta.version}
+  aria-labelledby="execution-evidence-heading"
+>
+  <header>
+    <div class="fm-app__section-heading">
+      <p class="fm-app__section-kicker">Work · execution · external effects</p>
+      <h2 id="execution-evidence-heading">One buildout, three evidence lanes.</h2>
+      <p>
+        Provider sessions, MCP or application clients, execution hosts, sandbox leases, Work runs, and GitHub effects
+        stay adjacent without becoming one generic agent or one success claim.
+      </p>
+    </div>
+    <span class="fm-app__chip">{execution.meta.version}</span>
+  </header>
+
+  <aside class="fm-app__execution-truth" role="note">
+    <strong>{execution.meta.specimenLabel}</strong>
+    <span>{execution.meta.truth}</span>
+  </aside>
+
+  <dl class="fm-app__execution-summary" aria-label="Selected execution summary">
+    <div>
+      <dt>Client modes</dt>
+      <dd>{execution.clients.map((client) => `${client.label} · ${client.actionState}`).join(" / ")}</dd>
+    </div>
+    <div>
+      <dt>Requested host</dt>
+      <dd>{requestedHost}</dd>
+    </div>
+    <div>
+      <dt>Actual host advertisement</dt>
+      <dd>{actualHost?.label} · {actualHost?.generation}</dd>
+    </div>
+    <div>
+      <dt>Lease and run</dt>
+      <dd>{selectedLease?.id} · {selectedRun?.id}</dd>
+    </div>
+  </dl>
+
+  <div class="fm-app__execution-lanes" aria-label="Selected buildout evidence lanes">
+    {execution.laneOrder.map((laneId) => (
+      <article class="fm-app__execution-lane" data-lane={laneId}>
+        <header>
+          <span>{laneIndex(laneId)}</span>
+          <div>
+            <h3>{execution.laneLabels[laneId]}</h3>
+            <p>{execution.laneSummaries[laneId]}</p>
+          </div>
+          <b>{execution.laneEvents[laneId].length}</b>
+        </header>
+        <ol>
+          {execution.laneEvents[laneId].map((event) => (
+            <li data-state={event.state}>
+              <time>{event.time}</time>
+              <span class="fm-app__execution-marker" aria-hidden="true">{marker[event.state] ?? "·"}</span>
+              <div>
+                <header><span>{event.kind}</span><strong>{event.title}</strong></header>
+                <p>{event.detail}</p>
+                <footer><code>{event.identity}</code><small>{event.evidence}</small></footer>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </article>
+    ))}
+  </div>
+
+  <div class="fm-app__external-readback" aria-label="External-effect truth comparison">
+    {currentEffect && (
+      <article data-state={currentEffect.state}>
+        <span>Current requested effect</span>
+        <h3>{currentEffect.label}</h3>
+        <p>{currentEffect.truth}</p>
+        <dl>
+          <dt>Provider state</dt><dd>{currentEffect.providerState}</dd>
+          <dt>Read-back</dt><dd>{currentEffect.readBackState}</dd>
+          <dt>Canonical record</dt><dd>Not observed</dd>
+        </dl>
+      </article>
+    )}
+    {verifiedEffect && (
+      <article data-state={verifiedEffect.state}>
+        <span>Externally verified comparison</span>
+        <h3>{verifiedEffect.label}</h3>
+        <p>{verifiedEffect.truth}</p>
+        <dl>
+          <dt>Provider state</dt><dd>{verifiedEffect.providerState}</dd>
+          <dt>Read-back</dt><dd>{verifiedEffect.readBackState}</dd>
+          <dt>Revision</dt><dd><code>{verifiedEffect.canonicalRevision}</code></dd>
+        </dl>
+        {verifiedEffect.canonicalUrl && <a class="fm-app__button" href={verifiedEffect.canonicalUrl}>Open canonical GitHub record ↗</a>}
+      </article>
+    )}
+  </div>
+</section>

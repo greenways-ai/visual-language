@@ -2,6 +2,9 @@
 import ThemeButton from "../ThemeButton.astro";
 import GreenwaysThemeProvider from "../site/components/GreenwaysThemeProvider.astro";
 import { foremanPrimaryNavigation } from "./language.js";
+import ForemanExecutionEvidence from "./ForemanExecutionEvidence.astro";
+import ForemanExecutionInspector from "./ForemanExecutionInspector.astro";
+import { getForemanProjectExecution } from "./projects-execution.js";
 import "../v2/workbench.css";
 import "../v2/library.css";
 import "./projects.css";
@@ -49,6 +52,9 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, "");
 const href = (path: string) => `${base}${path.startsWith("/") ? path : `/${path}`}`;
 const selectedProject = project?.id ?? "greenways-visual-language";
 const selectedBuildout = buildout?.id ?? "foreman-project-workbench";
+const execution = layout === "workbench"
+  ? getForemanProjectExecution(selectedProject, selectedBuildout)
+  : undefined;
 const buildoutPath = `/v2/applications/foreman/projects/${selectedProject}/buildouts/${selectedBuildout}/`;
 const navigationHrefs: Record<string, string> = {
   overview: "/v2/applications/foreman/",
@@ -134,6 +140,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).to
 
       <main id="foreman-main" class="fm-app__main" tabindex="-1">
         <slot />
+        {execution && <ForemanExecutionEvidence execution={execution} />}
       </main>
 
       <aside class="fm-app__inspector" aria-label={inspectorLabel}>
@@ -144,6 +151,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).to
             <p>Choose a project, buildout, work item, or session to inspect its evidence.</p>
           </div>
         </slot>
+        {execution && <ForemanExecutionInspector execution={execution} />}
       </aside>
     </div>
 
@@ -152,6 +160,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).to
       <span>desired state ≠ observed state</span>
       <span>person · agent · connection · session remain distinct</span>
       <span>320 px safe</span>
+      {execution?.statusLine.map((item) => (
+        <span class="fm-app__execution-status" data-state={item.state} title={item.detail}>
+          <i data-state={item.state}></i>{item.label} · <strong>{item.value}</strong>
+        </span>
+      ))}
       <slot name="status" />
     </footer>
   </body>

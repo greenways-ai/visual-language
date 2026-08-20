@@ -1,0 +1,103 @@
+---
+import type { ForemanProjectExecutionContract } from "./projects-execution.js";
+
+interface Props {
+  execution: ForemanProjectExecutionContract;
+}
+
+const { execution } = Astro.props;
+const observeClient = execution.clients.find((entry) => entry.actionState === "unavailable");
+const actionClient = execution.clients.find((entry) => entry.actionState === "gated");
+const host = execution.hostAdvertisements[0];
+const approval = execution.approvals[0];
+const lease = execution.leases[0];
+const run = execution.runs[0];
+const checkpoint = execution.checkpoints[0];
+const currentEffect = execution.externalEffects.find((entry) => entry.id === execution.selected.currentExternalEffectId);
+---
+
+<section class="fm-app__inspector-section fm-app__execution-inspector" data-state="active">
+  <header><span>Client and session identities</span><span class="fm-app__state-label" data-state="active">Distinct</span></header>
+  <h2>Context does not become authority.</h2>
+  <div class="fm-app__execution-identity-stack">
+    {observeClient && (
+      <article data-identity="client">
+        <header><strong>{observeClient.label}</strong><span>{observeClient.actionState}</span></header>
+        <p>{observeClient.truth}</p>
+        <dl>
+          <dt>Profile</dt><dd>{observeClient.profileId}</dd>
+          <dt>Session</dt><dd>{observeClient.sessionId}</dd>
+          <dt>Observed</dt><dd>{observeClient.observedCapability}</dd>
+        </dl>
+      </article>
+    )}
+    {actionClient && (
+      <article data-identity="client">
+        <header><strong>{actionClient.label}</strong><span>{actionClient.actionState}</span></header>
+        <p>{actionClient.truth}</p>
+        <dl>
+          <dt>Profile</dt><dd>{actionClient.profileId}</dd>
+          <dt>Session</dt><dd>{actionClient.sessionId}</dd>
+          <dt>Observed</dt><dd>{actionClient.observedCapability}</dd>
+        </dl>
+      </article>
+    )}
+  </div>
+</section>
+
+<section class="fm-app__inspector-section fm-app__execution-inspector" data-state={run?.state}>
+  <header><span>Requested and actual execution</span><span class="fm-app__state-label" data-state={lease?.cleanupState}>{lease?.cleanupState}</span></header>
+  <h2>{run?.label}</h2>
+  <dl>
+    <dt>Requested host</dt><dd>{run?.requestedHostId}</dd>
+    <dt>Actual host</dt><dd>{host?.label} · {host?.generation}</dd>
+    <dt>Advertisement</dt><dd>{host?.id}</dd>
+    <dt>Approval</dt><dd>{approval?.id} · {approval?.state}</dd>
+    <dt>Lease</dt><dd>{lease?.id} · {lease?.state}</dd>
+    <dt>Expiry</dt><dd><time datetime={lease?.expiresAt}>{lease?.expiresAt}</time></dd>
+    <dt>Origin session</dt><dd>{run?.originSessionId}</dd>
+    <dt>Work run</dt><dd>{run?.id} · {run?.state}</dd>
+    <dt>Checkpoint</dt><dd>{checkpoint?.label} · {checkpoint?.state}</dd>
+    <dt>Cleanup</dt><dd>{lease?.cleanupEvidence}</dd>
+  </dl>
+</section>
+
+<section class="fm-app__inspector-section fm-app__execution-inspector" data-state={approval?.state}>
+  <header><span>Exact capability scope</span><span class="fm-app__state-label" data-state={approval?.state}>{approval?.state}</span></header>
+  <h2>{approval?.label}</h2>
+  <p>{approval?.operation}</p>
+  <details open>
+    <summary>Requested and actual capabilities</summary>
+    <div class="fm-app__execution-capabilities">
+      <div><strong>Requested</strong><ul>{lease?.requestedCapabilities.map((entry) => <li>{entry}</li>)}</ul></div>
+      <div><strong>Actual</strong><ul>{lease?.actualCapabilities.map((entry) => <li>{entry}</li>)}</ul></div>
+    </div>
+  </details>
+  <details>
+    <summary>Excluded authority</summary>
+    <ul>{lease?.excludedAuthority.map((entry) => <li>{entry}</li>)}</ul>
+  </details>
+</section>
+
+<section class="fm-app__inspector-section fm-app__execution-inspector" data-state={currentEffect?.state}>
+  <header><span>Artifacts and external truth</span><span class="fm-app__state-label" data-state={currentEffect?.state}>{currentEffect?.state}</span></header>
+  <div class="fm-app__execution-artifacts">
+    {execution.artifacts.map((artifact) => (
+      <article>
+        <strong>{artifact.label}</strong>
+        <small>{artifact.type} · {artifact.state}</small>
+        <code>{artifact.digest}</code>
+        <p>{artifact.evidence}</p>
+      </article>
+    ))}
+  </div>
+  {currentEffect && (
+    <dl>
+      <dt>Requested effect</dt><dd>{currentEffect.label}</dd>
+      <dt>Provider</dt><dd>{currentEffect.provider}</dd>
+      <dt>Read-back</dt><dd>{currentEffect.readBackState}</dd>
+      <dt>Canonical URL</dt><dd>Not observed</dd>
+      <dt>Truth</dt><dd>{currentEffect.truth}</dd>
+    </dl>
+  )}
+</section>
