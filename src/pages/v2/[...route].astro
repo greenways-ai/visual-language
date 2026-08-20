@@ -5,11 +5,11 @@ import {
   catalogueHref,
   catalogueOwnershipLabels,
   catalogueStatusLabels,
-  getCatalogueStaticRoutes,
+  getCataloguePlaceholderRoutes,
 } from "../../v2/catalogue-manifest.js";
 
 export function getStaticPaths() {
-  return getCatalogueStaticRoutes().map((route) => ({
+  return getCataloguePlaceholderRoutes().map((route) => ({
     params: { route: route.path.replace(/^\/v2\//, "").replace(/\/$/, "") },
     props: { route },
   }));
