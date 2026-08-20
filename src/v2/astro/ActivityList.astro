@@ -1,0 +1,68 @@
+---
+import Status from "./Status.astro";
+import "../components.css";
+
+type Tone = "neutral" | "info" | "success" | "warning" | "danger";
+
+interface ActivityItem {
+  id: string;
+  actor: string;
+  action: string;
+  time: string;
+  datetime?: string;
+  detail?: string;
+  status?: string;
+  tone?: Tone;
+  evidenceHref?: string;
+  evidenceLabel?: string;
+}
+
+interface Props {
+  id: string;
+  label: string;
+  items: readonly ActivityItem[];
+  emptyMessage?: string;
+  class?: string;
+}
+
+const {
+  id,
+  label,
+  items,
+  emptyMessage = "No activity has been recorded.",
+  class: className = "",
+} = Astro.props;
+const titleId = `${id}-title`;
+---
+
+<section
+  class:list={["gw-v2-component", "gw-v2-activity", className]}
+  aria-labelledby={titleId}
+  data-gw-v2-component="ActivityList"
+  data-gw-v2-state={items.length === 0 ? "empty" : "initial"}
+>
+  <h3 id={titleId}>{label}</h3>
+  {items.length === 0 ? (
+    <p>{emptyMessage}</p>
+  ) : (
+    <ol>
+      {items.map((item) => (
+        <li
+          class="gw-v2-activity__item"
+          data-activity-id={item.id}
+          data-gw-v2-state={item.tone ?? "neutral"}
+        >
+          <div class="gw-v2-activity__copy">
+            <strong><span>{item.actor}</span> {item.action}</strong>
+            {item.detail && <p>{item.detail}</p>}
+            {item.evidenceHref && (
+              <small><a href={item.evidenceHref}>{item.evidenceLabel ?? "Open evidence"}</a></small>
+            )}
+          </div>
+          <time datetime={item.datetime}>{item.time}</time>
+          {item.status && <Status label={item.status} tone={item.tone ?? "neutral"} />}
+        </li>
+      ))}
+    </ol>
+  )}
+</section>
