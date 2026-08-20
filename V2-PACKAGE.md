@@ -111,6 +111,16 @@ import {
 } from "@greenways-ai/visual-language/v2/component-contract.js";
 ```
 
+The workflow-state contract is available through:
+
+```js
+import {
+  greenwaysV2WorkflowOwnership,
+  greenwaysV2WorkflowStates,
+  greenwaysV2WorkflowStudies,
+} from "@greenways-ai/visual-language/v2/workflow-contract.js";
+```
+
 These contracts are intended for tests, adapters and documentation generators. CSS remains the runtime source of token values, and Astro components remain the runtime source of shared markup.
 
 ## Component behaviour boundary
@@ -123,9 +133,29 @@ The package distinguishes three behaviour owners:
 
 A requested toggle state is not an actual connection. A submitted action is not a completed effect. An approval control is not an authorisation receipt. A styled receipt cannot replace supplied evidence. Components therefore expose requested state, actual state, actors, timestamps, identifiers and evidence as separate fields where applicable.
 
+## Workflow-state contract
+
+The shared workflow vocabulary contains four product-neutral studies:
+
+- search, filter, select and inspect;
+- create, validate, preview, approve and receipt;
+- load session, run, observe and recover;
+- connect, request authority, reconnect and revoke.
+
+The contract names thirteen states: initial, first-use empty, filtered empty, loading, active, waiting for approval, stale, partial, offline, recoverable error, fatal error, cancelled and success.
+
+Every state defines:
+
+- a written, non-colour cue;
+- the supplied evidence required to justify the state;
+- whether the state is terminal;
+- a bounded continuation or recovery path.
+
+The package owns the vocabulary and presentation semantics. The host owns loading, mutation, commands, cancellation, authority evaluation, provider connection, persistence, failure classification and evidence creation. A requested state never becomes an actual state merely because a control changed. Success requires a supplied result or receipt adjacent to the claim.
+
 ## Ownership boundary
 
-Package contracts live at exported `src/` paths. The executable catalogue, specimens, concept shells, product studies and route-specific CSS live under `src/site/**` or `src/pages/**` and are not exports. The `/v2/library/components/` route is an executable review laboratory; its example data and layout are not package contracts.
+Package contracts live at exported `src/` paths. The executable catalogue, specimens, concept shells, product studies and route-specific CSS live under `src/site/**` or `src/pages/**` and are not exports. The `/v2/library/components/` and `/v2/library/workflows/` routes are executable review laboratories; their example data and layouts are not package contracts.
 
 A shared addition must be product-neutral, theme-complete, keyboard and narrow-screen safe, named in ordinary Greenways language, documented here, and protected by contract tests. Provider calls, persistence, commands and application state remain outside this package.
 
