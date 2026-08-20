@@ -1,0 +1,99 @@
+<section class="gw2-pane-grid gwi-pane-grid" data-gwi-graph-screen>
+  <section class="gw2-pane gw2-pane--primary gwi-pane-primary" aria-labelledby="gwi-graph-title">
+    <header class="gw2-pane-heading gwi-pane-heading">
+      <div><p>Typed projections · bounded traversal</p><h2 id="gwi-graph-title" data-gw2-active-buffer>Graph / Relationships</h2></div>
+      <div><button type="button" data-gw2-toast="Graph query copied">Copy query</button><button type="button" data-gw2-toast="Graph layout reset">Reset view</button></div>
+    </header>
+
+    <section class="gwi-graph-toolbar" data-gw2-tab-scope aria-label="Graph projection selector">
+      <div><button class="is-active" type="button" data-gw2-tab aria-pressed="true"><i class="is-code"></i>Code</button><button type="button" data-gw2-tab aria-pressed="false"><i class="is-chat"></i>Conversation</button><button type="button" data-gw2-tab aria-pressed="false"><i class="is-work"></i>Work</button><button type="button" data-gw2-tab aria-pressed="false"><i class="is-evidence"></i>Evidence</button></div>
+      <p><span>Depth 2</span><span>18 nodes</span><span>26 edges</span><span>4 graph types</span></p>
+    </section>
+
+    <section class="gwi-graph-canvas" aria-label="Typed relationship graph">
+      <header>
+        <div><span class="gwi-status-label is-derived">TYPED VIEW</span><strong>Provider broker delivery path</strong><small>Starting from historia.provider.broker/execute</small></div>
+        <div><button type="button" data-gw2-toast="Graph zoomed out">−</button><span>82%</span><button type="button" data-gw2-toast="Graph zoomed in">+</button></div>
+      </header>
+      <div class="gwi-graph-stage">
+        <svg class="gwi-graph-edges" viewBox="0 0 1000 560" preserveAspectRatio="none" aria-hidden="true">
+          <path class="is-exact" d="M495 278 C390 278 340 150 220 150" />
+          <path class="is-exact" d="M495 278 C380 300 345 425 220 425" />
+          <path class="is-exact" d="M505 278 C625 270 650 145 790 145" />
+          <path class="is-candidate" d="M505 295 C625 335 665 420 805 420" />
+          <path class="is-exact" d="M220 150 C310 90 690 90 790 145" />
+          <path class="is-asserted" d="M220 425 C345 505 675 500 805 420" />
+          <path class="is-derived" d="M495 278 C500 185 500 135 500 70" />
+          <circle cx="495" cy="278" r="4" />
+        </svg>
+
+        <button class="gwi-graph-node gwi-graph-node--root is-selected" type="button" data-gw2-toast="Selected broker execute symbol">
+          <span class="is-code">FN</span><strong>execute</strong><small>historia.provider.broker</small><b>code</b>
+        </button>
+        <button class="gwi-graph-node gwi-graph-node--top" type="button" data-gw2-toast="Selected source document">
+          <span class="is-original">SO</span><strong>broker.hal</strong><small>commit 502dd91b</small><b>source</b>
+        </button>
+        <button class="gwi-graph-node gwi-graph-node--left-top" type="button" data-gw2-toast="Selected ChatGPT message">
+          <span class="is-chat">CH</span><strong>Message 18</strong><small>conversation-7842</small><b>conversation</b>
+        </button>
+        <button class="gwi-graph-node gwi-graph-node--left-bottom" type="button" data-gw2-toast="Selected issue 89">
+          <span class="is-work">IS</span><strong>Issue #89</strong><small>provider broker</small><b>work</b>
+        </button>
+        <button class="gwi-graph-node gwi-graph-node--right-top" type="button" data-gw2-toast="Selected pull request 96">
+          <span class="is-work">PR</span><strong>PR #96</strong><small>merged implementation</small><b>work</b>
+        </button>
+        <button class="gwi-graph-node gwi-graph-node--right-bottom" type="button" data-gw2-toast="Selected evidence candidate">
+          <span class="is-evidence">EV</span><strong>candidate-0047</strong><small>message ↔ issue</small><b>evidence · 0.91</b>
+        </button>
+
+        <div class="gwi-graph-legend">
+          <span><i class="is-exact"></i>Exact link</span><span><i class="is-derived"></i>Derived projection</span><span><i class="is-asserted"></i>Accepted assertion</span><span><i class="is-candidate"></i>Candidate</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="gwi-path-strip" aria-labelledby="gwi-path-title">
+      <header><p>Selected traversal</p><h3 id="gwi-path-title">From planning conversation to merged implementation</h3></header>
+      <ol>
+        <li><span class="is-chat">CH</span><div><strong>Message 18</strong><small>Conversation branch node</small></div><i>candidate 0.91</i></li>
+        <li><span class="is-work">IS</span><div><strong>Issue #89</strong><small>Accepted delivery boundary</small></div><i>exact URL</i></li>
+        <li><span class="is-work">PR</span><div><strong>PR #96</strong><small>Merged provider broker</small></div><i>closes work</i></li>
+        <li><span class="is-code">FN</span><div><strong>execute</strong><small>Implementation symbol</small></div><i>commit fact</i></li>
+      </ol>
+    </section>
+  </section>
+
+  <aside class="gw2-pane gw2-pane--inspector gwi-inspector" aria-label="Selected graph node inspector">
+    <header><span>Node inspector</span><button type="button" data-gw2-inspector-toggle aria-label="Close inspector">×</button></header>
+    <section class="gwi-inspector-section">
+      <p>Selected node</p>
+      <div class="gwi-object-identity"><span class="gw2-signal--violet">FN</span><div><strong>execute</strong><small>historia.provider.broker</small></div></div>
+      <div class="gwi-authority-badge is-derived"><i></i><span><strong>Derived code fact</strong><small>Deterministic analyzer projection</small></span></div>
+    </section>
+    <section class="gwi-inspector-section">
+      <p>Graph membership</p>
+      <div class="gwi-graph-membership"><span class="is-active">Code</span><span>Conversation</span><span>Work</span><span>Evidence</span></div>
+    </section>
+    <section class="gwi-inspector-section">
+      <p>Identity</p>
+      <dl class="gwi-inspector-list"><div><dt>Repository</dt><dd>greenways-ai/historia</dd></div><div><dt>Revision</dt><dd>502dd91b8c3d</dd></div><div><dt>Path</dt><dd>provider/broker.hal</dd></div><div><dt>Kind</dt><dd>definition · function</dd></div></dl>
+    </section>
+    <section class="gwi-inspector-section">
+      <p>Relationships</p>
+      <div class="gwi-edge-list"><button type="button"><i class="is-exact"></i><span><strong>defined-in</strong><small>broker.hal · exact</small></span></button><button type="button"><i class="is-exact"></i><span><strong>implemented-by</strong><small>PR #96 · exact</small></span></button><button type="button"><i class="is-candidate"></i><span><strong>discussed-in</strong><small>Message 18 · 0.91</small></span></button><button type="button"><i class="is-asserted"></i><span><strong>fulfills</strong><small>Issue #89 · accepted</small></span></button></div>
+    </section>
+    <section class="gwi-inspector-section">
+      <p>Query boundary</p>
+      <div class="gwi-policy-note"><strong>Bounded traversal</strong><span>Depth 2 · maximum 100 nodes · provenance required on every returned edge.</span></div>
+    </section>
+  </aside>
+
+  <section class="gw2-pane gw2-pane--console gwi-console" aria-label="Graph query stream">
+    <header><span>Graph / Query</span><button type="button" data-gw2-toast="Traversal opened as query buffer">Open query</button></header>
+    <div class="gw2-console-lines">
+      <p><time>22:18:12</time><span class="is-ok">root</span><strong>symbol/execute</strong><small>stable code identity resolved</small></p>
+      <p><time>22:18:12</time><span class="is-run">walk</span><strong>depth 2</strong><small>18 nodes · 26 typed edges</small></p>
+      <p><time>22:18:12</time><span class="is-ok">proof</span><strong>26 / 26</strong><small>all edges retain source or assertion evidence</small></p>
+    </div>
+  </section>
+</section>
