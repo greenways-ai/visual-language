@@ -1,0 +1,878 @@
+---
+import CatalogueShell from "../../../../v2/CatalogueShell.astro";
+import Action from "../../../../v2/astro/Action.astro";
+import ActivityList from "../../../../v2/astro/ActivityList.astro";
+import ApprovalCard from "../../../../v2/astro/ApprovalCard.astro";
+import Card from "../../../../v2/astro/Card.astro";
+import DataTable from "../../../../v2/astro/DataTable.astro";
+import Field from "../../../../v2/astro/Field.astro";
+import FilterBar from "../../../../v2/astro/FilterBar.astro";
+import List from "../../../../v2/astro/List.astro";
+import Navigation from "../../../../v2/astro/Navigation.astro";
+import Panel from "../../../../v2/astro/Panel.astro";
+import Receipt from "../../../../v2/astro/Receipt.astro";
+import Status from "../../../../v2/astro/Status.astro";
+import Tabs from "../../../../v2/astro/Tabs.astro";
+import Toggle from "../../../../v2/astro/Toggle.astro";
+import WorkbenchShell from "../../../../v2/astro/WorkbenchShell.astro";
+import {
+  getGreenwaysV2WorkflowState,
+  greenwaysV2WorkflowOwnership,
+  greenwaysV2WorkflowStates,
+  greenwaysV2WorkflowStudies,
+} from "../../../../v2/workflow-contract.js";
+import "../../../../v2/components.css";
+
+const stateColumns = [
+  { key: "state", label: "State" },
+  { key: "cue", label: "Non-colour cue" },
+  { key: "evidence", label: "Required evidence" },
+  { key: "recovery", label: "Bounded next step" },
+] as const;
+
+const stateRows = greenwaysV2WorkflowStates.map((state) => ({
+  state: state.label,
+  cue: state.nonColourCue,
+  evidence: state.evidence,
+  recovery: state.recovery,
+}));
+
+const workflowNavigation = greenwaysV2WorkflowStudies.map((study, index) => ({
+  id: study.id,
+  label: study.label,
+  href: `#${study.id}`,
+  description: study.summary,
+  current: index === 0,
+  status: `${study.states.length} states`,
+  tone: "info" as const,
+}));
+
+const searchResults = [
+  {
+    id: "result-31",
+    label: "Shared component library",
+    description: "Stable semantic primitives and package contracts.",
+    meta: "Route /v2/library/components/ · confirmed 09:27 SGT",
+    selected: true,
+    status: "Current",
+    tone: "info" as const,
+  },
+  {
+    id: "result-32",
+    label: "Workflow-state laboratory",
+    description: "Executable state and recovery studies.",
+    meta: "Route /v2/library/workflows/ · specimen data",
+    status: "In review",
+    tone: "warning" as const,
+  },
+  {
+    id: "result-33",
+    label: "Foundations laboratory",
+    description: "Identity, colour, material and responsive rules.",
+    meta: "Route /v2/foundations/ · confirmed 08:40 SGT",
+    status: "Ready",
+    tone: "success" as const,
+  },
+] as const;
+
+const sessionActivity = [
+  {
+    id: "session-event-1",
+    actor: "Build session",
+    action: "loaded the supplied project context.",
+    time: "10:02",
+    datetime: "2026-08-21T10:02:00+08:00",
+    detail: "Session SES-204 is distinct from the agent profile and provider account.",
+    status: "Loaded",
+    tone: "success" as const,
+  },
+  {
+    id: "session-event-2",
+    actor: "Run RUN-77",
+    action: "produced two of three requested artifacts.",
+    time: "10:08",
+    datetime: "2026-08-21T10:08:00+08:00",
+    detail: "The missing responsive screenshot remains enumerated rather than hidden.",
+    status: "Partial · 2 of 3",
+    tone: "warning" as const,
+  },
+  {
+    id: "session-event-3",
+    actor: "Connection monitor",
+    action: "lost the provider response channel.",
+    time: "10:10",
+    datetime: "2026-08-21T10:10:00+08:00",
+    detail: "Existing artifacts are preserved. No current connection is claimed.",
+    status: "Offline",
+    tone: "warning" as const,
+  },
+] as const;
+
+const connectionActivity = [
+  {
+    id: "connection-event-1",
+    actor: "Chris",
+    action: "requested read-only project access.",
+    time: "11:14",
+    datetime: "2026-08-21T11:14:00+08:00",
+    detail: "The request excludes write, publish, merge, spend and destructive authority.",
+    status: "Requested",
+    tone: "warning" as const,
+  },
+  {
+    id: "connection-event-2",
+    actor: "Provider session",
+    action: "reported availability without an authority grant.",
+    time: "11:15",
+    datetime: "2026-08-21T11:15:00+08:00",
+    detail: "Availability and authority remain independent facts.",
+    status: "Connected · no grant",
+    tone: "info" as const,
+  },
+  {
+    id: "connection-event-3",
+    actor: "Chris",
+    action: "revoked the specimen grant.",
+    time: "11:22",
+    datetime: "2026-08-21T11:22:00+08:00",
+    detail: "The actual grant is now absent even though the provider remains available.",
+    status: "Revoked",
+    tone: "neutral" as const,
+  },
+] as const;
+
+const stateTone = (id: string) => getGreenwaysV2WorkflowState(id)?.tone ?? "neutral";
+const stateLabel = (id: string) => getGreenwaysV2WorkflowState(id)?.label ?? id;
+---
+
+<CatalogueShell
+  title="Greenways v2 workflow-state laboratory"
+  description="Executable, product-neutral workflow studies that keep requested state, actual state, recovery and evidence truthful across ordinary and failure paths."
+  currentPath="/v2/library/workflows/"
+>
+  <article
+    class="gw-v2-workflow-catalogue gw-v2-stack"
+    data-workflow-catalogue
+    data-shared-semantics
+    data-application-behaviour="host-owned"
+    data-specimen-data="true"
+  >
+    <header class="gw-v2-workflow-hero gw-v2-surface" data-elevation="raised">
+      <div class="gw-v2-stack">
+        <p class="gw-v2-workflow-kicker">Library · Issue #34 · workflow states</p>
+        <h1>Every useful path includes the states between intention and evidence.</h1>
+        <p class="gw-v2-prose">
+          These studies show what the shared visual language owns and what an application must supply. They do not
+          connect a provider, change data, grant authority or manufacture a receipt.
+        </p>
+        <div class="gw-v2-cluster" aria-label="Workflow laboratory status">
+          <Status label={`${greenwaysV2WorkflowStudies.length} workflow studies`} tone="success" />
+          <Status label={`${greenwaysV2WorkflowStates.length} truthful states`} tone="info" />
+          <Status label="Specimen data only" tone="neutral" />
+        </div>
+      </div>
+      <Navigation label="Workflow studies" items={workflowNavigation} compact />
+    </header>
+
+    <section class="gw-v2-workflow-section gw-v2-stack" aria-labelledby="ownership-title">
+      <header class="gw-v2-workflow-section__header">
+        <div>
+          <p class="gw-v2-workflow-kicker">01 · Ownership</p>
+          <h2 id="ownership-title">Shared semantics stop at the application boundary.</h2>
+        </div>
+        <p>{greenwaysV2WorkflowOwnership.rule}</p>
+      </header>
+
+      <div class="gw-v2-workflow-two-column">
+        <Panel id="shared-workflow-semantics" title="Shared visual semantics" eyebrow="Package owned">
+          <ul>
+            {greenwaysV2WorkflowOwnership.shared.map((item) => <li>{item}</li>)}
+          </ul>
+        </Panel>
+        <Panel id="host-workflow-responsibilities" title="Application responsibilities" eyebrow="Host owned">
+          <ul>
+            {greenwaysV2WorkflowOwnership.host.map((item) => <li>{item}</li>)}
+          </ul>
+        </Panel>
+      </div>
+    </section>
+
+    <section class="gw-v2-workflow-section gw-v2-stack" aria-labelledby="state-matrix-title">
+      <header class="gw-v2-workflow-section__header">
+        <div>
+          <p class="gw-v2-workflow-kicker">02 · State matrix</p>
+          <h2 id="state-matrix-title">No state is only a colour or an icon.</h2>
+        </div>
+        <p>Every state names its evidence basis and a bounded recovery or continuation path.</p>
+      </header>
+
+      <div class="gw-v2-workflow-state-grid" role="list" aria-label="Workflow state specimens">
+        {greenwaysV2WorkflowStates.map((state) => (
+          <article
+            class="gw-v2-workflow-state-card"
+            role="listitem"
+            data-workflow-state={state.id}
+            data-terminal={state.terminal ? "true" : "false"}
+          >
+            <header>
+              <Status label={state.label} tone={state.tone} />
+              <small>{state.terminal ? "Terminal" : "Continuable"}</small>
+            </header>
+            <p>{state.nonColourCue}</p>
+            <dl>
+              <div><dt>Evidence</dt><dd>{state.evidence}</dd></div>
+              <div><dt>Next step</dt><dd>{state.recovery}</dd></div>
+            </dl>
+          </article>
+        ))}
+      </div>
+
+      <DataTable caption="Complete Greenways v2 workflow-state contract" columns={stateColumns} rows={stateRows} />
+    </section>
+
+    <section id="search-inspect" class="gw-v2-workflow-study gw-v2-stack" data-workflow-study="search-inspect" aria-labelledby="search-inspect-title">
+      <header class="gw-v2-workflow-study__header">
+        <div>
+          <p class="gw-v2-workflow-kicker">03 · Search and inspect</p>
+          <h2 id="search-inspect-title">Search, filter, select, inspect.</h2>
+          <p>{greenwaysV2WorkflowStudies[0].summary}</p>
+        </div>
+        <div class="gw-v2-cluster" aria-label="Search workflow states">
+          {greenwaysV2WorkflowStudies[0].states.map((id) => <Status label={stateLabel(id)} tone={stateTone(id)} />)}
+        </div>
+      </header>
+
+      <ol class="gw-v2-workflow-steps" aria-label="Search workflow ownership">
+        {greenwaysV2WorkflowStudies[0].steps.map((step, index) => (
+          <li data-step-owner={step.owner}>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <strong>{step.label}</strong>
+            <small>{step.owner === "shared" ? "Shared semantics" : "Host behaviour"}</small>
+            <p>{step.responsibility}</p>
+          </li>
+        ))}
+      </ol>
+
+      <Panel id="search-active" title="Active search and selection" eyebrow="Active specimen" description="Query, result count and selected identifier remain visible.">
+        <Tabs
+          label="Search workflow regions"
+          currentId="results"
+          panelIdPrefix="search-study"
+          items={[
+            { id: "query", label: "Query", count: 1, href: "#search-query" },
+            { id: "results", label: "Results", count: 3, href: "#search-results" },
+            { id: "inspector", label: "Inspector", count: 1, href: "#search-inspector" },
+          ]}
+        />
+        <FilterBar
+          id="search-query"
+          label="Search visual-language records"
+          queryLabel="Search"
+          queryValue="v2 library"
+          resultSummary="3 supplied results. Last confirmed 21 August 2026, 09:27 SGT."
+        >
+          <select slot="filters" name="status" aria-label="Status">
+            <option value="all">All statuses</option>
+            <option value="ready">Ready</option>
+            <option value="review">In review</option>
+          </select>
+          <Action slot="actions" type="submit" size="compact" variant="primary">Apply in host</Action>
+          <Action slot="actions" type="reset" size="compact" variant="quiet">Clear query</Action>
+        </FilterBar>
+        <div class="gw-v2-workflow-search-layout">
+          <List id="search-results" label="Supplied results" items={searchResults} />
+          <Card id="search-inspector" title="Shared component library" eyebrow="Selected · result-31" selected>
+            <p>The inspector presents supplied metadata and evidence. It does not own selection or fetch a source.</p>
+            <dl class="gw-v2-workflow-detail-list">
+              <div><dt>Identifier</dt><dd>result-31</dd></div>
+              <div><dt>Last confirmed</dt><dd><time datetime="2026-08-21T09:27:00+08:00">09:27 SGT</time></dd></div>
+              <div><dt>Evidence</dt><dd>Catalogue route and package contract</dd></div>
+            </dl>
+          </Card>
+        </div>
+      </Panel>
+
+      <div class="gw-v2-workflow-specimen-grid">
+        <Card id="search-first-use" title="No sources yet" eyebrow="Empty · first use" state="initial" data-workflow-state="first-use">
+          <p>Add the first source through the host. No missing result is implied because no collection exists.</p>
+          <Action slot="actions" variant="primary">Add first source</Action>
+        </Card>
+        <Card id="search-loading" title="Loading supplied records" eyebrow="Loading" state="loading" data-workflow-state="loading">
+          <p>Request REQ-901 is loading “v2 library”. Duplicate submission is disabled.</p>
+          <Action slot="actions" pending>Loading</Action>
+        </Card>
+        <Card id="search-empty-filtered" title="No matches for this filter" eyebrow="Empty · filtered" state="initial" data-workflow-state="empty-filtered">
+          <p>Query “v2 library” plus status “Archived” returned zero supplied records. Source data is unchanged.</p>
+          <Action slot="actions" variant="quiet">Clear filter</Action>
+        </Card>
+        <Card id="search-stale" title="Results need confirmation" eyebrow="Stale" state="warning" data-workflow-state="stale">
+          <p>Last confirmed 09:27 SGT. Refresh before acting on ownership or publication status.</p>
+          <Action slot="actions">Refresh in host</Action>
+        </Card>
+        <Card id="search-partial" title="Two result sources unavailable" eyebrow="Partial" state="warning" data-workflow-state="partial">
+          <p>3 local records shown; 2 remote records are missing and explicitly enumerated.</p>
+          <Action slot="actions">Retry missing sources</Action>
+        </Card>
+      </div>
+    </section>
+
+    <section id="create-approve" class="gw-v2-workflow-study gw-v2-stack" data-workflow-study="create-approve" aria-labelledby="create-approve-title">
+      <header class="gw-v2-workflow-study__header">
+        <div>
+          <p class="gw-v2-workflow-kicker">04 · Create and approve</p>
+          <h2 id="create-approve-title">Create, validate, preview, approve, receipt.</h2>
+          <p>{greenwaysV2WorkflowStudies[1].summary}</p>
+        </div>
+        <div class="gw-v2-cluster" aria-label="Create workflow states">
+          {greenwaysV2WorkflowStudies[1].states.map((id) => <Status label={stateLabel(id)} tone={stateTone(id)} />)}
+        </div>
+      </header>
+
+      <ol class="gw-v2-workflow-steps" aria-label="Create workflow ownership">
+        {greenwaysV2WorkflowStudies[1].steps.map((step, index) => (
+          <li data-step-owner={step.owner}>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <strong>{step.label}</strong>
+            <small>{step.owner === "shared" ? "Shared semantics" : "Host behaviour"}</small>
+            <p>{step.responsibility}</p>
+          </li>
+        ))}
+      </ol>
+
+      <div class="gw-v2-workflow-two-column">
+        <Panel id="create-draft" title="Draft input" eyebrow="Initial and recoverable validation">
+          <div class="gw-v2-grid" style="--gw-v2-grid-min: 14rem;">
+            <Field id="draft-title" label="Title" value="Workflow-state laboratory" required hint="Stored by the host, not this component." />
+            <Field id="draft-route" label="Route" value="/v2/library/workflows/" required />
+            <Field id="draft-expiry" label="Approval expiry" placeholder="Choose an expiry" required error="An expiry is required before authority can be requested." />
+          </div>
+          <div class="gw-v2-cluster">
+            <Status label="Validation failed" tone="warning" detail="1 field" />
+            <Action variant="primary">Validate in host</Action>
+          </div>
+        </Panel>
+
+        <Card id="create-preview" title="Proposed catalogue entry" eyebrow="Preview · not published" state="selected">
+          <p>The preview describes intended output only. No route, publication or GitHub mutation is claimed.</p>
+          <dl class="gw-v2-workflow-detail-list">
+            <div><dt>Draft</dt><dd>DRAFT-44</dd></div>
+            <div><dt>Requested effect</dt><dd>Create one catalogue page</dd></div>
+            <div><dt>Excluded</dt><dd>Publish, merge, delete and provider authority</dd></div>
+          </dl>
+        </Card>
+      </div>
+
+      <ApprovalCard
+        id="create-approval"
+        title="Create the reviewed catalogue page"
+        requestedBy="Draft DRAFT-44"
+        requestedState="Approval requested"
+        actualState="Waiting for a person"
+        summary="Validation and preview do not grant authority. The requested effect remains pending."
+        scope={[
+          "Create one page at /v2/library/workflows/",
+          "Use reviewed specimen data only",
+          "Exclude publication, merge, deletion and external provider access",
+        ]}
+        tone="warning"
+        expiresAt="2026-08-21T18:00:00+08:00"
+        expiresLabel="21 August 2026, 18:00 SGT"
+      >
+        <Action slot="actions" variant="primary">Approve in host</Action>
+        <Action slot="actions">Deny in host</Action>
+      </ApprovalCard>
+
+      <div class="gw-v2-workflow-two-column">
+        <Receipt
+          id="receipt-create-044"
+          title="Catalogue page created"
+          status="Specimen success"
+          tone="success"
+          issuedAt="2026-08-21T11:02:00+08:00"
+          issuedLabel="21 August 2026, 11:02 SGT"
+          actor="Catalogue fixture"
+          digest="sha256:specimen-create-044"
+          evidence={[
+            { label: "Approved scope record" },
+            { label: "Generated route output" },
+            { label: "No external publication represented" },
+          ]}
+        />
+
+        <Card id="create-fatal" title="Creation stopped" eyebrow="Fatal error" state="danger" data-workflow-state="fatal-error">
+          <p>Draft DRAFT-44 is preserved, but the target contract is incompatible. This attempt cannot safely retry.</p>
+          <dl class="gw-v2-workflow-detail-list">
+            <div><dt>Failure</dt><dd>ERR-CONTRACT-17</dd></div>
+            <div><dt>Preserved</dt><dd>Draft, validation result and approval decision</dd></div>
+            <div><dt>Next step</dt><dd>Start a new attempt after contract review</dd></div>
+          </dl>
+        </Card>
+      </div>
+    </section>
+
+    <section id="session-recovery" class="gw-v2-workflow-study gw-v2-stack" data-workflow-study="session-recovery" aria-labelledby="session-recovery-title">
+      <header class="gw-v2-workflow-study__header">
+        <div>
+          <p class="gw-v2-workflow-kicker">05 · Session recovery</p>
+          <h2 id="session-recovery-title">Load session, run, observe, recover.</h2>
+          <p>{greenwaysV2WorkflowStudies[2].summary}</p>
+        </div>
+        <div class="gw-v2-cluster" aria-label="Session workflow states">
+          {greenwaysV2WorkflowStudies[2].states.map((id) => <Status label={stateLabel(id)} tone={stateTone(id)} />)}
+        </div>
+      </header>
+
+      <ol class="gw-v2-workflow-steps" aria-label="Session workflow ownership">
+        {greenwaysV2WorkflowStudies[2].steps.map((step, index) => (
+          <li data-step-owner={step.owner}>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <strong>{step.label}</strong>
+            <small>{step.owner === "shared" ? "Shared semantics" : "Host behaviour"}</small>
+            <p>{step.responsibility}</p>
+          </li>
+        ))}
+      </ol>
+
+      <WorkbenchShell
+        id="session-workbench"
+        title="Session SES-204"
+        eyebrow="Run RUN-77 · specimen data"
+        statusLabel="Offline · artifacts preserved"
+        statusTone="warning"
+        state="offline"
+      >
+        <Action slot="command-bar" size="compact" pending>Reconnecting</Action>
+        <Action slot="command-bar" size="compact">Cancel in host</Action>
+
+        <Navigation
+          slot="navigation"
+          label="Session recovery regions"
+          compact
+          items={[
+            { id: "run", label: "Run RUN-77", href: "#session-run", description: "2 of 3 artifacts", current: true, status: "Partial", tone: "warning" },
+            { id: "events", label: "Events", href: "#session-events", description: "3 supplied records", status: "Preserved", tone: "success" },
+            { id: "retry", label: "Recovery", href: "#session-recovery-panel", description: "Reconnect exact boundary", status: "Available", tone: "info" },
+          ]}
+        />
+
+        <div id="session-run" class="gw-v2-stack">
+          <div class="gw-v2-cluster">
+            <Status label="Partial · 2 of 3 artifacts" tone="warning" />
+            <Status label="Provider offline" tone="warning" detail="last response 10:10" />
+          </div>
+          <h3>Preserved run output</h3>
+          <List
+            id="session-artifacts"
+            label="Run artifacts"
+            items={[
+              { id: "artifact-1", label: "Component inventory", description: "Complete output", status: "Preserved", tone: "success" },
+              { id: "artifact-2", label: "Desktop screenshot", description: "Complete output", status: "Preserved", tone: "success" },
+              { id: "artifact-3", label: "Compact screenshot", description: "No output received", status: "Missing", tone: "warning" },
+            ]}
+          />
+        </div>
+
+        <Panel slot="inspector" id="session-recovery-panel" title="Recovery boundary" eyebrow="Recoverable error">
+          <p>Reconnect session SES-204 and retry only artifact-3. Completed artifacts remain fenced from duplication.</p>
+          <dl class="gw-v2-workflow-detail-list">
+            <div><dt>Error</dt><dd>ERR-DISCONNECT-9</dd></div>
+            <div><dt>Actual connection</dt><dd>Offline</dd></div>
+            <div><dt>Retry scope</dt><dd>artifact-3 only</dd></div>
+          </dl>
+          <Action variant="primary">Reconnect in host</Action>
+        </Panel>
+
+        <ActivityList slot="activity" id="session-events" label="Session events" items={sessionActivity} />
+
+        <span slot="status">SES-204</span>
+        <span slot="status">RUN-77</span>
+        <span slot="status">2 preserved · 1 missing</span>
+      </WorkbenchShell>
+
+      <div class="gw-v2-workflow-specimen-grid">
+        <Card id="session-loading" title="Loading session SES-204" eyebrow="Loading" state="loading" data-workflow-state="loading">
+          <p>The exact session identity is resolving. No run is active yet.</p>
+          <Action slot="actions" pending>Loading session</Action>
+        </Card>
+        <Card id="session-active" title="Run RUN-77 active" eyebrow="Active" state="selected" data-workflow-state="active">
+          <p>Actor, run identifier, start time and current work item are visible beside progress.</p>
+          <Status slot="actions" label="Running · 03:12" tone="info" />
+        </Card>
+        <Card id="session-success" title="Recovery completed" eyebrow="Success" state="success" data-workflow-state="success">
+          <p>Artifact-3 returned after reconnect. Completion is adjacent to recovery record REC-18.</p>
+          <Status slot="actions" label="Verified" tone="success" />
+        </Card>
+        <Card id="session-fatal" title="Session cannot resume" eyebrow="Fatal error" state="danger" data-workflow-state="fatal-error">
+          <p>Session state is incompatible. Partial artifacts and diagnostic DIAG-71 remain available for a new attempt.</p>
+        </Card>
+      </div>
+    </section>
+
+    <section id="connection-authority" class="gw-v2-workflow-study gw-v2-stack" data-workflow-study="connection-authority" aria-labelledby="connection-authority-title">
+      <header class="gw-v2-workflow-study__header">
+        <div>
+          <p class="gw-v2-workflow-kicker">06 · Connection and authority</p>
+          <h2 id="connection-authority-title">Connect, request authority, reconnect, revoke.</h2>
+          <p>{greenwaysV2WorkflowStudies[3].summary}</p>
+        </div>
+        <div class="gw-v2-cluster" aria-label="Connection workflow states">
+          {greenwaysV2WorkflowStudies[3].states.map((id) => <Status label={stateLabel(id)} tone={stateTone(id)} />)}
+        </div>
+      </header>
+
+      <ol class="gw-v2-workflow-steps" aria-label="Connection workflow ownership">
+        {greenwaysV2WorkflowStudies[3].steps.map((step, index) => (
+          <li data-step-owner={step.owner}>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <strong>{step.label}</strong>
+            <small>{step.owner === "shared" ? "Shared semantics" : "Host behaviour"}</small>
+            <p>{step.responsibility}</p>
+          </li>
+        ))}
+      </ol>
+
+      <div class="gw-v2-workflow-two-column">
+        <Panel id="connection-intent" title="Connection intent" eyebrow="Requested is not actual">
+          <Toggle
+            id="connection-request"
+            label="Use provider session"
+            description="The host has recorded intent but has not confirmed availability."
+            requestedState="on"
+            actualState="off"
+          />
+          <div class="gw-v2-cluster">
+            <Status label="Requested: on" tone="info" />
+            <Status label="Actual: offline" tone="warning" />
+            <Status label="Authority: none" tone="neutral" />
+          </div>
+        </Panel>
+
+        <ActivityList id="connection-activity" label="Connection and authority activity" items={connectionActivity} />
+      </div>
+
+      <ApprovalCard
+        id="connection-approval"
+        title="Read the selected project"
+        requestedBy="Session SES-311"
+        requestedState="Read-only authority requested"
+        actualState="Waiting for a person"
+        summary="Provider availability does not imply permission to read, write, publish, merge or spend."
+        scope={[
+          "Read one selected project",
+          "Return one bounded analysis artifact",
+          "Expire at 18:00 SGT",
+          "Exclude write, publish, merge, spend and destructive actions",
+        ]}
+        tone="warning"
+        expiresAt="2026-08-21T18:00:00+08:00"
+        expiresLabel="21 August 2026, 18:00 SGT"
+      >
+        <Action slot="actions" variant="primary">Approve in host</Action>
+        <Action slot="actions">Deny in host</Action>
+      </ApprovalCard>
+
+      <div class="gw-v2-workflow-specimen-grid">
+        <Card id="connection-reconnecting" title="Reconnecting provider" eyebrow="Loading" state="loading" data-workflow-state="loading">
+          <p>Availability is being re-established. The previous grant is not silently restored.</p>
+          <Action slot="actions" pending>Reconnecting</Action>
+        </Card>
+        <Card id="connection-stale" title="Grant status needs confirmation" eyebrow="Stale" state="warning" data-workflow-state="stale">
+          <p>Last confirmed at 11:18 SGT. Read authority must be checked before another request is dispatched.</p>
+          <Action slot="actions">Refresh authority</Action>
+        </Card>
+        <Card id="connection-cancelled" title="Authority request cancelled" eyebrow="Cancelled" state="initial" data-workflow-state="cancelled">
+          <p>Chris cancelled request AUTH-52 at 11:20 SGT. No grant was issued.</p>
+        </Card>
+        <Card id="connection-ready" title="Provider available with bounded grant" eyebrow="Success" state="success" data-workflow-state="success">
+          <p>Availability and read-only grant GRANT-22 are independently evidenced and expire at 18:00 SGT.</p>
+          <Status slot="actions" label="Ready · read only" tone="success" />
+        </Card>
+      </div>
+
+      <Receipt
+        id="receipt-revoke-022"
+        title="Read-only authority revoked"
+        status="Revoked"
+        tone="neutral"
+        issuedAt="2026-08-21T11:22:00+08:00"
+        issuedLabel="21 August 2026, 11:22 SGT"
+        actor="Chris"
+        digest="sha256:specimen-revoke-022"
+        evidence={[
+          { label: "Grant GRANT-22" },
+          { label: "Revocation decision at 11:22 SGT" },
+          { label: "Actual authority after decision: none" },
+          { label: "Provider availability after decision: connected" },
+        ]}
+      />
+    </section>
+
+    <section class="gw-v2-workflow-review gw-v2-surface" data-depth="recessed" aria-labelledby="review-title">
+      <p class="gw-v2-workflow-kicker">Review contract</p>
+      <h2 id="review-title">Desktop density, compact reading order and reduced motion use the same truth model.</h2>
+      <ul>
+        <li>Keyboard focus remains visible and required actions are never hover-only.</li>
+        <li>Touch targets remain at least the shared control size.</li>
+        <li>At compact widths, steps, state cards, inspector and activity regions become one linear reading order.</li>
+        <li>Reduced motion removes progress animation without removing loading text or state evidence.</li>
+        <li>All controls are catalogue specimens; applications must supply real commands and outcomes.</li>
+      </ul>
+    </section>
+  </article>
+</CatalogueShell>
+
+<style>
+  .gw-v2-workflow-catalogue {
+    --gw-v2-stack-gap: clamp(var(--gw-v2-space-xl), 6vw, var(--gw-v2-space-3xl));
+    min-inline-size: 0;
+  }
+
+  .gw-v2-workflow-hero {
+    min-inline-size: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(16rem, 0.7fr);
+    gap: clamp(var(--gw-v2-space-lg), 5vw, var(--gw-v2-space-2xl));
+    padding: clamp(var(--gw-v2-space-lg), 5vw, var(--gw-v2-space-2xl));
+  }
+
+  .gw-v2-workflow-hero h1 {
+    max-inline-size: 17ch;
+    font-size: var(--gw-v2-type-2xl);
+  }
+
+  .gw-v2-workflow-kicker {
+    color: var(--gw-v2-text-muted);
+    font-family: var(--gw-v2-font-code);
+    font-size: var(--gw-v2-type-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .gw-v2-workflow-section,
+  .gw-v2-workflow-study {
+    --gw-v2-stack-gap: var(--gw-v2-space-lg);
+    min-inline-size: 0;
+  }
+
+  .gw-v2-workflow-section__header,
+  .gw-v2-workflow-study__header {
+    min-inline-size: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(15rem, 0.85fr);
+    gap: var(--gw-v2-space-lg);
+    align-items: end;
+    padding-block-end: var(--gw-v2-space-sm);
+    border-block-end: 1px solid var(--gw-v2-seam);
+  }
+
+  .gw-v2-workflow-section__header > div,
+  .gw-v2-workflow-study__header > div:first-child {
+    display: grid;
+    gap: var(--gw-v2-space-2xs);
+  }
+
+  .gw-v2-workflow-section__header h2,
+  .gw-v2-workflow-study__header h2,
+  .gw-v2-workflow-review h2 {
+    font-size: var(--gw-v2-type-xl);
+  }
+
+  .gw-v2-workflow-section__header > p,
+  .gw-v2-workflow-study__header p,
+  .gw-v2-workflow-review li {
+    color: var(--gw-v2-text-muted);
+  }
+
+  .gw-v2-workflow-two-column,
+  .gw-v2-workflow-specimen-grid {
+    min-inline-size: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gw-v2-space-lg);
+  }
+
+  .gw-v2-workflow-state-grid {
+    min-inline-size: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: var(--gw-v2-space-sm);
+  }
+
+  .gw-v2-workflow-state-card {
+    --gw-v2-state-current: var(--gw-v2-state-neutral);
+    min-inline-size: 0;
+    display: grid;
+    align-content: start;
+    gap: var(--gw-v2-space-xs);
+    padding: var(--gw-v2-space-sm);
+    background: var(--gw-v2-surface);
+    border: 1px solid var(--gw-v2-seam);
+    border-block-start: 0.25rem solid var(--gw-v2-state-current);
+    border-radius: var(--gw-v2-radius-md);
+  }
+
+  .gw-v2-workflow-state-card[data-workflow-state="loading"],
+  .gw-v2-workflow-state-card[data-workflow-state="active"] {
+    --gw-v2-state-current: var(--gw-v2-state-info);
+  }
+
+  .gw-v2-workflow-state-card[data-workflow-state="waiting-approval"],
+  .gw-v2-workflow-state-card[data-workflow-state="stale"],
+  .gw-v2-workflow-state-card[data-workflow-state="partial"],
+  .gw-v2-workflow-state-card[data-workflow-state="offline"],
+  .gw-v2-workflow-state-card[data-workflow-state="recoverable-error"] {
+    --gw-v2-state-current: var(--gw-v2-state-warning);
+  }
+
+  .gw-v2-workflow-state-card[data-workflow-state="fatal-error"] {
+    --gw-v2-state-current: var(--gw-v2-state-danger);
+  }
+
+  .gw-v2-workflow-state-card[data-workflow-state="success"] {
+    --gw-v2-state-current: var(--gw-v2-state-success);
+  }
+
+  .gw-v2-workflow-state-card header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--gw-v2-space-2xs);
+  }
+
+  .gw-v2-workflow-state-card header small {
+    color: var(--gw-v2-text-muted);
+    font-family: var(--gw-v2-font-code);
+  }
+
+  .gw-v2-workflow-state-card dl,
+  .gw-v2-workflow-detail-list {
+    display: grid;
+    gap: var(--gw-v2-space-2xs);
+    margin: 0;
+  }
+
+  .gw-v2-workflow-state-card dl > div,
+  .gw-v2-workflow-detail-list > div {
+    min-inline-size: 0;
+    display: grid;
+    gap: var(--gw-v2-space-3xs);
+    padding: var(--gw-v2-space-xs);
+    background: var(--gw-v2-surface-muted);
+    border-radius: var(--gw-v2-radius-sm);
+  }
+
+  .gw-v2-workflow-state-card dt,
+  .gw-v2-workflow-detail-list dt {
+    color: var(--gw-v2-text-muted);
+    font-size: var(--gw-v2-type-xs);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .gw-v2-workflow-state-card dd,
+  .gw-v2-workflow-detail-list dd {
+    min-inline-size: 0;
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .gw-v2-workflow-steps {
+    min-inline-size: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+    gap: var(--gw-v2-space-xs);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .gw-v2-workflow-steps li {
+    min-inline-size: 0;
+    display: grid;
+    align-content: start;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--gw-v2-space-3xs) var(--gw-v2-space-xs);
+    padding: var(--gw-v2-space-sm);
+    background: var(--gw-v2-surface);
+    border: 1px solid var(--gw-v2-seam);
+    border-radius: var(--gw-v2-radius-sm);
+  }
+
+  .gw-v2-workflow-steps li > span {
+    grid-row: 1 / 3;
+    color: var(--gw-v2-text-subtle);
+    font-family: var(--gw-v2-font-code);
+  }
+
+  .gw-v2-workflow-steps li > small {
+    color: var(--gw-v2-text-muted);
+    font-size: var(--gw-v2-type-xs);
+  }
+
+  .gw-v2-workflow-steps li > p {
+    grid-column: 1 / -1;
+    color: var(--gw-v2-text-muted);
+    font-size: var(--gw-v2-type-xs);
+  }
+
+  .gw-v2-workflow-steps li[data-step-owner="host"] {
+    background: var(--gw-v2-surface-recessed);
+    border-style: dashed;
+  }
+
+  .gw-v2-workflow-search-layout {
+    min-inline-size: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(15rem, 0.7fr);
+    gap: var(--gw-v2-space-lg);
+  }
+
+  .gw-v2-workflow-review {
+    display: grid;
+    gap: var(--gw-v2-space-sm);
+    padding: clamp(var(--gw-v2-space-lg), 5vw, var(--gw-v2-space-2xl));
+  }
+
+  .gw-v2-workflow-review ul {
+    display: grid;
+    gap: var(--gw-v2-space-xs);
+    padding-inline-start: 1.25rem;
+    margin: 0;
+  }
+
+  @media (max-width: 52rem) {
+    .gw-v2-workflow-hero,
+    .gw-v2-workflow-section__header,
+    .gw-v2-workflow-study__header,
+    .gw-v2-workflow-two-column,
+    .gw-v2-workflow-specimen-grid,
+    .gw-v2-workflow-search-layout {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .gw-v2-workflow-hero,
+    .gw-v2-workflow-review {
+      padding: var(--gw-v2-space-sm);
+    }
+
+    .gw-v2-workflow-steps {
+      display: block;
+    }
+
+    .gw-v2-workflow-steps li + li {
+      margin-block-start: var(--gw-v2-space-xs);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gw-v2-workflow-catalogue *,
+    .gw-v2-workflow-catalogue *::before,
+    .gw-v2-workflow-catalogue *::after {
+      scroll-behavior: auto !important;
+    }
+  }
+</style>
