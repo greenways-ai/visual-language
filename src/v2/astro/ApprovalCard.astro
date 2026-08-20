@@ -1,0 +1,62 @@
+---
+import Status from "./Status.astro";
+import "../components.css";
+
+type Tone = "neutral" | "info" | "success" | "warning" | "danger";
+interface Props {
+  id: string;
+  title: string;
+  requestedBy: string;
+  scope: readonly string[];
+  requestedState: string;
+  actualState: string;
+  summary?: string;
+  tone?: Tone;
+  expiresAt?: string;
+  expiresLabel?: string;
+  class?: string;
+}
+const {
+  id,
+  title,
+  requestedBy,
+  scope,
+  requestedState,
+  actualState,
+  summary,
+  tone = "warning",
+  expiresAt,
+  expiresLabel,
+  class: className = "",
+} = Astro.props;
+const titleId = `${id}-title`;
+const hasActions = Astro.slots.has("actions");
+---
+<article
+  class:list={["gw-v2-component", "gw-v2-approval", className]}
+  aria-labelledby={titleId}
+  data-gw-v2-component="ApprovalCard"
+  data-gw-v2-state={tone}
+  data-requested-state={requestedState}
+  data-actual-state={actualState}
+>
+  <header class="gw-v2-approval__header">
+    <div class="gw-v2-stack" style="--gw-v2-stack-gap: var(--gw-v2-space-3xs);">
+      <p class="gw-v2-card__eyebrow">Approval request</p>
+      <h3 id={titleId}>{title}</h3>
+      {summary && <p>{summary}</p>}
+    </div>
+    <Status label={actualState} tone={tone} detail={`requested: ${requestedState}`} />
+  </header>
+  <dl>
+    <div><dt>Requested by</dt><dd>{requestedBy}</dd></div>
+    <div><dt>Requested state</dt><dd>{requestedState}</dd></div>
+    <div><dt>Actual state</dt><dd>{actualState}</dd></div>
+    {(expiresAt || expiresLabel) && <div><dt>Expiry</dt><dd>{expiresAt ? <time datetime={expiresAt}>{expiresLabel ?? expiresAt}</time> : expiresLabel}</dd></div>}
+  </dl>
+  <section aria-labelledby={`${id}-scope`}>
+    <h4 id={`${id}-scope`}>Requested scope</h4>
+    <ul class="gw-v2-approval__scope">{scope.map((item) => <li>{item}</li>)}</ul>
+  </section>
+  {hasActions && <div class="gw-v2-approval__actions" role="group" aria-label={`${title} decision actions`}><slot name="actions" /></div>}
+</article>
