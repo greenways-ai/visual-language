@@ -13,49 +13,31 @@ const href = (path: string) => catalogueHref(path, basePath);
 ---
 
 {context && (
-  <template data-gw-v2-page-footer-template>
-    <footer class="gw-v2-catalogue-page-footer" aria-label="Catalogue page navigation">
-      <div class="gw-v2-catalogue-neighbours">
-        {context.previous
-          ? (
-            <a href={href(context.previous.path)} rel="prev">
-              <small>Previous</small>
-              <strong><span aria-hidden="true">←</span> {context.previous.label}</strong>
-            </a>
-          )
-          : <span aria-hidden="true"></span>}
-        {context.next
-          ? (
-            <a href={href(context.next.path)} rel="next">
-              <small>Next</small>
-              <strong>{context.next.label} <span aria-hidden="true">→</span></strong>
-            </a>
-          )
-          : <span aria-hidden="true"></span>}
-      </div>
-      <div class="gw-v2-catalogue-page-footer__home">
-        <a href={href(context.parentTarget.path)}>
-          {context.parent ? `Back to ${context.parent.label}` : "Catalogue home"}
-        </a>
-        <a href={href("/v2/")}>All catalogue routes</a>
-        <span>{context.statusLabel}</span>
-      </div>
-    </footer>
-  </template>
+  <footer class="gw-v2-catalogue-page-footer" aria-label="Catalogue page navigation">
+    <div class="gw-v2-catalogue-neighbours">
+      {context.previous
+        ? (
+          <a href={href(context.previous.path)} rel="prev">
+            <small>Previous</small>
+            <strong><span aria-hidden="true">←</span> {context.previous.label}</strong>
+          </a>
+        )
+        : <span aria-hidden="true"></span>}
+      {context.next
+        ? (
+          <a href={href(context.next.path)} rel="next">
+            <small>Next</small>
+            <strong>{context.next.label} <span aria-hidden="true">→</span></strong>
+          </a>
+        )
+        : <span aria-hidden="true"></span>}
+    </div>
+    <div class="gw-v2-catalogue-page-footer__home">
+      <a href={href(context.parentTarget.path)}>
+        {context.parent ? `Back to ${context.parent.label}` : "Catalogue home"}
+      </a>
+      <a href={href("/v2/")}>All catalogue routes</a>
+      <span>{context.statusLabel}</span>
+    </div>
+  </footer>
 )}
-
-<script>
-  const mountGreenwaysCatalogueFooter = () => {
-    const template = document.querySelector<HTMLTemplateElement>("[data-gw-v2-page-footer-template]");
-    const main = document.querySelector<HTMLElement>("#gw-v2-main");
-    if (!template || !main || main.querySelector(":scope > .gw-v2-catalogue-page-footer")) return;
-    main.append(template.content.cloneNode(true));
-  };
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", mountGreenwaysCatalogueFooter, { once: true });
-  } else {
-    mountGreenwaysCatalogueFooter();
-  }
-  document.addEventListener("astro:page-load", mountGreenwaysCatalogueFooter);
-</script>
