@@ -1,0 +1,90 @@
+<section class="gw2-pane-grid gwi-pane-grid" data-gwi-sources-screen>
+  <section class="gw2-pane gw2-pane--primary gwi-pane-primary" aria-labelledby="gwi-sources-title">
+    <header class="gw2-pane-heading gwi-pane-heading">
+      <div><p>Provider intake · immutable originals</p><h2 id="gwi-sources-title" data-gw2-active-buffer>Sources / Intake</h2></div>
+      <div><button type="button" data-gw2-toast="Provider registration opened">Register provider</button><button type="button" data-gw2-toast="Provider sync requested">Sync all</button></div>
+    </header>
+
+    <section class="gwi-source-briefing">
+      <div>
+        <span class="gwi-status-label is-original">ORIGINAL ARCHIVE</span>
+        <h3>Every derived fact starts with a retained document.</h3>
+        <p>Original bytes are verified before normalization, indexing or graph projection.</p>
+      </div>
+      <dl>
+        <div><dt>Documents</dt><dd>1,284</dd><small>17 new today</small></div>
+        <div><dt>Verified bytes</dt><dd>842 MB</dd><small>0 digest failures</small></div>
+        <div><dt>Receipts</dt><dd>1,309</dd><small>append-only</small></div>
+        <div><dt>Checkpoints</dt><dd>4 / 4</dd><small>current</small></div>
+      </dl>
+    </section>
+
+    <section class="gwi-provider-grid" aria-label="Registered acquisition providers">
+      <article class="gwi-provider-card is-active">
+        <header><span class="gwi-provider-glyph">CG</span><div><p>Browser capture</p><h3>ChatGPT web</h3></div><i></i></header>
+        <p>Explicit user-mediated capture of the active rendered conversation.</p>
+        <dl><div><dt>Mode</dt><dd>observe</dd></div><div><dt>Checkpoint</dt><dd>17 revisions</dd></div><div><dt>Privacy</dt><dd>credential-blind</dd></div></dl>
+        <footer><span>Capture ready</span><button type="button" data-gw2-toast="ChatGPT capture instructions opened">Open capture</button></footer>
+      </article>
+      <article class="gwi-provider-card">
+        <header><span class="gwi-provider-glyph">OE</span><div><p>Bulk archive</p><h3>OpenAI export</h3></div><i></i></header>
+        <p>Official ZIP/JSON import preserving provider records and branch topology.</p>
+        <dl><div><dt>Mode</dt><dd>pull</dd></div><div><dt>Last import</dt><dd>18 Aug</dd></div><div><dt>Completeness</dt><dd>export evidence</dd></div></dl>
+        <footer><span>Verified</span><button type="button" data-gw2-toast="Export importer opened">Import export</button></footer>
+      </article>
+      <article class="gwi-provider-card">
+        <header><span class="gwi-provider-glyph">GH</span><div><p>Work tracking</p><h3>GitHub</h3></div><i></i></header>
+        <p>Read-only repositories, issues, comments, pull requests and commits.</p>
+        <dl><div><dt>Mode</dt><dd>discover + pull</dd></div><div><dt>Repositories</dt><dd>6</dd></div><div><dt>Cursor</dt><dd>13:42:18Z</dd></div></dl>
+        <footer><span>Synced</span><button type="button" data-gw2-toast="GitHub source settings opened">Configure</button></footer>
+      </article>
+      <article class="gwi-provider-card">
+        <header><span class="gwi-provider-glyph">GT</span><div><p>Code history</p><h3>Git repositories</h3></div><i></i></header>
+        <p>Complete commit, tree and blob histories for code and lineage graphs.</p>
+        <dl><div><dt>Mode</dt><dd>local pull</dd></div><div><dt>Repositories</dt><dd>12</dd></div><div><dt>Objects</dt><dd>38,406</dd></div></dl>
+        <footer><span>Indexed</span><button type="button" data-gw2-toast="Repository source picker opened">Add repository</button></footer>
+      </article>
+    </section>
+
+    <section class="gwi-ledger" aria-labelledby="gwi-ledger-title">
+      <header><div><p>Acquisition ledger</p><h3 id="gwi-ledger-title">Recent original documents</h3></div><div><button class="is-active" type="button">All</button><button type="button">Warnings</button><button type="button">Incomplete</button></div></header>
+      <div class="gwi-ledger-table" role="table" aria-label="Recent acquisition receipts">
+        <div class="gwi-ledger-row is-heading" role="row"><span>Source</span><span>Remote identity</span><span>Revision</span><span>Digest</span><span>State</span><span>Observed</span></div>
+        <button class="gwi-ledger-row is-selected" type="button" role="row" data-gw2-toast="ChatGPT source document selected"><span><i class="is-chat"></i>ChatGPT web</span><span>conversation-7842</span><span>message-node-18</span><span>4cc5…a091</span><span><b class="is-original">original</b></span><span>2 min</span></button>
+        <button class="gwi-ledger-row" type="button" role="row" data-gw2-toast="GitHub source document selected"><span><i class="is-work"></i>GitHub</span><span>historia#89</span><span>comment-2418</span><span>39ba…f2d8</span><span><b class="is-original">original</b></span><span>11 min</span></button>
+        <button class="gwi-ledger-row" type="button" role="row" data-gw2-toast="Git source document selected"><span><i class="is-code"></i>Git</span><span>historia/provider/broker.hal</span><span>502dd91b</span><span>9a1e…81e0</span><span><b class="is-original">original</b></span><span>24 min</span></button>
+        <button class="gwi-ledger-row" type="button" role="row" data-gw2-toast="OpenAI export source selected"><span><i class="is-export"></i>OpenAI export</span><span>conversation-7721</span><span>export-20260818</span><span>c812…6618</span><span><b class="is-original">original</b></span><span>2 days</span></button>
+      </div>
+    </section>
+  </section>
+
+  <aside class="gw2-pane gw2-pane--inspector gwi-inspector" aria-label="Selected source inspector">
+    <header><span>Source inspector</span><button type="button" data-gw2-inspector-toggle aria-label="Close inspector">×</button></header>
+    <section class="gwi-inspector-section">
+      <p>Selected original</p>
+      <div class="gwi-object-identity"><span class="gw2-signal--sage">CG</span><div><strong>conversation-7842</strong><small>message-node-18 · revision 3</small></div></div>
+      <div class="gwi-authority-badge is-original"><i></i><span><strong>Original</strong><small>Provider observation retained</small></span></div>
+    </section>
+    <section class="gwi-inspector-section">
+      <p>Content address</p>
+      <dl class="gwi-inspector-list"><div><dt>Algorithm</dt><dd>git-sha256</dd></div><div><dt>Digest</dt><dd>4cc5b9…a091</dd></div><div><dt>Bytes</dt><dd>18,422</dd></div><div><dt>Media type</dt><dd>application/json</dd></div></dl>
+    </section>
+    <section class="gwi-inspector-section">
+      <p>Acquisition evidence</p>
+      <ol class="gwi-trace-list"><li class="is-complete"><i></i><span><strong>User gesture</strong><small>Capture conversation</small></span></li><li class="is-complete"><i></i><span><strong>Sanitized observation</strong><small>No browser credentials</small></span></li><li class="is-complete"><i></i><span><strong>Source archived</strong><small>Before normalization</small></span></li><li class="is-complete"><i></i><span><strong>Receipt committed</strong><small>acquisition/91f2</small></span></li></ol>
+    </section>
+    <section class="gwi-inspector-section">
+      <p>Credential policy</p>
+      <div class="gwi-policy-note"><strong>Credential-blind</strong><span>Cookies, authorization headers, session tokens and browser storage never enter the observation.</span></div>
+    </section>
+  </aside>
+
+  <section class="gw2-pane gw2-pane--console gwi-console" aria-label="Acquisition receipt stream">
+    <header><span>Acquisition / Receipts</span><button type="button" data-gw2-toast="Receipt stream filtered">Originals only</button></header>
+    <div class="gw2-console-lines">
+      <p><time>22:16:54</time><span class="is-ok">verified</span><strong>source/4cc5b9</strong><small>ChatGPT observation archived · 18,422 bytes</small></p>
+      <p><time>22:16:55</time><span class="is-ok">receipt</span><strong>acquisition/91f2</strong><small>checkpoint generation 17 accepted</small></p>
+      <p><time>22:17:03</time><span class="is-run">indexing</span><strong>artifact/conversation-7842</strong><small>31 anchored blocks · 4 code fences</small></p>
+    </div>
+  </section>
+</section>
