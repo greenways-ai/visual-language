@@ -1,0 +1,280 @@
+---
+import {
+  greenwaysOsV2Applications,
+  greenwaysOsV2Surfaces,
+  type GreenwaysOsV2SurfaceId,
+} from "../../greenways-os-v2-surfaces";
+import "../styles/greenways-os-v2.css";
+
+interface Props {
+  title: string;
+  description: string;
+  surfaceId?: GreenwaysOsV2SurfaceId;
+}
+
+const { title, description, surfaceId } = Astro.props;
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+const rootHref = `${base}concepts/greenways-v2/`;
+const surfaceHref = (id: string) => `${rootHref}${id}/`;
+const activeSurface = greenwaysOsV2Surfaces.find((surface) => surface.id === surfaceId);
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark" data-greenways-os-version="2">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#08110f" />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:url" content={canonicalUrl} />
+    <title>{title} · Greenways OS V2</title>
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem("greenways-os-v2-theme");
+          const preferred = window.matchMedia("(prefers-color-scheme: light)").matches
+            ? "light"
+            : "dark";
+          document.documentElement.dataset.theme = stored || preferred;
+        } catch {
+          document.documentElement.dataset.theme = "dark";
+        }
+      })();
+    </script>
+  </head>
+  <body class="gw2-body" data-gw2-route={surfaceId ?? "overview"}>
+    <a class="gw2-skip-link" href="#greenways-v2-main">Skip to interface</a>
+
+    <header class="gw2-concept-bar" aria-label="Greenways OS V2 concept controls">
+      <a class="gw2-concept-brand" href={rootHref} aria-label="Greenways OS V2 overview">
+        <span class="gw2-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+        <span><strong>Greenways OS</strong><small>V2 interface system</small></span>
+      </a>
+      <div class="gw2-concept-bar__status">
+        <span class="gw2-live-dot" aria-hidden="true"></span>
+        <span>{activeSurface?.label ?? "System map"}</span>
+      </div>
+      <div class="gw2-concept-bar__actions">
+        <button class="gw2-concept-button" type="button" data-gw2-command-open>
+          <span>Command</span><kbd>⌘K</kbd>
+        </button>
+        <button
+          class="gw2-concept-button gw2-concept-button--icon"
+          type="button"
+          data-gw2-surface-open
+          aria-controls="gw2-surface-menu"
+          aria-expanded="false"
+          aria-label="Choose interface surface"
+        >
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 4h14v4H3zM3 12h6v4H3zM13 12h4v4h-4z" /></svg>
+        </button>
+        <button
+          class="gw2-concept-button gw2-concept-button--icon"
+          type="button"
+          data-gw2-theme-toggle
+          aria-label="Switch colour theme"
+          aria-pressed="false"
+        >
+          <svg class="gw2-theme-sun" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3"/><path d="M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></svg>
+          <svg class="gw2-theme-moon" viewBox="0 0 20 20" aria-hidden="true"><path d="M16.6 12.8A7 7 0 0 1 7.2 3.4a7 7 0 1 0 9.4 9.4Z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <aside id="gw2-surface-menu" class="gw2-surface-menu" data-gw2-surface-menu hidden>
+      <header>
+        <span>Interface atlas</span>
+        <button type="button" data-gw2-surface-close aria-label="Close interface atlas">×</button>
+      </header>
+      <a class:list={["gw2-surface-menu__item", { "is-active": !surfaceId }]} href={rootHref}>
+        <span class="gw2-surface-code">00</span>
+        <span><strong>System map</strong><small>One workspace, five manifestations</small></span>
+      </a>
+      {greenwaysOsV2Surfaces.map((surface) => (
+        <a
+          class:list={["gw2-surface-menu__item", { "is-active": surface.id === surfaceId }]}
+          href={surfaceHref(surface.id)}
+          aria-current={surface.id === surfaceId ? "page" : undefined}
+        >
+          <span class="gw2-surface-code">{surface.code}</span>
+          <span><strong>{surface.label}</strong><small>{surface.eyebrow}</small></span>
+        </a>
+      ))}
+    </aside>
+
+    <main id="greenways-v2-main" class="gw2-main" tabindex="-1">
+      <slot />
+    </main>
+
+    <div class="gw2-command-layer" data-gw2-command-layer hidden>
+      <button class="gw2-command-scrim" type="button" data-gw2-command-close aria-label="Close command palette"></button>
+      <section class="gw2-command-palette" role="dialog" aria-modal="true" aria-label="Greenways command palette">
+        <label class="gw2-command-input">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8" cy="8" r="4.5"/><path d="m11.5 11.5 4 4"/></svg>
+          <input type="search" data-gw2-command-input placeholder="Open a surface, application or command…" autocomplete="off" />
+          <kbd>esc</kbd>
+        </label>
+        <div class="gw2-command-results" data-gw2-command-results>
+          <p class="gw2-command-group">Surfaces</p>
+          {greenwaysOsV2Surfaces.map((surface) => (
+            <a data-gw2-command-item href={surfaceHref(surface.id)}>
+              <span class="gw2-command-code">{surface.code}</span>
+              <span><strong>Open {surface.label}</strong><small>{surface.boundary}</small></span>
+              <kbd>↵</kbd>
+            </a>
+          ))}
+          <p class="gw2-command-group">Applications</p>
+          {greenwaysOsV2Applications.map((application) => (
+            <button type="button" data-gw2-command-item data-gw2-toast={`Opened ${application.label} buffer`}>
+              <span class:list={["gw2-command-code", `gw2-signal--${application.signal}`]}>{application.code}</span>
+              <span><strong>Open {application.label}</strong><small>{application.purpose}</small></span>
+              <kbd>⌘</kbd>
+            </button>
+          ))}
+        </div>
+        <footer><span>Named commands request capabilities; they do not inherit ambient authority.</span><span>↑ ↓ navigate · ↵ open</span></footer>
+      </section>
+    </div>
+
+    <div class="gw2-toast" data-gw2-toast-region role="status" aria-live="polite" hidden>
+      <span class="gw2-toast__mark" aria-hidden="true">✓</span>
+      <span data-gw2-toast-copy>Action complete</span>
+    </div>
+
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        const body = document.body;
+        const commandLayer = document.querySelector("[data-gw2-command-layer]");
+        const commandInput = document.querySelector("[data-gw2-command-input]");
+        const commandItems = [...document.querySelectorAll("[data-gw2-command-item]")];
+        const surfaceMenu = document.querySelector("[data-gw2-surface-menu]");
+        const surfaceOpen = document.querySelector("[data-gw2-surface-open]");
+        const toast = document.querySelector("[data-gw2-toast-region]");
+        const toastCopy = document.querySelector("[data-gw2-toast-copy]");
+        let toastTimer;
+
+        const setHidden = (element, hidden) => {
+          if (!element) return;
+          element.hidden = hidden;
+        };
+
+        const openCommand = () => {
+          setHidden(commandLayer, false);
+          body.dataset.gw2Modal = "command";
+          requestAnimationFrame(() => commandInput?.focus());
+        };
+
+        const closeCommand = () => {
+          setHidden(commandLayer, true);
+          delete body.dataset.gw2Modal;
+          if (commandInput) commandInput.value = "";
+          commandItems.forEach((item) => item.hidden = false);
+        };
+
+        const openSurfaceMenu = () => {
+          setHidden(surfaceMenu, false);
+          surfaceOpen?.setAttribute("aria-expanded", "true");
+          body.dataset.gw2Menu = "surface";
+        };
+
+        const closeSurfaceMenu = () => {
+          setHidden(surfaceMenu, true);
+          surfaceOpen?.setAttribute("aria-expanded", "false");
+          delete body.dataset.gw2Menu;
+        };
+
+        const showToast = (message) => {
+          if (!toast || !toastCopy) return;
+          window.clearTimeout(toastTimer);
+          toastCopy.textContent = message;
+          toast.hidden = false;
+          toast.dataset.visible = "true";
+          toastTimer = window.setTimeout(() => {
+            delete toast.dataset.visible;
+            window.setTimeout(() => { toast.hidden = true; }, 180);
+          }, 2400);
+        };
+
+        const activateWithin = (trigger, selector, attribute = "aria-pressed") => {
+          const scope = trigger.closest("[data-gw2-tab-scope]") || trigger.parentElement;
+          if (!scope) return;
+          scope.querySelectorAll(selector).forEach((item) => {
+            const active = item === trigger;
+            item.classList.toggle("is-active", active);
+            item.setAttribute(attribute, String(active));
+          });
+        };
+
+        document.addEventListener("click", (event) => {
+          const target = event.target instanceof Element ? event.target : null;
+          if (!target) return;
+
+          if (target.closest("[data-gw2-command-open]")) openCommand();
+          if (target.closest("[data-gw2-command-close]")) closeCommand();
+          if (target.closest("[data-gw2-surface-open]")) {
+            surfaceMenu?.hidden ? openSurfaceMenu() : closeSurfaceMenu();
+          }
+          if (target.closest("[data-gw2-surface-close]")) closeSurfaceMenu();
+
+          const themed = target.closest("[data-gw2-theme-toggle]");
+          if (themed) {
+            const next = root.dataset.theme === "dark" ? "light" : "dark";
+            root.dataset.theme = next;
+            themed.setAttribute("aria-pressed", String(next === "light"));
+            try { localStorage.setItem("greenways-os-v2-theme", next); } catch {}
+          }
+
+          const toastTrigger = target.closest("[data-gw2-toast]");
+          if (toastTrigger) showToast(toastTrigger.getAttribute("data-gw2-toast") || "Action complete");
+
+          const tab = target.closest("[data-gw2-tab]");
+          if (tab) activateWithin(tab, "[data-gw2-tab]");
+
+          const buffer = target.closest("[data-gw2-buffer]");
+          if (buffer) {
+            activateWithin(buffer, "[data-gw2-buffer]", "aria-selected");
+            const frame = buffer.closest("[data-gw2-frame]");
+            const title = buffer.getAttribute("data-buffer-label");
+            const titleTarget = frame?.querySelector("[data-gw2-active-buffer]");
+            if (title && titleTarget) titleTarget.textContent = title;
+          }
+
+          const inspector = target.closest("[data-gw2-inspector-toggle]");
+          if (inspector) {
+            const frame = inspector.closest("[data-gw2-frame]");
+            const isOpen = frame?.dataset.inspectorOpen !== "false";
+            if (frame) frame.dataset.inspectorOpen = String(!isOpen);
+            inspector.setAttribute("aria-pressed", String(!isOpen));
+          }
+
+          const approval = target.closest("[data-gw2-approval]");
+          if (approval) {
+            approval.closest("[data-gw2-approval-card]")?.setAttribute("data-state", "approved");
+            showToast("Grant approved and receipt written");
+          }
+        });
+
+        commandInput?.addEventListener("input", () => {
+          const query = commandInput.value.trim().toLowerCase();
+          commandItems.forEach((item) => {
+            item.hidden = Boolean(query) && !item.textContent.toLowerCase().includes(query);
+          });
+        });
+
+        window.addEventListener("keydown", (event) => {
+          if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+            event.preventDefault();
+            commandLayer?.hidden ? openCommand() : closeCommand();
+          }
+          if (event.key === "Escape") {
+            closeCommand();
+            closeSurfaceMenu();
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

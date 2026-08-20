@@ -1,0 +1,82 @@
+---
+import { greenwaysOsV2Applications } from "../../greenways-os-v2-surfaces";
+
+interface Props {
+  rootHref: string;
+}
+
+const { rootHref } = Astro.props;
+---
+
+    <section class="gw2-device gw2-device--browser-desktop" data-gw2-extension-desktop aria-label="Greenways full-page Chrome extension interface">
+      <header class="gw2-browser-tabs" aria-hidden="true">
+        <div class="gw2-browser-window-controls"><i></i><i></i><i></i></div>
+        <div class="gw2-browser-tab"><span class="gw2-mark gw2-mark--tiny"><i></i><i></i><i></i><i></i><i></i></span><strong>Greenways Desktop</strong><span>×</span></div>
+        <button type="button">+</button>
+      </header>
+      <div class="gw2-browser-address" aria-label="Simulated browser address bar">
+        <button type="button">‹</button><button type="button">›</button><button type="button">↻</button>
+        <div><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="5" y="8" width="10" height="8" rx="1.5"/><path d="M7 8V6a3 3 0 0 1 6 0v2"/></svg><span>chrome-extension://greenways/desktop.html</span></div>
+        <button type="button">☆</button><span class="gw2-browser-extension-mark"><span class="gw2-mark gw2-mark--tiny"><i></i><i></i><i></i><i></i><i></i></span></span><span class="gw2-browser-avatar">CZ</span>
+      </div>
+
+      <div class="gw2-frame gw2-frame--extension" data-gw2-frame data-inspector-open="true">
+        <aside class="gw2-activity-rail" aria-label="Greenways applications">
+          <a class="gw2-activity-brand" href={rootHref}><span class="gw2-mark gw2-mark--small" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></a>
+          <nav>
+            {greenwaysOsV2Applications.map((application, index) => (
+              <button
+                class:list={["gw2-activity-button", `gw2-signal--${application.signal}`, { "is-active": index === 1 }]}
+                type="button"
+                aria-label={`Open ${application.label}`}
+                data-gw2-toast={`Opened ${application.label} buffer`}
+              ><span>{application.code}</span>{application.id === "today" && <b>3</b>}</button>
+            ))}
+          </nav>
+          <div class="gw2-activity-rail__bottom"><button type="button" data-gw2-command-open aria-label="Search"><svg viewBox="0 0 20 20"><circle cx="8" cy="8" r="4.5"/><path d="m11.5 11.5 4 4"/></svg></button><button type="button" data-gw2-toast="Browser provider settings opened" aria-label="Settings">⚙</button></div>
+        </aside>
+
+        <section class="gw2-workbench">
+          <header class="gw2-extension-contextbar">
+            <div class="gw2-extension-contextbar__page"><span class="gw2-page-favicon">H</span><div><small>Current browser context</small><strong>Hara · A Lisp for portable systems</strong></div></div>
+            <div class="gw2-extension-contextbar__actions"><button type="button" data-gw2-toast="Page saved to Sources">Save page</button><button type="button" data-gw2-toast="Capture added to Release 24">Add to workroom</button><button type="button" data-gw2-command-open>Ask agent</button></div>
+            <span class="gw2-extension-contextbar__status"><i class="gw2-live-dot"></i> Browser provider ready</span>
+          </header>
+
+          <nav class="gw2-buffer-bar" aria-label="Open buffers" role="tablist">
+            <button class="gw2-buffer is-active" type="button" role="tab" aria-selected="true" data-gw2-buffer data-buffer-label="Workroom / Release 24"><span class="gw2-buffer__code gw2-signal--clay">WR</span><span>Release 24</span><small>6</small><i>×</i></button>
+            <button class="gw2-buffer" type="button" role="tab" aria-selected="false" data-gw2-buffer data-buffer-label="Source / hara-lang.org"><span class="gw2-buffer__code gw2-signal--ink">WB</span><span>hara-lang.org</span><i>×</i></button>
+            <button class="gw2-buffer" type="button" role="tab" aria-selected="false" data-gw2-buffer data-buffer-label="Receipts / Browser"><span class="gw2-buffer__code gw2-signal--ink">RC</span><span>Browser receipts</span><i>×</i></button>
+            <button class="gw2-buffer-add" type="button" data-gw2-command-open>+</button><span class="gw2-buffer-bar__spacer"></span>
+            <button class="gw2-buffer-layout" type="button" data-gw2-inspector-toggle aria-label="Toggle inspector" aria-pressed="true"><svg viewBox="0 0 20 20"><rect x="2.5" y="3" width="15" height="14" rx="1.5"/><path d="M12 3v14"/></svg></button>
+          </nav>
+
+          <div class="gw2-extension-workspace">
+            <aside class="gw2-room-rail">
+              <header><span>Workroom</span><strong>Release 24</strong></header>
+              <nav><button class="is-active" type="button"><span>OV</span>Overview</button><button type="button"><span>SC</span>Sources <b>12</b></button><button type="button"><span>CN</span>Conversation <b>4</b></button><button type="button"><span>DC</span>Decisions <b>2</b></button><button type="button"><span>WK</span>Work <b>3</b></button><button type="button"><span>RC</span>Receipts <b>14</b></button></nav>
+              <section><p>People and agents</p><div class="gw2-presence-stack"><span class="gw2-avatar gw2-avatar--human">CZ<i></i></span><span class="gw2-avatar gw2-avatar--human">MR<i></i></span><span class="gw2-avatar gw2-avatar--agent">AT<i></i></span><span class="gw2-avatar gw2-avatar--agent">LI<i></i></span></div><small>2 people · 2 agents online</small></section>
+            </aside>
+
+            <section class="gw2-room-canvas">
+              <header class="gw2-pane-heading"><div><p>Shared workspace</p><h2 data-gw2-active-buffer>Workroom / Release 24</h2></div><div><button type="button" data-gw2-toast="Collaborator invite copied">Invite</button><button type="button" data-gw2-command-open>•••</button></div></header>
+              <div class="gw2-room-status"><div><span class="gw2-signal--sky">ST</span><div><small>Current outcome</small><strong>Open distribution release</strong></div></div><span>Draft 7</span><span>12 sources</span><span>14 verified receipts</span></div>
+              <div class="gw2-room-grid">
+                <section class="gw2-room-card gw2-room-card--wide"><header><p>Source board</p><button type="button" data-gw2-toast="Source board opened">Open all</button></header><div class="gw2-source-row"><span class="gw2-source-thumb gw2-source-thumb--page">H</span><div><strong>Hara application catalogue</strong><small>Web page · captured now</small></div><span>Current tab</span></div><div class="gw2-source-row"><span class="gw2-source-thumb gw2-source-thumb--document">TXT</span><div><strong>Release narrative</strong><small>Original document · Chris</small></div><span>Edited 8m</span></div><div class="gw2-source-row"><span class="gw2-source-thumb gw2-source-thumb--image">IMG</span><div><strong>Distribution diagram</strong><small>Derived image · Atlas</small></div><span>Receipt 8F2A</span></div></section>
+                <section class="gw2-room-card"><header><p>Agents</p><button type="button" data-gw2-command-open>Ask</button></header><div class="gw2-agent-row"><span class="gw2-avatar gw2-avatar--agent">AT<i></i></span><div><strong>Atlas</strong><small>Comparing source claims</small></div><span class="gw2-progress-ring">62</span></div><div class="gw2-agent-row"><span class="gw2-avatar gw2-avatar--agent">LI<i></i></span><div><strong>Linna</strong><small>Waiting for approval</small></div><span class="gw2-agent-state">1</span></div></section>
+                <section class="gw2-room-card"><header><p>Next decision</p><span>Human</span></header><h3>May Atlas quote the captured page in the public release?</h3><p>The request is limited to this source and this release.</p><button type="button" data-gw2-toast="Approval opened in inspector">Review grant</button></section>
+              </div>
+            </section>
+
+            <aside class="gw2-context-inspector" aria-label="Browser context inspector">
+              <header><span>Page context</span><button type="button" data-gw2-inspector-toggle aria-label="Close inspector">×</button></header>
+              <section><p>Captured source</p><div class="gw2-page-card"><span class="gw2-page-favicon">H</span><div><strong>Hara application catalogue</strong><small>hara-lang.org/docs/…</small></div></div><dl><div><dt>Captured</dt><dd>10:42:12</dd></div><div><dt>Content</dt><dd>Article · 4,283 words</dd></div><div><dt>Digest</dt><dd><code>sha256:4b8…d20</code></dd></div></dl></section>
+              <section><p>Available commands</p><div class="gw2-command-list"><button type="button" data-gw2-toast="Source opened in Studio"><span>Open in Studio</span><kbd>↗</kbd></button><button type="button" data-gw2-toast="Source text inspected"><span>Inspect source</span><kbd>⌥I</kbd></button><button type="button" data-gw2-toast="Receipt trace opened"><span>View page receipts</span><kbd>RC</kbd></button></div></section>
+              <section><p>Capability route</p><ol class="gw2-route-chain"><li><span>Page capture</span><small>browser provider</small></li><li><span>Pure extraction</span><small>Hara sandbox</small></li><li><span>Source write</span><small>Hestia provider</small></li></ol></section>
+            </aside>
+          </div>
+
+          <footer class="gw2-mode-line"><div><span class="gw2-mode-line__branch">browser/workroom</span><span>current tab attached</span><span>MV3 broker · resumed</span></div><div><span><i class="gw2-live-dot"></i> browser</span><span>Hara sandbox isolated</span><span>Durable workspace</span></div></footer>
+        </section>
+      </div>
+    </section>

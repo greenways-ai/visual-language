@@ -1,0 +1,29 @@
+---
+import {
+  greenwaysOsV2Surfaces,
+} from "../../../greenways-os-v2-surfaces";
+import GreenwaysOsV2Surface from "../../../site/components/GreenwaysOsV2Surface.astro";
+import GreenwaysOsV2Shell from "../../../site/layouts/GreenwaysOsV2Shell.astro";
+
+export function getStaticPaths() {
+  return greenwaysOsV2Surfaces.map((surface, position) => ({
+    params: { surface: surface.id },
+    props: { surface, position },
+  }));
+}
+
+interface Props {
+  surface: (typeof greenwaysOsV2Surfaces)[number];
+  position: number;
+}
+
+const { surface, position } = Astro.props;
+---
+
+<GreenwaysOsV2Shell
+  title={surface.label}
+  description={surface.summary}
+  surfaceId={surface.id}
+>
+  <GreenwaysOsV2Surface surface={surface} position={position} />
+</GreenwaysOsV2Shell>

@@ -4,6 +4,7 @@ import GreenwaysProductShell from "../../../site/layouts/GreenwaysProductShell.a
 
 const base = import.meta.env.BASE_URL;
 const screenHref = (id: string) => `${base}concepts/greenways/${id}/`;
+const v2Href = `${base}concepts/greenways-v2/`;
 ---
 
 <GreenwaysProductShell
@@ -20,6 +21,7 @@ const screenHref = (id: string) => `${base}concepts/greenways/${id}/`;
       <div class="gw-os-home__actions">
         <a class="gw-button gw-button--primary" href={screenHref("today")}>Open Today</a>
         <a class="gw-button" href={screenHref("studio")}>Open Studio</a>
+        <a class="gw-button" href={v2Href}>Explore V2 interfaces</a>
         <button class="gw-button" type="button" data-command-open>Search workspace</button>
       </div>
     </section>

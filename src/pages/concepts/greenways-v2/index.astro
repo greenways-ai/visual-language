@@ -1,0 +1,151 @@
+---
+import {
+  greenwaysOsV2Surfaces,
+} from "../../../greenways-os-v2-surfaces";
+import GreenwaysOsV2Shell from "../../../site/layouts/GreenwaysOsV2Shell.astro";
+
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+const rootHref = `${base}concepts/greenways-v2/`;
+const surfaceHref = (id: string) => `${rootHref}${id}/`;
+---
+
+<GreenwaysOsV2Shell
+  title="Greenways OS V2 interface atlas"
+  description="A complete Greenways OS interface system spanning a native desktop, full-page Chrome workspace, persistent side panel, compact popup and public web surface."
+>
+  <article class="gw2-overview" data-gw2-system-map data-gw2-architecture>
+    <section class="gw2-overview-hero" aria-labelledby="greenways-v2-title">
+      <div class="gw2-overview-hero__copy">
+        <p>Portable workspace · five interface surfaces</p>
+        <h1 id="greenways-v2-title">One workspace.<br />Five manifestations.</h1>
+        <p>
+          Greenways OS V2 is not a miniature window manager. It is one programmable environment of objects,
+          buffers, panes, commands, grants and receipts, expressed at the scale and authority of each host.
+        </p>
+        <div class="gw2-overview-hero__actions">
+          <a href={surfaceHref("desktop")}>Enter the desktop</a>
+          <a href={surfaceHref("extension-panel")}>Open the browser companion</a>
+          <button type="button" data-gw2-command-open>Search the system</button>
+        </div>
+      </div>
+
+      <div class="gw2-system-orbit" aria-label="Greenways OS V2 surface and provider map">
+        <div class="gw2-system-core">
+          <div>
+            <span class="gw2-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+            <strong>Workspace model</strong>
+            <small>portable · serialisable</small>
+          </div>
+        </div>
+        <a class="gw2-orbit-node gw2-orbit-node--desktop" href={surfaceHref("desktop")}>
+          <strong>Native desktop</strong><small>files · jobs · protected keys</small>
+        </a>
+        <a class="gw2-orbit-node gw2-orbit-node--extension" href={surfaceHref("extension-desktop")}>
+          <strong>Extension desktop</strong><small>full-page browser workspace</small>
+        </a>
+        <a class="gw2-orbit-node gw2-orbit-node--panel" href={surfaceHref("extension-panel")}>
+          <strong>Side panel</strong><small>current-page companion</small>
+        </a>
+        <a class="gw2-orbit-node gw2-orbit-node--popup" href={surfaceHref("extension-popup")}>
+          <strong>Popup</strong><small>launch · status · save</small>
+        </a>
+        <a class="gw2-orbit-node gw2-orbit-node--web" href={surfaceHref("web")}>
+          <strong>Public web</strong><small>publish · discover · remote work</small>
+        </a>
+        <span class="gw2-orbit-provider gw2-orbit-provider--native">greenwaysd · optional native provider</span>
+        <span class="gw2-orbit-provider gw2-orbit-provider--remote">Hestia · remote documents and sync</span>
+        <span class="gw2-orbit-provider gw2-orbit-provider--sandbox">Hara sandbox · no ambient authority</span>
+      </div>
+    </section>
+
+    <section class="gw2-overview-principle" aria-labelledby="greenways-v2-principle">
+      <span>01</span>
+      <h2 id="greenways-v2-principle">The shell changes.<br />The work does not.</h2>
+      <p>
+        A captured page can begin in the side panel, become a source in a Workroom, open as a Studio buffer on
+        desktop, receive an explicit publishing grant, and appear on the web with the same identity and receipt trace.
+      </p>
+    </section>
+
+    <section class="gw2-surface-atlas" aria-labelledby="greenways-v2-surfaces">
+      <header>
+        <div><p>Interface atlas</p><h2 id="greenways-v2-surfaces">Every surface, at its proper scale.</h2></div>
+        <span>The five views share vocabulary and state, but deliberately do not share one compressed layout.</span>
+      </header>
+
+      <div class="gw2-surface-grid">
+        {greenwaysOsV2Surfaces.map((surface) => (
+          <a class="gw2-surface-card" href={surfaceHref(surface.id)}>
+            <header>
+              <span>{surface.code}</span>
+              <small>{surface.viewport}</small>
+            </header>
+            <div class="gw2-surface-card__preview" aria-hidden="true">
+              {(surface.id === "desktop" || surface.id === "extension-desktop") && (
+                <div class="gw2-mini-frame">
+                  <aside><i></i><i></i><i></i><i></i><i></i></aside>
+                  <main><header><span></span><span></span><span></span></header><div><section></section><section></section></div></main>
+                </div>
+              )}
+              {surface.id === "extension-panel" && (
+                <div class="gw2-mini-panel-preview"><main></main><aside><span></span><span></span><span></span><span></span></aside></div>
+              )}
+              {surface.id === "extension-popup" && (
+                <div class="gw2-mini-popup-preview"><div><span></span><span></span><span></span><span></span><span></span></div></div>
+              )}
+              {surface.id === "web" && (
+                <div class="gw2-mini-web-preview"><header></header><main><div><i></i><i></i></div><div></div></main></div>
+              )}
+            </div>
+            <footer>
+              <p>{surface.eyebrow}</p>
+              <h3>{surface.label}</h3>
+              <span>{surface.summary}</span>
+            </footer>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="gw2-architecture" aria-labelledby="greenways-v2-architecture-title">
+      <header>
+        <h2 id="greenways-v2-architecture-title">A portable core,<br />not a browser-shaped kernel.</h2>
+        <p>
+          Presentation shells adapt to the host. The workspace model stays serialisable. Privileged effects cross a
+          named provider boundary and produce a receipt.
+        </p>
+      </header>
+
+      <div class="gw2-architecture-stack">
+        <section class="gw2-architecture-layer gw2-architecture-layer--shells">
+          <header><span>03 · PRESENTATION</span><strong>Host-specific shells</strong></header>
+          <div>
+            <article><strong>Native frame</strong><small>Wide workbench and local status line</small></article>
+            <article><strong>Browser desktop</strong><small>Full tab and durable restoration</small></article>
+            <article><strong>Panel + popup</strong><small>Context and invocation, not a shrunken OS</small></article>
+            <article><strong>Public web</strong><small>Publishing doorway and remote workspace</small></article>
+          </div>
+        </section>
+
+        <section class="gw2-architecture-layer gw2-architecture-layer--core">
+          <header><span>02 · PORTABLE CORE</span><strong>Greenways workspace</strong></header>
+          <div>
+            <article><strong>Objects</strong><small>Sources, rooms, publications and packages</small></article>
+            <article><strong>Frames</strong><small>Buffers, panes, inspectors and commands</small></article>
+            <article><strong>Authority</strong><small>Scoped grants, pending work and receipts</small></article>
+          </div>
+        </section>
+
+        <section class="gw2-architecture-layer gw2-architecture-layer--providers">
+          <header><span>01 · CAPABILITIES</span><strong>Replaceable providers</strong></header>
+          <div>
+            <article><strong>Browser broker</strong><small>Tabs, capture, downloads and identity</small></article>
+            <article><strong>Hara sandbox</strong><small>Pure and approved package execution</small></article>
+            <article><strong>Hestia / cloud</strong><small>Documents, collaboration and publication</small></article>
+            <article><strong>greenwaysd</strong><small>Optional files, repositories, jobs and key custody</small></article>
+          </div>
+        </section>
+      </div>
+    </section>
+  </article>
+</GreenwaysOsV2Shell>

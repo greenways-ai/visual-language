@@ -1,0 +1,63 @@
+---
+import {
+  greenwaysOsV2Applications,
+  type GreenwaysOsV2Surface,
+} from "../../greenways-os-v2-surfaces";
+import GreenwaysOsV2ExtensionDesktop from "./GreenwaysOsV2ExtensionDesktop.astro";
+import GreenwaysOsV2NativeDesktop from "./GreenwaysOsV2NativeDesktop.astro";
+import GreenwaysOsV2Popup from "./GreenwaysOsV2Popup.astro";
+import GreenwaysOsV2SidePanel from "./GreenwaysOsV2SidePanel.astro";
+import GreenwaysOsV2Web from "./GreenwaysOsV2Web.astro";
+
+interface Props {
+  surface: GreenwaysOsV2Surface;
+  position: number;
+}
+
+const { surface, position } = Astro.props;
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+const rootHref = `${base}concepts/greenways-v2/`;
+const surfaceHref = (id: string) => `${rootHref}${id}/`;
+const surfaceOrder: readonly GreenwaysOsV2Surface["id"][] = [
+  "desktop",
+  "extension-desktop",
+  "extension-panel",
+  "extension-popup",
+  "web",
+];
+const nextSurface = surfaceOrder[(position + 1) % surfaceOrder.length] ?? "desktop";
+const nextApplication =
+  greenwaysOsV2Applications[(position + 1) % greenwaysOsV2Applications.length]
+    ?? greenwaysOsV2Applications[0];
+---
+
+<article class:list={["gw2-surface-page", `gw2-surface-page--${surface.id}`]} data-greenways-os-v2-surface={surface.id}>
+  <header class="gw2-surface-intro">
+    <div class="gw2-surface-intro__index">
+      <span>{String(position + 1).padStart(2, "0")}</span>
+      <i></i>
+      <span>05</span>
+    </div>
+    <div class="gw2-surface-intro__copy">
+      <p>{surface.eyebrow}</p>
+      <h1>{surface.label}</h1>
+      <p>{surface.summary}</p>
+    </div>
+    <dl class="gw2-surface-intro__facts">
+      <div><dt>Authority boundary</dt><dd>{surface.boundary}</dd></div>
+      <div><dt>Reference viewport</dt><dd>{surface.viewport}</dd></div>
+      <div><dt>Named capabilities</dt><dd>{surface.capabilities.join(" · ")}</dd></div>
+    </dl>
+  </header>
+
+  {surface.id === "desktop" && <GreenwaysOsV2NativeDesktop rootHref={rootHref} />}
+  {surface.id === "extension-desktop" && <GreenwaysOsV2ExtensionDesktop rootHref={rootHref} />}
+  {surface.id === "extension-panel" && <GreenwaysOsV2SidePanel />}
+  {surface.id === "extension-popup" && <GreenwaysOsV2Popup />}
+  {surface.id === "web" && <GreenwaysOsV2Web rootHref={rootHref} />}
+
+  <footer class="gw2-surface-next">
+    <a href={rootHref}><span>System map</span><strong>See how the surfaces share one workspace</strong></a>
+    <a href={surfaceHref(nextSurface)}><span>Next interface</span><strong>{nextApplication.label} across {nextSurface.replaceAll("-", " ")} →</strong></a>
+  </footer>
+</article>
