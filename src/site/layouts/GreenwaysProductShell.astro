@@ -4,6 +4,7 @@ import {
   type GreenwaysScreenId,
 } from "../../greenways-product-screens";
 import "../styles/greenways-product.css";
+import "../styles/greenways-hara-v2.css";
 
 interface Props {
   title: string;
@@ -16,15 +17,18 @@ const base = import.meta.env.BASE_URL;
 const rootHref = `${base}concepts/greenways/`;
 const activeScreen = greenwaysProductScreens.find((screen) => screen.id === screenId);
 const screenHref = (id: string) => `${base}concepts/greenways/${id}/`;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
 ---
 
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="light" data-surface="hara-v2">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#eef0e9" />
+    <meta name="theme-color" content="#eef0ef" />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:url" content={canonicalUrl} />
     <title>{title} · Greenways product concepts</title>
     <script is:inline>
       (() => {
@@ -40,7 +44,7 @@ const screenHref = (id: string) => `${base}concepts/greenways/${id}/`;
       })();
     </script>
   </head>
-  <body class="gw-body">
+  <body class="gw-body gw-hara-v2" data-greenways-surface={screenId ?? "overview"}>
     <a class="gw-skip-link" href="#greenways-main">Skip to the product screen</a>
 
     <div class="gw-app-frame">
@@ -148,6 +152,21 @@ const screenHref = (id: string) => `${base}concepts/greenways/${id}/`;
             </button>
           </div>
         </header>
+
+        <div class="gw-context-bar" aria-label="Current Greenways interface context">
+          <div class="gw-context-bar__path">
+            <a href={rootHref}>Greenways OS</a>
+            <span class="gw-context-bar__separator" aria-hidden="true">/</span>
+            <strong>{activeScreen?.label ?? "System map"}</strong>
+            {activeScreen && (
+              <>
+                <span class="gw-context-bar__separator" aria-hidden="true">·</span>
+                <span>{activeScreen.eyebrow}</span>
+              </>
+            )}
+          </div>
+          <span class="gw-context-bar__status">Hara v2 surface · prototype</span>
+        </div>
 
         <main id="greenways-main" class="gw-main" tabindex="-1">
           <slot />

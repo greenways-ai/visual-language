@@ -11,6 +11,15 @@ const ogCards = [
   "ignatius",
   "visual-language",
 ];
+const greenwaysScreens = [
+  "today",
+  "workrooms",
+  "studio",
+  "campaigns",
+  "packages",
+  "keyring",
+  "receipts",
+];
 const required = [
   "dist/index.html",
   "dist/foundations/principles/index.html",
@@ -23,6 +32,8 @@ const required = [
   "dist/case-studies/statstrade/index.html",
   "dist/case-studies/greenways-world/index.html",
   "dist/concepts/index.html",
+  "dist/concepts/greenways/index.html",
+  ...greenwaysScreens.map((screen) => `dist/concepts/greenways/${screen}/index.html`),
   "dist/concepts/hoplite/open-gate/index.html",
   "dist/concepts/tahto/paired-observatories/index.html",
   "dist/concepts/ignatius/commitment-crossing/index.html",
@@ -78,8 +89,35 @@ const conceptIndex = await readFile("dist/concepts/index.html", "utf8");
 if (!conceptIndex.includes("One concept.")) throw new Error("concept index is missing its editorial premise");
 if (!conceptIndex.includes("Statstrade Feed")) throw new Error("concept index is missing the Statstrade feed");
 
+const greenwaysIndex = await readFile("dist/concepts/greenways/index.html", "utf8");
+if (!greenwaysIndex.includes("These seven screens form the product spine")) {
+  throw new Error("Greenways product overview is missing its connected-screen premise");
+}
+if (!greenwaysIndex.includes("gw-hara-v2")) {
+  throw new Error("Greenways product overview is missing the Hara v2 surface class");
+}
+if (!greenwaysIndex.includes("https://oss.greenways.ai/visual-language/concepts/greenways/")) {
+  throw new Error("Greenways product overview is missing its canonical deployment URL");
+}
+
+for (const screen of greenwaysScreens) {
+  const path = `dist/concepts/greenways/${screen}/index.html`;
+  const page = await readFile(path, "utf8");
+  if (!page.includes(`data-greenways-screen="${screen}"`)) {
+    throw new Error(`${path} does not render the ${screen} product screen`);
+  }
+  if (!page.includes(`data-greenways-surface="${screen}"`)) {
+    throw new Error(`${path} is missing the shared Greenways surface contract`);
+  }
+  if (!page.includes("gw-context-bar")) {
+    throw new Error(`${path} is missing the Hara-style context strip`);
+  }
+}
+
 const openGate = await readFile("dist/concepts/hoplite/open-gate/index.html", "utf8");
 if (!openGate.includes("Open Gate")) throw new Error("Open Gate concept page is missing its title");
 if (!openGate.includes("Concept specification")) throw new Error("Open Gate concept page is missing its specification");
 
-console.log(`verified ${required.length} required Astro site outputs and ${ogCards.length} social cards`);
+console.log(
+  `verified ${required.length} required Astro site outputs, ${greenwaysScreens.length} Greenways screens and ${ogCards.length} social cards`,
+);

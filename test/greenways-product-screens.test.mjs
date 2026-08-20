@@ -19,7 +19,7 @@ test("the Greenways product model defines exactly seven connected screens", asyn
   const definitions = [...source.matchAll(/^\s{4}id: "([a-z-]+)",$/gm)].map((match) => match[1]);
 
   assert.deepEqual(definitions, screenIds);
-  assert.match(source, /Human-readable place to manage personal keys/);
+  assert.match(source, /human-readable place to manage personal keys/i);
   assert.match(source, /Accountability without surveillance/);
   assert.match(source, /portable publication/);
 });
@@ -44,6 +44,25 @@ test("the shared shell carries navigation, colour theme and mobile controls", as
   assert.match(source, /gw-skip-link/);
 });
 
+test("the Greenways shell adopts the Hara v2 calm-surface foundation", async () => {
+  const [shell, surface] = await Promise.all([
+    read("src/site/layouts/GreenwaysProductShell.astro"),
+    read("src/site/styles/greenways-hara-v2.css"),
+  ]);
+
+  assert.match(shell, /greenways-hara-v2\.css/);
+  assert.match(shell, /gw-body gw-hara-v2/);
+  assert.match(shell, /gw-context-bar/);
+  assert.match(shell, /Hara v2 surface · prototype/);
+  assert.match(shell, /rel="canonical"/);
+  assert.match(surface, /precision without armour/i);
+  assert.match(surface, /--gw-hara-signal: #4d9cff/);
+  assert.match(surface, /\.gw-hara-v2 \.gw-workrooms-layout/);
+  assert.match(surface, /\.gw-hara-v2 \.gw-studio-shell/);
+  assert.match(surface, /\.gw-hara-v2 \.gw-keyring-layout/);
+  assert.match(surface, /\.gw-hara-v2 \.gw-receipts-layout/);
+});
+
 test("each screen contains a purpose-built workflow", async () => {
   const source = await read("src/site/components/GreenwaysProductView.astro");
 
@@ -61,7 +80,10 @@ test("each screen contains a purpose-built workflow", async () => {
 });
 
 test("the product screens adapt to dark mode, reduced motion and smaller viewports", async () => {
-  const source = await read("src/site/styles/greenways-product.css");
+  const [source, surface] = await Promise.all([
+    read("src/site/styles/greenways-product.css"),
+    read("src/site/styles/greenways-hara-v2.css"),
+  ]);
 
   assert.match(source, /html\[data-theme="dark"\]/);
   assert.match(source, /@media \(max-width: 980px\)/);
@@ -70,6 +92,10 @@ test("the product screens adapt to dark mode, reduced motion and smaller viewpor
   assert.match(source, /\.gw-workrooms-layout/);
   assert.match(source, /\.gw-studio-shell/);
   assert.match(source, /\.gw-receipts-layout/);
+  assert.match(surface, /html\[data-theme="dark"\] \.gw-hara-v2/);
+  assert.match(surface, /@media \(max-width: 980px\)/);
+  assert.match(surface, /@media \(max-width: 720px\)/);
+  assert.match(surface, /@media \(prefers-reduced-motion: reduce\)/);
 });
 
 test("the Greenways overview explains the connected product model", async () => {
