@@ -1,4 +1,5 @@
 ---
+import CatalogueNavigation from "../../../../v2/CatalogueNavigation.astro";
 import {
   FOREMAN_MODEL_VERSION,
   foremanCoreJourney,
@@ -119,14 +120,15 @@ const surfaceGroups: readonly SurfaceGroup[] = [
       })();
     </script>
   </head>
-  <body class="gw-v2 gw-v2-document fm" data-foreman-model-version={FOREMAN_MODEL_VERSION}>
+  <body class="gw-v2 gw-v2-document gw-v2-catalogue fm" data-foreman-model-version={FOREMAN_MODEL_VERSION}>
+    <CatalogueNavigation currentPath="/v2/applications/foreman/model/" />
     <a class="fm__skip" href="#foreman-model-main">Skip to product model</a>
     <header class="fm__bar">
       <div class="fm__identity"><span class="fm__mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><div><strong>Foreman</strong><small>Product model · low-fidelity contract</small></div></div>
       <button type="button" data-theme-toggle aria-label="Switch to dark theme">Theme</button>
     </header>
 
-    <div class="fm__frame">
+    <main id="gw-v2-main" class="fm__frame">
       <nav class="fm__nav" aria-label="Proposed Foreman primary navigation" data-foreman-primary-navigation>
         <p>Primary navigation</p>
         {navigation.map((item, index) => (
@@ -135,47 +137,47 @@ const surfaceGroups: readonly SurfaceGroup[] = [
         <p class="fm__note">Infrastructure belongs in Settings → Diagnostics, not ordinary navigation.</p>
       </nav>
 
-      <main id="foreman-model-main" class="fm__main" tabindex="-1">
-        <section class="fm__hero"><p>Issue #35 · specimen data only</p><h1>Choose the project.<br />Understand the work.<br />See the evidence.</h1><p>One buildout may span several providers and interfaces. Foreman keeps every person, agent, connection, and live session distinct while presenting one coherent project outcome.</p></section>
+      <div id="foreman-model-main" class="fm__main" tabindex="-1">
+        <section id="foreman-overview" data-catalogue-section data-section-label="Overview" class="fm__hero"><p>Issue #35 · specimen data only</p><h1>Choose the project.<br />Understand the work.<br />See the evidence.</h1><p>One buildout may span several providers and interfaces. Foreman keeps every person, agent, connection, and live session distinct while presenting one coherent project outcome.</p></section>
 
-        <section class="fm__section" data-foreman-core-journey>
+        <section id="foreman-journey" data-catalogue-section data-section-label="Journey" class="fm__section" data-foreman-core-journey>
           <header><p>01 · Core journey</p><h2>Five steps, one evidence trail.</h2></header>
           <ol class="fm__journey">{journey.map((item) => <li><span>{item.step}</span><div><strong>{item.label}</strong><code>{item.route}</code><small>{item.outcome}</small></div></li>)}</ol>
         </section>
 
-        <section class="fm__section" data-foreman-entities>
+        <section id="foreman-domain" data-catalogue-section data-section-label="Domain" class="fm__section" data-foreman-entities>
           <header><p>02 · Domain</p><h2>Entities do not blur together.</h2></header>
           <div class="fm__grid">{entities.map((entity) => (
             <article data-foreman-entity={entity.id}><header><span>{entity.visibility}</span><strong>{entity.label}</strong></header><p>{entity.purpose}</p><dl><div><dt>Owner</dt><dd>{entity.owner}</dd></div><div><dt>Parents</dt><dd>{entity.parents.join(", ") || "None"}</dd></div></dl><details><summary>Required fields and states</summary><p><b>Normal:</b> {entity.normalFields.join(" · ")}</p><p><b>States:</b> {entity.lifecycle.join(" · ")}</p></details></article>
           ))}</div>
         </section>
 
-        <section class="fm__section" data-foreman-experience-states>
+        <section id="foreman-states" data-catalogue-section data-section-label="States" class="fm__section" data-foreman-experience-states>
           <header><p>03 · Required states</p><h2>The difficult states are part of the product.</h2></header>
           <div class="fm__states">{experienceStates.map((state) => <article data-state={state.id}><strong>{state.label}</strong><p>{state.meaning}</p><small>{state.evidence}</small></article>)}</div>
         </section>
 
-        <section class="fm__section" data-foreman-truthfulness>
+        <section id="foreman-truthfulness" data-catalogue-section data-section-label="Truthfulness" class="fm__section" data-foreman-truthfulness>
           <header><p>04 · Truthfulness</p><h2>A request is not a result.</h2></header>
           <ol class="fm__truth">{truthfulnessRules.map((rule) => <li data-rule={rule.id}>{rule.statement}</li>)}</ol>
         </section>
 
-        <section class="fm__section" data-foreman-relationships>
+        <section id="foreman-relationships" data-catalogue-section data-section-label="Relationships" class="fm__section" data-foreman-relationships>
           <header><p>05 · Relationships</p><h2>One buildout, many attributable contexts.</h2></header>
           <div class="fm__relations">{relationships.map((relation) => <article><code>{relation.from}</code><span>{relation.cardinality}</span><code>{relation.to}</code><p>{relation.rule}</p></article>)}</div>
         </section>
 
-        <section class="fm__section" data-foreman-detail-layers>
+        <section id="foreman-disclosure" data-catalogue-section data-section-label="Disclosure" class="fm__section" data-foreman-detail-layers>
           <header><p>06 · Disclosure</p><h2>Technical detail stays available, not dominant.</h2></header>
           <div class="fm__layers">{detailLayers.map((layer) => <article><strong>{layer.label}</strong><p>{layer.purpose}</p><small>{layer.includes.join(" · ")}</small></article>)}</div>
         </section>
 
-        <section class="fm__section" data-foreman-surface-inventory>
+        <section id="foreman-surfaces" data-catalogue-section data-section-label="Surfaces" class="fm__section" data-foreman-surface-inventory>
           <header><p>07 · Delivery surfaces</p><h2>Shared objects, purpose-built views.</h2></header>
           <div class="fm__surfaces">{surfaceGroups.map((group) => <article data-surface={group.id}><h3>{group.label}</h3><ul>{group.routes.map((route) => <li><strong>{route.label}</strong><code>{route.pattern}</code><small>{route.states.join(" · ")}</small></li>)}</ul></article>)}</div>
         </section>
-      </main>
-    </div>
+      </div>
+    </main>
 
     <script is:inline>
       (() => {
@@ -196,6 +198,7 @@ const surfaceGroups: readonly SurfaceGroup[] = [
   .fm__identity{display:flex;align-items:center;gap:.75rem}.fm__identity div{display:grid}.fm__identity small,.fm__bar button,.fm__section>header>p,.fm__hero>p:first-child,.fm__nav>p{color:var(--gw-v2-text-muted);font:600 var(--gw-v2-type-xs) var(--gw-v2-font-code);letter-spacing:.08em;text-transform:uppercase}
   .fm__mark{width:2rem;height:2rem;display:grid;grid-template-columns:repeat(2,1fr);gap:2px;padding:3px;background:var(--gw-v2-surface-raised);border:1px solid var(--gw-v2-seam-strong)}.fm__mark i:nth-child(1){background:var(--gw-v2-brand-emerald,var(--gw-verdigris))}.fm__mark i:nth-child(2){background:var(--gw-v2-brand-aqua,var(--gw-focus))}.fm__mark i:nth-child(3){background:var(--gw-v2-brand-sapphire,var(--gw-focus))}.fm__mark i:nth-child(4){background:var(--gw-v2-brand-violet,var(--gw-terracotta))}
   .fm__bar button{min-height:2.35rem;padding:.4rem .75rem;color:var(--gw-v2-text);background:var(--gw-v2-surface);border:1px solid var(--gw-v2-seam-strong);cursor:pointer}.fm__frame{display:grid;grid-template-columns:minmax(13rem,17rem) minmax(0,1fr);min-height:calc(100vh - 3.75rem)}
+  .fm__frame>.gw-v2-catalogue-page-footer{grid-column:1/-1;margin-inline:clamp(1rem,3vw,3rem)}
   .fm__nav{position:sticky;top:3.75rem;align-self:start;max-height:calc(100vh - 3.75rem);overflow:auto;padding:1.25rem .9rem;background:var(--gw-v2-surface-muted);border-right:1px solid var(--gw-v2-seam)}.fm__nav-item{display:grid;grid-template-columns:1.8rem 1fr;gap:.55rem;padding:.7rem .55rem;border-left:2px solid transparent}.fm__nav-item.is-active{background:var(--gw-v2-signal-soft);border-left-color:var(--gw-v2-signal)}.fm__nav-item>span,.fm__nav-item small{color:var(--gw-v2-text-muted)}.fm__nav-item div{display:grid;gap:.15rem}.fm__note{margin-top:1rem;padding:.75rem;background:var(--gw-v2-surface);border:1px solid var(--gw-v2-seam)}
   .fm__main{min-width:0;padding:clamp(1.25rem,3vw,3rem)}.fm__hero{display:grid;align-content:center;gap:1rem;min-height:min(50vh,30rem);padding:clamp(1.5rem,4vw,4rem);background:var(--gw-v2-surface);border:1px solid var(--gw-v2-seam);box-shadow:var(--gw-v2-elevation-1)}.fm__hero:before{width:7rem;height:.3rem;content:"";background:var(--gw-v2-brand-spectrum,var(--gw-v2-signal))}.fm__hero h1{max-width:18ch;font-size:var(--gw-v2-type-2xl)}.fm__hero>p:last-child{max-width:66ch;color:var(--gw-v2-text-muted);font-size:var(--gw-v2-type-lg)}
   .fm__section{display:grid;gap:1.25rem;padding-block:clamp(2.5rem,6vw,5rem);border-bottom:1px solid var(--gw-v2-seam)}.fm__section>header{display:grid;gap:.45rem}.fm__section h2{font-size:var(--gw-v2-type-xl)}.fm__grid,.fm__states{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:.75rem}.fm__grid article,.fm__states article,.fm__layers article,.fm__surfaces>article{min-width:0;padding:1rem;background:var(--gw-v2-surface);border:1px solid var(--gw-v2-seam)}.fm__grid article>header{display:flex;justify-content:space-between;gap:.5rem}.fm__grid article>p,.fm__states small,.fm__layers small{color:var(--gw-v2-text-muted)}.fm__grid dl{display:grid;gap:.35rem}.fm__grid dl div{display:grid;grid-template-columns:4rem 1fr;gap:.5rem}.fm__grid dd{margin:0}.fm__states article{border-top:3px solid var(--gw-v2-seam-strong)}.fm__states [data-state="waiting-for-approval"]{border-top-color:var(--gw-v2-state-warning)}.fm__states [data-state="failed"]{border-top-color:var(--gw-v2-state-danger)}
