@@ -25,7 +25,7 @@ const experienceIds = ["first-use", "active", "paused", "waiting-for-approval", 
 const navIds = ["overview", "projects", "buildouts", "work-items", "sessions", "people-agents", "connections", "approvals", "activity"];
 
 test("Foreman defines one closed, versioned entity model", () => {
-  assert.equal(FOREMAN_MODEL_VERSION, "1.0");
+  assert.equal(FOREMAN_MODEL_VERSION, "1.1");
   assert.deepEqual(ids(foremanEntityDefinitions), entityIds);
   assert.equal(new Set(ids(foremanEntityDefinitions)).size, entityIds.length);
   for (const entity of foremanEntityDefinitions) {
@@ -97,17 +97,19 @@ test("the primary journey does not skip intervention or evidence", () => {
   assert.match(foremanCoreJourney.at(-1).outcome, /authoritative external observation/i);
 });
 
-test("source ownership maps to Greenways OS issues 146 through 149", () => {
-  assert.deepEqual(foremanSourceMappings.map((item) => item.source), ["greenways-os#146", "greenways-os#147", "greenways-os#148", "greenways-os#149"]);
+test("source ownership maps to Foreman, MCP, and sandbox runtime issues", () => {
+  assert.deepEqual(foremanSourceMappings.map((item) => item.source), ["greenways-os#146", "greenways-os#147", "greenways-os#148", "greenways-os#149", "greenways-os#56", "greenways-os#155"]);
   assert.ok(foremanSourceMappings[1].owns.includes("durable handoff lifecycle"));
   assert.ok(foremanSourceMappings[2].owns.includes("canonical read-back"));
   assert.ok(foremanSourceMappings[3].owns.includes("restart recovery"));
+  assert.ok(foremanSourceMappings[4].owns.includes("application-scoped MCP discovery"));
+  assert.ok(foremanSourceMappings[5].owns.includes("sandbox leases"));
 });
 
 test("documentation and low-fidelity route expose the executable contract", async () => {
   const [markdown, page] = await Promise.all([read("FOREMAN-PRODUCT-MODEL.md"), read("src/pages/v2/applications/foreman/model.astro")]);
-  for (const source of ["greenways-ai/greenways-os#49", "greenways-ai/greenways-os#146", "greenways-ai/greenways-os#147", "greenways-ai/greenways-os#148", "greenways-ai/greenways-os#149"]) assert.ok(markdown.includes(source), source);
-  for (const heading of ["Product proposition", "Product laws", "Primary navigation", "Required experience states", "Truthfulness contract", "Detail layers", "Delivery surfaces", "Source mapping"]) assert.ok(markdown.includes(`## ${heading}`), heading);
+  for (const source of ["greenways-ai/greenways-os#49", "greenways-ai/greenways-os#146", "greenways-ai/greenways-os#147", "greenways-ai/greenways-os#148", "greenways-ai/greenways-os#149", "greenways-ai/greenways-os#56", "greenways-ai/greenways-os#155"]) assert.ok(markdown.includes(source), source);
+  for (const heading of ["Product proposition", "Product laws", "Primary navigation", "Required experience states", "Truthfulness contract", "Detail layers", "Delivery surfaces", "Foreman application tool surface", "MCP and host architecture", "Execution hosts and sandbox leases", "Source mapping"]) assert.ok(markdown.includes(`## ${heading}`), heading);
   assert.match(page, /\.\.\/\.\.\/\.\.\/\.\.\/foreman\/product-model\.js/);
   assert.match(page, /\.\.\/\.\.\/\.\.\/\.\.\/v2\/document\.css/);
   for (const marker of ["data-foreman-model-version", "data-foreman-primary-navigation", "data-foreman-core-journey", "data-foreman-entities", "data-foreman-experience-states", "data-foreman-truthfulness", "data-foreman-relationships", "data-foreman-detail-layers", "data-foreman-surface-inventory"]) assert.ok(page.includes(marker), marker);
