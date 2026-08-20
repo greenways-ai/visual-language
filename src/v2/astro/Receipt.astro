@@ -1,0 +1,59 @@
+---
+import Status from "./Status.astro";
+import "../components.css";
+
+type Tone = "neutral" | "info" | "success" | "warning" | "danger";
+interface ReceiptEvidence { label: string; href?: string; }
+interface Props {
+  id: string;
+  title: string;
+  status: string;
+  issuedAt: string;
+  issuedLabel: string;
+  evidence: readonly ReceiptEvidence[];
+  tone?: Tone;
+  actor?: string;
+  digest?: string;
+  class?: string;
+}
+const {
+  id,
+  title,
+  status,
+  issuedAt,
+  issuedLabel,
+  evidence,
+  tone = "success",
+  actor,
+  digest,
+  class: className = "",
+} = Astro.props;
+const titleId = `${id}-title`;
+---
+<article
+  class:list={["gw-v2-component", "gw-v2-receipt", className]}
+  aria-labelledby={titleId}
+  data-gw-v2-component="Receipt"
+  data-gw-v2-state={tone}
+  data-receipt-id={id}
+>
+  <header class="gw-v2-receipt__header">
+    <div class="gw-v2-stack" style="--gw-v2-stack-gap: var(--gw-v2-space-3xs);">
+      <p class="gw-v2-card__eyebrow">Receipt · {id}</p>
+      <h3 id={titleId}>{title}</h3>
+    </div>
+    <Status label={status} tone={tone} />
+  </header>
+  <dl>
+    <div><dt>Receipt identifier</dt><dd><code>{id}</code></dd></div>
+    <div><dt>Issued</dt><dd><time datetime={issuedAt}>{issuedLabel}</time></dd></div>
+    {actor && <div><dt>Actor</dt><dd>{actor}</dd></div>}
+    {digest && <div><dt>Digest</dt><dd><code>{digest}</code></dd></div>}
+  </dl>
+  <section aria-labelledby={`${id}-evidence`}>
+    <h4 id={`${id}-evidence`}>Evidence</h4>
+    {evidence.length === 0 ? <p>No evidence has been attached.</p> : (
+      <ul class="gw-v2-receipt__evidence">{evidence.map((item) => <li>{item.href ? <a href={item.href}>{item.label}</a> : item.label}</li>)}</ul>
+    )}
+  </section>
+</article>
