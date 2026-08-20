@@ -1,5 +1,6 @@
 ---
 import CatalogueNavigation from "../../../../v2/CatalogueNavigation.astro";
+import CataloguePageFooter from "../../../../v2/CataloguePageFooter.astro";
 import {
   greenwaysV2Workflows,
   greenwaysV2WorkflowStates,
@@ -54,7 +55,7 @@ const cueFor = (id: string) => ({
       </nav>
     </header>
 
-    <main id="gw-v2-main" class="gw-v2-library__main">
+    <main id="gw-v2-main" class="gw-v2-library__main" tabindex="-1">
       <section id="workflow-overview" data-catalogue-section data-section-label="Overview" class="gw-v2-library__hero">
         <p class="gw-v2-library__eyebrow">Desired state ≠ observed state</p>
         <h1>The difficult states<br />are part of the product.</h1>
@@ -103,6 +104,7 @@ const cueFor = (id: string) => ({
           <article class="gw-v2-component"><p class="gw-v2-component__meta">Authority</p><h3>Mutation not authorised</h3><p>Login does not grant issue creation, push, review or merge permission.</p><button class="gw-v2-specimen-control" data-primary="true" type="button">Review exact request</button></article>
         </div>
       </section>
+      <CataloguePageFooter currentPath="/v2/library/workflows/" />
     </main>
 
     <script is:inline>
