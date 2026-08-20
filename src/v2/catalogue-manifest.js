@@ -12,6 +12,7 @@
  * @property {GreenwaysV2CatalogueOwnership} ownership
  * @property {number=} issue
  * @property {boolean=} primary
+ * @property {boolean=} implemented
  * @property {readonly GreenwaysV2CatalogueRoute[]=} children
  */
 /**
@@ -59,6 +60,7 @@ export const greenwaysV2CatalogueHome = deepFreeze({
   status: "ready",
   ownership: "shared-contract",
   primary: true,
+  implemented: true,
 });
 
 /** @type {readonly GreenwaysV2CatalogueGroup[]} */
@@ -73,10 +75,11 @@ export const greenwaysV2Catalogue = deepFreeze([
         label: "Foundations laboratory",
         path: "/v2/foundations/",
         summary: "Executable specimens for the complete shared Greenways v2 visual contract.",
-        status: "planned",
+        status: "ready",
         ownership: "shared-contract",
         issue: 33,
         primary: true,
+        implemented: true,
       },
     ],
   },
@@ -90,30 +93,33 @@ export const greenwaysV2Catalogue = deepFreeze([
         label: "Library overview",
         path: "/v2/library/",
         summary: "The index for shared component and workflow-state laboratories.",
-        status: "planned",
+        status: "ready",
         ownership: "shared-contract",
         issue: 34,
         primary: true,
+        implemented: true,
         children: [
           {
             id: "component-laboratory",
             label: "Components",
             path: "/v2/library/components/",
-            summary: "Navigation, controls, content, status, approval, activity, and receipt primitives.",
-            status: "planned",
+            summary: "Navigation, controls, content, status, approval, activity, receipt, and workbench primitives.",
+            status: "ready",
             ownership: "shared-contract",
             issue: 34,
             primary: true,
+            implemented: true,
           },
           {
             id: "workflow-state-laboratory",
             label: "Workflow states",
             path: "/v2/library/workflows/",
             summary: "Initial, active, empty, loading, degraded, error, recovery, and success compositions.",
-            status: "planned",
+            status: "ready",
             ownership: "shared-contract",
             issue: 34,
             primary: true,
+            implemented: true,
           },
         ],
       },
@@ -129,7 +135,7 @@ export const greenwaysV2Catalogue = deepFreeze([
         label: "Foreman",
         path: "/v2/applications/foreman/",
         summary: "The application at the fore: projects, buildouts, sessions, approvals, handoffs, and activity.",
-        status: "planned",
+        status: "in-progress",
         ownership: "product-laboratory",
         issue: 35,
         primary: true,
@@ -139,10 +145,11 @@ export const greenwaysV2Catalogue = deepFreeze([
             label: "Product model and states",
             path: "/v2/applications/foreman/model/",
             summary: "User language, information architecture, entity relationships, navigation, and truthful lifecycle states.",
-            status: "planned",
+            status: "ready",
             ownership: "product-laboratory",
             issue: 35,
             primary: true,
+            implemented: true,
           },
           {
             id: "foreman-projects",
@@ -348,4 +355,8 @@ export function getCatalogueGroup(path) {
 
 export function getCatalogueStaticRoutes() {
   return flattenCatalogueRoutes().filter((route) => route.path.startsWith("/v2/") && route.path !== greenwaysV2CatalogueHome.path);
+}
+
+export function getCataloguePlaceholderRoutes() {
+  return getCatalogueStaticRoutes().filter((route) => route.implemented !== true);
 }
