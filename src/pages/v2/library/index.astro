@@ -1,0 +1,145 @@
+---
+import CatalogueShell from "../../../v2/CatalogueShell.astro";
+import Card from "../../../v2/astro/Card.astro";
+import Status from "../../../v2/astro/Status.astro";
+import {
+  greenwaysV2Components,
+  greenwaysV2WorkbenchRegions,
+} from "../../../v2/component-contract.js";
+import {
+  greenwaysV2WorkflowStates,
+  greenwaysV2WorkflowStudies,
+} from "../../../v2/workflow-contract.js";
+import "../../../v2/components.css";
+---
+
+<CatalogueShell
+  title="Greenways v2 library"
+  description="Reusable, product-neutral component and workflow-state contracts for calm product surfaces and dense workbenches."
+  currentPath="/v2/library/"
+>
+  <article class="gw-v2-library-home gw-v2-stack" data-library-home data-shared-contract>
+    <header class="gw-v2-library-hero gw-v2-surface" data-elevation="raised">
+      <div class="gw-v2-stack">
+        <p class="gw-v2-library-kicker">Library · shared contracts</p>
+        <h1>Components describe the interface. Workflow states explain what is actually happening.</h1>
+        <p class="gw-v2-prose">
+          Both laboratories are product-neutral and executable. Applications supply data, commands, authority,
+          provider connections, persistence and evidence.
+        </p>
+        <div class="gw-v2-cluster">
+          <Status label={`${greenwaysV2Components.length} primitives`} tone="success" />
+          <Status label={`${greenwaysV2WorkbenchRegions.length} workbench regions`} tone="info" />
+          <Status label={`${greenwaysV2WorkflowStates.length} workflow states`} tone="warning" />
+          <Status label={`${greenwaysV2WorkflowStudies.length} workflow studies`} tone="info" />
+        </div>
+      </div>
+    </header>
+
+    <section class="gw-v2-library-grid" aria-label="Greenways v2 library routes">
+      <Card
+        id="library-components"
+        title="Component laboratory"
+        eyebrow="Stable package primitives"
+        href="./components/"
+        state="success"
+      >
+        <p>
+          Navigation, controls, content, status, activity, approvals, receipts and the six-region workbench shell.
+        </p>
+        <ul>
+          <li>Semantic Astro exports</li>
+          <li>Token-backed presentation</li>
+          <li>Explicit host behaviour boundary</li>
+        </ul>
+        <span slot="footer">Ready · issue #34 first delivery</span>
+      </Card>
+
+      <Card
+        id="library-workflows"
+        title="Workflow-state laboratory"
+        eyebrow="Truthful state and recovery"
+        href="./workflows/"
+        state="success"
+      >
+        <p>
+          Search and inspection, create and approval, session recovery, and connection-authority studies across
+          ordinary, empty, degraded, failure and success states.
+        </p>
+        <ul>
+          <li>Requested versus actual state</li>
+          <li>Evidence and recovery requirements</li>
+          <li>Desktop and compact review compositions</li>
+        </ul>
+        <span slot="footer">Ready · issue #34 second delivery</span>
+      </Card>
+    </section>
+
+    <section class="gw-v2-library-boundary gw-v2-surface" data-depth="recessed">
+      <p class="gw-v2-library-kicker">Boundary</p>
+      <h2>Catalogue composition is not application behaviour.</h2>
+      <p>
+        Controls on these pages are specimens. They do not fetch, persist, approve, connect, publish, merge or create
+        external evidence. Downstream applications adopt the contracts and implement those effects explicitly.
+      </p>
+    </section>
+  </article>
+</CatalogueShell>
+
+<style>
+  .gw-v2-library-home {
+    --gw-v2-stack-gap: clamp(var(--gw-v2-space-xl), 6vw, var(--gw-v2-space-3xl));
+  }
+
+  .gw-v2-library-hero,
+  .gw-v2-library-boundary {
+    display: grid;
+    gap: var(--gw-v2-space-md);
+    padding: clamp(var(--gw-v2-space-lg), 5vw, var(--gw-v2-space-2xl));
+  }
+
+  .gw-v2-library-hero h1 {
+    max-inline-size: 18ch;
+    font-size: var(--gw-v2-type-2xl);
+  }
+
+  .gw-v2-library-kicker {
+    color: var(--gw-v2-text-muted);
+    font-family: var(--gw-v2-font-code);
+    font-size: var(--gw-v2-type-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .gw-v2-library-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gw-v2-space-lg);
+  }
+
+  .gw-v2-library-grid ul {
+    display: grid;
+    gap: var(--gw-v2-space-2xs);
+    padding-inline-start: 1.25rem;
+    margin: 0;
+  }
+
+  .gw-v2-library-boundary h2 {
+    font-size: var(--gw-v2-type-xl);
+  }
+
+  .gw-v2-library-boundary p:last-child {
+    color: var(--gw-v2-text-muted);
+  }
+
+  @media (max-width: 44rem) {
+    .gw-v2-library-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .gw-v2-library-hero,
+    .gw-v2-library-boundary {
+      padding: var(--gw-v2-space-sm);
+    }
+  }
+</style>
