@@ -1,0 +1,173 @@
+.gw-v2-evidence-grid {
+  min-inline-size: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  gap: var(--gw-v2-space-sm);
+}
+
+.gw-v2-evidence-stack,
+.gw-v2-evidence-card {
+  min-inline-size: 0;
+  display: grid;
+  align-content: start;
+  gap: var(--gw-v2-space-sm);
+  padding: var(--gw-v2-space-md);
+  background: var(--gw-v2-surface);
+  border: 1px solid var(--gw-v2-seam);
+  border-radius: var(--gw-v2-radius-md);
+  box-shadow: var(--gw-v2-elevation-1);
+}
+
+.gw-v2-evidence-stack > header,
+.gw-v2-evidence-card > header,
+.gw-v2-evidence-card > footer {
+  min-inline-size: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--gw-v2-space-xs);
+}
+
+.gw-v2-evidence-stack > header small,
+.gw-v2-evidence-card > footer small {
+  color: var(--gw-v2-text-muted);
+}
+
+.gw-v2-evidence-card {
+  background: var(--gw-v2-state-current-soft, var(--gw-v2-surface));
+  border-inline-start: 0.35rem solid var(--gw-v2-state-current, var(--gw-v2-seam-strong));
+}
+
+.gw-v2-evidence-card dl {
+  min-inline-size: 0;
+  display: grid;
+  grid-template-columns: minmax(7rem, auto) minmax(0, 1fr);
+  gap: var(--gw-v2-space-2xs) var(--gw-v2-space-sm);
+  margin: 0;
+}
+
+.gw-v2-evidence-card dt {
+  color: var(--gw-v2-text-muted);
+  font-family: var(--gw-v2-font-code);
+  font-size: var(--gw-v2-type-xs);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.gw-v2-evidence-card dd {
+  min-inline-size: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.gw-v2-evidence-actions {
+  min-inline-size: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--gw-v2-space-2xs);
+}
+
+.gw-v2-status-list,
+.gw-v2-activity-specimen {
+  min-inline-size: 0;
+  display: grid;
+  gap: var(--gw-v2-space-2xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gw-v2-status-specimen {
+  min-inline-size: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--gw-v2-space-2xs);
+  padding: var(--gw-v2-space-2xs) var(--gw-v2-space-xs);
+  color: var(--gw-v2-text);
+  background: var(--gw-v2-state-current-soft, var(--gw-v2-state-neutral-soft));
+  border: 1px solid var(--gw-v2-state-current, var(--gw-v2-state-neutral));
+  border-radius: var(--gw-v2-radius-sm);
+}
+
+.gw-v2-status-specimen > span:first-child {
+  color: var(--gw-v2-state-current, var(--gw-v2-state-neutral));
+  font-weight: 800;
+}
+
+.gw-v2-status-specimen > span:last-child {
+  min-inline-size: 0;
+  display: grid;
+  gap: var(--gw-v2-space-3xs);
+}
+
+.gw-v2-status-specimen small {
+  color: var(--gw-v2-text-muted);
+}
+
+.gw-v2-activity-specimen > li {
+  min-inline-size: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--gw-v2-space-xs);
+}
+
+.gw-v2-activity-specimen__marker {
+  inline-size: 0.85rem;
+  block-size: 0.85rem;
+  margin-block-start: 0.35rem;
+  background: var(--gw-v2-state-current, var(--gw-v2-state-neutral));
+  border: 0.2rem solid var(--gw-v2-surface);
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--gw-v2-seam-strong);
+}
+
+.gw-v2-activity-specimen > li > div {
+  min-inline-size: 0;
+  display: grid;
+  gap: var(--gw-v2-space-3xs);
+  padding-block-end: var(--gw-v2-space-sm);
+  border-block-end: 1px solid var(--gw-v2-seam-subtle);
+}
+
+.gw-v2-activity-specimen p,
+.gw-v2-activity-specimen time {
+  color: var(--gw-v2-text-muted);
+}
+
+.gw-v2-activity-specimen time {
+  font-family: var(--gw-v2-font-code);
+  font-size: var(--gw-v2-type-xs);
+}
+
+@media (max-width: 44rem) {
+  .gw-v2-evidence-card dl {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .gw-v2-evidence-card dd {
+    padding-block-end: var(--gw-v2-space-xs);
+  }
+
+  .gw-v2-evidence-actions {
+    inline-size: 100%;
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .gw-v2-evidence-actions > * {
+    inline-size: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gw-v2-evidence-grid *,
+  .gw-v2-evidence-grid *::before,
+  .gw-v2-evidence-grid *::after {
+    transition-duration: 0ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
