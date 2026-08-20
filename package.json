@@ -40,6 +40,7 @@
     "./v2/components.css": "./src/v2/components.css",
     "./v2/contract.js": "./src/v2/contract.js",
     "./v2/component-contract.js": "./src/v2/component-contract.js",
+    "./v2/workflow-contract.js": "./src/v2/workflow-contract.js",
     "./v2/astro/Navigation.astro": "./src/v2/astro/Navigation.astro",
     "./v2/astro/Action.astro": "./src/v2/astro/Action.astro",
     "./v2/astro/Toggle.astro": "./src/v2/astro/Toggle.astro",
