@@ -1,0 +1,100 @@
+<section class="gw2-pane-grid gwi-pane-grid" data-gwi-evidence-screen>
+  <section class="gw2-pane gw2-pane--primary gwi-pane-primary" aria-labelledby="gwi-evidence-title">
+    <header class="gw2-pane-heading gwi-pane-heading">
+      <div><p>Candidate review · durable assertions</p><h2 id="gwi-evidence-title" data-gw2-active-buffer>Evidence / Review</h2></div>
+      <div><button type="button" data-gw2-toast="Evidence queue filtered">Queue filters</button><button type="button" data-gw2-toast="Evidence policy opened">Review policy</button></div>
+    </header>
+
+    <section class="gwi-review-summary">
+      <div><span class="gwi-status-label is-candidate">REVIEW QUEUE</span><h3>Four links need a human decision.</h3><p>Candidates can be regenerated. Accepted and rejected assertions remain durable.</p></div>
+      <dl><div><dt>Unreviewed</dt><dd>4</dd></div><div><dt>Accepted today</dt><dd>11</dd></div><div><dt>Rejected today</dt><dd>3</dd></div><div><dt>Median score</dt><dd>0.84</dd></div></dl>
+    </section>
+
+    <div class="gwi-evidence-layout">
+      <aside class="gwi-candidate-queue" aria-label="Evidence candidates">
+        <header><span>Candidates</span><small>ranked · newest first</small></header>
+        <button class="is-selected" type="button"><span class="is-chat">CH</span><div><strong>Message 18 ↔ Issue #89</strong><small>Provider broker architecture</small></div><b>0.91</b></button>
+        <button type="button"><span class="is-code">FN</span><div><strong>archive/acquire ↔ PR #96</strong><small>Implementation lineage</small></div><b>0.88</b></button>
+        <button type="button"><span class="is-work">IS</span><div><strong>Issue #92 ↔ ChatGPT capture</strong><small>Browser provider design</small></div><b>0.84</b></button>
+        <button type="button"><span class="is-code">VF</span><div><strong>Code fence ↔ broker/execute</strong><small>Virtual-file symbol match</small></div><b>0.73</b></button>
+      </aside>
+
+      <section class="gwi-evidence-review" data-gw2-approval-card data-state="candidate" aria-labelledby="gwi-candidate-title">
+        <header>
+          <div><span class="gwi-status-label is-candidate">CANDIDATE · 0.91</span><h3 id="gwi-candidate-title">Planning message may have led to issue #89</h3></div>
+          <span>candidate-0047</span>
+        </header>
+
+        <div class="gwi-evidence-comparison">
+          <article>
+            <header><span class="gwi-result-kind is-chat">CHAT</span><strong>Message 18</strong><small>conversation-7842</small></header>
+            <blockquote>
+              Historia should register providers as data, while a capability-owning runtime performs the download,
+              retains the original document and advances an explicit checkpoint.
+            </blockquote>
+            <footer><span>block 2</span><span>bytes 1,904–2,186</span><b class="is-original">original</b></footer>
+          </article>
+          <div class="gwi-comparison-link" aria-hidden="true"><i></i><span>may have led to</span><i></i></div>
+          <article>
+            <header><span class="gwi-result-kind is-work">ISSUE</span><strong>Issue #89</strong><small>greenways-ai/historia</small></header>
+            <blockquote>
+              Implement the capability-owning Historia Runtime boundary that executes registered providers without
+              putting network, browser, filesystem or Git behavior into historia-core.
+            </blockquote>
+            <footer><span>body · block 1</span><span>bytes 322–618</span><b class="is-original">original</b></footer>
+          </article>
+        </div>
+
+        <section class="gwi-score-explanation">
+          <header><span>Explainable score</span><strong>0.91</strong></header>
+          <div><span>Distinctive term overlap</span><meter min="0" max="1" value="0.94"></meter><b>0.94</b></div>
+          <div><span>Repository and provider context</span><meter min="0" max="1" value="1"></meter><b>1.00</b></div>
+          <div><span>Temporal ordering</span><meter min="0" max="1" value="0.88"></meter><b>0.88</b></div>
+          <div><span>Referenced architecture concepts</span><meter min="0" max="1" value="0.91"></meter><b>0.91</b></div>
+          <div><span>Exact URL or identifier</span><meter min="0" max="1" value="0"></meter><b>0.00</b></div>
+        </section>
+
+        <footer class="gwi-review-actions">
+          <div><span>No exact identifier links these blocks.</span><small>Accept only when the semantic and temporal evidence is sufficient.</small></div>
+          <button type="button" data-gw2-toast="Candidate rejected and durable rejection recorded">Reject</button>
+          <button type="button" data-gw2-approval>Accept assertion</button>
+        </footer>
+        <div class="gwi-approved-state"><span>✓</span><div><strong>Assertion accepted</strong><small>Durable review receipt will survive candidate rebuilds.</small></div></div>
+      </section>
+    </div>
+  </section>
+
+  <aside class="gw2-pane gw2-pane--inspector gwi-inspector" aria-label="Evidence candidate inspector">
+    <header><span>Evidence inspector</span><button type="button" data-gw2-inspector-toggle aria-label="Close inspector">×</button></header>
+    <section class="gwi-inspector-section">
+      <p>Candidate state</p>
+      <div class="gwi-object-identity"><span class="gw2-signal--gold">EV</span><div><strong>candidate-0047</strong><small>message ↔ issue</small></div></div>
+      <div class="gwi-authority-badge is-candidate"><i></i><span><strong>Rebuildable candidate</strong><small>Not yet an accepted fact</small></span></div>
+    </section>
+    <section class="gwi-inspector-section">
+      <p>Left anchor</p>
+      <dl class="gwi-inspector-list"><div><dt>Document</dt><dd>chatgpt:conversation-7842:r3</dd></div><div><dt>Block</dt><dd>message-18/block-2</dd></div><div><dt>Bytes</dt><dd>1,904–2,186</dd></div><div><dt>Digest</dt><dd>4cc5…a091</dd></div></dl>
+    </section>
+    <section class="gwi-inspector-section">
+      <p>Right anchor</p>
+      <dl class="gwi-inspector-list"><div><dt>Document</dt><dd>github:historia#89:r1</dd></div><div><dt>Block</dt><dd>issue-body/block-1</dd></div><div><dt>Bytes</dt><dd>322–618</dd></div><div><dt>Digest</dt><dd>0f8c…96ac</dd></div></dl>
+    </section>
+    <section class="gwi-inspector-section">
+      <p>Review outcome</p>
+      <div class="gwi-policy-note"><strong>Durable assertion</strong><span>Accept or reject writes a review record with candidate identity, exact anchors, reviewer and receipt. Candidate indexes remain disposable.</span></div>
+    </section>
+    <section class="gwi-inspector-section">
+      <p>Prohibited inference</p>
+      <div class="gwi-warning-note"><strong>No automatic causality</strong><span>A high score alone cannot claim that the chat caused the issue.</span></div>
+    </section>
+  </aside>
+
+  <section class="gw2-pane gw2-pane--console gwi-console" aria-label="Evidence review receipt stream">
+    <header><span>Evidence / Receipts</span><button type="button" data-gw2-toast="Review log opened">Open log</button></header>
+    <div class="gw2-console-lines">
+      <p><time>22:18:29</time><span class="is-run">candidate</span><strong>evidence/0047</strong><small>ranked from 4 score components</small></p>
+      <p><time>22:18:29</time><span class="is-ok">anchors</span><strong>2 / 2</strong><small>source digests and byte ranges verified</small></p>
+      <p><time>22:18:30</time><span class="is-wait">waiting</span><strong>review/0047</strong><small>human decision required</small></p>
+    </div>
+  </section>
+</section>
