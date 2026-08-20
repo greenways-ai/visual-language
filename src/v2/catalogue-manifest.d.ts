@@ -10,6 +10,7 @@ export interface GreenwaysV2CatalogueRoute {
   readonly ownership: GreenwaysV2CatalogueOwnership;
   readonly issue?: number;
   readonly primary?: boolean;
+  readonly implemented?: boolean;
   readonly children?: readonly GreenwaysV2CatalogueRoute[];
 }
 
@@ -33,3 +34,4 @@ export function isCatalogueRouteActive(routePath: string, currentPath: string, b
 export function getCatalogueRoute(path: string): GreenwaysV2CatalogueRoute | undefined;
 export function getCatalogueGroup(path: string): GreenwaysV2CatalogueGroup | undefined;
 export function getCatalogueStaticRoutes(): readonly GreenwaysV2CatalogueRoute[];
+export function getCataloguePlaceholderRoutes(): readonly GreenwaysV2CatalogueRoute[];
