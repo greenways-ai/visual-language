@@ -63,7 +63,9 @@ export function findCatalogueLocation(path, basePath = "/") {
 
 /** @returns {readonly GreenwaysV2CatalogueRoute[]} */
 export function getCatalogueRouteSequence() {
+  /** @type {GreenwaysV2CatalogueRoute[]} */
   const sequence = [];
+  /** @type {Set<string>} */
   const seen = new Set();
   for (const group of greenwaysV2Catalogue) {
     for (const route of group.routes) {
