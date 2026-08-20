@@ -3,6 +3,7 @@ import {
   greenwaysOsV2Applications,
   type GreenwaysOsV2Surface,
 } from "../../greenways-os-v2-surfaces";
+import GreenwaysOsV2ApplicationContinuity from "./GreenwaysOsV2ApplicationContinuity.astro";
 import GreenwaysOsV2ExtensionDesktop from "./GreenwaysOsV2ExtensionDesktop.astro";
 import GreenwaysOsV2NativeDesktop from "./GreenwaysOsV2NativeDesktop.astro";
 import GreenwaysOsV2Popup from "./GreenwaysOsV2Popup.astro";
@@ -55,6 +56,8 @@ const nextApplication =
   {surface.id === "extension-panel" && <GreenwaysOsV2SidePanel />}
   {surface.id === "extension-popup" && <GreenwaysOsV2Popup />}
   {surface.id === "web" && <GreenwaysOsV2Web rootHref={rootHref} />}
+
+  <GreenwaysOsV2ApplicationContinuity surfaceId={surface.id} />
 
   <footer class="gw2-surface-next">
     <a href={rootHref}><span>System map</span><strong>See how the surfaces share one workspace</strong></a>

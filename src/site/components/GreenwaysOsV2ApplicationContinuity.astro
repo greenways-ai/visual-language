@@ -1,0 +1,188 @@
+---
+import { greenwaysProductScreens } from "../../greenways-product-screens";
+import {
+  greenwaysOsV2Applications,
+  type GreenwaysOsV2SurfaceId,
+} from "../../greenways-os-v2-surfaces";
+
+interface Props {
+  surfaceId: GreenwaysOsV2SurfaceId;
+}
+
+type ApplicationId = (typeof greenwaysOsV2Applications)[number]["id"];
+
+const { surfaceId } = Astro.props as Props;
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+const earlierRoot = `${base}concepts/greenways/`;
+const screenById = new Map(greenwaysProductScreens.map((screen) => [screen.id, screen] as const));
+
+const featureCopy: Record<ApplicationId, {
+  title: string;
+  summary: string;
+  meta: string;
+}> = {
+  today: {
+    title: "Focus and briefing",
+    summary: "Ordered human decisions, active people and useful movement from the earlier Today screen.",
+    meta: "3 decisions · 6 active spaces",
+  },
+  workrooms: {
+    title: "Conversation with context",
+    summary: "A persistent room thread, attached evidence and a composer that can address people or scoped agents.",
+    meta: "6 people · 3 agents",
+  },
+  studio: {
+    title: "Release studio",
+    summary: "Source-aware composition, destination preview and receipt readiness without leaving the workspace.",
+    meta: "4 sources · 4 destinations",
+  },
+  campaigns: {
+    title: "Campaign pulse",
+    summary: "Verified reach, milestones, approvals and evidence coverage presented beside the work they describe.",
+    meta: "58% complete · 96% evidenced",
+  },
+  packages: {
+    title: "Trusted capabilities",
+    summary: "Purpose, compatibility, maintainers and installation intent remain visible before a package is added.",
+    meta: "3 recommended packages",
+  },
+  keyring: {
+    title: "Readable authority",
+    summary: "Identity health, time-bound agent grants and recovery remain understandable without crypto-first language.",
+    meta: "1 grant needs review",
+  },
+  receipts: {
+    title: "Evidence trace",
+    summary: "Searchable action history links preparation, automated review, evidence, human approval and resulting effects.",
+    meta: "18 receipts today",
+  },
+};
+
+const surfaceFeatures: Record<GreenwaysOsV2SurfaceId, readonly ApplicationId[]> = {
+  desktop: ["today", "studio", "campaigns", "keyring", "receipts"],
+  "extension-desktop": ["workrooms", "studio", "campaigns", "receipts"],
+  "extension-panel": ["workrooms", "studio", "keyring", "receipts"],
+  "extension-popup": ["today", "keyring", "receipts"],
+  web: ["studio", "campaigns", "packages", "receipts"],
+};
+
+const surfaceDescription: Record<GreenwaysOsV2SurfaceId, string> = {
+  desktop: "Full applications can become buffers, split panes, inspectors and local work.",
+  "extension-desktop": "Browser context joins persistent rooms, release work, campaign state and evidence.",
+  "extension-panel": "Only the page-adjacent portions of each application remain visible here.",
+  "extension-popup": "The launcher keeps human attention, authority and recent evidence concise.",
+  web: "Publishing, discovery and remote work carry the same application objects without native authority.",
+};
+
+const selectedFeatures = surfaceFeatures[surfaceId];
+---
+
+<section
+  class="gw2-application-continuity"
+  data-gw2-application-continuity
+  data-surface={surfaceId}
+  aria-labelledby={`gw2-application-continuity-${surfaceId}`}
+>
+  <header class="gw2-application-continuity__header">
+    <div>
+      <p>Application layer · carried forward</p>
+      <h2 id={`gw2-application-continuity-${surfaceId}`}>Earlier product strengths, fitted to this host.</h2>
+    </div>
+    <span>{surfaceDescription[surfaceId]}</span>
+  </header>
+
+  <div class="gw2-application-continuity__grid">
+    {selectedFeatures.map((id) => {
+      const application = greenwaysOsV2Applications.find((candidate) => candidate.id === id);
+      const screen = screenById.get(id);
+      const feature = featureCopy[id];
+      if (!application || !screen) return null;
+
+      return (
+        <article
+          class:list={["gw2-application-feature", `gw2-application-feature--${id}`]}
+          data-gw2-earlier-feature={id}
+        >
+          <header class="gw2-application-feature__header">
+            <span class:list={["gw2-application-feature__mark", `gw2-signal--${application.signal}`]}>
+              {application.code}
+            </span>
+            <div>
+              <p>{screen.label}</p>
+              <h3>{feature.title}</h3>
+            </div>
+            <small>{feature.meta}</small>
+          </header>
+
+          <div class="gw2-application-feature__preview" data-preview={id} aria-hidden="true">
+            {id === "today" && (
+              <div class="gw2-feature-focus">
+                <div><i></i><span>Approve release candidate</span><b>Review</b></div>
+                <div><i></i><span>Scope Atlas reporting grant</span><b>Decision</b></div>
+                <div class="is-done"><i>✓</i><span>Confirm package maintainers</span><b>Done</b></div>
+              </div>
+            )}
+
+            {id === "workrooms" && (
+              <div class="gw2-feature-thread">
+                <div><span>MR</span><p><strong>Mira</strong><small>Release narrative is ready for review.</small></p></div>
+                <div><span>AT</span><p><strong>Atlas</strong><small>One phrase still needs a source.</small></p></div>
+                <footer><span>Write, ask an agent or attach evidence…</span><b>Send</b></footer>
+              </div>
+            )}
+
+            {id === "studio" && (
+              <div class="gw2-feature-studio">
+                <aside><span>IMG</span><span>TXT</span><span>RC</span></aside>
+                <main><small>FIELD NOTE 04</small><strong>Open distribution</strong><p>Source and attribution remain attached.</p></main>
+                <footer><span>Web</span><span>Newsletter</span><span>Social</span><b>Receipt ready</b></footer>
+              </div>
+            )}
+
+            {id === "campaigns" && (
+              <div class="gw2-feature-campaign">
+                <header><span>Open distribution</span><b>Live · week 2 of 4</b></header>
+                <div class="gw2-feature-progress"><i style="width: 58%"></i></div>
+                <dl>
+                  <div><dt>Verified reach</dt><dd>84.2k</dd></div>
+                  <div><dt>Actions</dt><dd>6,418</dd></div>
+                  <div><dt>Evidence</dt><dd>96%</dd></div>
+                </dl>
+              </div>
+            )}
+
+            {id === "packages" && (
+              <div class="gw2-feature-packages">
+                <div><span>VC</span><p><strong>visual.canvas</strong><small>Web · Wasm</small></p><b>0.8.4</b></div>
+                <div><span>RV</span><p><strong>receipt.viewer</strong><small>Web · Node</small></p><b>1.2.0</b></div>
+                <div><span>AS</span><p><strong>attribution.schema</strong><small>All hosts</small></p><b>2.0.1</b></div>
+              </div>
+            )}
+
+            {id === "keyring" && (
+              <div class="gw2-feature-keyring">
+                <header><span>CZ</span><p><strong>Chris’s identity</strong><small>Healthy · recovery ready</small></p><b>Verified</b></header>
+                <div><span>AT</span><p><strong>Atlas campaign grant</strong><small>Read and analyse · expires 18 Sep</small></p><b>Review</b></div>
+                <footer>Guardians can restore access; they cannot read or approve work.</footer>
+              </div>
+            )}
+
+            {id === "receipts" && (
+              <ol class="gw2-feature-receipt">
+                <li><i>1</i><span><strong>Source prepared</strong><small>release-04.hal · 09:08</small></span></li>
+                <li><i>2</i><span><strong>Automated review</strong><small>No publication authority · 09:12</small></span></li>
+                <li><i>3</i><span><strong>Evidence attached</strong><small>measurement-note.pdf · 09:19</small></span></li>
+                <li><i>✓</i><span><strong>Human approval</strong><small>Signed by Chris · 09:26</small></span></li>
+              </ol>
+            )}
+          </div>
+
+          <footer class="gw2-application-feature__footer">
+            <p>{feature.summary}</p>
+            <a href={`${earlierRoot}${id}/`}>Earlier {screen.label} study ↗</a>
+          </footer>
+        </article>
+      );
+    })}
+  </div>
+</section>

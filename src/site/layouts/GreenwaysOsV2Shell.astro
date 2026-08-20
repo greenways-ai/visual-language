@@ -4,6 +4,7 @@ import {
   greenwaysOsV2Surfaces,
   type GreenwaysOsV2SurfaceId,
 } from "../../greenways-os-v2-surfaces";
+import GreenwaysOsV2AppLauncher from "../components/GreenwaysOsV2AppLauncher.astro";
 import "../styles/greenways-os-v2.css";
 
 interface Props {
@@ -26,7 +27,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#08110f" />
+    <meta name="theme-color" content="#0c0e11" />
     <link rel="canonical" href={canonicalUrl} />
     <meta property="og:url" content={canonicalUrl} />
     <title>{title} · Greenways OS V2</title>
@@ -60,6 +61,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
         <button class="gw2-concept-button" type="button" data-gw2-command-open>
           <span>Command</span><kbd>⌘K</kbd>
         </button>
+        <GreenwaysOsV2AppLauncher />
         <button
           class="gw2-concept-button gw2-concept-button--icon"
           type="button"
@@ -150,6 +152,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
         const commandLayer = document.querySelector("[data-gw2-command-layer]");
         const commandInput = document.querySelector("[data-gw2-command-input]");
         const commandItems = [...document.querySelectorAll("[data-gw2-command-item]")];
+        const appLauncher = document.querySelector("[data-gw2-app-launcher]");
         const surfaceMenu = document.querySelector("[data-gw2-surface-menu]");
         const surfaceOpen = document.querySelector("[data-gw2-surface-open]");
         const toast = document.querySelector("[data-gw2-toast-region]");
@@ -161,7 +164,12 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
           element.hidden = hidden;
         };
 
+        const closeAppLauncher = () => {
+          if (appLauncher instanceof HTMLDetailsElement) appLauncher.open = false;
+        };
+
         const openCommand = () => {
+          closeAppLauncher();
           setHidden(commandLayer, false);
           body.dataset.gw2Modal = "command";
           requestAnimationFrame(() => commandInput?.focus());
@@ -175,6 +183,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
         };
 
         const openSurfaceMenu = () => {
+          closeAppLauncher();
           setHidden(surfaceMenu, false);
           surfaceOpen?.setAttribute("aria-expanded", "true");
           body.dataset.gw2Menu = "surface";
@@ -208,6 +217,14 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
           });
         };
 
+        if (appLauncher instanceof HTMLDetailsElement) {
+          appLauncher.addEventListener("toggle", () => {
+            if (!appLauncher.open) return;
+            closeCommand();
+            closeSurfaceMenu();
+          });
+        }
+
         document.addEventListener("click", (event) => {
           const target = event.target instanceof Element ? event.target : null;
           if (!target) return;
@@ -218,6 +235,15 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
             surfaceMenu?.hidden ? openSurfaceMenu() : closeSurfaceMenu();
           }
           if (target.closest("[data-gw2-surface-close]")) closeSurfaceMenu();
+
+          const launchedApp = target.closest("[data-gw2-launch-app]");
+          if (launchedApp) {
+            const appId = launchedApp.getAttribute("data-gw2-launch-app");
+            if (appId) {
+              try { localStorage.setItem("greenways-os-v2-last-app", appId); } catch {}
+            }
+            closeAppLauncher();
+          }
 
           const themed = target.closest("[data-gw2-theme-toggle]");
           if (themed) {
@@ -265,6 +291,17 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
         });
 
         window.addEventListener("keydown", (event) => {
+          if ((event.metaKey || event.ctrlKey) && event.shiftKey && event.key.toLowerCase() === "a") {
+            event.preventDefault();
+            closeCommand();
+            closeSurfaceMenu();
+            if (appLauncher instanceof HTMLDetailsElement) {
+              appLauncher.open = !appLauncher.open;
+              if (appLauncher.open) {
+                requestAnimationFrame(() => appLauncher.querySelector("[data-gw2-launch-app]")?.focus());
+              }
+            }
+          }
           if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
             event.preventDefault();
             commandLayer?.hidden ? openCommand() : closeCommand();
@@ -272,6 +309,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
           if (event.key === "Escape") {
             closeCommand();
             closeSurfaceMenu();
+            closeAppLauncher();
           }
         });
       })();

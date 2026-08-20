@@ -1,0 +1,173 @@
+---
+import { greenwaysProductScreens } from "../../greenways-product-screens";
+import { greenwaysOsV2Applications } from "../../greenways-os-v2-surfaces";
+
+type ApplicationId = (typeof greenwaysOsV2Applications)[number]["id"];
+type SurfaceId = "desktop" | "extension-desktop" | "extension-panel" | "extension-popup" | "web";
+
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+const atlasRoot = `${base}concepts/greenways-v2/`;
+const earlierRoot = `${base}concepts/greenways/`;
+const screenById = new Map(greenwaysProductScreens.map((screen) => [screen.id, screen] as const));
+
+const launchSurfaceByApp: Record<ApplicationId, SurfaceId> = {
+  today: "desktop",
+  workrooms: "extension-desktop",
+  studio: "desktop",
+  campaigns: "web",
+  packages: "desktop",
+  keyring: "desktop",
+  receipts: "desktop",
+};
+
+const launcherGroups: readonly {
+  label: string;
+  summary: string;
+  ids: readonly ApplicationId[];
+}[] = [
+  {
+    label: "Workspace",
+    summary: "The applications used while making and coordinating work.",
+    ids: ["today", "workrooms", "studio"],
+  },
+  {
+    label: "Operations",
+    summary: "Distribution, capabilities, authority and evidence.",
+    ids: ["campaigns", "packages", "keyring", "receipts"],
+  },
+];
+
+const recentObjects: readonly {
+  appId: ApplicationId;
+  eyebrow: string;
+  title: string;
+  detail: string;
+  state: string;
+}[] = [
+  {
+    appId: "studio",
+    eyebrow: "Release 04",
+    title: "Open distribution",
+    detail: "4 sources · 2 reviewers · receipt ready",
+    state: "Review",
+  },
+  {
+    appId: "campaigns",
+    eyebrow: "Campaign",
+    title: "Open distribution",
+    detail: "58% complete · 2 approvals need you",
+    state: "Live",
+  },
+  {
+    appId: "keyring",
+    eyebrow: "Scoped grant",
+    title: "Atlas campaign access",
+    detail: "Read and analyse · expires 18 September",
+    state: "Review",
+  },
+];
+---
+
+<details class="gw2-app-launcher" data-gw2-app-launcher>
+  <summary class="gw2-concept-button gw2-app-launcher__summary" aria-label="Open application launcher">
+    <svg viewBox="0 0 20 20" aria-hidden="true">
+      <rect x="3" y="3" width="5" height="5" rx="1"></rect>
+      <rect x="12" y="3" width="5" height="5" rx="1"></rect>
+      <rect x="3" y="12" width="5" height="5" rx="1"></rect>
+      <rect x="12" y="12" width="5" height="5" rx="1"></rect>
+    </svg>
+    <span>Apps</span>
+    <kbd>⇧A</kbd>
+  </summary>
+
+  <section class="gw2-app-launcher__panel" data-gw2-app-launcher-panel aria-label="Greenways applications">
+    <header class="gw2-app-launcher__header">
+      <div>
+        <p>Application launcher</p>
+        <h2>Open a buffer, room or tool.</h2>
+        <span>
+          The seven earlier product studies now behave as portable application destinations inside the shared atlas.
+        </span>
+      </div>
+      <div class="gw2-app-launcher__health" aria-label="Workspace health">
+        <span><i class="gw2-live-dot" aria-hidden="true"></i> Workspace saved</span>
+        <span>18 receipts today</span>
+      </div>
+    </header>
+
+    <div class="gw2-app-launcher__groups">
+      {launcherGroups.map((group) => (
+        <section class="gw2-app-launcher__group" aria-labelledby={`gw2-launcher-${group.label.toLowerCase()}`}>
+          <header>
+            <div>
+              <h3 id={`gw2-launcher-${group.label.toLowerCase()}`}>{group.label}</h3>
+              <p>{group.summary}</p>
+            </div>
+          </header>
+          <div class="gw2-app-launcher__grid">
+            {group.ids.map((id) => {
+              const application = greenwaysOsV2Applications.find((candidate) => candidate.id === id);
+              const screen = screenById.get(id);
+              if (!application || !screen) return null;
+              const launchSurface = launchSurfaceByApp[id];
+              return (
+                <a
+                  class="gw2-app-launcher__app"
+                  href={`${atlasRoot}${launchSurface}/?app=${id}`}
+                  data-gw2-launch-app={id}
+                  data-app-label={application.label}
+                >
+                  <span class:list={["gw2-app-launcher__mark", `gw2-signal--${application.signal}`]}>
+                    {application.code}
+                  </span>
+                  <span class="gw2-app-launcher__copy">
+                    <strong>{application.label}</strong>
+                    <small>{screen.eyebrow}</small>
+                    <em>{screen.primaryAction}</em>
+                  </span>
+                  {id === "today" && <b>3</b>}
+                  {id === "keyring" && <b>1</b>}
+                </a>
+              );
+            })}
+          </div>
+        </section>
+      ))}
+    </div>
+
+    <section class="gw2-app-launcher__resume" data-gw2-launcher-resume aria-labelledby="gw2-launcher-resume-title">
+      <header>
+        <div>
+          <p>Continue</p>
+          <h3 id="gw2-launcher-resume-title">Recent objects and human attention.</h3>
+        </div>
+        <button type="button" data-gw2-toast="Recent workspace history opened">View all</button>
+      </header>
+      <div>
+        {recentObjects.map((item) => {
+          const application = greenwaysOsV2Applications.find((candidate) => candidate.id === item.appId);
+          if (!application) return null;
+          const launchSurface = launchSurfaceByApp[item.appId];
+          return (
+            <a href={`${atlasRoot}${launchSurface}/?app=${item.appId}`} data-gw2-launch-app={item.appId}>
+              <span class:list={["gw2-app-launcher__recent-code", `gw2-signal--${application.signal}`]}>
+                {application.code}
+              </span>
+              <span>
+                <small>{item.eyebrow}</small>
+                <strong>{item.title}</strong>
+                <em>{item.detail}</em>
+              </span>
+              <b>{item.state}</b>
+            </a>
+          );
+        })}
+      </div>
+    </section>
+
+    <footer class="gw2-app-launcher__footer">
+      <span>Apps open through the host best suited to their current task.</span>
+      <a href={earlierRoot}>Earlier Greenways product screens ↗</a>
+    </footer>
+  </section>
+</details>

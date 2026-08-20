@@ -55,6 +55,8 @@ This map records the additive migration boundary for issue #31. Treatments mean:
 | `src/site/components/DayNightExplorer.astro` | laboratory-only | site | Specimen or site presentation; never package-exported. |
 | `src/site/components/FoundationMatrix.astro` | laboratory-only | site | Specimen or site presentation; never package-exported. |
 | `src/site/components/GreenwaysControlPlaneArt.astro` | laboratory-only | site | Specimen or site presentation; never package-exported. |
+| `src/site/components/GreenwaysOsV2AppLauncher.astro` | laboratory-only | site | Specimen or site presentation; never package-exported. |
+| `src/site/components/GreenwaysOsV2ApplicationContinuity.astro` | laboratory-only | site | Specimen or site presentation; never package-exported. |
 | `src/site/components/GreenwaysOsV2ExtensionDesktop.astro` | laboratory-only | site | Specimen or site presentation; never package-exported. |
 | `src/site/components/GreenwaysOsV2NativeDesktop.astro` | laboratory-only | site | Specimen or site presentation; never package-exported. |
 | `src/site/components/GreenwaysOsV2Popup.astro` | laboratory-only | site | Specimen or site presentation; never package-exported. |
@@ -81,6 +83,7 @@ This map records the additive migration boundary for issue #31. Treatments mean:
 | `src/site/styles/custom.css` | laboratory-only | site | Site and concept presentation CSS; not a shared contract. |
 | `src/site/styles/greenways-control-plane.css` | laboratory-only | site | Site and concept presentation CSS; not a shared contract. |
 | `src/site/styles/greenways-hara-v2.css` | laboratory-only | site | Site and concept presentation CSS; not a shared contract. |
+| `src/site/styles/greenways-os-v2-applications.css` | laboratory-only | site | Site and concept presentation CSS; not a shared contract. |
 | `src/site/styles/greenways-os-v2-foundation.css` | laboratory-only | site | Site and concept presentation CSS; not a shared contract. |
 | `src/site/styles/greenways-os-v2-overview.css` | laboratory-only | site | Site and concept presentation CSS; not a shared contract. |
 | `src/site/styles/greenways-os-v2-popup.css` | laboratory-only | site | Site and concept presentation CSS; not a shared contract. |
