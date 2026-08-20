@@ -1,0 +1,61 @@
+---
+import "../components.css";
+
+type Variant = "primary" | "secondary" | "quiet" | "danger";
+type Size = "default" | "compact";
+type ButtonType = "button" | "submit" | "reset";
+
+interface Props {
+  href?: string;
+  variant?: Variant;
+  size?: Size;
+  disabled?: boolean;
+  pending?: boolean;
+  label?: string;
+  type?: ButtonType;
+  class?: string;
+}
+
+const {
+  href,
+  variant = "secondary",
+  size = "default",
+  disabled = false,
+  pending = false,
+  label,
+  type = "button",
+  class: className = "",
+} = Astro.props;
+
+const state = pending ? "loading" : disabled ? "disabled" : variant === "danger" ? "danger" : "initial";
+const classes = ["gw-v2-component", "gw-v2-action", className];
+---
+
+{href && !disabled && !pending ? (
+  <a
+    class:list={classes}
+    href={href}
+    aria-label={label}
+    data-gw-v2-component="Action"
+    data-gw-v2-state={state}
+    data-variant={variant}
+    data-size={size}
+  >
+    <slot />
+  </a>
+) : (
+  <button
+    class:list={classes}
+    type={type}
+    disabled={disabled || pending}
+    aria-label={label}
+    aria-busy={pending ? "true" : undefined}
+    data-gw-v2-component="Action"
+    data-gw-v2-state={state}
+    data-variant={variant}
+    data-size={size}
+  >
+    {pending && <span class="gw-v2-action__progress" aria-hidden="true"></span>}
+    <slot />
+  </button>
+)}
