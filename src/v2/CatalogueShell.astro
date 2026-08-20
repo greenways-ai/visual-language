@@ -1,6 +1,7 @@
 ---
 import GreenwaysThemeProvider from "../site/components/GreenwaysThemeProvider.astro";
 import CatalogueNavigation from "./CatalogueNavigation.astro";
+import CataloguePageFooter from "./CataloguePageFooter.astro";
 import { catalogueHref } from "./catalogue-manifest.js";
 import "./document.css";
 import "./catalogue.css";
@@ -51,8 +52,9 @@ const canonical = new URL(Astro.url.pathname, origin).toString();
       sectionNavigation={sectionNavigation}
     />
 
-    <main id="gw-v2-main" class:list={["gw-v2-catalogue-main", "gw-v2-page", mainClass]}>
+    <main id="gw-v2-main" class:list={["gw-v2-catalogue-main", "gw-v2-page", mainClass]} tabindex="-1">
       <slot />
+      <CataloguePageFooter currentPath={currentPath} basePath={basePath} />
     </main>
 
     <footer class="gw-v2-catalogue-footer">
