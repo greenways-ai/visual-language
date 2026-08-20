@@ -20,6 +20,18 @@ const greenwaysScreens = [
   "keyring",
   "receipts",
 ];
+const v2Routes = [
+  "dist/v2/index.html",
+  "dist/v2/foundations/index.html",
+  "dist/v2/library/index.html",
+  "dist/v2/library/components/index.html",
+  "dist/v2/library/workflows/index.html",
+  "dist/v2/applications/foreman/index.html",
+  "dist/v2/applications/foreman/model/index.html",
+  "dist/v2/applications/foreman/projects/index.html",
+  "dist/v2/applications/foreman/handoffs/index.html",
+  "dist/v2/applications/foreman/surfaces/index.html",
+];
 const required = [
   "dist/index.html",
   "dist/foundations/principles/index.html",
@@ -31,6 +43,7 @@ const required = [
   "dist/case-studies/index.html",
   "dist/case-studies/statstrade/index.html",
   "dist/case-studies/greenways-world/index.html",
+  ...v2Routes,
   "dist/concepts/index.html",
   "dist/concepts/greenways/index.html",
   ...greenwaysScreens.map((screen) => `dist/concepts/greenways/${screen}/index.html`),
@@ -85,6 +98,37 @@ const markLab = await readFile("dist/identity/3d-mark-lab/index.html", "utf8");
 if (!markLab.includes("3D Mark Lab")) throw new Error("3D Mark Lab is missing its title");
 if (!markLab.includes("data-mark-lab")) throw new Error("3D Mark Lab is missing its interactive renderer");
 if (!markLab.includes("WebGL2")) throw new Error("3D Mark Lab is missing its WebGL fallback guidance");
+
+const v2Index = await readFile("dist/v2/index.html", "utf8");
+if (!v2Index.includes("Greenways v2 catalogue")) throw new Error("v2 catalogue is missing its title");
+if (!v2Index.includes("Foundations")) throw new Error("v2 catalogue is missing Foundations");
+if (!v2Index.includes("Library")) throw new Error("v2 catalogue is missing Library");
+if (!v2Index.includes("Applications")) throw new Error("v2 catalogue is missing Applications");
+
+const componentCatalogue = await readFile("dist/v2/library/components/index.html", "utf8");
+for (const marker of [
+  "data-component-catalogue",
+  "data-shared-contract",
+  'data-product-behaviour="host-owned"',
+  'data-gw-v2-component="Navigation"',
+  'data-gw-v2-component="Action"',
+  'data-gw-v2-component="Toggle"',
+  'data-gw-v2-component="DataTable"',
+  'data-gw-v2-component="ApprovalCard"',
+  'data-gw-v2-component="Receipt"',
+  'data-gw-v2-component="WorkbenchShell"',
+  "data-requested-state",
+  "data-actual-state",
+  "data-receipt-id",
+]) {
+  if (!componentCatalogue.includes(marker)) throw new Error(`component catalogue is missing ${marker}`);
+}
+if (componentCatalogue.includes("Declared now. Detailed later.")) {
+  throw new Error("component catalogue is still rendering the generic placeholder");
+}
+if (!componentCatalogue.includes("Workflow-state compositions remain a separate review")) {
+  throw new Error("component catalogue is missing the issue #34 delivery boundary");
+}
 
 const conceptIndex = await readFile("dist/concepts/index.html", "utf8");
 if (!conceptIndex.includes("One concept.")) throw new Error("concept index is missing its editorial premise");
@@ -144,5 +188,5 @@ if (!openGate.includes("Open Gate")) throw new Error("Open Gate concept page is 
 if (!openGate.includes("Concept specification")) throw new Error("Open Gate concept page is missing its specification");
 
 console.log(
-  `verified ${required.length} required Astro site outputs, ${greenwaysScreens.length} Greenways OS applications and ${ogCards.length} social cards`,
+  `verified ${required.length} required Astro site outputs, ${v2Routes.length} v2 routes, ${greenwaysScreens.length} Greenways OS applications and ${ogCards.length} social cards`,
 );
