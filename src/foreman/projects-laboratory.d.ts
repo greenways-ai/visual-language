@@ -107,6 +107,7 @@ export interface ForemanBuildout {
   readonly attention: string | null;
   readonly updatedAt: string;
   readonly providers: readonly string[];
+  readonly evidence?: string;
   readonly issue: ForemanIssue | null;
   readonly workItems: readonly ForemanWorkItem[];
   readonly sessions: readonly ForemanSession[];
