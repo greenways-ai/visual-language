@@ -9,10 +9,8 @@ import type {
   ForemanProject,
 } from "../../../../../foreman/projects-laboratory.js";
 
-const projects = foremanProjects as readonly ForemanProject[];
-
 export function getStaticPaths() {
-  return projects.map((project: ForemanProject) => ({
+  return (foremanProjects as readonly ForemanProject[]).map((project: ForemanProject) => ({
     params: { project: project.id },
     props: { project },
   }));
@@ -22,7 +20,7 @@ interface Props {
   project: ForemanProject;
 }
 
-const { project } = Astro.props;
+const { project } = Astro.props as Props;
 const base = import.meta.env.BASE_URL;
 const href = (path: string) => `${base.replace(/\/+$/, "")}${path}`;
 const selectedBuildout = project.buildouts[0];
@@ -56,7 +54,7 @@ const selectedHref = getForemanBuildoutHref(project.id, selectedBuildout.id, bas
   inspectorLabel="Selected buildout and project context"
 >
   <div slot="rail" class="fm-app__rail-projects" aria-label="Project switcher">
-    {projects.map((entry: ForemanProject) => (
+    {(foremanProjects as readonly ForemanProject[]).map((entry: ForemanProject) => (
       <a href={href(`/v2/applications/foreman/projects/${entry.id}/`)} aria-current={entry.id === project.id ? "page" : undefined}>
         <strong>{entry.shortLabel}</strong>
         <small>{entry.state} · {entry.activeCount} active</small>
@@ -105,7 +103,7 @@ const selectedHref = getForemanBuildoutHref(project.id, selectedBuildout.id, bas
               <span class="fm-app__state-label" data-state={buildout.state}>{buildout.stateLabel}</span>
             </header>
             <p>{buildout.attention}</p>
-            <small>{buildout.evidence}</small>
+            <small>{buildout.evidence ?? buildout.progress.label}</small>
             <a class="fm-app__button" href={getForemanBuildoutHref(project.id, buildout.id, base)}>Inspect buildout</a>
           </article>
         ))}
@@ -150,7 +148,7 @@ const selectedHref = getForemanBuildoutHref(project.id, selectedBuildout.id, bas
                 <div class="fm-app__progress-track" aria-label={buildout.progress.label}><span style={`--fm-progress: ${(buildout.progress.completed / buildout.progress.total) * 100}%`}></span></div>
                 <small>{buildout.progress.label}</small>
               </div>
-              <small>{buildout.evidence}</small>
+              <small>{buildout.evidence ?? buildout.progress.label}</small>
             </a>
           )) : (
             <div class="fm-app__empty-inspector"><span aria-hidden="true">○</span><strong>No buildouts</strong><p>This lane has no matching specimen.</p></div>
@@ -191,7 +189,7 @@ const selectedHref = getForemanBuildoutHref(project.id, selectedBuildout.id, bas
         <dt>Current step</dt><dd>{selectedBuildout.currentStep}</dd>
         <dt>Attention</dt><dd>{selectedBuildout.attention ?? "No human intervention represented"}</dd>
         <dt>Providers</dt><dd>{selectedBuildout.providers.join(" · ")}</dd>
-        <dt>Evidence</dt><dd>{selectedBuildout.evidence}</dd>
+        <dt>Evidence</dt><dd>{selectedBuildout.evidence ?? selectedBuildout.progress.label}</dd>
       </dl>
       <a class="fm-app__button" data-variant="primary" href={selectedHref}>Open workbench</a>
     </section>
