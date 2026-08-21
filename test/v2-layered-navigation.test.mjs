@@ -154,6 +154,7 @@ test("manual v2 catalogue pages opt into the shared atlas material", async () =>
     assert.match(page, /data-gw-v2-material="delicate"/);
   }
   assert.match(home, /CatalogueShell/);
+  assert.match(home, /bodyClass="gw-v2-atlas-body"/);
   assert.match(material, /\.gw-v2-button--primary/);
   assert.match(material, /\.gw-v2-visual-layout-map__group/);
   assert.match(material, /backdrop-filter:\s*blur/);
