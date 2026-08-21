@@ -1,10 +1,11 @@
 /*
  * Greenways v2 delicate material calibration.
  *
- * This late site-only cascade carries the compact, rounded and finely patterned
- * quality of the originating interface atlas through every CatalogueShell route.
- * Structural surfaces remain neutral. Peacock colour is reserved for the mark,
- * hairline identity threads, current selection and small application signals.
+ * This late site-only cascade carries a compact, rounded and glass-layered
+ * quality through every CatalogueShell route. Functional chrome may float above
+ * the specimen, while structural surfaces remain neutral. Peacock colour is
+ * reserved for the mark, hairline identity threads, current selection and
+ * small application signals.
  */
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] {
@@ -100,14 +101,11 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-layered-navigation {
   inset-block-start: 0.45rem;
   margin-inline: 0.45rem;
   color: var(--gw-v2-text);
-  background:
-    var(--gw-v2-material-paper),
-    color-mix(in srgb, var(--gw-v2-surface-overlay) 96%, transparent);
-  background-size: 1.25rem 1.25rem, auto;
-  border: 1px solid var(--gw-v2-seam);
+  background: color-mix(in srgb, var(--gw-v2-surface-overlay) 82%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gw-v2-seam-strong) 72%, transparent);
   border-radius: var(--gw-v2-material-menu-radius);
-  box-shadow: 0 0.25rem 1.25rem color-mix(in srgb, var(--gw-v2-seam) 24%, transparent);
-  backdrop-filter: blur(20px) saturate(108%);
+  box-shadow: 0 0.35rem 1.5rem color-mix(in srgb, var(--gw-v2-text) 10%, transparent);
+  backdrop-filter: blur(28px) saturate(125%);
 }
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-layered-navigation::before {
@@ -162,11 +160,12 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-quick-nav 
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.15rem;
+  gap: 0.2rem;
   padding: 0.2rem;
-  background: color-mix(in srgb, var(--gw-v2-surface-recessed) 64%, transparent);
-  border: 1px solid var(--gw-v2-seam-subtle);
-  border-radius: calc(var(--gw-v2-material-control-radius) + 0.1rem);
+  background: color-mix(in srgb, var(--gw-v2-surface-recessed) 58%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gw-v2-seam) 80%, transparent);
+  border-radius: var(--gw-v2-radius-pill);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, white 10%, transparent);
 }
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-quick-nav a {
@@ -191,7 +190,7 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-quick-nav 
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-quick-nav a[data-active="true"] {
   color: var(--gw-v2-text);
-  background: var(--gw-v2-surface-raised);
+  background: color-mix(in srgb, var(--gw-v2-surface-raised) 86%, transparent);
   box-shadow: inset 0 0 0 1px var(--gw-v2-seam);
 }
 
@@ -208,9 +207,9 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-nav > summ
   min-block-size: 2rem;
   gap: var(--gw-v2-space-2xs);
   padding: 0.28rem 0.5rem 0.28rem 0.62rem;
-  background: var(--gw-v2-surface-raised);
-  border: 1px solid var(--gw-v2-seam);
-  border-radius: var(--gw-v2-material-control-radius);
+  background: color-mix(in srgb, var(--gw-v2-surface-raised) 76%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gw-v2-seam-strong) 74%, transparent);
+  border-radius: var(--gw-v2-radius-pill);
   box-shadow: none;
 }
 
@@ -229,7 +228,20 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] [data-theme-button] {
   block-size: 2rem;
   min-inline-size: 2rem;
   min-block-size: 2rem;
-  border-radius: var(--gw-v2-material-control-radius);
+  border-radius: var(--gw-v2-radius-pill);
+  background: color-mix(in srgb, var(--gw-v2-surface-raised) 72%, transparent);
+  border-color: color-mix(in srgb, var(--gw-v2-seam-strong) 72%, transparent);
+}
+
+/* Keep the disclosure out of the layout until it is opened. The index is a
+ * floating navigation layer, not a second header row. */
+
+body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-nav:not([open]) > .gw-v2-catalogue-nav__body {
+  display: none;
+}
+
+body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-nav[open] > .gw-v2-catalogue-nav__body {
+  display: grid;
 }
 
 /* Atlas index: one delicate pane rather than a second page */
@@ -249,13 +261,11 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] :is(
   max-block-size: calc(100vh - 1.3rem);
   gap: var(--gw-v2-space-sm);
   padding: var(--gw-v2-space-md);
-  background:
-    var(--gw-v2-material-paper),
-    var(--gw-v2-surface-raised);
-  background-size: 1.4rem 1.4rem, auto;
-  border: 1px solid var(--gw-v2-seam-strong);
-  border-radius: var(--gw-v2-material-menu-radius);
-  box-shadow: 0 1rem 4rem color-mix(in srgb, var(--gw-v2-text) 12%, transparent);
+  background: color-mix(in srgb, var(--gw-v2-surface-raised) 86%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gw-v2-seam-strong) 82%, transparent);
+  border-radius: 1.2rem;
+  box-shadow: 0 1rem 4rem color-mix(in srgb, var(--gw-v2-text) 16%, transparent);
+  backdrop-filter: blur(32px) saturate(125%);
 }
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-nav__masthead {
@@ -867,6 +877,10 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] :where(a, button, input, se
   body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-nav {
     grid-column: 3;
     grid-row: 1;
+  }
+
+  body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-nav > summary {
+    display: flex;
   }
 
   body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-atlas-hero {
