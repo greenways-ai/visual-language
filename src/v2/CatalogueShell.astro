@@ -5,6 +5,7 @@ import CataloguePageFooter from "./CataloguePageFooter.astro";
 import { catalogueHref } from "./catalogue-manifest.js";
 import greenwaysFabricResponsiveCss from "./greenways-platform-homepage-responsive.css?raw";
 import greenwaysFabricEditorialCss from "./greenways-platform-homepage-editorial.css?raw";
+import greenwaysV2DelicateMaterialCss from "./catalogue-material.css?raw";
 import "./document.css";
 import "./catalogue.css";
 import "./catalogue-atlas.css";
@@ -64,10 +65,16 @@ const isGreenwaysFabricHomepage =
         ></style>
       </>
     )}
+    <style
+      is:inline
+      data-greenways-v2-delicate-material
+      set:html={greenwaysV2DelicateMaterialCss}
+    ></style>
   </head>
   <body
     class:list={["gw-v2", "gw-v2-document", "gw-v2-catalogue", "gw-v2-atlas-frame", bodyClass]}
     data-gw-v2-current-path={currentPath}
+    data-gw-v2-material="delicate"
   >
     <CatalogueNavigation
       currentPath={currentPath}
