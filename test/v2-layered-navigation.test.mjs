@@ -140,6 +140,25 @@ test("custom catalogue pages use the same layered navigation contract", async ()
   }
 });
 
+test("manual v2 catalogue pages opt into the shared atlas material", async () => {
+  const [foundations, library, home, material] = await Promise.all([
+    read("src/pages/v2/foundations/index.astro"),
+    read("src/pages/v2/library/index.astro"),
+    read("src/site/components/GreenwaysV2CatalogueHome.astro"),
+    read("src/v2/catalogue-material.css"),
+  ]);
+
+  for (const page of [foundations, library]) {
+    assert.match(page, /catalogue-material\.css\?raw/);
+    assert.match(page, /data-gw-v2-atlas-frame/);
+    assert.match(page, /data-gw-v2-material="delicate"/);
+  }
+  assert.match(home, /CatalogueShell/);
+  assert.match(material, /\.gw-v2-button--primary/);
+  assert.match(material, /\.gw-v2-visual-layout-map__group/);
+  assert.match(material, /backdrop-filter:\s*blur/);
+});
+
 test("navigation styling is neutral, keyboard-visible and compact at 320px", async () => {
   const css = await read("src/v2/catalogue-navigation.css");
   assert.match(css, /overflow-x:\s*auto/);
