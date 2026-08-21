@@ -1,4 +1,4 @@
-# Greenways platform homepage laboratory
+# Greenways Fabric homepage laboratory
 
 Issue: [#54](https://github.com/greenways-ai/visual-language/issues/54)
 
@@ -6,62 +6,100 @@ Route: `/v2/applications/greenways-platform/homepage/`
 
 ## Purpose
 
-This route is the proposed public doorway for `www.greenways.ai`. It replaces an infrastructure-first or generic software-feature story with one clear idea:
+This route is the proposed public doorway for `www.greenways.ai`. It supersedes the earlier publishing-led homepage study while preserving its neutral editorial grammar and stable route.
 
-> Greenways is a publishing system in which one work may become a world, a book, a document, and a public site.
+The public proposition is now:
 
-The route is an executable visual-language specimen. It does not change the production homepage and none of its controls sign in, create, coordinate, or publish.
+> Greenways Fabric keeps your storage, identity, agents, applications, and history connected under your control.
 
-## Product order
+The Fabric is presented as the personal operating system. Spaces, Build, Studio, Socials, publishing, collaboration, public works, and delivery are capabilities and applications on top of it—not the product foundation itself.
 
-The public page uses this disclosure order:
+The route is an executable visual-language specimen. It does not change the production homepage, install Greenways OS, mount storage, create keys, enrol identities, invoke agents, launch applications, connect Platform, or publish work.
 
-1. **The work** — what a person is making and where it can live on the web.
-2. **The publishing sequence** — gather, shape, and release.
-3. **The public forms** — world, book, document, and site as related editions.
-4. **Greenways OS** — the calm desk where those editions are composed and reviewed.
-5. **Foreman** — optional coordination for people, agents, approvals, and evidence.
-6. **Open foundations** — discoverable after the product story rather than occupying the first viewport.
+## Public disclosure order
 
-This order is intentional. Hara, Hestia, Tahto, Hoplite, Historia, Hodos, Ignatius, providers, sandboxes, protocols, and storage layers are not public-homepage navigation.
+The homepage uses this order:
+
+1. **Greenways Fabric** — the personal OS and durable layer beneath every window.
+2. **Storage you host** — computer, home server, or chosen infrastructure using open source, open standards, and portable formats.
+3. **Identity you carry** — one person linked through keys to distinct devices, applications, collaborators, agents, and optional hosted accounts.
+4. **Agents you direct** — named participants with a purpose, bounded context, expiry, revocation, and attributable return.
+5. **Same Fabric, different windows** — Desktop, browser, CLI, and home server reach the same personal Fabric.
+6. **Applications on top** — Spaces, Build, Studio, and Socials as focused views and tools.
+7. **Private Fabric and optional Platform** — only explicitly selected references, releases, invitations, or profile fields cross into hosted services.
+8. **Open by construction** — open source and standards expressed as ownership, portability, replaceability, and durability.
+
+This order is intentional. It prevents the public site from becoming a publishing landing page, application catalogue, cloud-account pitch, infrastructure diagram, or open-source project index.
+
+## Editorial laws
+
+- Say what the Fabric enables before explaining how it is built.
+- Name Greenways Fabric in the first viewport.
+- Describe self-hosting as a choice over location, operation, movement, backup, and recovery.
+- Do not imply that self-hosting alone guarantees backup, uptime, security, or recovery.
+- Explain keys through durable identity and verifiable relationships rather than cryptographic mechanics.
+- Keep person, device, application, collaborator, agent, and hosted account distinct.
+- Give agents names, roles, boundaries, expiry, revocation, and attributable results.
+- Present applications after the Fabric is understood.
+- Use the line: “The application is a view. The Fabric is the OS.”
+- Keep Greenways Platform optional and separately authenticated.
+- Never imply automatic upload, sync, publication, or transfer of private Fabric state.
+
+## Application relationship
+
+The current foreground applications are exactly:
+
+```text
+Spaces   understand
+Build    coordinate
+Studio   create
+Socials  connect
+```
+
+They share Fabric identity, storage choices, agents, references, and history. They remain application-owned views and domains rather than separate silos or identity roots.
+
+No fifth Publish, Research, Home, Packages, Keyring, or Receipts application is introduced by the homepage.
 
 ## Visual contract
 
-- Structural canvas, header, panels, desktop specimen, and footer use the shared neutral v2 roles.
+- Structural canvas, header, panels, diagrams, and footer use shared neutral v2 roles.
 - The Greenways mosaic mark is the strongest multicolour moment.
-- Emerald, aqua, sapphire, and violet identify small edition, sequence, and focus signals.
-- Sapphire remains the primary interaction signal.
-- Success, warning, and danger are semantic states and are not replaced by brand colour.
-- The page uses editorial plates, numbering, rules, and terse instructional copy instead of a generic SaaS card wall.
-- Light and dark themes preserve the same hierarchy.
+- Emerald, aqua, sapphire, and violet appear as restrained threads, node identifiers, and application signals.
+- Brand colours never become broad structural backgrounds.
+- Semantic success, warning, danger, stale, disconnected, and approval states remain separate from brand/application identity.
+- The Fabric is shown as a calm neutral core linked to storage, identity, agents, and applications—not a glowing cloud.
+- The page uses numbered plates, rules, grids, labels, and terse instructional copy in the discipline of a 1970s technical manual.
+- Light and dark themes preserve equivalent hierarchy.
 
-The route-specific stylesheet contains no literal colour palette. It consumes `--gw-v2-*` tokens from the shared package contract.
+The route-specific stylesheets contain no literal colour palette. They consume shared `--gw-v2-*` tokens.
 
 ## Truthfulness boundary
 
-All specimen links are in-page anchors. The route explicitly states that it performs no account, publication, agent, or provider action. The Greenways OS window is a visual composition only, and its status line says that no publication action is connected.
+All visible calls to action are in-page anchors. The specimen explicitly states that no storage, identity, agent, application, account, or hosted-service action is performed.
 
-A later production adoption must replace specimen destinations only when the corresponding product routes and actions actually exist.
+The storage section states that self-hosting is control rather than a guarantee. The Platform section states that only an explicitly selected boundary crossing moves into hosted services. The application section makes no claim that the applications are installed or available.
+
+A later production adoption must replace anchors only when the corresponding route, state, and operation exist and can be read back authoritatively.
 
 ## Production adoption checklist
 
-- Keep the first viewport centred on making and publishing one work.
-- Preserve the relationship between world, book, document, and site.
-- Keep the production header small; do not restore a project catalogue as primary navigation.
+- Keep the first viewport centred on Greenways Fabric as the personal OS.
+- Preserve the “storage you host · identity you carry · agents you direct · applications you choose” hierarchy.
+- Use self-hosted, open-source, open-standard, and portable language as user freedoms rather than project badges.
+- Keep applications below the Fabric explanation.
+- Keep Greenways Platform optional and visibly separate from private Fabric authority.
 - Connect calls to action only to truthful, available destinations.
-- Show signed-in or publication state only after authoritative state is available.
-- Keep Greenways OS and Foreman subordinate to the public publication journey.
-- Keep infrastructure names in technical documentation or diagnostics.
-- Keep open-source foundations available through About or the footer.
+- Show installed, connected, backed-up, recovered, synced, public, or verified state only after authoritative evidence exists.
+- Keep internal technology and provider names in developer documentation or diagnostic disclosure.
 - Review light and dark rendering at desktop, 820px, 390px, and 320px.
-- Verify keyboard focus, reduced motion, contrast, and no document-level horizontal overflow.
+- Verify keyboard focus, reduced motion, contrast, accessible diagram alternatives, and no document-level horizontal overflow.
 
 ## Source ownership
 
-- `src/v2/greenways-platform-homepage.js` owns the closed editorial and section contract.
+- `src/v2/greenways-platform-homepage.js` owns the closed Fabric-first editorial and section contract plus compatibility exports for the earlier laboratory name.
 - `src/pages/v2/applications/greenways-platform/homepage.astro` owns the executable catalogue composition.
-- `src/v2/greenways-platform-homepage*.css` owns route-specific core, publication, workspace, and responsive presentation using shared tokens.
-- `src/v2/catalogue-manifest.js` owns route discovery and application-family placement.
+- `src/v2/greenways-platform-homepage*.css` owns route-specific core, ownership, identity, application, and responsive presentation using shared tokens. The historical filenames remain stable to keep the change additive.
+- `src/v2/catalogue-manifest.js` owns route discovery and Fabric-first application-family copy.
 - `test/greenways-platform-homepage.test.mjs` owns focused contract enforcement.
 
-Production navigation, authentication, persistence, rendering, publication, coordination, and deployment remain outside `@greenways-ai/visual-language`.
+Production installation, storage, identity, authority, agents, application runtime, hosted connections, and deployment remain outside `@greenways-ai/visual-language`.
