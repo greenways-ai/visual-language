@@ -65,6 +65,12 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] {
   background-attachment: fixed;
 }
 
+body.gw-suite-catalogue-body.gw-v2-catalogue[data-gw-v2-material="delicate"] {
+  --gw-v2-material-control-radius: 0.72rem;
+  --gw-v2-material-card-radius: 1rem;
+  --gw-v2-material-frame-radius: 1.35rem;
+}
+
 /* Soft atmospheric light gives the transparent surfaces something to catch. */
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"]::before,

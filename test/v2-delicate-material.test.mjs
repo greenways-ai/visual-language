@@ -49,6 +49,8 @@ test("the material scale is smaller, rounded and deliberately fine", async () =>
   assert.match(css, /--gw-v2-material-card-radius:\s*0\.75rem/);
   assert.match(css, /--gw-v2-material-frame-radius:\s*0\.875rem/);
   assert.match(css, /--gw-v2-material-menu-radius:\s*0\.875rem/);
+  assert.match(css, /body\.gw-suite-catalogue-body\.gw-v2-catalogue\[data-gw-v2-material="delicate"\]/);
+  assert.match(css, /--gw-v2-material-card-radius:\s*1rem/);
   assert.match(css, /border:\s*1px solid var\(--gw-v2-seam\)/);
   assert.match(css, /box-shadow:\s*none/);
   assert.match(css, /font-size:\s*0\.64rem/);

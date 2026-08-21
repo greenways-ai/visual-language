@@ -1,7 +1,9 @@
 /* Browser full workspace */
 
 .gw-suite-browser-frame {
-  overflow: hidden;
+  overflow: clip;
+  border-radius: var(--gw-v2-material-frame-radius);
+  box-shadow: var(--gw-v2-elevation-2), 0 0 0 1px color-mix(in srgb, var(--gw-v2-seam-strong) 34%, transparent);
 }
 
 .gw-suite-browser-tabs {
@@ -12,6 +14,7 @@
   min-block-size: 2.4rem;
   padding-inline: var(--gw-v2-space-sm);
   border-bottom: 1px solid var(--gw-v2-seam);
+  border-radius: var(--gw-v2-material-frame-radius) var(--gw-v2-material-frame-radius) 0 0;
   background: var(--gw-v2-canvas-strong);
   color: var(--gw-v2-text-muted);
   font-size: var(--gw-v2-type-xs);
@@ -94,19 +97,24 @@
   align-items: center;
   gap: var(--gw-v2-space-2xs);
   overflow-x: auto;
+  padding: 0.2rem;
+  border: 1px solid var(--gw-v2-seam-subtle);
+  border-radius: var(--gw-v2-radius-pill);
+  background: color-mix(in srgb, var(--gw-v2-surface-recessed) 72%, transparent);
 }
 
 .gw-suite-browser-context nav span {
   flex: 0 0 auto;
-  padding: var(--gw-v2-space-2xs);
+  padding: 0.36rem 0.55rem;
   color: var(--gw-v2-text-subtle);
+  border-radius: var(--gw-v2-material-control-radius);
   font-size: var(--gw-v2-type-xs);
 }
 
 .gw-suite-browser-context nav span.is-active {
   color: var(--gw-suite-flow);
   background: color-mix(in srgb, var(--gw-suite-flow) 8%, var(--gw-v2-surface));
-  box-shadow: inset 0 -2px var(--gw-suite-flow);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gw-suite-flow) 38%, transparent);
 }
 
 .gw-suite-browser-context > div:last-child {
@@ -137,7 +145,10 @@
   gap: var(--gw-v2-space-xs);
   padding: var(--gw-v2-space-lg);
   border: 1px solid var(--gw-v2-seam);
+  border-radius: var(--gw-v2-material-card-radius);
   background: var(--gw-v2-surface);
+  box-shadow: 0 0.45rem 1.2rem color-mix(in srgb, var(--gw-v2-text) 5%, transparent);
+  overflow: clip;
 }
 
 .gw-suite-browser-brief > p {
@@ -161,6 +172,7 @@
 .gw-suite-browser-brief > div span {
   padding: var(--gw-v2-space-3xs) var(--gw-v2-space-2xs);
   border: 1px solid var(--gw-v2-seam);
+  border-radius: var(--gw-v2-material-control-radius);
   color: var(--gw-v2-text-subtle);
   font-family: var(--gw-v2-font-code);
   font-size: 0.64rem;
@@ -175,7 +187,10 @@
 .gw-suite-browser-lanes article,
 .gw-suite-browser-activity {
   border: 1px solid var(--gw-v2-seam);
+  border-radius: var(--gw-v2-material-card-radius);
   background: var(--gw-v2-surface);
+  box-shadow: 0 0.45rem 1.2rem color-mix(in srgb, var(--gw-v2-text) 5%, transparent);
+  overflow: clip;
 }
 
 .gw-suite-browser-lanes article > header,
@@ -284,6 +299,7 @@
 .gw-suite-browser-inspector section > span {
   padding: var(--gw-v2-space-xs);
   border: 1px solid currentColor;
+  border-radius: var(--gw-v2-material-control-radius);
   font-size: var(--gw-v2-type-xs);
   line-height: var(--gw-v2-leading-body);
 }

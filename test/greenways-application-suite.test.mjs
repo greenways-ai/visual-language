@@ -201,6 +201,8 @@ test("the screen stylesheet uses shared semantic roles and collapses deliberatel
   assert.match(css, /var\(--gw-v2-signal\)/);
   assert.match(css, /--gw-suite-spaces:/);
   assert.match(css, /--gw-suite-flow:/);
+  assert.match(css, /\.gw-suite-browser-frame[\s\S]*border-radius:\s*var\(--gw-v2-material-frame-radius\)/);
+  assert.match(css, /\.gw-suite-browser-context nav[\s\S]*border-radius:\s*var\(--gw-v2-radius-pill\)/);
   assert.match(css, /@media \(max-width: 78rem\)/);
   assert.match(css, /@media \(max-width: 61\.25rem\)/);
   assert.match(css, /@media \(max-width: 42\.5rem\)/);
