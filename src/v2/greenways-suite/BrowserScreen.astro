@@ -1,0 +1,27 @@
+---
+import { catalogueHref } from "../catalogue-manifest.js";
+const href = (path: string) => catalogueHref(path, import.meta.env.BASE_URL);
+---
+
+<section id="browser-workspace" class="gw-suite-screen-plate" data-catalogue-section data-section-label="Browser workspace">
+  <header class="gw-suite-plate-heading"><div><p>Full-page browser workspace · Flow selected</p><h2>The same project identity, adapted to browser authority.</h2></div><span>Requested capability and observed capability are shown separately.</span></header>
+  <div class="gw-suite-browser-frame">
+    <header class="gw-suite-browser-tabs"><span>● ● ●</span><strong>Greenways Flow · Release 24</strong><i>+</i></header>
+    <div class="gw-suite-browser-address"><span>‹</span><span>›</span><div>extension://greenways/flow/project/release-24</div><b>Connected client</b></div>
+    <div class="gw-suite-browser-shell">
+      <aside class="gw-suite-browser-apps"><a href={href("/v2/applications/greenways-suite/desktop/")}><span>SP</span><small>Spaces</small></a><a class="is-active" href="#browser-workspace"><span>FL</span><small>Flow</small></a><hr /><button type="button" disabled><span>⌘</span><small>System</small></button></aside>
+      <section>
+        <header class="gw-suite-browser-context"><div><small>Current project</small><strong>Release 24</strong><span>flow/project/release-24</span></div><nav><span class="is-active">Control Room</span><span>Agents</span><span>Work</span><span>Hosts</span><span>Handoffs</span><span>Activity</span></nav><div><span data-state="observed">Browser observed</span><span data-state="requested">Native host requested</span></div></header>
+        <div class="gw-suite-browser-grid">
+          <main>
+            <section class="gw-suite-browser-brief"><p>Project outcome</p><h3>Release portable publishing package with cited evidence.</h3><div><span>Head · project/release-24@42</span><span>4 agents</span><span>3 hosts</span><span>9 work items</span></div></section>
+            <section class="gw-suite-browser-lanes"><article><header><strong>Agents and sessions</strong><span>Identity ≠ presence</span></header><div><span class="gw-suite-avatar">AT</span><p><strong>Atlas</strong><small>Campaign evidence · active session · web-03</small></p><b data-state="active">Active</b></div><div><span class="gw-suite-avatar">MR</span><p><strong>Mira</strong><small>Release review · no live session</small></p><b data-state="idle">Idle</b></div><div><span class="gw-suite-avatar">FR</span><p><strong>Frame</strong><small>Preview render · host stale 31m</small></p><b data-state="stale">Stale</b></div></article><article><header><strong>Work and claims</strong><span>Optional milestone shown second</span></header><div><p><strong>Verify campaign evidence</strong><small>Claim Atlas · accepted · progress observed</small></p><b data-state="active">Active</b></div><div><p><strong>Prepare public manifest</strong><small>No buildout required · blocked by source</small></p><b data-state="blocked">Blocked</b></div><div><p><strong>Render release preview</strong><small>Milestone RC04 · result reported</small></p><b data-state="reported">Reported</b></div></article></section>
+            <section class="gw-suite-browser-activity"><header><strong>Recent attributable activity</strong><span>Projection · newest first</span></header><ol><li><time>10:42</time><b>Observed</b><span>Atlas progress on claim-evidence · web-03</span></li><li><time>10:39</time><b>Reported</b><span>Frame returned release-preview-04 · not selected</span></li><li><time>10:31</time><b>Requested</b><span>GitHub update effect · awaiting canonical read-back</span></li><li><time>10:28</time><b>Imported</b><span>Spaces brief 04 and eight anchors</span></li></ol></section>
+          </main>
+          <aside class="gw-suite-browser-inspector"><header><p>Selected work</p><strong>Verify campaign evidence</strong><small>flow/work/claim-evidence</small></header><section><p>Claim</p><dl><div><dt>Assigned</dt><dd>Atlas</dd></div><div><dt>Session</dt><dd>web-03</dd></div><div><dt>Host</dt><dd>browser · observed</dd></div><div><dt>Lease</dt><dd>none</dd></div></dl></section><section><p>Capability</p><dl><div><dt>Requested</dt><dd>source/read exact anchors</dd></div><div><dt>Observed</dt><dd>browser context only</dd></div><div><dt>Excluded</dt><dd>other Space records · credentials · publish</dd></div></dl></section><section><p>External truth</p><span data-state="uncertain">Provider request accepted · read-back pending</span></section><details><summary>Engine diagnostics</summary><p>Foreman correlation, host advertisement, claim generation, and evidence cursors remain available here—not in primary project navigation.</p></details></aside>
+        </div>
+        <footer class="gw-suite-browser-status"><span>Project · Release 24</span><span>Browser client · observe + bounded act</span><span>External delivery · uncertain</span></footer>
+      </section>
+    </div>
+  </div>
+</section>

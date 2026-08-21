@@ -1,0 +1,32 @@
+---
+import CatalogueShell from "../../../../v2/CatalogueShell.astro";
+import GreenwaysApplicationSuite from "../../../../v2/GreenwaysApplicationSuite.astro";
+import {
+  getGreenwaysSuiteScreen,
+  greenwaysSuiteScreens,
+} from "../../../../v2/greenways-application-suite.js";
+
+export function getStaticPaths() {
+  return greenwaysSuiteScreens
+    .filter((screen) => screen.id !== "overview")
+    .map((screen) => ({ params: { screen: screen.id }, props: { screenId: screen.id } }));
+}
+
+interface Props {
+  screenId: string;
+}
+
+const { screenId } = Astro.props;
+const screen = getGreenwaysSuiteScreen(screenId);
+if (!screen) throw new Error(`Missing Greenways suite screen: ${screenId}`);
+---
+
+<CatalogueShell
+  title={screen.label}
+  description={screen.summary}
+  currentPath={screen.path}
+  bodyClass="gw-suite-catalogue-body"
+  mainClass="gw-suite-catalogue-main"
+>
+  <GreenwaysApplicationSuite screenId={screen.id} />
+</CatalogueShell>

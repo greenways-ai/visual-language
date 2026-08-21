@@ -1,0 +1,84 @@
+---
+import { catalogueHref } from "../catalogue-manifest.js";
+const href = (path: string) => catalogueHref(path, import.meta.env.BASE_URL);
+---
+
+<section id="desktop-spaces" class="gw-suite-screen-plate" data-catalogue-section data-section-label="Spaces desktop">
+  <header class="gw-suite-plate-heading">
+    <div><p>Native desktop · Spaces selected</p><h2>One Space, six views, one selected identity.</h2></div>
+    <span>No persistence or capture command is connected.</span>
+  </header>
+  <div class="gw-suite-window" data-host="native" data-selected-application="spaces">
+    <header class="gw-suite-titlebar">
+      <div class="gw-suite-window-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+      <strong>Greenways</strong><span>Spaces / Open distribution</span>
+      <div><span data-state="observed">Local · observed</span><span>10:42</span></div>
+    </header>
+    <div class="gw-suite-window-body">
+      <aside class="gw-suite-app-rail" aria-label="Current applications and system surfaces">
+        <a class="is-active" href="#desktop-spaces"><span>SP</span><small>Spaces</small></a>
+        <a href="#desktop-flow"><span>FL</span><small>Flow</small></a>
+        <hr />
+        <button type="button" disabled><span>⌘</span><small>System</small></button>
+      </aside>
+      <section class="gw-suite-workbench">
+        <header class="gw-suite-commandbar">
+          <button type="button" disabled><span>Space</span><strong>Open distribution</strong><small>space/open-distribution</small></button>
+          <div><span>Search this Space or run a named command</span><kbd>⌘K</kbd></div>
+          <button type="button" disabled aria-label="Static inspector toggle">Inspector</button>
+        </header>
+        <nav class="gw-suite-bufferbar" aria-label="Open Spaces buffers">
+          <span class="is-active">Map · Sources and claims</span><span>Brief 04</span><span>Question · rights</span><i></i><small>Private</small>
+        </nav>
+        <div class="gw-suite-spaces-layout">
+          <aside class="gw-suite-local-nav">
+            <header><small>Space</small><strong>Open distribution</strong></header>
+            <nav><a href="#desktop-spaces">Overview</a><a href="#desktop-spaces">Sources <b>14</b></a><a class="is-active" href="#desktop-spaces">Map</a><a href="#desktop-spaces">Questions <b>6</b></a><a href="#desktop-spaces">Evidence <b>1</b></a><a href="#desktop-spaces">Briefs <b>2</b></a></nav>
+            <section><p>Saved views</p><span>Canvas</span><span>Outline</span><span>Timeline</span><span>Table</span><span>Evidence</span><span>Document</span></section>
+          </aside>
+          <main class="gw-suite-map-canvas" aria-label="Static Space map specimen">
+            <header><div><small>Selected view</small><strong>Sources and claims</strong></div><nav><span class="is-active">Canvas</span><span>Outline</span><span>Evidence</span></nav></header>
+            <div class="gw-suite-map-stage">
+              <svg viewBox="0 0 800 430" preserveAspectRatio="none" aria-hidden="true">
+                <path class="is-visual" d="M120 110 C250 40 315 85 390 165" />
+                <path class="is-candidate" d="M390 165 C510 245 610 185 690 110" />
+                <path class="is-evidence" d="M390 165 C360 285 250 315 170 340" />
+                <path class="is-flow-reference" d="M390 165 C530 340 650 335 715 300" />
+              </svg>
+              <article class="gw-suite-map-node is-source" style="--x: 8%; --y: 12%"><small>Source anchor</small><strong>Hara catalogue</strong><span>page 1 · lines 22–39</span></article>
+              <article class="gw-suite-map-node is-question" style="--x: 38%; --y: 32%"><small>Question</small><strong>How do rights survive distribution?</strong><span>question/portable-rights</span></article>
+              <article class="gw-suite-map-node is-topic" style="--x: 74%; --y: 11%"><small>Topic candidate</small><strong>Portable authority</strong><span>Candidate · not canonical</span></article>
+              <article class="gw-suite-map-node is-finding" style="--x: 13%; --y: 70%"><small>Finding</small><strong>Source identity remains attached</strong><span>Accepted assertion · 3 anchors</span></article>
+              <article class="gw-suite-map-node is-flow" style="--x: 74%; --y: 65%"><small>Flow reference</small><strong>Verify campaign evidence</strong><span>flow/work/claim-evidence</span></article>
+            </div>
+            <footer><span>Solid · reviewed assertion</span><span>Dashed · candidate</span><span>Dotted · visual association</span><span>Double · Flow reference</span></footer>
+          </main>
+          <aside class="gw-suite-inspector">
+            <header><span>Inspector</span><strong>source-claim-12</strong></header>
+            <section><p>Selected record</p><dl><div><dt>Owner</dt><dd>Spaces</dd></div><div><dt>Kind</dt><dd>Candidate relation</dd></div><div><dt>Source root</dt><dd>rev-18 · exact</dd></div><div><dt>Authority</dt><dd>None implied</dd></div></dl></section>
+            <section><p>Evidence balance</p><div class="gw-suite-evidence-meter"><span>Supporting 2</span><span>Conflicting 1</span><span>Missing 1</span></div></section>
+            <section><p>Review outcomes</p><ol><li>Keep as visual association</li><li>Accept or reject knowledge assertion</li><li>Propose canonical semantic relationship</li></ol><button type="button" disabled>Review specimen only</button></section>
+            <section class="gw-suite-handoff-card"><p>Prepared for Flow</p><strong>Question + brief 04</strong><small>Exact Space and eight anchors included. Membership, notes, publishing authority, and credentials excluded.</small><a href={href("/v2/applications/greenways-suite/handoff/")}>Inspect handoff →</a></section>
+          </aside>
+        </div>
+        <footer class="gw-suite-statusline"><span>Space root · current</span><span>Index · observed 4m</span><span>Selection · source-claim-12</span><span>No mutation connected</span></footer>
+      </section>
+    </div>
+  </div>
+</section>
+
+<section id="desktop-flow" class="gw-suite-screen-plate" data-catalogue-section data-section-label="Flow desktop">
+  <header class="gw-suite-plate-heading">
+    <div><p>Native desktop · Flow selected</p><h2>Project coordination without making infrastructure the product.</h2></div>
+    <span>Foreman appears only under technical disclosure.</span>
+  </header>
+  <div class="gw-suite-flow-control-room">
+    <aside><span class="gw-suite-app-mark">FL</span><strong>Release 24</strong><small>flow/project/release-24</small><nav><a class="is-active" href="#desktop-flow">Control Room</a><a href="#desktop-flow">Agents</a><a href="#desktop-flow">Work</a><a href="#desktop-flow">Hosts</a><a href="#desktop-flow">Handoffs</a><a href="#desktop-flow">Activity</a></nav></aside>
+    <main>
+      <header><div><small>Project outcome</small><h3>Release the portable publishing package with cited evidence.</h3></div><span data-state="attention">3 attention items</span></header>
+      <div class="gw-suite-flow-metrics"><article><span>Agents</span><strong>4</strong><small>2 active · 1 disconnected · 1 idle</small></article><article><span>Work</span><strong>9</strong><small>3 active · 2 blocked · 1 stale claim</small></article><article><span>Hosts</span><strong>3</strong><small>2 observed online · 1 attached only</small></article><article><span>Results</span><strong>2</strong><small>1 reported · 1 selected · 0 verified</small></article></div>
+      <section class="gw-suite-flow-board"><article><header><strong>Needs attention</strong><span>3</span></header><ul><li><b>Approval</b><span>Bounded source read for Atlas</span></li><li><b>Stale claim</b><span>Channel export · no progress 47m</span></li><li><b>Failed handoff</b><span>Preview renderer · target disconnected</span></li></ul></article><article><header><strong>Work and claims</strong><span>Project-owned</span></header><ul><li><b>Active</b><span>Verify campaign evidence · Atlas · web-03</span></li><li><b>Blocked</b><span>Prepare public manifest · waiting for evidence</span></li><li><b>Unclaimed</b><span>Review destination compatibility</span></li></ul></article><article><header><strong>Recent evidence</strong><span>Not completion</span></header><ul><li><b>Reported</b><span>Release preview 04 · not selected</span></li><li><b>Selected</b><span>Source bundle 8F2A · human selection</span></li><li><b>Awaiting read-back</b><span>GitHub update request · uncertain</span></li></ul></article></section>
+    </main>
+    <aside class="gw-suite-flow-inspector"><p>Spaces context</p><strong>Open distribution brief 04</strong><small>Eight cited anchors imported into one project work item.</small><dl><div><dt>Included</dt><dd>Brief · citations · question</dd></div><div><dt>Excluded</dt><dd>Membership · other notes · publish</dd></div><div><dt>Return target</dt><dd>Same Space · explicit selection</dd></div></dl><details><summary>Technical context</summary><p>Foreman coordinates claims and causal activity. Host, session, lease, Work run, artifact, and external read-back remain separate identities.</p></details></aside>
+  </div>
+</section>
