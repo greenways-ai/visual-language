@@ -12,7 +12,8 @@ import type {
 const projects = foremanProjects as readonly ForemanProject[];
 
 export function getStaticPaths() {
-  return projects.map((project: ForemanProject) => ({
+  const staticProjects = foremanProjects as readonly ForemanProject[];
+  return staticProjects.map((project: ForemanProject) => ({
     params: { project: project.id },
     props: { project },
   }));
