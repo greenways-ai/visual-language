@@ -1,0 +1,38 @@
+---
+import {
+  greenwaysSuiteHandoff,
+  greenwaysSuiteUnactivatedTargets,
+} from "../greenways-application-suite.js";
+---
+
+<section id="handoff-loop" class="gw-suite-screen-plate" data-catalogue-section data-section-label="Handoff">
+  <header class="gw-suite-plate-heading"><div><p>Current cross-application loop</p><h2>Space question → Flow work → selected result → same Space.</h2></div><span>Opening, dispatching, accepting, reporting, and selecting remain different states.</span></header>
+  <div class="gw-suite-handoff-summary">
+    <article class="is-spaces"><span class="gw-suite-app-mark">SP</span><div><small>Source application</small><strong>Open distribution</strong><code>{greenwaysSuiteHandoff.source.root}</code><p>{greenwaysSuiteHandoff.source.record} · {greenwaysSuiteHandoff.source.question}</p></div></article>
+    <i aria-hidden="true">→</i>
+    <article class="is-flow"><span class="gw-suite-app-mark">FL</span><div><small>Target application</small><strong>Release 24</strong><code>{greenwaysSuiteHandoff.target.project}</code><p>{greenwaysSuiteHandoff.target.work} · optional {greenwaysSuiteHandoff.target.optionalGrouping}</p></div></article>
+    <i aria-hidden="true">→</i>
+    <article class="is-return"><span class="gw-suite-app-mark">↩</span><div><small>Return reference</small><strong>Selected evidence bundle</strong><code>space/open-distribution/source/flow-result-8f2a</code><p>Reported artifact becomes a Space reference only after explicit selection.</p></div></article>
+  </div>
+
+  <div class="gw-suite-handoff-bounds">
+    <section><header><strong>Included context</strong><span>{greenwaysSuiteHandoff.included.length}</span></header><ul>{greenwaysSuiteHandoff.included.map((item) => <li>{item}</li>)}</ul></section>
+    <section><header><strong>Excluded authority</strong><span>{greenwaysSuiteHandoff.excluded.length}</span></header><ul>{greenwaysSuiteHandoff.excluded.map((item) => <li>{item}</li>)}</ul></section>
+  </div>
+
+  <ol class="gw-suite-handoff-lifecycle" aria-label="Handoff lifecycle">
+    {greenwaysSuiteHandoff.lifecycle.map(([state, description], index) => (
+      <li data-handoff-state={state}><span>{String(index + 1).padStart(2, "0")}</span><div><strong>{state.replaceAll("-", " ")}</strong><p>{description}</p></div><b>{index < greenwaysSuiteHandoff.lifecycle.length - 1 ? "Observed transition required" : "Attributable receipt"}</b></li>
+    ))}
+  </ol>
+
+  <section class="gw-suite-handoff-evidence"><header><div><p>Current specimen</p><h3>Approval required before the exact source anchors can be read in Flow.</h3></div><span data-state="approval">Human intervention</span></header><dl><div><dt>Handoff ID</dt><dd>{greenwaysSuiteHandoff.id}</dd></div><div><dt>Idempotency</dt><dd>space-brief-04/release-24/v1</dd></div><div><dt>Requested capability</dt><dd>Read the eight included anchors once</dd></div><div><dt>Excluded consequence</dt><dd>No Space membership, publishing, host, or credential authority</dd></div><div><dt>Return condition</dt><dd>One explicitly selected artifact or a truthful partial/failed state</dd></div></dl><button type="button" disabled>Decision specimen · no handoff connected</button></section>
+
+  <section class="gw-suite-alternative-states"><header><p>Non-happy paths</p><h3>Failures remain first-class and attributable.</h3></header><div>{greenwaysSuiteHandoff.alternatives.map((state) => <article data-state={state}><strong>{state}</strong><small>{state === "partial" ? "Some evidence returned; expected deliverable incomplete." : state === "rejected" ? "Target declined before creating project work." : state === "cancelled" ? "Origin cancelled; late results cannot auto-attach." : state === "incompatible" ? "Target revision cannot accept this handoff contract." : state === "stale" ? "Source or target head changed before acceptance." : "No result reference; retry requires explicit policy."}</small></article>)}</div></section>
+
+  <details class="gw-suite-future-gate" data-future-products-hidden>
+    <summary>Unactivated-target conformance</summary>
+    <p>Future targets are not launcher entries and cannot be selected by this handoff. Internal requests return an explicit unavailable result.</p>
+    <div>{greenwaysSuiteUnactivatedTargets.map((target) => <article><strong>{target.label}</strong><span>{target.state}</span><small>{target.reason}</small></article>)}</div>
+  </details>
+</section>

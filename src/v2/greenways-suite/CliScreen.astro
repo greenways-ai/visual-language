@@ -1,0 +1,33 @@
+---
+---
+
+<section id="cli-companion" class="gw-suite-screen-plate" data-catalogue-section data-section-label="CLI">
+  <header class="gw-suite-plate-heading"><div><p>Current CLI companion</p><h2>Commands preserve application and record identity.</h2></div><span>Compatibility aliases resolve explicitly or fail; future products are absent.</span></header>
+  <div class="gw-suite-cli-grid">
+    <section class="gw-suite-terminal"><header><span>greenways · current suite</span><span>zsh · local</span></header><pre><code><span class="prompt">$</span> greenways spaces list
+<span class="output">SPACES 3 · CURRENT ROOTS OBSERVED</span>
+<span class="row">space/open-distribution        review-ready   4m</span>
+<span class="row">space/visual-language          active         18m</span>
+<span class="row">space/package-council          offline-root   2h</span>
+
+<span class="prompt">$</span> greenways spaces open space/open-distribution \
+    --view evidence --select source-claim-12
+<span class="output">opened exact Space and selected candidate relation</span>
+<span class="meta">authority: local owner · no semantic mutation requested</span>
+
+<span class="prompt">$</span> greenways flow projects
+<span class="output">PROJECTS 2 · MEMBERSHIP RESOLVED</span>
+<span class="row">flow/project/release-24        attention 3    observed now</span>
+<span class="row">flow/project/package-runtime   active         observed 8m</span>
+
+<span class="prompt">$</span> greenways flow project flow/project/release-24
+<span class="output">Control Room · 4 agents · 9 work · 3 hosts</span>
+<span class="meta">selected project: flow/project/release-24</span>
+
+<span class="prompt">$</span> greenways flow work flow/project/release-24 \
+    --state blocked,stale --evidence
+<span class="output">2 blocked · 1 stale claim · evidence cursor 42</span>
+<span class="meta">requested state is not observed progress or completion</span></code></pre></section>
+    <aside class="gw-suite-cli-inspector"><section><p>Selected context</p><dl><div><dt>Application</dt><dd>Flow</dd></div><div><dt>Project</dt><dd>flow/project/release-24</dd></div><div><dt>Work</dt><dd>flow/work/claim-evidence</dd></div><div><dt>Source</dt><dd>space/open-distribution/brief-04</dd></div></dl></section><section><p>Authority</p><span data-state="observed">Project membership observed</span><span data-state="excluded">No host-wide, Space-wide, credential, publish, or provider authority</span></section><details open><summary>Compatibility evidence</summary><code>greenways research open …</code><p>Resolves to an exact Spaces target with a deprecation notice or fails explicitly.</p><code>greenways build project …</code><p>Resolves to the exact Flow project without creating duplicate identity.</p></details><details><summary>Unavailable application targets</summary><p>Future application commands are intentionally absent from ordinary help and completion. An internal conformance request returns <code>unactivated</code>.</p></details></aside>
+  </div>
+</section>

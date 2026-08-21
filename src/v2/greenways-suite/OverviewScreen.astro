@@ -1,0 +1,111 @@
+---
+import {
+  greenwaysSuiteAttention,
+  greenwaysSuiteRecentObjects,
+  greenwaysSuiteSearchResults,
+  greenwaysSuiteSystemSurfaces,
+  greenwaysSuiteUnactivatedTargets,
+} from "../greenways-application-suite.js";
+import { catalogueHref } from "../catalogue-manifest.js";
+
+const href = (path: string) => catalogueHref(path, import.meta.env.BASE_URL);
+const spacesRecents = greenwaysSuiteRecentObjects.filter((item) => item.application === "spaces");
+const flowRecents = greenwaysSuiteRecentObjects.filter((item) => item.application === "flow");
+const spacesAttention = greenwaysSuiteAttention.filter((item) => item.application === "spaces");
+const flowAttention = greenwaysSuiteAttention.filter((item) => item.application === "flow");
+---
+
+<section class="gw-suite-overview-grid" id="suite-current" data-catalogue-section data-section-label="Current suite">
+  <article class="gw-suite-application-card is-spaces">
+    <header>
+      <span class="gw-suite-app-mark">SP</span>
+      <div><p>Understand</p><h2>Spaces</h2></div>
+      <span class="gw-suite-state" data-state="ready">Current</span>
+    </header>
+    <p>Open one exact Space, source, question, map, finding, or brief without inventing a project wrapper.</p>
+    <div class="gw-suite-object-list">
+      {spacesRecents.map((item) => (
+        <a href={href("/v2/applications/greenways-suite/desktop/")}>
+          <span><small>{item.kind}</small><strong>{item.label}</strong><em>{item.id}</em></span>
+          <span><small>{item.freshness}</small><strong>{item.authority}</strong></span>
+        </a>
+      ))}
+    </div>
+  </article>
+
+  <article class="gw-suite-application-card is-flow">
+    <header>
+      <span class="gw-suite-app-mark">FL</span>
+      <div><p>Coordinate</p><h2>Flow</h2></div>
+      <span class="gw-suite-state" data-state="ready">Current</span>
+    </header>
+    <p>Open Projects or one selected Project Control Room while keeping work, claims, hosts, sessions, and results distinct.</p>
+    <div class="gw-suite-object-list">
+      {flowRecents.map((item) => (
+        <a href={href("/v2/applications/greenways-suite/browser/")}>
+          <span><small>{item.kind}</small><strong>{item.label}</strong><em>{item.id}</em></span>
+          <span><small>{item.freshness}</small><strong>{item.authority}</strong></span>
+        </a>
+      ))}
+    </div>
+  </article>
+</section>
+
+<section class="gw-suite-search" id="suite-search" data-catalogue-section data-section-label="Search and attention">
+  <header class="gw-suite-section-heading">
+    <div><p>Global typed search</p><h2>Owner and identity survive the projection.</h2></div>
+    <p>Results preserve application owner, record kind, stable identity, freshness, and authority state.</p>
+  </header>
+  <div class="gw-suite-search-field" aria-label="Static global search specimen">
+    <span aria-hidden="true">⌘K</span><strong>portable source evidence</strong><small>Static specimen</small>
+  </div>
+  <div class="gw-suite-search-table" role="table" aria-label="Typed search results">
+    <div role="row" class="gw-suite-table-head"><span>Owner</span><span>Kind and record</span><span>Freshness</span><span>Authority</span></div>
+    {greenwaysSuiteSearchResults.map((result) => (
+      <div role="row">
+        <span><b class:list={[`is-${result.owner.toLowerCase()}`]}></b>{result.owner}</span>
+        <span><strong>{result.label}</strong><small>{result.kind} · {result.id}</small></span>
+        <span>{result.freshness}</span>
+        <span>{result.authority}</span>
+      </div>
+    ))}
+  </div>
+
+  <div class="gw-suite-attention-grid">
+    <section>
+      <header><p>Spaces attention</p><span>{spacesAttention.length}</span></header>
+      {spacesAttention.map((item) => (
+        <article><strong>{item.label}</strong><small>{item.target}</small><p>{item.evidence}</p></article>
+      ))}
+    </section>
+    <section>
+      <header><p>Flow interventions</p><span>{flowAttention.length}</span></header>
+      {flowAttention.map((item) => (
+        <article><strong>{item.label}</strong><small>{item.target}</small><p>{item.evidence}</p></article>
+      ))}
+    </section>
+  </div>
+</section>
+
+<section class="gw-suite-boundaries" id="suite-boundaries" data-catalogue-section data-section-label="Boundaries">
+  <header class="gw-suite-section-heading">
+    <div><p>Suite and system</p><h2>Applications stay foreground. Fabric stays beneath.</h2></div>
+    <p>Settings, identity, storage, packages, activity, diagnostics, and recovery remain available without becoming more foreground applications.</p>
+  </header>
+  <div class="gw-suite-system-grid">
+    {greenwaysSuiteSystemSurfaces.map((surface, index) => (
+      <article><span>{String(index + 1).padStart(2, "0")}</span><strong>{surface}</strong><small>System surface</small></article>
+    ))}
+  </div>
+  <details class="gw-suite-future-gate" data-future-products-hidden>
+    <summary>Internal future-target conformance</summary>
+    <p>These records are intentionally absent from the current launcher, recents, search, onboarding, and ordinary command surfaces.</p>
+    <div>
+      {greenwaysSuiteUnactivatedTargets.map((target) => (
+        <article data-target-state={target.state}>
+          <strong>{target.label}</strong><span>{target.state}</span><small>{target.reason}</small>
+        </article>
+      ))}
+    </div>
+  </details>
+</section>

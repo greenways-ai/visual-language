@@ -1,0 +1,18 @@
+---
+import CatalogueShell from "../../../../v2/CatalogueShell.astro";
+import GreenwaysApplicationSuite from "../../../../v2/GreenwaysApplicationSuite.astro";
+import { getGreenwaysSuiteScreen } from "../../../../v2/greenways-application-suite.js";
+
+const screen = getGreenwaysSuiteScreen("overview");
+if (!screen) throw new Error("Missing Greenways suite overview screen");
+---
+
+<CatalogueShell
+  title={screen.label}
+  description={screen.summary}
+  currentPath={screen.path}
+  bodyClass="gw-suite-catalogue-body"
+  mainClass="gw-suite-catalogue-main"
+>
+  <GreenwaysApplicationSuite screenId={screen.id} />
+</CatalogueShell>
