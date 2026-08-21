@@ -41,8 +41,10 @@ const requireById = (values, id, label) => {
 const observeProfile = requireById(foremanClientProfiles, "read-only-mcp", "client profile");
 const directProfile = requireById(foremanClientProfiles, "direct-foreman-host", "client profile");
 const selectedHost = requireById(foremanExecutionHosts, "mac-studio", "execution host");
-const vocabulary = (id) => requireById(foremanRunTimeline, id, "run state");
-const toolSummary = (profileId) => foremanToolsForProfile(profileId).map(({ id, name, classId }) => ({ id, name, classId }));
+
+/** @param {string} profileId */
+const toolSummary = (profileId) => foremanToolsForProfile(profileId)
+  .map(({ id, name, classId }) => ({ id, name, classId }));
 
 export const FOREMAN_PROJECT_EXECUTION_VERSION = "foreman-project-execution/1";
 
@@ -91,6 +93,26 @@ const hostAdvertisements = [
   },
 ];
 
+const requestedCapabilities = [
+  "exact repository checkout",
+  "apply the issue-scoped candidate patch",
+  "run bounded Node, TypeScript, Astro-source, and CSS checks",
+  "return checkpoint and artifact evidence",
+  "clean the isolated workspace",
+];
+
+const excludedAuthority = [
+  "host home directory",
+  "browser cookies",
+  "provider credentials",
+  "SSH agent",
+  "GitHub push",
+  "pull-request creation",
+  "merge",
+  "deployment",
+  "publication",
+];
+
 const approvals = [
   {
     id: "approval-execution-foreman-36",
@@ -102,25 +124,9 @@ const approvals = [
     requestedBy: "agent-builder",
     decisionOwner: "person-chris",
     operation: "Lease the enrolled Mac Studio for one exact Foreman execution-evidence integration and validation run.",
-    requestedCapabilities: [
-      "exact repository checkout",
-      "apply the issue-scoped candidate patch",
-      "run bounded Node, TypeScript, Astro-source, and CSS checks",
-      "return checkpoint and artifact evidence",
-      "clean the isolated workspace",
-    ],
+    requestedCapabilities,
     consequence: "The exact repository revision and issue-scoped source are materialised on one enrolled execution host for a bounded run.",
-    excludedAuthority: [
-      "host home directory",
-      "browser cookies",
-      "provider credentials",
-      "SSH agent",
-      "GitHub push",
-      "pull-request creation",
-      "merge",
-      "deployment",
-      "publication",
-    ],
+    excludedAuthority,
     decidedAt: "2026-08-21T09:40:00+10:00",
     expiresAt: "2026-08-21T10:25:00+10:00",
   },
@@ -143,15 +149,9 @@ const leases = [
     grantedAt: "2026-08-21T09:41:00+10:00",
     expiresAt: "2026-08-21T10:26:00+10:00",
     releasedAt: "2026-08-21T10:08:00+10:00",
-    requestedCapabilities: approvals[0].requestedCapabilities,
-    actualCapabilities: [
-      "exact repository checkout",
-      "apply the issue-scoped candidate patch",
-      "run bounded Node, TypeScript, Astro-source, and CSS checks",
-      "return checkpoint and artifact evidence",
-      "clean the isolated workspace",
-    ],
-    excludedAuthority: approvals[0].excludedAuthority,
+    requestedCapabilities,
+    actualCapabilities: requestedCapabilities,
+    excludedAuthority,
     cleanupState: "verified",
     cleanupEvidence: "The isolated workspace was removed and host generation 044 returned ready without retaining the released lease.",
   },
@@ -245,9 +245,76 @@ const run = {
   checkpointIds: checkpoints.map((entry) => entry.id),
   artifactIds: artifacts.map((entry) => entry.id),
   cleanupState: leases[0].cleanupState,
-  localOutcome: "The selected buildout now consumes the #50 client, host, lease, run, checkpoint, cleanup, and external-effect vocabulary inside its real workbench.",
+  localOutcome: "The selected buildout now consumes the #50 client, host, lease, Work-run, checkpoint, cleanup, and external-effect vocabulary inside its real workbench.",
   externalEffectId: "effect-foreman-execution-followup",
 };
+
+/** @type {Record<string, { time: string, title: string, detail: string, identity: string }>} */
+const executionDetails = {
+  requested: {
+    time: "09:38",
+    title: "Mac Studio requested for the exact work item",
+    detail: "The request names the project, buildout, work item, host profile, capabilities, network policy, expiry, and idempotency boundary.",
+    identity: "host request · mac-studio",
+  },
+  "approval-required": {
+    time: "09:39",
+    title: "Exact capability and exclusion scope is reviewed",
+    detail: "The human decision covers the lease only; GitHub push, pull-request creation, merge, deployment, and publication remain excluded.",
+    identity: "approval-execution-foreman-36",
+  },
+  granted: {
+    time: "09:41",
+    title: "Lease granted to host generation 044",
+    detail: "Requested capability, actual host advertisement, granted authority, and expiry remain separately visible.",
+    identity: "lease-foreman-036-008",
+  },
+  allocating: {
+    time: "09:41",
+    title: "Exact main revision is materialised",
+    detail: "The selected host creates an isolated workspace from main@d9db7f7 without ambient host files or credentials.",
+    identity: "host-advertisement-mac-studio-044",
+  },
+  running: {
+    time: "09:42",
+    title: "Canonical Work run 008 executes",
+    detail: "The run applies the bounded source integration and performs the declared focused validation through the selected executor path.",
+    identity: "run-foreman-036-008",
+  },
+  checkpointed: {
+    time: "10:03",
+    title: "Checkpoint 08 retains progress and artifacts",
+    detail: "Source and validation evidence are durable without claiming external publication.",
+    identity: "checkpoint-foreman-036-08",
+  },
+  completed: {
+    time: "10:06",
+    title: "Declared local result completes",
+    detail: "The workbench integration and focused checks are complete inside the leased workspace.",
+    identity: "run-foreman-036-008",
+  },
+  cleaned: {
+    time: "10:08",
+    title: "Workspace cleanup is verified",
+    detail: "The lease is released, the workspace is removed, and host generation 044 returns ready.",
+    identity: "lease-foreman-036-008",
+  },
+};
+
+const executionEvents = foremanRunTimeline.map((state) => {
+  const detail = executionDetails[state.id];
+  if (!detail) throw new Error(`Missing execution detail for ${state.id}`);
+  return {
+    id: `execution-${state.id}`,
+    time: detail.time,
+    state: state.id,
+    kind: state.label,
+    title: detail.title,
+    detail: detail.detail,
+    identity: detail.identity,
+    evidence: state.evidence,
+  };
+});
 
 const laneEvents = {
   work: [
@@ -292,88 +359,7 @@ const laneEvents = {
       evidence: "checkpoint-foreman-036-08 · 2 retained artifacts",
     },
   ],
-  execution: [
-    {
-      id: "execution-requested",
-      time: "09:38",
-      state: vocabulary("requested").id,
-      kind: vocabulary("requested").label,
-      title: "Mac Studio requested for the exact work item",
-      detail: "The request names the project, buildout, work item, host profile, capabilities, network policy, expiry, and idempotency boundary.",
-      identity: "host request · mac-studio",
-      evidence: vocabulary("requested").evidence,
-    },
-    {
-      id: "execution-approval-required",
-      time: "09:39",
-      state: vocabulary("approval-required").id,
-      kind: vocabulary("approval-required").label,
-      title: "Exact capability and exclusion scope is reviewed",
-      detail: "The human decision covers the lease only; GitHub push, pull-request creation, merge, deployment, and publication remain excluded.",
-      identity: "approval-execution-foreman-36",
-      evidence: vocabulary("approval-required").evidence,
-    },
-    {
-      id: "execution-granted",
-      time: "09:41",
-      state: vocabulary("granted").id,
-      kind: vocabulary("granted").label,
-      title: "Lease granted to host generation 044",
-      detail: "Requested capability, actual host advertisement, granted authority, and expiry remain separately visible.",
-      identity: "lease-foreman-036-008",
-      evidence: vocabulary("granted").evidence,
-    },
-    {
-      id: "execution-allocating",
-      time: "09:41",
-      state: vocabulary("allocating").id,
-      kind: vocabulary("allocating").label,
-      title: "Exact main revision is materialised",
-      detail: "The selected host creates an isolated workspace from main@d9db7f7 without ambient host files or credentials.",
-      identity: "host-advertisement-mac-studio-044",
-      evidence: vocabulary("allocating").evidence,
-    },
-    {
-      id: "execution-running",
-      time: "09:42",
-      state: vocabulary("running").id,
-      kind: vocabulary("running").label,
-      title: "Canonical Work run 008 executes",
-      detail: "The run applies the bounded source integration and performs the declared focused validation through the selected executor path.",
-      identity: "run-foreman-036-008",
-      evidence: vocabulary("running").evidence,
-    },
-    {
-      id: "execution-checkpointed",
-      time: "10:03",
-      state: vocabulary("checkpointed").id,
-      kind: vocabulary("checkpointed").label,
-      title: "Checkpoint 08 retains progress and artifacts",
-      detail: "Source and validation evidence are durable without claiming external publication.",
-      identity: "checkpoint-foreman-036-08",
-      evidence: vocabulary("checkpointed").evidence,
-    },
-    {
-      id: "execution-completed",
-      time: "10:06",
-      state: vocabulary("completed").id,
-      kind: vocabulary("completed").label,
-      title: "Declared local result completes",
-      detail: "The workbench integration and focused checks are complete inside the leased workspace.",
-      identity: "run-foreman-036-008",
-      evidence: vocabulary("completed").evidence,
-    },
-    {
-      id: "execution-cleaned",
-      time: "10:08",
-      state: vocabulary("cleaned").id,
-      kind: vocabulary("cleaned").label,
-      title: "Workspace cleanup is verified",
-      detail: "The lease is released, the workspace is removed, and host generation 044 returns ready.",
-      identity: "lease-foreman-036-008",
-      evidence: vocabulary("cleaned").evidence,
-    },
-  ],
+  execution: executionEvents,
   external: [
     {
       id: "external-requested",
@@ -514,8 +500,16 @@ export function validateForemanProjectExecution() {
 
   const executionStates = foremanProjectExecution.laneEvents.execution.map((entry) => entry.state);
   const vocabularyStates = foremanRunTimeline.map((entry) => entry.id);
-  const currentEffect = requireById(foremanProjectExecution.externalEffects, foremanProjectExecution.selected.currentExternalEffectId, "external effect");
-  const verifiedEffect = requireById(foremanProjectExecution.externalEffects, foremanProjectExecution.selected.verifiedExternalEffectId, "external effect");
+  const currentEffect = requireById(
+    foremanProjectExecution.externalEffects,
+    foremanProjectExecution.selected.currentExternalEffectId,
+    "external effect",
+  );
+  const verifiedEffect = requireById(
+    foremanProjectExecution.externalEffects,
+    foremanProjectExecution.selected.verifiedExternalEffectId,
+    "external effect",
+  );
 
   return executionStates.every((id) => vocabularyStates.includes(id))
     && vocabularyStates.every((id) => executionStates.includes(id))
