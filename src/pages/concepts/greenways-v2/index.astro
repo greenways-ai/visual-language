@@ -19,16 +19,17 @@ const surfaceHref = (id: string) => `${rootHref}${id}/`;
   <article class="gw2-overview" data-gw2-system-map data-gw2-architecture>
     <section class="gw2-overview-hero" aria-labelledby="greenways-v2-title">
       <div class="gw2-overview-hero__copy">
-        <p>Personal files · work · publication</p>
-        <h1 id="greenways-v2-title">A personal file<br />and work environment.</h1>
+        <p>Portable workspace · five interface surfaces</p>
+        <h1 id="greenways-v2-title">One workspace.<br />Five manifestations.</h1>
         <p>
-          Greenways OS keeps selected files available across devices, helps sort them with AI, preserves the history
-          around them, coordinates bounded work with people and agents, and publishes selected results.
+          Greenways OS V2 is not a miniature window manager. It is one programmable environment of objects,
+          buffers, panes, commands, grants and receipts, expressed at the scale and authority of each host.
         </p>
         <div class="gw2-overview-hero__actions">
-          <a href="#gw2-product-surfaces">View the product surfaces</a>
-          <a href="#gw2-architecture">View the architecture</a>
-          <button type="button" data-gw2-command-open>Open a command</button>
+          <a href={surfaceHref("desktop")}>Enter the desktop</a>
+          <a href="#empty-install">See a new installation</a>
+          <a href={surfaceHref("extension-panel")}>Open the browser companion</a>
+          <button type="button" data-gw2-command-open>Search the system</button>
         </div>
       </div>
 
@@ -36,8 +37,8 @@ const surfaceHref = (id: string) => `${rootHref}${id}/`;
         <div class="gw2-system-core">
           <div>
             <span class="gw2-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-            <strong>Greenways OS</strong>
-            <small>composed · bounded</small>
+            <strong>Workspace model</strong>
+            <small>portable · serialisable</small>
           </div>
         </div>
         <a class="gw2-orbit-node gw2-orbit-node--desktop" href={surfaceHref("desktop")}>
@@ -63,10 +64,10 @@ const surfaceHref = (id: string) => `${rootHref}${id}/`;
 
     <section class="gw2-overview-principle" aria-labelledby="greenways-v2-principle">
       <span>01</span>
-      <h2 id="greenways-v2-principle">The system should stay<br />out of the way.</h2>
+      <h2 id="greenways-v2-principle">The shell changes.<br />The work does not.</h2>
       <p>
-        Files, history, context and authority should remain understandable as work moves between devices, providers
-        and public releases.
+        A captured page can begin in the side panel, become a source in a Workroom, open as a Studio buffer on
+        desktop, receive an explicit publishing grant, and appear on the web with the same identity and receipt trace.
       </p>
     </section>
 
@@ -95,10 +96,280 @@ const surfaceHref = (id: string) => `${rootHref}${id}/`;
       </div>
     </section>
 
+    <section
+      id="empty-install"
+      class="gw2-empty-install"
+      data-gw2-empty-install
+      aria-labelledby="greenways-v2-empty-install-title"
+    >
+      <header class="gw2-empty-install__header">
+        <div>
+          <p>Install state 00 · lifecycle study</p>
+          <h2 id="greenways-v2-empty-install-title">Before the workspace fills up.</h2>
+        </div>
+        <p>
+          A new Greenways OS installation contains a small, trustworthy core—not a fictional release, agent team or
+          publishing room. Spaces and Flow arrive as explicit applications that can be reviewed and installed later.
+          This is an empty state shared by the five hosts, not a sixth host surface.
+        </p>
+      </header>
+
+      <div class="gw2-empty-contract" aria-label="Greenways OS core and optional application model">
+        <article>
+          <span>Always present</span>
+          <h3>Greenways OS core</h3>
+          <p>Fabric storage · identity · application registry · health · grants and receipts</p>
+        </article>
+        <span aria-hidden="true">+</span>
+        <article>
+          <span>Explicit installs</span>
+          <h3>Applications</h3>
+          <p><strong>Spaces</strong> for sources and evidence · <strong>Flow</strong> for projects and managed work</p>
+        </article>
+      </div>
+
+      <div class="gw2-empty-counts" aria-label="Truthful new installation counts">
+        <article aria-label="0 installed applications"><strong>0</strong><span>installed applications</span></article>
+        <article aria-label="0 stored objects"><strong>0</strong><span>stored objects</span></article>
+        <article aria-label="0 ambient grants"><strong>0</strong><span>ambient grants</span></article>
+      </div>
+
+      <div class="gw2-empty-wireframes">
+        <article class="gw2-empty-wireframe gw2-empty-wireframe--wide" data-gw2-empty-wireframe="first-run">
+          <header>
+            <span>00</span>
+            <div><p>First run</p><h3>Start with the core.</h3></div>
+            <small>New installation</small>
+          </header>
+          <div class="gw2-empty-stage gw2-empty-stage--onboarding">
+            <section class="gw2-empty-window">
+              <header class="gw2-empty-windowbar">
+                <span class="gw2-mark gw2-mark--small" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+                <strong>Set up Greenways OS</strong>
+                <small>1 of 1</small>
+              </header>
+              <div class="gw2-empty-onboarding">
+                <p class="gw2-empty-kicker">A clean beginning</p>
+                <h4>Greenways OS is ready.</h4>
+                <p>Choose where the core keeps its state. Applications, identity and remote providers can wait.</p>
+                <div class="gw2-empty-choice-list">
+                  <button class="gw2-empty-choice is-selected" type="button" data-gw2-toast="This device selected for the concept">
+                    <span class="gw2-empty-choice-dot" aria-hidden="true"></span>
+                    <span><strong>This device</strong><small>Private local Fabric · recommended</small></span>
+                    <b>Selected</b>
+                  </button>
+                  <button class="gw2-empty-choice" type="button" data-gw2-toast="Existing Fabric connection previewed">
+                    <span class="gw2-empty-choice-dot" aria-hidden="true"></span>
+                    <span><strong>Existing Fabric</strong><small>Connect a workspace you already control</small></span>
+                    <b>Connect</b>
+                  </button>
+                </div>
+                <div class="gw2-empty-onboarding__optional">
+                  <span>Identity</span><strong>Not configured</strong><small>Set up later</small>
+                </div>
+                <div class="gw2-empty-onboarding__optional">
+                  <span>Applications</span><strong>None selected</strong><small>Spaces · Flow</small>
+                </div>
+                <footer>
+                  <button type="button" data-gw2-toast="Application review opened in the concept">Review applications</button>
+                  <button type="button" data-gw2-toast="Continued with a clean Greenways OS core">Continue with no apps</button>
+                </footer>
+              </div>
+              <p class="gw2-empty-disclaimer">No account, cloud workspace, demo data or provider grant has been created.</p>
+            </section>
+          </div>
+        </article>
+
+        <article class="gw2-empty-wireframe gw2-empty-wireframe--wide" data-gw2-empty-wireframe="desktop">
+          <header>
+            <span>01</span>
+            <div><p>Native / browser desktop</p><h3>An OS without invented work.</h3></div>
+            <small>0 applications</small>
+          </header>
+          <div class="gw2-empty-stage gw2-empty-stage--desktop">
+            <section class="gw2-empty-desktop">
+              <header>
+                <span class="gw2-empty-traffic" aria-hidden="true"><i></i><i></i><i></i></span>
+                <div>
+                  <span class="gw2-mark gw2-mark--tiny" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+                  <strong>Greenways OS</strong><small>/ Home</small>
+                </div>
+                <span><i class="gw2-live-dot" aria-hidden="true"></i> Core ready</span>
+              </header>
+              <div class="gw2-empty-desktop__body">
+                <aside aria-label="Empty application rail">
+                  <span class="gw2-mark gw2-mark--small" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+                  <button type="button" data-gw2-toast="Application library opened">+</button>
+                  <i></i>
+                  <button type="button" data-gw2-toast="Core settings opened">···</button>
+                </aside>
+                <main>
+                  <nav>
+                    <strong>Home</strong>
+                    <button type="button" data-gw2-command-open>Search commands</button>
+                    <span>Apps <b>0</b></span>
+                  </nav>
+                  <section>
+                    <span class="gw2-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+                    <p>Greenways OS</p>
+                    <h4>Nothing is open.</h4>
+                    <span>Install an application, connect an existing Fabric, or leave the workspace exactly as it is.</span>
+                    <div>
+                      <button type="button" data-gw2-toast="Application library opened">Open applications</button>
+                      <button type="button" data-gw2-toast="Storage choices opened">Choose storage</button>
+                    </div>
+                  </section>
+                  <footer><span>local core</span><span>0 objects</span><span>0 grants</span><span>saved</span></footer>
+                </main>
+              </div>
+            </section>
+          </div>
+        </article>
+
+        <article class="gw2-empty-wireframe" data-gw2-empty-wireframe="applications">
+          <header>
+            <span>02</span>
+            <div><p>Application library</p><h3>Add vocabularies deliberately.</h3></div>
+            <small>Review before install</small>
+          </header>
+          <div class="gw2-empty-stage gw2-empty-stage--library">
+            <section class="gw2-empty-library">
+              <header><div><small>Greenways OS</small><h4>Applications</h4></div><span>0 installed</span></header>
+              <div class="gw2-empty-core-row">
+                <span class="gw2-mark gw2-mark--small" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+                <div><strong>System core</strong><small>Storage, identity, registry and receipts</small></div>
+                <b>Installed</b>
+              </div>
+              <div class="gw2-empty-app-list">
+                <article>
+                  <span>SP</span>
+                  <div><small>Sources and evidence</small><h5>Spaces</h5><p>Collect, inspect, relate and promote material without turning candidates into facts.</p></div>
+                  <footer><em>Not installed</em><button type="button" data-gw2-toast="Spaces capability review opened">Review</button></footer>
+                </article>
+                <article>
+                  <span>FL</span>
+                  <div><small>Projects and managed work</small><h5>Flow</h5><p>Coordinate projects, agents, approvals, handoffs and evidence through explicit authority.</p></div>
+                  <footer><em>Not installed</em><button type="button" data-gw2-toast="Flow capability review opened">Review</button></footer>
+                </article>
+              </div>
+              <p>Installing an app requests named capabilities. It does not inherit keys, files or remote access.</p>
+            </section>
+          </div>
+        </article>
+
+        <article class="gw2-empty-wireframe" data-gw2-empty-wireframe="side-panel">
+          <header>
+            <span>03</span>
+            <div><p>Browser side panel</p><h3>Useful before Spaces exists.</h3></div>
+            <small>Current page only</small>
+          </header>
+          <div class="gw2-empty-stage gw2-empty-stage--panel">
+            <section class="gw2-empty-browser">
+              <div class="gw2-empty-browser__page" aria-hidden="true">
+                <header><i></i><i></i><i></i><span></span></header>
+                <main><small>HARA-LANG.ORG</small><h4>Application catalogue</h4><p></p><p></p><p></p><div></div></main>
+              </div>
+              <aside>
+                <header>
+                  <div><span class="gw2-mark gw2-mark--small" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><strong>Greenways</strong></div>
+                  <small>Page</small>
+                </header>
+                <section class="gw2-empty-page-card">
+                  <small>Current page</small><strong>Application catalogue</strong><span>hara-lang.org</span>
+                </section>
+                <button class="gw2-empty-save" type="button" data-gw2-toast="Page capture prepared; nothing stored yet">
+                  <span>+</span><strong>Save page</strong><small>Store an original in the core</small>
+                </button>
+                <section class="gw2-empty-app-prompt">
+                  <span>SP</span><div><strong>Organise with Spaces</strong><small>No collections or workrooms exist yet.</small></div>
+                  <button type="button" data-gw2-toast="Spaces review opened">Review</button>
+                </section>
+                <footer><span>0 objects</span><span>0 receipts</span></footer>
+              </aside>
+            </section>
+          </div>
+        </article>
+
+        <article class="gw2-empty-wireframe" data-gw2-empty-wireframe="popup">
+          <header>
+            <span>04</span>
+            <div><p>Extension popup</p><h3>Health and invocation only.</h3></div>
+            <small>No fictional agent</small>
+          </header>
+          <div class="gw2-empty-stage gw2-empty-stage--popup">
+            <section class="gw2-empty-popup">
+              <header>
+                <div><span class="gw2-mark gw2-mark--small" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span><strong>Greenways</strong><small>Browser workspace</small></span></div>
+                <b>···</b>
+              </header>
+              <div class="gw2-empty-popup__status"><i class="gw2-live-dot" aria-hidden="true"></i><span><strong>Core ready</strong><small>No remote provider connected</small></span></div>
+              <div class="gw2-empty-popup__counts">
+                <span><strong>0</strong><small>Applications</small></span>
+                <span><strong>0</strong><small>Approvals</small></span>
+              </div>
+              <div class="gw2-empty-popup__actions">
+                <button type="button" data-gw2-toast="Side panel opened"><b>SP</b><span><strong>Open side panel</strong><small>Work beside this page</small></span><em>↗</em></button>
+                <button type="button" data-gw2-toast="Desktop opened"><b>DT</b><span><strong>Open desktop</strong><small>Core home and applications</small></span><em>↗</em></button>
+                <button type="button" data-gw2-toast="Application library opened"><b>+</b><span><strong>Browse applications</strong><small>Spaces and Flow</small></span><em>↗</em></button>
+              </div>
+              <footer><span>Last receipt</span><strong>None yet</strong></footer>
+            </section>
+          </div>
+        </article>
+
+        <article class="gw2-empty-wireframe gw2-empty-wireframe--wide" data-gw2-empty-wireframe="web">
+          <header>
+            <span>05</span>
+            <div><p>Public web</p><h3>A doorway, not an automatic tenant.</h3></div>
+            <small>No account assumed</small>
+          </header>
+          <div class="gw2-empty-stage gw2-empty-stage--web">
+            <section class="gw2-empty-web">
+              <header>
+                <div><span class="gw2-mark gw2-mark--small" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><strong>Greenways</strong></div>
+                <nav><a href="#empty-install">About</a><a href="#empty-install">Public work</a><button type="button" data-gw2-toast="Existing Fabric connection opened">Connect</button></nav>
+              </header>
+              <main>
+                <section>
+                  <p>GREENWAYS ON THE WEB</p>
+                  <h4>Bring a place you already control.</h4>
+                  <span>
+                    Browse public work without signing in, or connect an existing Fabric when you are ready to work.
+                    Opening this site does not silently create a hosted workspace.
+                  </span>
+                  <div>
+                    <button type="button" data-gw2-toast="Existing Fabric connection opened">Connect an existing Fabric</button>
+                    <button type="button" data-gw2-toast="Public work opened">Browse public work</button>
+                  </div>
+                </section>
+                <aside>
+                  <span class="gw2-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+                  <small>Workspace state</small>
+                  <strong>Not connected</strong>
+                  <dl><div><dt>Account</dt><dd>None</dd></div><div><dt>Applications</dt><dd>0</dd></div><div><dt>Provider authority</dt><dd>None</dd></div></dl>
+                </aside>
+              </main>
+              <footer>No account · no copied data · no provider authority</footer>
+            </section>
+          </div>
+        </article>
+      </div>
+
+      <section class="gw2-empty-laws" aria-labelledby="greenways-v2-empty-laws-title">
+        <header><p>Default-install laws</p><h3 id="greenways-v2-empty-laws-title">Empty means empty.</h3></header>
+        <div>
+          <article><span>01</span><strong>No demo objects</strong><p>No release, room, project, source, publication or recent item is pre-created.</p></article>
+          <article><span>02</span><strong>Apps are optional</strong><p>Spaces and Flow add domain vocabulary through an explicit install and capability review.</p></article>
+          <article><span>03</span><strong>Authority begins at zero</strong><p>No identity, key, provider, agent or grant is implied by opening a host surface.</p></article>
+          <article><span>04</span><strong>Density is a later state</strong><p>The populated atlas remains useful as a mature-workspace specimen, not the default product promise.</p></article>
+        </div>
+      </section>
+    </section>
+
     <section class="gw2-surface-atlas" aria-labelledby="greenways-v2-surfaces">
       <header>
-        <div><p>Execution environments</p><h2 id="greenways-v2-surfaces">The product runs in different environments.</h2></div>
-        <span>These host studies show where the abstractions run. They are not additional product destinations.</span>
+        <div><p>Populated reference atlas</p><h2 id="greenways-v2-surfaces">Every surface, at its proper scale.</h2></div>
+        <span>The five views below show a mature workspace after applications and real work have been added.</span>
       </header>
 
       <div class="gw2-surface-grid">
@@ -137,18 +408,31 @@ const surfaceHref = (id: string) => `${rootHref}${id}/`;
 
     <section class="gw2-architecture" aria-labelledby="greenways-v2-architecture-title">
       <header>
-        <h2 id="greenways-v2-architecture-title">Abstractions above<br />execution environments.</h2>
+        <h2 id="greenways-v2-architecture-title">A portable core,<br />not a browser-shaped kernel.</h2>
         <p>
-          Tahto and Hestia define the feature abstractions using Hara. Hoplite, Ignatius and Hodos provide the
-          environments in which those abstractions run. Greenways OS selects, authorises and composes them.
+          Tahto and Hestia build the feature abstractions with Hara. Hoplite and Ignatius are the execution
+          environments in which those features run; Hodos materialises approved client packages. Presentation
+          shells adapt to the host, and privileged effects cross a named provider boundary with a receipt.
         </p>
       </header>
 
       <div class="gw2-architecture-stack">
         <section class="gw2-architecture-layer gw2-architecture-layer--shells">
-          <header><span>03 · PRODUCT</span><strong>Greenways OS surfaces</strong></header>
+          <header><span>04 · PRESENTATION</span><strong>Host-specific shells</strong></header>
           <div>
-            {greenwaysOsProductSurfaces.map((product) => <article><strong>{product.label}</strong><small>{product.purpose}</small></article>)}
+            <article><strong>Native frame</strong><small>Wide workbench and local status line</small></article>
+            <article><strong>Browser desktop</strong><small>Full tab and durable restoration</small></article>
+            <article><strong>Panel + popup</strong><small>Context and invocation, not a shrunken OS</small></article>
+            <article><strong>Public web</strong><small>Publishing doorway and remote workspace</small></article>
+          </div>
+        </section>
+
+        <section class="gw2-architecture-layer gw2-architecture-layer--apps">
+          <header><span>03 · OPTIONAL APPS</span><strong>Installed vocabularies</strong></header>
+          <div>
+            <article><strong>Spaces</strong><small>Sources, evidence and semantic relationships</small></article>
+            <article><strong>Flow</strong><small>Projects, agents, approvals and handoffs</small></article>
+            <article><strong>Other packages</strong><small>Added through the same explicit installation boundary</small></article>
           </div>
         </section>
 

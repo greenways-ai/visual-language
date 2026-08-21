@@ -2,7 +2,9 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import {
+  GREENWAYS_FABRIC_HOMEPAGE_VERSION,
   GREENWAYS_PLATFORM_HOMEPAGE_VERSION,
+  greenwaysFabricHomepage,
   greenwaysPlatformHomepage,
 } from "../src/v2/greenways-platform-homepage.js";
 import {
@@ -11,11 +13,12 @@ import {
 } from "../src/v2/catalogue-manifest.js";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
-const homepage = greenwaysPlatformHomepage;
+const homepage = greenwaysFabricHomepage;
 const stylePaths = [
   "src/v2/greenways-platform-homepage.css",
   "src/v2/greenways-platform-homepage-publication.css",
   "src/v2/greenways-platform-homepage-workspace.css",
+  "src/v2/greenways-platform-homepage-editorial.css",
   "src/v2/greenways-platform-homepage-responsive.css",
 ];
 const readStyles = async () => (await Promise.all(stylePaths.map(read))).join("\n");
@@ -27,119 +30,118 @@ const walkStrings = (value) => {
   return [];
 };
 
-test("the homepage contract is closed, versioned, and publication-led", () => {
-  assert.equal(GREENWAYS_PLATFORM_HOMEPAGE_VERSION, "greenways-platform-homepage/1");
+test("the homepage contract is closed, current, sparse, and backwards compatible", () => {
+  assert.equal(GREENWAYS_FABRIC_HOMEPAGE_VERSION, "greenways-fabric-homepage/3");
+  assert.equal(GREENWAYS_PLATFORM_HOMEPAGE_VERSION, GREENWAYS_FABRIC_HOMEPAGE_VERSION);
+  assert.equal(greenwaysPlatformHomepage, greenwaysFabricHomepage);
   assert.ok(Object.isFrozen(homepage));
-  assert.ok(Object.isFrozen(homepage.hero));
-  assert.equal(homepage.hero.headline, "Make a place on the web.");
-  assert.match(homepage.hero.introduction, /world.*book.*site/i);
-  assert.deepEqual(homepage.sequence.map((step) => step.id), ["gather", "shape", "release"]);
-  assert.deepEqual(homepage.publicationForms.map((form) => form.id), ["world", "book", "document", "site"]);
-  assert.deepEqual(homepage.featuredWork.forms.map((form) => form.id), ["world", "book", "document", "site"]);
+  assert.ok(Object.isFrozen(homepage.workspace));
+  assert.equal(homepage.hero.headline, "Everything settles into place.");
+  assert.equal(homepage.hero.introduction, "Your work. Your identity. Clear roles.");
+  assert.deepEqual(homepage.modes.map((mode) => mode.id), ["scatter", "fabric"]);
+  assert.equal(homepage.fragments.length, 8);
 });
 
-test("the first public story does not collapse into infrastructure or generic SaaS language", () => {
-  const firstStory = walkStrings({
-    navigation: homepage.navigation,
-    hero: homepage.hero,
-    featuredWork: homepage.featuredWork,
-    sequence: homepage.sequence,
-    publicationForms: homepage.publicationForms,
-  }).join(" ");
+test("Spaces and Flow are the only current applications in the public model", () => {
+  assert.deepEqual(homepage.applications.items.map((application) => application.id), ["spaces", "flow"]);
+  assert.deepEqual(homepage.applications.items.map((application) => application.label), ["Spaces", "Flow"]);
+  assert.deepEqual(homepage.applications.items.map((application) => application.verb), ["Understand", "Coordinate"]);
+  assert.deepEqual(homepage.agents.map((agent) => agent.application), ["Spaces", "Flow"]);
 
-  assert.doesNotMatch(firstStory, /\b(?:Hara|Hestia|Tahto|Hoplite|Historia|Hodos|Ignatius|MCP|sandbox|provider|open source)\b/i);
-  assert.doesNotMatch(firstStory, /\b(?:AI-native|all-in-one|supercharge|solutions|seamless|revolutionary)\b/i);
-  assert.doesNotMatch(firstStory, /\bForeman\b/i);
-  assert.match(firstStory, /\bpublishing\b/i);
-  assert.match(firstStory, /\bwork\b/i);
+  const publicModel = walkStrings(homepage).join(" ");
+  assert.doesNotMatch(publicModel, /\b(?:Build|Research|Imagine|World|Studio|Socials|Foreman)\b/);
+  assert.doesNotMatch(publicModel, /\b(?:Hara|Hestia|Tahto|Hoplite|Historia|Hodos|Ignatius|MCP|database|filesystem API|Docker)\b/i);
+  assert.doesNotMatch(publicModel, /\b(?:AI-native|all-in-one|supercharge|seamless|revolutionary|decentralised)\b/i);
 });
 
-test("Greenways OS and Foreman are disclosed only as supporting layers", () => {
-  assert.match(homepage.desk.kicker, /Greenways OS/);
-  assert.match(homepage.coordination.introduction, /Foreman/);
-  assert.match(homepage.coordination.headline, /without handing over the work/i);
-  assert.deepEqual(homepage.coordination.rules.map((rule) => rule.label), ["Named scope", "Human release", "Visible evidence"]);
-  assert.match(homepage.meta.truthfulnessNote, /No account, publication, agent, or provider action is performed/);
+test("the experience demonstrates decluttering rather than explaining it through feature sections", async () => {
+  const page = await read("src/pages/v2/applications/greenways-platform/homepage.astro");
+
+  assert.match(page, /<!doctype html>/);
+  assert.match(page, /class="gw2-body gwf-experience-body"/);
+  assert.match(page, /data-gwf-mode="scatter"/);
+  assert.match(page, /data-gwf-app="spaces"/);
+  assert.match(page, /data-gwf-share="private"/);
+  assert.match(page, /class="gwf-fragment-field"/);
+  assert.match(page, /class="gwf-workspace"/);
+  assert.match(page, /class="[^"]*gwf-spaces-view/);
+  assert.match(page, /class="[^"]*gwf-flow-view/);
+  assert.match(page, /class="gwf-boundary-plane"/);
+  assert.match(page, /Replay declutter/);
+  assert.match(page, /Share selected piece/);
+  assert.doesNotMatch(page, /CatalogueShell/);
+  assert.doesNotMatch(page, /gwf-capability-grid|gwf-storage-plate|gwf-identity-map|gwf-agent-grid|gwf-application-grid/);
+  assert.doesNotMatch(page, /\b(?:Build|Research|Imagine|World|Studio|Socials)\b/);
 });
 
-test("the v2 catalogue declares a current Greenways platform family and exact homepage route", () => {
+test("all visual controls are local, named, and keyboard-native", async () => {
+  const page = await read("src/pages/v2/applications/greenways-platform/homepage.astro");
+
+  assert.match(page, /data-gwf-mode-select/);
+  assert.match(page, /data-gwf-app-select/);
+  assert.match(page, /data-gwf-share-toggle/);
+  assert.match(page, /data-gwf-theme-toggle/);
+  assert.match(page, /role="tablist"/);
+  assert.match(page, /role="tabpanel"/);
+  assert.match(page, /aria-pressed=/);
+  assert.match(page, /aria-selected=/);
+  assert.match(page, /homepage\.meta\.truthfulnessNote/);
+  assert.doesNotMatch(page, /href=["']\/(?:login|signup|install|publish|connect)/i);
+  assert.doesNotMatch(page, /fetch\(|XMLHttpRequest|WebSocket|EventSource|localStorage\.setItem\(["'](?:token|key|account)/i);
+});
+
+test("the interaction script settles, replays, switches views, and crosses one selected projection", async () => {
+  const page = await read("src/pages/v2/applications/greenways-platform/homepage.astro");
+
+  assert.match(page, /const setMode = \(mode\) =>/);
+  assert.match(page, /window\.setTimeout\(\(\) => setMode\("fabric"\)/);
+  assert.match(page, /const setApp = \(app\) =>/);
+  assert.match(page, /panel\.hidden = panel\.getAttribute\("data-gwf-app-panel"\) !== app/);
+  assert.match(page, /body\.dataset\.gwfShare = selected \? "private" : "selected"/);
+  assert.match(page, /prefers-reduced-motion:\s*reduce/);
+});
+
+test("the visual language comes from the Greenways V2 atmosphere and restrained interface scale", async () => {
+  const css = await readStyles();
+
+  assert.match(css, /greenways-os-v2-foundation\.css/);
+  assert.match(css, /var\(--gw2-bg\)/);
+  assert.match(css, /var\(--gw2-field\)/);
+  assert.match(css, /var\(--gw2-overlay\)/);
+  assert.match(css, /var\(--gw2-green\)/);
+  assert.match(css, /var\(--gw2-signal\)/);
+  assert.match(css, /backdrop-filter:\s*blur/);
+  assert.match(css, /radial-gradient/);
+  assert.match(css, /\.gwf-fragment/);
+  assert.match(css, /\[data-gwf-mode="fabric"\] \.gwf-fragment/);
+  assert.match(css, /\.gwf-workspace/);
+  assert.match(css, /\[data-gwf-share="selected"\] \.gwf-selected-projection/);
+  assert.doesNotMatch(css, /#[\da-f]{3,8}\b/i);
+  assert.doesNotMatch(css, /\b(?:rgb|rgba|hsl|hsla)\(/i);
+});
+
+test("the v2 catalogue keeps the stable homepage route", () => {
   const family = getCatalogueRoute("/v2/applications/greenways-platform/");
   const route = getCatalogueRoute("/v2/applications/greenways-platform/homepage/");
 
   assert.ok(family);
-  assert.equal(family.label, "Greenways platform");
-  assert.equal(family.status, "in-progress");
-  assert.equal(family.ownership, "product-laboratory");
+  assert.equal(family.label, "Greenways Fabric");
   assert.equal(family.issue, 54);
-  assert.equal(family.primary, true);
-
   assert.ok(route);
   assert.equal(route.label, "www.greenways.ai homepage");
-  assert.equal(route.status, "ready");
   assert.equal(route.issue, 54);
   assert.equal(route.primary, true);
   assert.equal(getCatalogueGroup(route.path)?.id, "applications");
 });
 
-test("the executable route has one truthful, keyboard-addressable homepage composition", async () => {
-  const page = await read("src/pages/v2/applications/greenways-platform/homepage.astro");
-
-  assert.match(page, /CatalogueShell/);
-  assert.match(page, /MosaicLogo/);
-  assert.match(page, /greenwaysPlatformHomepage as homepage/);
-  assert.match(page, /data-greenways-platform-homepage=/);
-  assert.match(page, /aria-label="Proposed www\.greenways\.ai homepage"/);
-  assert.match(page, /role="note"/);
-  assert.match(page, /id="publishing-sequence"/);
-  assert.match(page, /id="publication-forms"/);
-  assert.match(page, /id="publishing-desk"/);
-  assert.match(page, /id="release-principles"/);
-  assert.match(page, /No publication action is connected/);
-  assert.match(page, /Production handoff/);
-  assert.doesNotMatch(page, /<button\b/i);
-  assert.doesNotMatch(page, /<form\b/i);
-  assert.doesNotMatch(page, /href=["']\/(?:login|signup|publish)/i);
-  assert.doesNotMatch(page, /on(?:click|mouse|pointer|touch)=/i);
-});
-
-test("the route-specific stylesheet consumes shared v2 colour roles", async () => {
-  const [entry, css] = await Promise.all([read("src/v2/greenways-platform-homepage.css"), readStyles()]);
-
-  assert.match(entry, /@import "\.\/greenways-platform-homepage-publication\.css"/);
-  assert.match(entry, /@import "\.\/greenways-platform-homepage-workspace\.css"/);
-  assert.match(entry, /@import "\.\/greenways-platform-homepage-responsive\.css"/);
-  assert.match(css, /var\(--gw-v2-canvas\)/);
-  assert.match(css, /var\(--gw-v2-surface\)/);
-  assert.match(css, /var\(--gw-v2-brand-emerald\)/);
-  assert.match(css, /var\(--gw-v2-brand-aqua\)/);
-  assert.match(css, /var\(--gw-v2-brand-sapphire\)/);
-  assert.match(css, /var\(--gw-v2-brand-violet\)/);
-  assert.match(css, /var\(--gw-v2-signal\)/);
-  assert.match(css, /var\(--gw-v2-state-warning\)/);
-  assert.doesNotMatch(css, /#[\da-f]{3,8}\b/i);
-  assert.doesNotMatch(css, /\b(?:rgb|rgba|hsl|hsla)\(/i);
-  assert.doesNotMatch(css, /background(?:-color)?:\s*var\(--gw-v2-brand-(?:emerald|aqua|sapphire|violet)\)\s*;\s*\/\*\s*structural/i);
-});
-
-test("responsive, focus, and reduced-motion contracts cover compact review", async () => {
-  const css = await readStyles();
-
-  assert.match(css, /min-inline-size:\s*0/);
-  assert.match(css, /overflow:\s*clip/);
-  assert.match(css, /:focus-visible/);
-  assert.match(css, /@media \(max-width: 58rem\)/);
-  assert.match(css, /@media \(max-width: 42rem\)/);
-  assert.match(css, /@media \(max-width: 30rem\)/);
-  assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
-  assert.doesNotMatch(css, /min-width:\s*(?:3[2-9][1-9]|[4-9]\d{2,})px/);
-  assert.doesNotMatch(css, /white-space:\s*nowrap/);
-});
-
-test("the adoption note preserves production ownership and the intended disclosure order", async () => {
+test("the adoption note records interface-first ownership and the standalone shell", async () => {
   const docs = await read("docs/greenways-platform-homepage.md");
+  const shell = await read("src/v2/CatalogueShell.astro");
 
-  assert.match(docs, /The work[\s\S]*The publishing sequence[\s\S]*The public forms[\s\S]*Greenways OS[\s\S]*Foreman[\s\S]*Open foundations/);
-  assert.match(docs, /does not change the production homepage/i);
-  assert.match(docs, /no literal colour palette/i);
-  assert.match(docs, /Production navigation, authentication, persistence, rendering, publication, coordination, and deployment remain outside/);
+  assert.match(docs, /interface experience, not an explanatory catalogue/i);
+  assert.match(docs, /Scattered[\s\S]*Fabric[\s\S]*Applications as views[\s\S]*Explicit boundary/);
+  assert.match(docs, /Spaces[\s\S]*Flow/);
+  assert.match(docs, /No storage, identity, agent, application, account, upload, sync, collaboration, publication, or hosted operation is connected/i);
+  assert.doesNotMatch(shell, /greenways-platform-homepage-(?:responsive|editorial)\.css\?raw/);
+  assert.doesNotMatch(shell, /data-greenways-fabric-(?:responsive-cascade|editorial-calibration)/);
 });

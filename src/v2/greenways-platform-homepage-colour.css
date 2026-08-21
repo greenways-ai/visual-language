@@ -1,0 +1,563 @@
+/*
+ * Greenways V2 colour bridge for the Fabric homepage.
+ *
+ * The palette remains owned by greenways-os-v2-foundation.css. This layer
+ * only assigns the existing emerald, sky, warm, coral and violet roles to
+ * the interface-led homepage experience.
+ */
+
+.gwf-experience-body {
+  --gwf-colour-spaces: var(--gw2-green);
+  --gwf-colour-flow: var(--gw2-signal);
+  --gwf-colour-history: var(--gw2-warm);
+  --gwf-colour-agent: var(--gw2-violet);
+  --gwf-colour-attention: var(--gw2-coral);
+  --gwf-colour-active: var(--gwf-colour-spaces);
+  --gwf-colour-active-soft: color-mix(in srgb, var(--gwf-colour-active) 13%, transparent);
+  background:
+    radial-gradient(circle at 14% -4%, color-mix(in srgb, var(--gw2-green) 24%, transparent), transparent 34rem),
+    radial-gradient(circle at 86% 2%, color-mix(in srgb, var(--gw2-signal) 18%, transparent), transparent 40rem),
+    radial-gradient(circle at 78% 88%, color-mix(in srgb, var(--gw2-violet) 10%, transparent), transparent 34rem),
+    linear-gradient(180deg, var(--gw2-bg), var(--gw2-bg-deep));
+}
+
+.gwf-experience-body[data-gwf-app="spaces"] {
+  --gwf-colour-active: var(--gwf-colour-spaces);
+}
+
+.gwf-experience-body[data-gwf-app="flow"] {
+  --gwf-colour-active: var(--gwf-colour-flow);
+}
+
+html[data-theme="light"] .gwf-experience-body {
+  background:
+    radial-gradient(circle at 14% -4%, color-mix(in srgb, var(--gw2-green) 13%, transparent), transparent 34rem),
+    radial-gradient(circle at 86% 2%, color-mix(in srgb, var(--gw2-signal) 11%, transparent), transparent 40rem),
+    radial-gradient(circle at 78% 88%, color-mix(in srgb, var(--gw2-violet) 7%, transparent), transparent 34rem),
+    linear-gradient(180deg, var(--gw2-bg), var(--gw2-bg-deep));
+}
+
+.gwf-experience-bar::after {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: -1px;
+  block-size: 1px;
+  content: "";
+  opacity: 0.82;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--gw2-green),
+    var(--gw2-signal),
+    var(--gw2-violet),
+    var(--gw2-warm),
+    transparent
+  );
+}
+
+.gwf-mode-switch button[data-gwf-mode-select="scatter"][aria-pressed="true"] {
+  color: var(--gw2-warm);
+  background: color-mix(in srgb, var(--gw2-warm) 11%, var(--gw2-surface-2));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gw2-warm) 34%, var(--gw2-line));
+}
+
+.gwf-mode-switch button[data-gwf-mode-select="fabric"][aria-pressed="true"] {
+  color: var(--gw2-green);
+  background: color-mix(in srgb, var(--gw2-green) 12%, var(--gw2-surface-2));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gw2-green) 34%, var(--gw2-line));
+}
+
+.gwf-theme-toggle {
+  border-color: color-mix(in srgb, var(--gw2-signal) 28%, var(--gw2-line));
+}
+
+.gwf-arrival__copy > p,
+.gwf-views > header > p,
+.gwf-boundary-scene > header > p {
+  color: var(--gw2-green);
+}
+
+.gwf-arrival__copy h1,
+.gwf-views > header h2,
+.gwf-boundary-scene > header h2,
+.gwf-closing h2 {
+  text-shadow: 0 0 2.4rem color-mix(in srgb, var(--gw2-green) 9%, transparent);
+}
+
+.gwf-declutter-stage {
+  background:
+    radial-gradient(circle at 27% 25%, color-mix(in srgb, var(--gw2-green) 14%, transparent), transparent 24rem),
+    radial-gradient(circle at 73% 24%, color-mix(in srgb, var(--gw2-signal) 12%, transparent), transparent 25rem),
+    radial-gradient(circle at 70% 78%, color-mix(in srgb, var(--gw2-violet) 9%, transparent), transparent 24rem),
+    radial-gradient(circle at 31% 82%, color-mix(in srgb, var(--gw2-warm) 7%, transparent), transparent 22rem),
+    linear-gradient(145deg, color-mix(in srgb, var(--gw2-field) 88%, transparent), var(--gw2-bg-deep));
+  border-color: color-mix(in srgb, var(--gw2-green) 22%, var(--gw2-line-strong));
+  box-shadow:
+    0 3rem 9rem color-mix(in srgb, var(--gw2-bg-deep) 82%, transparent),
+    0 0 5rem color-mix(in srgb, var(--gw2-green) 7%, transparent);
+}
+
+.gwf-stage-atmosphere span:nth-child(1) {
+  border-color: color-mix(in srgb, var(--gw2-green) 30%, transparent);
+  box-shadow: 0 0 3rem color-mix(in srgb, var(--gw2-green) 8%, transparent);
+}
+
+.gwf-stage-atmosphere span:nth-child(2) {
+  border-color: color-mix(in srgb, var(--gw2-signal) 34%, transparent);
+  box-shadow: 0 0 3rem color-mix(in srgb, var(--gw2-signal) 7%, transparent);
+}
+
+.gwf-stage-atmosphere span:nth-child(3) {
+  border-color: color-mix(in srgb, var(--gw2-violet) 34%, transparent);
+  box-shadow: 0 0 2rem color-mix(in srgb, var(--gw2-violet) 7%, transparent);
+}
+
+.gwf-fragment {
+  --gwf-fragment-colour: var(--gw2-signal);
+  border-color: color-mix(in srgb, var(--gwf-fragment-colour) 30%, var(--gw2-line));
+  box-shadow:
+    var(--gw2-shadow-soft),
+    0 0 1.8rem color-mix(in srgb, var(--gwf-fragment-colour) 8%, transparent);
+}
+
+.gwf-fragment::after {
+  position: absolute;
+  inset-block-start: -1px;
+  inset-inline: 0.65rem;
+  block-size: 1px;
+  content: "";
+  background: linear-gradient(90deg, transparent, var(--gwf-fragment-colour), transparent);
+}
+
+.gwf-fragment > span {
+  color: var(--gwf-fragment-colour);
+  background: color-mix(in srgb, var(--gwf-fragment-colour) 13%, transparent);
+  border-color: color-mix(in srgb, var(--gwf-fragment-colour) 34%, transparent);
+}
+
+.gwf-fragment[data-gwf-fragment="tabs"] {
+  --gwf-fragment-colour: var(--gw2-signal);
+}
+
+.gwf-fragment[data-gwf-fragment="downloads"] {
+  --gwf-fragment-colour: var(--gw2-warm);
+}
+
+.gwf-fragment[data-gwf-fragment="notes"] {
+  --gwf-fragment-colour: var(--gw2-green);
+}
+
+.gwf-fragment[data-gwf-fragment="account"] {
+  --gwf-fragment-colour: var(--gw2-violet);
+}
+
+.gwf-fragment[data-gwf-fragment="agent"] {
+  --gwf-fragment-colour: var(--gw2-coral);
+}
+
+.gwf-fragment[data-gwf-fragment="tasks"] {
+  --gwf-fragment-colour: var(--gw2-signal);
+}
+
+.gwf-fragment[data-gwf-fragment="receipt"] {
+  --gwf-fragment-colour: var(--gw2-warm);
+}
+
+.gwf-fragment[data-gwf-fragment="source"] {
+  --gwf-fragment-colour: var(--gw2-green);
+}
+
+.gwf-workspace {
+  border-color: color-mix(in srgb, var(--gwf-colour-active) 27%, var(--gw2-line-strong));
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--gwf-colour-active) 5%, var(--gw2-overlay)), var(--gw2-overlay));
+}
+
+[data-gwf-mode="fabric"] .gwf-workspace {
+  box-shadow:
+    0 2rem 7rem color-mix(in srgb, var(--gw2-bg-deep) 74%, transparent),
+    0 0 4.5rem color-mix(in srgb, var(--gwf-colour-active) 9%, transparent);
+}
+
+.gwf-workspace__chrome {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--gw2-green) 6%, var(--gw2-field-2)), var(--gw2-field-2) 45%, color-mix(in srgb, var(--gw2-signal) 5%, var(--gw2-field-2)));
+}
+
+.gwf-workspace__health > div {
+  --gwf-health-colour: var(--gw2-line-strong);
+  border-color: color-mix(in srgb, var(--gwf-health-colour) 30%, var(--gw2-line));
+  box-shadow: inset 0 1px color-mix(in srgb, var(--gwf-health-colour) 20%, transparent);
+}
+
+.gwf-workspace__health > div[data-gwf-dock="storage"] {
+  --gwf-health-colour: var(--gw2-green);
+}
+
+.gwf-workspace__health > div[data-gwf-dock="identity"] {
+  --gwf-health-colour: var(--gw2-signal);
+}
+
+.gwf-workspace__health > div[data-gwf-dock="agents"] {
+  --gwf-health-colour: var(--gw2-violet);
+}
+
+.gwf-workspace__health > div[data-gwf-dock="history"] {
+  --gwf-health-colour: var(--gw2-warm);
+}
+
+.gwf-workspace__dock button[data-gwf-app-select="spaces"] {
+  --gwf-dock-colour: var(--gw2-green);
+}
+
+.gwf-workspace__dock button[data-gwf-app-select="flow"] {
+  --gwf-dock-colour: var(--gw2-signal);
+}
+
+.gwf-workspace__dock button[aria-pressed="true"] {
+  color: var(--gwf-dock-colour);
+  background: color-mix(in srgb, var(--gwf-dock-colour) 12%, var(--gw2-surface));
+  border-color: color-mix(in srgb, var(--gwf-dock-colour) 28%, var(--gw2-line));
+  box-shadow: inset 2px 0 var(--gwf-dock-colour);
+}
+
+.gwf-app-tabs button[data-gwf-app-select="spaces"] {
+  --gwf-tab-colour: var(--gw2-green);
+}
+
+.gwf-app-tabs button[data-gwf-app-select="flow"] {
+  --gwf-tab-colour: var(--gw2-signal);
+}
+
+.gwf-app-tabs button[aria-selected="true"] {
+  color: var(--gwf-tab-colour);
+  background: color-mix(in srgb, var(--gwf-tab-colour) 9%, var(--gw2-surface));
+  box-shadow: inset 0 -2px var(--gwf-tab-colour);
+}
+
+.gwf-canvas-command {
+  color: var(--gwf-colour-active);
+  border-color: color-mix(in srgb, var(--gwf-colour-active) 28%, var(--gw2-line));
+  background: color-mix(in srgb, var(--gwf-colour-active) 8%, var(--gw2-surface));
+}
+
+.gwf-object-rail li[data-object="atlas"] > span {
+  background: var(--gw2-green);
+  box-shadow: 0 0 0 0.18rem color-mix(in srgb, var(--gw2-green) 11%, transparent);
+}
+
+.gwf-object-rail li[data-object="brief"] > span {
+  background: var(--gw2-signal);
+  box-shadow: 0 0 0 0.18rem color-mix(in srgb, var(--gw2-signal) 11%, transparent);
+}
+
+.gwf-object-rail li[data-object="release"] > span {
+  background: var(--gw2-warm);
+  box-shadow: 0 0 0 0.18rem color-mix(in srgb, var(--gw2-warm) 11%, transparent);
+}
+
+.gwf-object-rail li[data-state="active"] {
+  border-color: color-mix(in srgb, var(--gw2-green) 24%, var(--gw2-line));
+  background: color-mix(in srgb, var(--gw2-green) 7%, var(--gw2-surface-2));
+}
+
+.gwf-object-rail > footer > span {
+  color: var(--gw2-signal);
+}
+
+.gwf-spaces-map {
+  background:
+    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--gw2-green) 12%, transparent), transparent 10rem),
+    radial-gradient(circle at 78% 22%, color-mix(in srgb, var(--gw2-signal) 7%, transparent), transparent 8rem),
+    linear-gradient(var(--gw2-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--gw2-line) 1px, transparent 1px),
+    var(--gw2-field);
+  background-size: auto, auto, 2rem 2rem, 2rem 2rem, auto;
+  border-color: color-mix(in srgb, var(--gw2-green) 24%, var(--gw2-line));
+}
+
+.gwf-focus-card {
+  border-color: color-mix(in srgb, var(--gw2-green) 38%, var(--gw2-line-strong));
+  box-shadow:
+    0 0 3rem color-mix(in srgb, var(--gw2-green) 17%, transparent),
+    0 0 0 0.4rem color-mix(in srgb, var(--gw2-signal) 5%, transparent);
+}
+
+.gwf-source-node {
+  --gwf-source-colour: var(--gw2-green);
+  border-color: color-mix(in srgb, var(--gwf-source-colour) 27%, var(--gw2-line));
+  box-shadow:
+    var(--gw2-shadow-soft),
+    0 0 1.5rem color-mix(in srgb, var(--gwf-source-colour) 7%, transparent);
+}
+
+.gwf-source-node > span {
+  background: var(--gwf-source-colour);
+}
+
+.gwf-source-node[data-source-node="field"] {
+  --gwf-source-colour: var(--gw2-green);
+}
+
+.gwf-source-node[data-source-node="archive"] {
+  --gwf-source-colour: var(--gw2-warm);
+}
+
+.gwf-source-node[data-source-node="brief"] {
+  --gwf-source-colour: var(--gw2-signal);
+}
+
+.gwf-source-node[data-source-node="map"] {
+  --gwf-source-colour: var(--gw2-violet);
+}
+
+.gwf-map-thread--a {
+  background: color-mix(in srgb, var(--gw2-green) 50%, transparent);
+}
+
+.gwf-map-thread--b {
+  background: color-mix(in srgb, var(--gw2-signal) 48%, transparent);
+}
+
+.gwf-map-thread--c {
+  background: color-mix(in srgb, var(--gw2-violet) 45%, transparent);
+}
+
+.gwf-spaces-document {
+  border-color: color-mix(in srgb, var(--gw2-signal) 22%, var(--gw2-line));
+  box-shadow: inset 0 2px color-mix(in srgb, var(--gw2-signal) 25%, transparent);
+}
+
+.gwf-document-lines i:nth-child(1),
+.gwf-document-lines i:nth-child(5) {
+  background: color-mix(in srgb, var(--gw2-green) 24%, var(--gw2-surface-3));
+}
+
+.gwf-document-lines i:nth-child(2),
+.gwf-document-lines i:nth-child(6) {
+  background: color-mix(in srgb, var(--gw2-signal) 20%, var(--gw2-surface-3));
+}
+
+.gwf-flow-view > header span {
+  color: var(--gw2-signal);
+}
+
+.gwf-flow-lanes > li {
+  --gwf-lane-colour: var(--gw2-signal);
+  border-color: color-mix(in srgb, var(--gwf-lane-colour) 22%, var(--gw2-line));
+  box-shadow: inset 0 2px color-mix(in srgb, var(--gwf-lane-colour) 24%, transparent);
+}
+
+.gwf-flow-lanes > li[data-flow-lane="intent"] {
+  --gwf-lane-colour: var(--gw2-violet);
+}
+
+.gwf-flow-lanes > li[data-flow-lane="work"] {
+  --gwf-lane-colour: var(--gw2-signal);
+}
+
+.gwf-flow-lanes > li[data-flow-lane="review"] {
+  --gwf-lane-colour: var(--gw2-warm);
+}
+
+.gwf-flow-lanes article {
+  background: color-mix(in srgb, var(--gwf-lane-colour) 6%, var(--gw2-surface));
+  border-color: color-mix(in srgb, var(--gwf-lane-colour) 20%, var(--gw2-line));
+}
+
+.gwf-flow-lanes article i {
+  background: var(--gwf-lane-colour);
+}
+
+.gwf-identity-card {
+  border-color: color-mix(in srgb, var(--gw2-signal) 25%, var(--gw2-line));
+  box-shadow: inset 0 2px color-mix(in srgb, var(--gw2-signal) 24%, transparent);
+}
+
+.gwf-agent-stack {
+  border-color: color-mix(in srgb, var(--gw2-violet) 25%, var(--gw2-line));
+  box-shadow: inset 0 2px color-mix(in srgb, var(--gw2-violet) 24%, transparent);
+}
+
+.gwf-agent-stack article[data-agent="source-analysis"] i {
+  background: var(--gw2-green);
+}
+
+.gwf-agent-stack article[data-agent="delivery"] i {
+  background: var(--gw2-signal);
+}
+
+.gwf-workspace__status span:first-child {
+  color: var(--gw2-green);
+}
+
+.gwf-workspace__status span:nth-child(2) {
+  color: var(--gw2-signal);
+}
+
+.gwf-workspace__status span:nth-child(3) {
+  color: var(--gw2-violet);
+}
+
+.gwf-workspace__status span:nth-child(4) {
+  color: var(--gw2-warm);
+}
+
+.gwf-arrival__status dl > div:nth-child(1) {
+  border-color: color-mix(in srgb, var(--gw2-green) 25%, var(--gw2-line));
+}
+
+.gwf-arrival__status dl > div:nth-child(2) {
+  border-color: color-mix(in srgb, var(--gw2-signal) 25%, var(--gw2-line));
+}
+
+.gwf-arrival__status dl > div:nth-child(3) {
+  border-color: color-mix(in srgb, var(--gw2-violet) 25%, var(--gw2-line));
+}
+
+.gwf-arrival__status dl > div:nth-child(4) {
+  border-color: color-mix(in srgb, var(--gw2-warm) 25%, var(--gw2-line));
+}
+
+.gwf-arrival__status > button {
+  color: var(--gw2-green);
+  border-color: color-mix(in srgb, var(--gw2-green) 30%, var(--gw2-line));
+  background: color-mix(in srgb, var(--gw2-green) 7%, var(--gw2-field));
+}
+
+.gwf-view-ribbon {
+  background:
+    radial-gradient(circle at 18% 50%, color-mix(in srgb, var(--gw2-green) 13%, transparent), transparent 14rem),
+    radial-gradient(circle at 82% 50%, color-mix(in srgb, var(--gw2-signal) 12%, transparent), transparent 14rem),
+    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--gw2-violet) 8%, transparent), transparent 12rem),
+    var(--gw2-field);
+}
+
+.gwf-view-ribbon > div:first-child {
+  border-color: color-mix(in srgb, var(--gw2-green) 30%, var(--gw2-line));
+  background: color-mix(in srgb, var(--gw2-green) 7%, var(--gw2-surface));
+}
+
+.gwf-view-ribbon > div:first-child > span {
+  color: var(--gw2-green);
+  background: var(--gw2-green-soft);
+  border-color: color-mix(in srgb, var(--gw2-green) 34%, transparent);
+}
+
+.gwf-view-ribbon > div:nth-of-type(2) {
+  border-color: color-mix(in srgb, var(--gw2-violet) 24%, var(--gw2-line));
+  box-shadow: 0 0 2.5rem color-mix(in srgb, var(--gw2-green) 8%, transparent);
+}
+
+.gwf-view-ribbon > div:last-child {
+  border-color: color-mix(in srgb, var(--gw2-signal) 30%, var(--gw2-line));
+  background: color-mix(in srgb, var(--gw2-signal) 7%, var(--gw2-surface));
+}
+
+.gwf-view-ribbon > div:last-child > span {
+  color: var(--gw2-signal);
+  background: var(--gw2-signal-soft);
+  border-color: color-mix(in srgb, var(--gw2-signal) 34%, transparent);
+}
+
+.gwf-view-ribbon > i:first-of-type {
+  background: linear-gradient(90deg, transparent, var(--gw2-green), var(--gw2-violet), transparent);
+}
+
+.gwf-view-ribbon > i:last-of-type {
+  background: linear-gradient(90deg, transparent, var(--gw2-violet), var(--gw2-signal), transparent);
+}
+
+.gwf-boundary-plane {
+  border-color: color-mix(in srgb, var(--gw2-violet) 18%, var(--gw2-line-strong));
+}
+
+.gwf-private-plane {
+  background:
+    radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--gw2-green) 15%, transparent), transparent 18rem),
+    var(--gw2-field);
+}
+
+.gwf-platform-plane {
+  background:
+    radial-gradient(circle at 70% 35%, color-mix(in srgb, var(--gw2-violet) 13%, transparent), transparent 18rem),
+    radial-gradient(circle at 90% 80%, color-mix(in srgb, var(--gw2-signal) 7%, transparent), transparent 12rem),
+    var(--gw2-field-2);
+}
+
+.gwf-private-plane > header span {
+  color: var(--gw2-green);
+}
+
+.gwf-platform-plane > header span {
+  color: var(--gw2-violet);
+}
+
+.gwf-private-stack article {
+  border-color: color-mix(in srgb, var(--gw2-green) 24%, var(--gw2-line));
+  background: color-mix(in srgb, var(--gw2-green) 6%, var(--gw2-surface));
+}
+
+.gwf-crossing > span:nth-child(2) {
+  background: linear-gradient(90deg, transparent, var(--gw2-warm), var(--gw2-signal), var(--gw2-violet), transparent);
+}
+
+.gwf-selected-projection {
+  border-color: color-mix(in srgb, var(--gw2-warm) 34%, var(--gw2-line));
+  box-shadow:
+    var(--gw2-shadow-soft),
+    0 0 2rem color-mix(in srgb, var(--gw2-warm) 9%, transparent);
+}
+
+.gwf-selected-projection i {
+  background: var(--gw2-warm);
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--gw2-warm) 12%, transparent);
+}
+
+[data-gwf-share="selected"] .gwf-selected-projection {
+  border-color: color-mix(in srgb, var(--gw2-violet) 38%, var(--gw2-line));
+  background: color-mix(in srgb, var(--gw2-violet) 10%, var(--gw2-overlay));
+  box-shadow:
+    var(--gw2-shadow-soft),
+    0 0 2.6rem color-mix(in srgb, var(--gw2-violet) 14%, transparent);
+}
+
+[data-gwf-share="selected"] .gwf-selected-projection i {
+  background: var(--gw2-violet);
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--gw2-violet) 13%, transparent);
+}
+
+.gwf-platform-plane > div span:nth-child(1) {
+  border-color: color-mix(in srgb, var(--gw2-violet) 27%, var(--gw2-line));
+}
+
+.gwf-platform-plane > div span:nth-child(2) {
+  border-color: color-mix(in srgb, var(--gw2-signal) 27%, var(--gw2-line));
+}
+
+.gwf-platform-plane > div span:nth-child(3) {
+  border-color: color-mix(in srgb, var(--gw2-warm) 27%, var(--gw2-line));
+}
+
+.gwf-boundary-scene > footer button {
+  color: var(--gw2-bg-deep);
+  background: linear-gradient(120deg, var(--gw2-green), color-mix(in srgb, var(--gw2-signal) 45%, var(--gw2-green)));
+}
+
+.gwf-closing {
+  background:
+    radial-gradient(circle at 10% 50%, color-mix(in srgb, var(--gw2-green) 9%, transparent), transparent 18rem),
+    radial-gradient(circle at 90% 50%, color-mix(in srgb, var(--gw2-signal) 7%, transparent), transparent 18rem);
+}
+
+.gwf-closing__mark {
+  filter: drop-shadow(0 0 1.5rem color-mix(in srgb, var(--gw2-green) 16%, transparent));
+}
+
+.gwf-closing nav button:hover,
+.gwf-closing nav a:hover {
+  color: var(--gw2-text);
+  border-color: color-mix(in srgb, var(--gw2-signal) 35%, var(--gw2-line));
+  background: color-mix(in srgb, var(--gw2-signal) 8%, var(--gw2-field));
+}

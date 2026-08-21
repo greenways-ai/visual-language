@@ -16,6 +16,15 @@ const markers = {
   web: "data-gw2-web",
 };
 
+const emptyWireframes = [
+  "first-run",
+  "desktop",
+  "applications",
+  "side-panel",
+  "popup",
+  "web",
+];
+
 const overviewPath = "dist/concepts/greenways-v2/index.html";
 const routes = surfaces.map((surface) => `dist/concepts/greenways-v2/${surface}/index.html`);
 
@@ -36,6 +45,29 @@ if (!overview.includes("Five primary surfaces.")) {
 }
 if (!overview.includes("data-gw2-command-layer")) {
   throw new Error("Greenways OS V2 overview is missing the shared command palette");
+}
+if (!overview.includes("data-gw2-empty-install")) {
+  throw new Error("Greenways OS V2 overview is missing the truthful empty-install study");
+}
+if (!overview.includes("Continue with no apps")) {
+  throw new Error("Greenways OS V2 empty install is missing the no-application completion path");
+}
+if (!overview.includes('aria-label="0 installed applications"')) {
+  throw new Error("Greenways OS V2 empty install does not begin with zero installed applications");
+}
+if (!overview.includes('aria-label="0 stored objects"')) {
+  throw new Error("Greenways OS V2 empty install does not begin with zero stored objects");
+}
+if (!overview.includes('aria-label="0 ambient grants"')) {
+  throw new Error("Greenways OS V2 empty install does not begin with zero ambient grants");
+}
+if (!overview.includes(">Spaces<") || !overview.includes(">Flow<")) {
+  throw new Error("Greenways OS V2 empty install must present Spaces and Flow as optional applications");
+}
+for (const wireframe of emptyWireframes) {
+  if (!overview.includes(`data-gw2-empty-wireframe="${wireframe}"`)) {
+    throw new Error(`Greenways OS V2 overview is missing the ${wireframe} empty-install wireframe`);
+  }
 }
 
 for (const surface of surfaces) {
@@ -59,4 +91,6 @@ for (const surface of surfaces) {
   }
 }
 
-console.log(`verified Greenways OS V2 overview and ${surfaces.length} host-specific interface routes`);
+console.log(
+  `verified Greenways OS V2 overview, ${emptyWireframes.length} empty-install studies and ${surfaces.length} host-specific interface routes`,
+);

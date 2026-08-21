@@ -13,109 +13,106 @@ const deepFreeze = (value) => {
   return value;
 };
 
-export const GREENWAYS_PLATFORM_HOMEPAGE_VERSION = "greenways-platform-homepage/1";
+export const GREENWAYS_FABRIC_HOMEPAGE_VERSION = "greenways-fabric-homepage/3";
 
-export const greenwaysPlatformHomepage = deepFreeze({
+export const greenwaysFabricHomepage = deepFreeze({
   meta: {
-    title: "www.greenways.ai homepage",
-    description: "A public homepage design for Greenways as a publishing system for worlds, books, documents, and sites.",
-    specimenLabel: "Public website design specimen",
-    truthfulnessNote: "Links move within this specimen. No account, publication, agent, or provider action is performed.",
-  },
-  navigation: {
-    items: [
-      { label: "Works", href: "#publication-forms" },
-      { label: "Process", href: "#publishing-sequence" },
-      { label: "Workspace", href: "#publishing-desk" },
-      { label: "Principles", href: "#release-principles" },
-    ],
-    command: { label: "Enter Greenways", href: "#start" },
+    title: "Greenways Fabric",
+    description: "An interface-led homepage study showing how Greenways Fabric gathers storage, identity, agents, Spaces, and Flow into one calm personal operating environment.",
+    specimenLabel: "Static interface study",
+    truthfulnessNote: "Controls change this visual specimen only. No storage, identity, agent, application, account, upload, sync, or hosted action is performed.",
   },
   hero: {
-    kicker: "A publishing system for the living web",
-    headline: "Make a place on the web.",
-    introduction: "Build a world, write the book, publish the site — without splitting the work apart.",
-    primaryAction: { label: "See the publishing sequence", href: "#publishing-sequence" },
-    secondaryAction: { label: "Open the publishing desk", href: "#publishing-desk" },
+    kicker: "Greenways Fabric · personal operating environment",
+    headline: "Everything settles into place.",
+    introduction: "Your work. Your identity. Clear roles.",
   },
-  featuredWork: {
-    index: "Publication 01",
-    title: "The Peacock Ballroom",
-    descriptor: "One work. Four public forms.",
-    edition: "Design specimen edition",
-    sourceNote: "Each public form remains attached to the same sources, identity, and history.",
-    forms: [
-      { id: "world", index: "01", label: "World", detail: "Spatial edition" },
-      { id: "book", index: "02", label: "Book", detail: "Reading edition" },
-      { id: "document", index: "03", label: "Document", detail: "Living notes" },
-      { id: "site", index: "04", label: "Site", detail: "Public home" },
+  modes: [
+    { id: "scatter", label: "Scattered" },
+    { id: "fabric", label: "Fabric" },
+  ],
+  fragments: [
+    { id: "tabs", glyph: "▥", label: "12 open tabs", detail: "three browsers" },
+    { id: "downloads", glyph: "↓", label: "Downloads", detail: "7 unnamed files" },
+    { id: "notes", glyph: "✎", label: "Untitled notes", detail: "four copies" },
+    { id: "account", glyph: "◇", label: "Another account", detail: "identity split" },
+    { id: "agent", glyph: "◎", label: "Agent output", detail: "scope unclear" },
+    { id: "tasks", glyph: "✓", label: "Loose tasks", detail: "six places" },
+    { id: "receipt", glyph: "↳", label: "Result history", detail: "detached" },
+    { id: "source", glyph: "⌁", label: "Source links", detail: "context missing" },
+  ],
+  fabric: {
+    label: "Personal Fabric",
+    status: [
+      { id: "storage", label: "Storage", value: "Home" },
+      { id: "identity", label: "Identity", value: "Linked" },
+      { id: "agents", label: "Agents", value: "Scoped" },
+      { id: "history", label: "History", value: "Current" },
     ],
   },
-  sequence: [
-    {
-      id: "gather",
-      index: "01",
-      label: "Gather",
-      statement: "Notes, images, sources, and conversations stay with the work.",
-      detail: "Bring the material in without losing where it came from.",
+  workspace: {
+    objects: [
+      { id: "atlas", label: "Peacock atlas", kind: "Space", state: "active" },
+      { id: "brief", label: "Migration brief", kind: "Document", state: "ready" },
+      { id: "release", label: "Release 07", kind: "Flow", state: "review" },
+    ],
+    spaces: {
+      label: "Spaces",
+      verb: "Understand",
+      title: "Peacock atlas",
+      meta: "4 sources · 12 references",
+      sources: [
+        { id: "field", label: "Field notes", state: "grounded" },
+        { id: "archive", label: "Archive plate", state: "linked" },
+        { id: "brief", label: "Cited brief", state: "ready" },
+        { id: "map", label: "Relationship map", state: "current" },
+      ],
     },
-    {
-      id: "shape",
-      index: "02",
-      label: "Shape",
-      statement: "Arrange pages, rooms, paths, and chapters in one publication.",
-      detail: "The work may be read, entered, followed, or explored.",
+    flow: {
+      label: "Flow",
+      verb: "Coordinate",
+      title: "Fabric homepage",
+      meta: "3 actors · 1 review",
+      lanes: [
+        { id: "intent", label: "Intent", count: "01", item: "Preserve the calm centre" },
+        { id: "work", label: "In motion", count: "02", item: "Interface and responsive proof" },
+        { id: "review", label: "Review", count: "01", item: "Human visual acceptance" },
+      ],
     },
-    {
-      id: "release",
-      index: "03",
-      label: "Release",
-      statement: "Publish the world, the book, the document, or the whole set.",
-      detail: "Keep the public edition connected to its history.",
-    },
+  },
+  identity: {
+    label: "You",
+    detail: "2 enrolled surfaces",
+  },
+  agents: [
+    { id: "source-analysis", label: "Source analyst", application: "Spaces", scope: "Selected sources", state: "Ends with brief" },
+    { id: "delivery", label: "Release coordinator", application: "Flow", scope: "Homepage buildout", state: "Ends after review" },
   ],
-  publicationForms: [
-    { id: "world", index: "01", label: "World", statement: "A place people can enter.", detail: "Rooms, paths, objects, sound, and motion." },
-    { id: "book", index: "02", label: "Book", statement: "A sequence people can carry.", detail: "Chapters, plates, editions, and reading paths." },
-    { id: "document", index: "03", label: "Document", statement: "A living record people can return to.", detail: "Notes, sources, decisions, and revisions." },
-    { id: "site", index: "04", label: "Site", statement: "A public home for the work.", detail: "A durable address with its own shape and voice." },
-  ],
-  desk: {
-    kicker: "Greenways OS · the publishing desk",
-    headline: "The place where the work takes shape.",
-    introduction: "Write, arrange, review, and release from one calm workspace. The public work stays at the centre.",
-    panels: [
-      { id: "studio", index: "01", label: "Compose", headline: "Shape the publication", detail: "Pages, scenes, sources, and previews remain side by side." },
-      { id: "foreman", index: "02", label: "Coordinate", headline: "Bring in the right help", detail: "People and agents join through named work, scope, and approval." },
-      { id: "receipts", index: "03", label: "Release", headline: "Leave a visible history", detail: "Versions, approvals, and publication evidence travel with the work." },
+  applications: {
+    headline: "One Fabric. Two current views.",
+    items: [
+      { id: "spaces", label: "Spaces", verb: "Understand" },
+      { id: "flow", label: "Flow", verb: "Coordinate" },
     ],
   },
-  coordination: {
-    kicker: "Optional coordination",
-    headline: "Bring help without handing over the work.",
-    introduction: "Foreman can coordinate agents, approvals, and returns. Greenways keeps every contribution attached to the publication and visible to its owner.",
-    rules: [
-      { label: "Named scope", detail: "Every request says what may be used and what must return." },
-      { label: "Human release", detail: "Assistance never becomes publication authority by accident." },
-      { label: "Visible evidence", detail: "Results, decisions, and external effects remain attributable." },
-    ],
+  platform: {
+    headline: "Only the selected piece crosses.",
+    selected: { label: "Peacock brief", detail: "Public projection" },
+    privateItems: ["Source archive", "Agent scopes", "Private notes"],
+    hostedItems: ["Shared brief", "Invitation", "Public profile"],
   },
-  principles: [
-    { id: "one-work", index: "01", label: "One work", detail: "Each public form shares an identity, sources, and history." },
-    { id: "portable", index: "02", label: "Portable", detail: "Move between the web, the desk, and the archive without rebuilding the work." },
-    { id: "human-release", index: "03", label: "Human release", detail: "Agents may assist. A person decides what becomes public." },
-  ],
-  finalDoorway: {
-    kicker: "Greenways · design specimen 01",
-    headline: "Start with a page. Leave with a world.",
-    introduction: "The first step is small: make a work and give it a public place.",
-    action: { label: "Return to the beginning", href: "#top" },
-    secondary: "Open foundations remain discoverable after the product story, not in front of it.",
+  closing: {
+    headline: "Keep the centre.",
+    detail: "Applications can change. Your Fabric remains.",
   },
   adoptionNotes: [
-    "Keep the production homepage centred on making and publishing one work.",
-    "Replace specimen anchors with real product destinations only when those destinations exist.",
-    "Keep Greenways OS, Foreman, and infrastructure detail subordinate to the publication journey.",
-    "Keep open-source projects available through About or the footer rather than the first viewport.",
+    "Lead with the decluttering experience rather than explanatory sections.",
+    "Keep Spaces and Flow as the only current application names.",
+    "Keep the personal Fabric private by default and make hosted crossing explicit.",
+    "Treat self-hosting, open source, open standards, and portable formats as quiet product facts rather than a word-heavy feature catalogue.",
   ],
 });
+
+// Compatibility for the stable route and previously published import surface.
+export const GREENWAYS_PLATFORM_HOMEPAGE_VERSION = GREENWAYS_FABRIC_HOMEPAGE_VERSION;
+export const greenwaysPlatformHomepage = greenwaysFabricHomepage;

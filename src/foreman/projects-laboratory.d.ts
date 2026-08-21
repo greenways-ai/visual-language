@@ -104,6 +104,7 @@ export interface ForemanBuildout {
   readonly stateLabel: string;
   readonly progress: ForemanProgress;
   readonly currentStep: string;
+  readonly evidence?: string;
   readonly attention: string | null;
   readonly evidence?: string;
   readonly updatedAt: string;

@@ -37,16 +37,32 @@ test("the V2 model defines five host-specific execution surfaces and five produc
   assert.match(source, /greenwaysOsAbstractionOwners/);
 });
 
-test("the V2 overview explains one portable workspace and links every manifestation", async () => {
+test("the V2 overview explains one portable workspace, an honest empty install and every manifestation", async () => {
   const source = await read("src/pages/concepts/greenways-v2/index.astro");
 
   assert.match(source, /data-gw2-system-map/);
   assert.match(source, /data-gw2-architecture/);
-  assert.match(source, /A personal file<br \/>and work environment/);
-  assert.match(source, /The system should stay<br \/>out of the way/);
+  assert.match(source, /One workspace\./);
+  assert.match(source, /The shell changes\.<br \/>The work does not/);
   assert.match(source, /Five primary surfaces/);
-  assert.match(source, /Tahto and Hestia define the feature abstractions using Hara/);
-  assert.match(source, /Hoplite, Ignatius and Hodos provide the\s+environments/);
+  assert.match(source, /Tahto and Hestia build the feature\s+abstractions with Hara/);
+  assert.match(source, /Hoplite and Ignatius are the execution\s+environments/);
+  assert.match(source, /Hodos materialises approved client packages/);
+
+  assert.match(source, /data-gw2-empty-install/);
+  assert.match(source, /Before the workspace fills up/);
+  assert.match(source, /not a sixth host surface/);
+  assert.match(source, /Continue with no apps/);
+  assert.match(source, /aria-label="0 installed applications"/);
+  assert.match(source, /aria-label="0 stored objects"/);
+  assert.match(source, /aria-label="0 ambient grants"/);
+  assert.match(source, /<h5>Spaces<\/h5>/);
+  assert.match(source, /<h5>Flow<\/h5>/);
+  assert.match(source, /Populated reference atlas/);
+
+  for (const wireframe of ["first-run", "desktop", "applications", "side-panel", "popup", "web"]) {
+    assert.match(source, new RegExp(`data-gw2-empty-wireframe="${wireframe}"`));
+  }
 
   for (const surface of surfaceIds) {
     assert.match(source, new RegExp(`surfaceHref\\("${surface}"\\)`));
@@ -137,7 +153,7 @@ test("the merged V1 desktop links forward to the V2 interface atlas", async () =
   assert.match(source, /concepts\/greenways-v2\//);
 });
 
-test("the production verifier requires the overview and all five V2 routes", async () => {
+test("the production verifier requires the overview, empty install study and all five V2 routes", async () => {
   const [source, packageSource] = await Promise.all([
     read("scripts/verify-greenways-os-v2-output.mjs"),
     read("package.json"),
@@ -149,10 +165,13 @@ test("the production verifier requires the overview and all five V2 routes", asy
   assert.match(source, /greenways-v2\/\$\{surface\}\/index\.html/);
   assert.match(source, /data-greenways-os-v2-surface/);
   assert.match(source, /data-gw2-command-layer/);
+  assert.match(source, /data-gw2-empty-install/);
+  assert.match(source, /data-gw2-empty-wireframe/);
+  assert.match(source, /Continue with no apps/);
   assert.match(packageSource, /verify-greenways-os-v2-output\.mjs/);
 });
 
-test("V2 styling covers all five viewports, light and dark modes, and reduced motion", async () => {
+test("V2 styling covers all five viewports, the empty install studies, themes and reduced motion", async () => {
   const modules = [
     "greenways-os-v2.css",
     "greenways-os-v2-foundation.css",
@@ -182,6 +201,12 @@ test("V2 styling covers all five viewports, light and dark modes, and reduced mo
     ".gw2-product-surfaces",
     ".gw2-product-card",
     ".gw2-surface-atlas",
+    ".gw2-empty-install",
+    ".gw2-empty-desktop",
+    ".gw2-empty-library",
+    ".gw2-empty-browser",
+    ".gw2-empty-popup",
+    ".gw2-empty-web",
     ".gw2-architecture",
   ]) {
     assert.match(source, new RegExp(selector.replaceAll(".", "\\.")));

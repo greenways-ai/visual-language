@@ -3,8 +3,10 @@ import GreenwaysThemeProvider from "../site/components/GreenwaysThemeProvider.as
 import CatalogueNavigation from "./CatalogueNavigation.astro";
 import CataloguePageFooter from "./CataloguePageFooter.astro";
 import { catalogueHref } from "./catalogue-manifest.js";
+import greenwaysV2DelicateMaterialCss from "./catalogue-material.css?raw";
 import "./document.css";
 import "./catalogue.css";
+import "./catalogue-atlas.css";
 
 interface Props {
   title: string;
@@ -33,7 +35,7 @@ const canonical = new URL(canonicalPath, origin).toString();
 ---
 
 <!doctype html>
-<html lang="en" data-project="visual-language">
+<html lang="en" data-project="visual-language" data-gw-v2-atlas-frame>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -46,21 +48,34 @@ const canonical = new URL(canonicalPath, origin).toString();
     <meta property="og:url" content={canonical} />
     <title>{title} · Greenways visual language</title>
     <GreenwaysThemeProvider />
+    <style
+      is:inline
+      data-greenways-v2-delicate-material
+      set:html={greenwaysV2DelicateMaterialCss}
+    ></style>
   </head>
-  <body class:list={["gw-v2", "gw-v2-document", "gw-v2-catalogue", bodyClass]}>
+  <body
+    class:list={["gw-v2", "gw-v2-document", "gw-v2-catalogue", "gw-v2-atlas-frame", bodyClass]}
+    data-gw-v2-current-path={currentPath}
+    data-gw-v2-material="delicate"
+  >
     <CatalogueNavigation
       currentPath={currentPath}
       basePath={basePath}
       sectionNavigation={sectionNavigation}
     />
 
-    <main id="gw-v2-main" class:list={["gw-v2-catalogue-main", "gw-v2-page", mainClass]} tabindex="-1">
+    <main
+      id="gw-v2-main"
+      class:list={["gw-v2-catalogue-main", "gw-v2-page", mainClass]}
+      tabindex="-1"
+    >
       <slot />
       <CataloguePageFooter currentPath={currentPath} basePath={basePath} />
     </main>
 
     <footer class="gw-v2-catalogue-footer">
-      <span>Greenways visual language · v2 catalogue</span>
+      <span>Greenways visual language · executable atlas</span>
       <a href="https://github.com/greenways-ai/visual-language">Source ↗</a>
     </footer>
   </body>

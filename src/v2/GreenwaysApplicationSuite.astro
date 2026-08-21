@@ -1,0 +1,149 @@
+---
+import MosaicLogo from "../MosaicLogo.astro";
+import {
+  getGreenwaysSuiteScreen,
+  greenwaysSuiteApplications,
+  greenwaysSuiteContract,
+  greenwaysSuiteScreens,
+  greenwaysSuiteSystemSurfaces,
+} from "./greenways-application-suite.js";
+import { catalogueHref } from "./catalogue-manifest.js";
+import OverviewScreen from "./greenways-suite/OverviewScreen.astro";
+import DesktopScreen from "./greenways-suite/DesktopScreen.astro";
+import BrowserScreen from "./greenways-suite/BrowserScreen.astro";
+import CompanionScreen from "./greenways-suite/CompanionScreen.astro";
+import CliScreen from "./greenways-suite/CliScreen.astro";
+import HandoffScreen from "./greenways-suite/HandoffScreen.astro";
+import "./greenways-application-suite.css";
+
+interface Props {
+  screenId: string;
+}
+
+const { screenId } = Astro.props;
+const screen = getGreenwaysSuiteScreen(screenId);
+if (!screen) throw new Error(`Unknown Greenways suite screen: ${screenId}`);
+
+const basePath = import.meta.env.BASE_URL;
+const href = (path: string) => catalogueHref(path, basePath);
+const currentApplication = greenwaysSuiteApplications.find((application) => application.id === screen.application);
+const screenIndex = greenwaysSuiteScreens.findIndex((item) => item.id === screen.id);
+const screenCode = String(screenIndex).padStart(2, "0");
+---
+
+<article
+  class:list={["gw-suite", `gw-suite--${screen.id}`]}
+  data-greenways-suite={greenwaysSuiteContract}
+  data-greenways-suite-screen={screen.id}
+  data-current-applications="spaces flow"
+>
+  <header
+    class="gw-suite-hero"
+    id="suite-overview"
+    data-catalogue-section
+    data-section-label="Screen"
+    data-suite-hero-atlas
+  >
+    <div class="gw-suite-hero__copy">
+      <p class="gw-suite-kicker">Greenways suite · {screenCode} · current product laboratory</p>
+      <h1>
+        {screen.id === "overview" ? (
+          <Fragment>Two applications.<br />One Fabric.</Fragment>
+        ) : (
+          screen.label
+        )}
+      </h1>
+      <p>{screen.summary}</p>
+      <div class="gw-suite-hero__actions">
+        <a href={href("/v2/applications/greenways-suite/")}>Suite overview</a>
+        <a href="#suite-specimen">Enter this specimen</a>
+      </div>
+    </div>
+
+    <div class="gw-suite-hero__system" aria-label="Current Greenways application system">
+      <span class="gw-suite-hero__orbit is-outer" aria-hidden="true"></span>
+      <span class="gw-suite-hero__orbit is-inner" aria-hidden="true"></span>
+      <div class="gw-suite-hero__core">
+        <MosaicLogo project="greenways" label="Greenways" class="gw-suite-hero__mark" />
+        <strong>Fabric</strong>
+        <small>identity · storage · agents</small>
+      </div>
+      {greenwaysSuiteApplications.map((application, applicationIndex) => (
+        <a
+          class:list={[
+            "gw-suite-hero__application",
+            `is-${application.id}`,
+            { "is-active": application.id === screen.application },
+          ]}
+          href={href(application.path)}
+          aria-current={application.id === screen.application ? "page" : undefined}
+        >
+          <span>{String(applicationIndex + 1).padStart(2, "0")}</span>
+          <strong>{application.label}</strong>
+          <small>{application.verb}</small>
+        </a>
+      ))}
+      <span class="gw-suite-hero__system-label">System surfaces remain subordinate</span>
+    </div>
+
+    <dl class="gw-suite-hero__facts">
+      <div><dt>Foreground applications</dt><dd>Spaces · Flow</dd></div>
+      <div><dt>Selected application</dt><dd>{currentApplication?.label ?? "Suite context"}</dd></div>
+      <div><dt>Behaviour</dt><dd>Static specimen · no command connected</dd></div>
+    </dl>
+  </header>
+
+  <nav
+    class="gw-suite-launcher"
+    aria-label="Current Greenways applications"
+    data-current-launcher-count="2"
+  >
+    {greenwaysSuiteApplications.map((application, applicationIndex) => (
+      <a
+        class:list={[
+          "gw-suite-launcher__app",
+          `is-${application.id}`,
+          { "is-active": application.id === screen.application },
+        ]}
+        href={href(application.path)}
+        aria-current={application.id === screen.application ? "page" : undefined}
+      >
+        <span class="gw-suite-app-mark" aria-hidden="true">{application.code}</span>
+        <span>
+          <small>{String(applicationIndex + 1).padStart(2, "0")} · {application.verb}</small>
+          <strong>{application.label}</strong>
+        </span>
+        <em>{application.summary}</em>
+        <b aria-hidden="true">→</b>
+      </a>
+    ))}
+    <details class="gw-suite-system-menu">
+      <summary>
+        <span>System surfaces</span>
+        <small>beneath the applications</small>
+      </summary>
+      <div>{greenwaysSuiteSystemSurfaces.map((surface) => <span>{surface}</span>)}</div>
+    </details>
+  </nav>
+
+  <nav class="gw-suite-screen-nav" aria-label="Greenways suite screen studies">
+    {greenwaysSuiteScreens.map((item, itemIndex) => (
+      <a
+        href={href(item.path)}
+        aria-current={item.id === screen.id ? "page" : undefined}
+      >
+        <span>{String(itemIndex).padStart(2, "0")}</span>
+        <strong>{item.label}</strong>
+      </a>
+    ))}
+  </nav>
+
+  <div id="suite-specimen" class="gw-suite-specimen">
+    {screen.id === "overview" && <OverviewScreen />}
+    {screen.id === "desktop" && <DesktopScreen />}
+    {screen.id === "browser" && <BrowserScreen />}
+    {screen.id === "companion" && <CompanionScreen />}
+    {screen.id === "cli" && <CliScreen />}
+    {screen.id === "handoff" && <HandoffScreen />}
+  </div>
+</article>
