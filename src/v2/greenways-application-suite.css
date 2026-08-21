@@ -7,3 +7,8 @@
 @import "./greenways-suite/styles/cli-handoff.css";
 @import "./greenways-suite/styles/responsive.css";
 @import "./greenways-suite/styles/editorial.css";
+
+/* Keep the disclosure glyph anchored to its own summary at every host width. */
+.gw-suite-system-menu > summary {
+  position: relative;
+}
