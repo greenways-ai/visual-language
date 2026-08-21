@@ -17,8 +17,8 @@ test("Foreman distinguishes completed, active, and planned work", () => {
   assert.equal(getCatalogueRoute("/v2/applications/foreman/")?.status, "in-progress");
   assert.equal(getCatalogueRoute("/v2/applications/foreman/model/")?.status, "ready");
   assert.equal(getCatalogueRoute("/v2/applications/foreman/tools/")?.status, "in-progress");
+  assert.equal(getCatalogueRoute("/v2/applications/foreman/projects/")?.status, "in-progress");
   for (const path of [
-    "/v2/applications/foreman/projects/",
     "/v2/applications/foreman/handoffs/",
     "/v2/applications/foreman/surfaces/",
   ]) {
