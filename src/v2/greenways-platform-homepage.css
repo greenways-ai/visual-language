@@ -8,3 +8,16 @@
 @import "./greenways-platform-homepage-workspace.css";
 @import "./greenways-platform-homepage-editorial.css";
 @import "./greenways-platform-homepage-responsive.css";
+
+.gwf-experience-body {
+  --gw-sigil-ground: var(--gw2-field);
+  --gw-line-strong: var(--gw2-line-strong);
+}
+
+.gwf-theme-toggle svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.35;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
