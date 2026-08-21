@@ -87,6 +87,9 @@ test("section navigation progressively enhances meaningful page sections", async
   assert.match(source, /aria-current", "location"/);
   assert.match(source, /event\.key !== "Escape"/);
   assert.match(source, /prefers-reduced-motion/);
+  assert.match(source, /nav\.dataset\.open === "true"/);
+  assert.match(source, /links\.scrollTo/);
+  assert.doesNotMatch(source, /active\.scrollIntoView/);
   assert.match(source, /astro:page-load/);
 });
 
