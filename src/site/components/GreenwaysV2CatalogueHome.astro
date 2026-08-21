@@ -19,6 +19,51 @@ interface Props {
 const { currentPath = Astro.url.pathname } = Astro.props;
 const basePath = import.meta.env.BASE_URL;
 const href = (path: string) => catalogueHref(path, basePath);
+const artwork = (path: string) => `${basePath.replace(/\/+$/, "")}/artwork/${path}`;
+const visualWorlds = [
+  {
+    project: "Greenways",
+    label: "Peacock garden",
+    route: "/concepts/greenways/",
+    day: "greenways/peacock-garden-day.webp",
+    night: "greenways/peacock-garden-night.webp",
+  },
+  {
+    project: "Hodos",
+    label: "Reflecting pool",
+    route: "/concepts/hodos/",
+    day: "hodos/reflecting-pool-day.webp",
+    night: "hodos/reflecting-pool-night.webp",
+  },
+  {
+    project: "Tahto",
+    label: "Paired observatories",
+    route: "/concepts/tahto/",
+    day: "tahto/paired-observatories-day.webp",
+    night: "tahto/paired-observatories-night.webp",
+  },
+  {
+    project: "Hestia",
+    label: "Recovery room",
+    route: "/concepts/hestia/",
+    day: "hestia/recovery-room-day.webp",
+    night: "hestia/recovery-room-night.webp",
+  },
+  {
+    project: "Historia",
+    label: "Raven library",
+    route: "/concepts/historia/",
+    day: "historia/raven-library-day.webp",
+    night: "historia/raven-library-night.webp",
+  },
+  {
+    project: "Hoplite",
+    label: "Open horizon",
+    route: "/concepts/hoplite/",
+    day: "hoplite/open-horizon-day.webp",
+    night: "hoplite/open-horizon-night.webp",
+  },
+];
 ---
 
 <CatalogueShell
@@ -29,6 +74,10 @@ const href = (path: string) => catalogueHref(path, basePath);
   bodyClass="gw-v2-atlas-body"
 >
   <header id="catalogue-overview" data-catalogue-section data-section-label="Overview" class="gw-v2-catalogue-hero">
+    <div class="gw-v2-catalogue-hero__art" aria-hidden="true">
+      <img class="mode-light" src={artwork("greenways/peacock-garden-day.webp")} alt="" loading="eager" decoding="async" />
+      <img class="mode-dark" src={artwork("greenways/peacock-garden-night.webp")} alt="" loading="eager" decoding="async" />
+    </div>
     <div class="gw-v2-catalogue-hero__copy">
       <p class="gw-v2-catalogue-eyebrow">Shared contracts · executable laboratories</p>
       <h1>One catalogue.<br />Clear ownership.</h1>
@@ -42,6 +91,34 @@ const href = (path: string) => catalogueHref(path, basePath);
       </div>
     </div>
   </header>
+
+  <section
+    id="visual-worlds"
+    data-catalogue-section
+    data-section-label="Visual worlds"
+    class="gw-v2-visual-layout-gallery"
+    aria-labelledby="visual-worlds-title"
+  >
+    <header class="gw-v2-visual-layout-gallery__header">
+      <div>
+        <p class="gw-v2-catalogue-eyebrow">Generated worlds</p>
+        <h2 id="visual-worlds-title">The language has places to live.</h2>
+      </div>
+      <p>Generated backgrounds from the Greenways family give the catalogue a sense of place without turning the system chrome into a poster.</p>
+    </header>
+    <div class="gw-v2-visual-layout-gallery__grid">
+      {visualWorlds.map((world) => (
+        <a class="gw-v2-visual-layout-artwork" href={href(world.route)}>
+          <span class="gw-v2-visual-layout-artwork__image">
+            <img class="mode-light" src={artwork(world.day)} alt="" loading="lazy" decoding="async" />
+            <img class="mode-dark" src={artwork(world.night)} alt="" loading="lazy" decoding="async" />
+          </span>
+          <span class="gw-v2-visual-layout-artwork__meta">{world.project} · visual study</span>
+          <strong>{world.label}</strong>
+        </a>
+      ))}
+    </div>
+  </section>
 
   <section id="visual-layout-map" data-catalogue-section data-section-label="Visual layout map" class="gw-v2-visual-layout-map">
     <header class="gw-v2-visual-layout-map__header">

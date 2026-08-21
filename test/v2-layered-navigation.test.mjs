@@ -155,8 +155,15 @@ test("manual v2 catalogue pages opt into the shared atlas material", async () =>
   }
   assert.match(home, /CatalogueShell/);
   assert.match(home, /bodyClass="gw-v2-atlas-body"/);
+  assert.match(home, /visualWorlds/);
+  assert.match(home, /gw-v2-catalogue-hero__art/);
+  assert.match(home, /peacock-garden-day\.webp/);
   assert.match(material, /\.gw-v2-button--primary/);
   assert.match(material, /\.gw-v2-visual-layout-map__group/);
+  assert.match(material, /\.gw-v2-visual-layout-gallery/);
+  assert.match(material, /\.gw-v2-visual-layout-artwork/);
+  assert.match(material, /gw-v2-font-body/);
+  assert.match(material, /gw-v2-radius-pill/);
   assert.match(material, /backdrop-filter:\s*blur/);
   assert.match(material, /gw-v2-glass-drift/);
   assert.match(material, /gw-v2-surface-shimmer/);
