@@ -45,12 +45,8 @@ const groupIsActive = (routes: (typeof greenwaysV2Catalogue)[number]["routes"]) 
     <strong>System · applications · surfaces</strong>
   </div>
 
-  <details
-    class="gw-v2-catalogue-nav"
-    data-gw-v2-catalogue-nav
-    data-gw-v2-atlas-index
-  >
-    <summary aria-label="Open the Greenways visual language atlas">
+  <details class="gw-v2-catalogue-nav" data-gw-v2-catalogue-nav data-gw-v2-atlas-index>
+    <summary>
       <span>Atlas index</span>
       <span aria-hidden="true">＋</span>
     </summary>
@@ -137,41 +133,3 @@ const groupIsActive = (routes: (typeof greenwaysV2Catalogue)[number]["routes"]) 
 
   <ThemeButton />
 </header>
-
-<script>
-  const initialiseGreenwaysAtlasIndex = () => {
-    document.querySelectorAll<HTMLDetailsElement>("[data-gw-v2-atlas-index]").forEach((index) => {
-      if (index.dataset.ready === "true") return;
-      index.dataset.ready = "true";
-      const close = index.querySelector<HTMLButtonElement>("[data-gw-v2-catalogue-close]");
-
-      const reflect = () => {
-        document.body.dataset.gwV2CatalogueOpen = String(index.open);
-      };
-
-      close?.addEventListener("click", () => {
-        index.open = false;
-        index.querySelector<HTMLElement>("summary")?.focus();
-      });
-      index.addEventListener("toggle", reflect);
-      index.querySelectorAll<HTMLAnchorElement>("a").forEach((anchor) => {
-        anchor.addEventListener("click", () => {
-          index.open = false;
-        });
-      });
-      document.addEventListener("keydown", (event) => {
-        if (event.key !== "Escape" || !index.open) return;
-        index.open = false;
-        index.querySelector<HTMLElement>("summary")?.focus();
-      });
-      reflect();
-    });
-  };
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initialiseGreenwaysAtlasIndex, { once: true });
-  } else {
-    initialiseGreenwaysAtlasIndex();
-  }
-  document.addEventListener("astro:page-load", initialiseGreenwaysAtlasIndex);
-</script>
