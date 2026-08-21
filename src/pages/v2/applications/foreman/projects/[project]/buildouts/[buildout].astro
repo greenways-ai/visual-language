@@ -11,10 +11,9 @@ import type {
   ForemanWorkItem,
 } from "../../../../../../../foreman/projects-laboratory.js";
 
-const projects = foremanProjects as readonly ForemanProject[];
-
 export function getStaticPaths() {
-  return projects.flatMap((project: ForemanProject) => project.buildouts.map((buildout: ForemanBuildout) => ({
+  const staticProjects = foremanProjects as readonly ForemanProject[];
+  return staticProjects.flatMap((project: ForemanProject) => project.buildouts.map((buildout: ForemanBuildout) => ({
     params: { project: project.id, buildout: buildout.id },
     props: { project, buildout },
   })));
