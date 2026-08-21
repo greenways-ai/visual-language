@@ -1,0 +1,101 @@
+---
+import DocumentationShell from "../../v1/DocumentationShell.astro";
+---
+
+<DocumentationShell>
+  <article class="gw-v1-brand-book">
+    <section id="overview" class="gw-v1-hero gw-v1-section" data-catalogue-section data-section-label="Overview">
+      <p class="gw-v1-kicker">Greenways visual layout · documentation system · v1</p>
+      <h1>Documentation with a material memory.</h1>
+      <p>
+        v1 is the dependable Greenways documentation shell: clear navigation, generous reading space, technical
+        metadata, and a restrained project accent over paper, stone, and grid.
+      </p>
+      <div class="gw-v1-actions">
+        <a class="gw-v1-button gw-v1-button--primary" href="#typography">View the foundations</a>
+        <a class="gw-v1-button" href="/hoplite/">Open a documentation example ↗</a>
+      </div>
+    </section>
+
+    <section id="typography" class="gw-v1-section" data-catalogue-section data-section-label="Typography">
+      <header>
+        <p class="gw-v1-kicker">One family relationship · three roles</p>
+        <h2>Serif for orientation. Sans for work.</h2>
+        <p id="rule-readable">The v1 hierarchy shares its font relationship with v2 while preserving its own scale: Marcellus leads, Manrope carries the interface, and IBM Plex Mono marks technical precision.</p>
+      </header>
+      <div class="gw-v1-type-grid">
+        <div class="gw-v1-type-sample gw-v1-type-sample--display">
+          <span class="gw-v1-meta">Display · Marcellus</span>
+          <strong>Field notes</strong>
+        </div>
+        <div class="gw-v1-type-sample gw-v1-type-sample--body">
+          <span class="gw-v1-meta">Interface · Manrope</span>
+          <strong>Read, inspect, and build.</strong>
+        </div>
+        <div class="gw-v1-type-sample gw-v1-type-sample--code">
+          <span class="gw-v1-meta">Technical · IBM Plex Mono</span>
+          <strong>GET /reference/status</strong>
+        </div>
+      </div>
+    </section>
+
+    <section id="colour" class="gw-v1-section" data-catalogue-section data-section-label="Colour & material">
+      <header>
+        <p class="gw-v1-kicker">Surface before signal</p>
+        <h2>Material holds the page together.</h2>
+        <p id="rule-material">The v1 system starts with a readable neutral canvas. Verdigris signals the active path, gold marks provenance and emphasis, and danger remains semantic rather than decorative.</p>
+      </header>
+      <div class="gw-v1-colours" aria-label="v1 colour roles">
+        <div class="gw-v1-swatch" style="--gw-v1-swatch: var(--gw-v1-canvas)"><strong>Canvas</strong><small>paper / stone</small></div>
+        <div class="gw-v1-swatch" style="--gw-v1-swatch: var(--gw-v1-surface-muted)"><strong>Seam</strong><small>grid / rail</small></div>
+        <div class="gw-v1-swatch" style="--gw-v1-swatch: var(--gw-v1-accent)"><strong>Signal</strong><small>verdigris</small></div>
+        <div class="gw-v1-swatch" style="--gw-v1-swatch: var(--gw-v1-gold)"><strong>Provenance</strong><small>gold</small></div>
+        <div class="gw-v1-swatch" style="--gw-v1-swatch: var(--gw-v1-danger)"><strong>Danger</strong><small>semantic</small></div>
+      </div>
+    </section>
+
+    <section id="shell" class="gw-v1-section" data-catalogue-section data-section-label="Shell anatomy">
+      <header>
+        <p class="gw-v1-kicker">Documentation shell</p>
+        <h2>A stable frame for changing knowledge.</h2>
+        <p>Every page has a known place for navigation, content, and local orientation. The shell adapts at narrow widths without hiding the route hierarchy.</p>
+      </header>
+      <div class="gw-v1-shell-diagram" role="img" aria-label="Documentation shell with sidebar, reading column, and table of contents">
+        <div><strong>Sidebar</strong><span>Route families and current section</span></div>
+        <div><strong>Reading column</strong><span>Prose, examples, code, tables, and live surfaces</span></div>
+        <div><strong>Page index</strong><span>Local headings and return paths</span></div>
+      </div>
+      <div class="gw-v1-card-grid">
+        <article class="gw-v1-card"><span class="gw-v1-card__index">01</span><h3>Route before decoration</h3><p>Readers should always know where they are before they interpret the atmosphere.</p></article>
+        <article class="gw-v1-card"><span class="gw-v1-card__index">02</span><h3>Prose before chrome</h3><p>Navigation supports the document; it never competes with the explanation.</p></article>
+        <article class="gw-v1-card"><span class="gw-v1-card__index">03</span><h3>Project accents are bounded</h3><p id="rule-project">A project can own its signal colour without replacing the shared material grammar.</p></article>
+      </div>
+    </section>
+
+    <section id="components" class="gw-v1-section" data-catalogue-section data-section-label="Components">
+      <header>
+        <p class="gw-v1-kicker">Component language</p>
+        <h2>Small surfaces, explicit purpose.</h2>
+      </header>
+      <div class="gw-v1-card-grid">
+        <article class="gw-v1-card"><span class="gw-v1-card__index">Search</span><h3>Find the route</h3><p>Search and project switching remain visible, keyboard reachable, and separate from the content frame.</p></article>
+        <article class="gw-v1-card"><span class="gw-v1-card__index">Code</span><h3>Show the boundary</h3><p>Technical surfaces use the mono role, dark executable panels, and clear input/output separation.</p></article>
+        <article class="gw-v1-card"><span class="gw-v1-card__index">Link</span><h3>Make the next step obvious</h3><p>Primary actions use the accent sparingly; secondary links remain readable in both themes.</p></article>
+      </div>
+      <aside class="gw-v1-note"><p><strong>Accessibility rule:</strong> focus, state, and current location are always expressed through more than colour alone.</p></aside>
+    </section>
+
+    <section id="states" class="gw-v1-section" data-catalogue-section data-section-label="States">
+      <header>
+        <p class="gw-v1-kicker">State grammar</p>
+        <h2>Every message earns its emphasis.</h2>
+      </header>
+      <div class="gw-v1-state-grid">
+        <div class="gw-v1-state" style="--gw-v1-state: var(--gw-v1-text-subtle)"><strong>Neutral</strong><p>Nothing requires action.</p></div>
+        <div class="gw-v1-state" style="--gw-v1-state: var(--gw-v1-accent)"><strong>Ready</strong><p>The next path is available.</p></div>
+        <div class="gw-v1-state" style="--gw-v1-state: var(--gw-v1-gold)"><strong>Attention</strong><p>Review before continuing.</p></div>
+        <div class="gw-v1-state" style="--gw-v1-state: var(--gw-v1-danger)"><strong>Danger</strong><p>Something needs recovery.</p></div>
+      </div>
+    </section>
+  </article>
+</DocumentationShell>

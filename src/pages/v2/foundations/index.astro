@@ -1,40 +1,105 @@
 ---
 import CatalogueNavigation from "../../../v2/CatalogueNavigation.astro";
 import CataloguePageFooter from "../../../v2/CataloguePageFooter.astro";
+import GreenwaysThemeProvider from "../../../site/components/GreenwaysThemeProvider.astro";
 import "../../../v2/document.css";
 import "../../../v2/workbench.css";
+import "../../../v2/brand-book.css";
 ---
 
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <title>Greenways v2 foundations laboratory</title>
+    <GreenwaysThemeProvider />
   </head>
   <body class="gw-v2 gw-v2-document gw-v2-catalogue">
     <CatalogueNavigation currentPath="/v2/foundations/" />
     <main id="gw-v2-main" class="gw-v2-page" tabindex="-1">
-      <section id="foundation-premise" data-catalogue-section data-section-label="Premise" class="gw-v2-surface">
-        <p>Foundation contract · Issue #33</p>
-        <h1>Neutral structure. Peacock identity.</h1>
-        <p>The foundation laboratory verifies the visual language before application surfaces are built.</p>
-      </section>
+      <div class="gw-v2-brand-book">
+        <section id="foundation-premise" data-catalogue-section data-section-label="Premise" class="gw-v2-brand-book__hero">
+          <p class="gw-v2-brand-book__eyebrow">Foundation contract · Issue #33</p>
+          <h1>Neutral structure.<br />Peacock identity.</h1>
+          <p>The v2 Greenways brand system keeps structure quiet, identity precise, and interaction signals legible across documentation, applications, and host surfaces.</p>
+          <div class="gw-v2-brand-book__actions">
+            <a href="#foundation-typography">Inspect typography</a>
+            <a href="#foundation-roles">Inspect colour roles</a>
+          </div>
+        </section>
 
-      <section id="foundation-surfaces" data-catalogue-section data-section-label="Surface roles" class="gw-v2-grid">
-        <article class="gw-v2-surface">
-          <h2>Light surface</h2>
-          <p>Paper, stone, charcoal, neutral seams.</p>
-        </article>
-        <article class="gw-v2-surface" data-elevation="raised">
-          <h2>Dark surface</h2>
-          <p>Graphite, slate, soft white, restrained accents.</p>
-        </article>
-        <article class="gw-v2-surface">
-          <h2>Brand accents</h2>
-          <p>Emerald, aqua, sapphire and violet belong to the mark and signals.</p>
-        </article>
-      </section>
+        <section id="foundation-typography" data-catalogue-section data-section-label="Typography" class="gw-v2-brand-book__section">
+          <header>
+            <p class="gw-v2-brand-book__eyebrow">Shared family · independent scale</p>
+            <h2>The same font relationship travels across systems.</h2>
+            <p>Marcellus gives orientation, Manrope carries interface work, and IBM Plex Mono marks contracts, statuses, and technical edges. v2 changes density and scale—not the family.</p>
+          </header>
+          <div class="gw-v2-brand-book__type-grid">
+            <div class="gw-v2-brand-book__type gw-v2-brand-book__type--display"><span class="gw-v2-brand-book__label">Display · Marcellus</span><strong>Portable work</strong></div>
+            <div class="gw-v2-brand-book__type gw-v2-brand-book__type--body"><span class="gw-v2-brand-book__label">Interface · Manrope</span><strong>Clear action, calm surface.</strong></div>
+            <div class="gw-v2-brand-book__type gw-v2-brand-book__type--code"><span class="gw-v2-brand-book__label">Technical · IBM Plex Mono</span><strong>receipt.status = ready</strong></div>
+          </div>
+        </section>
+
+        <section id="foundation-material" data-catalogue-section data-section-label="Material" class="gw-v2-brand-book__section">
+          <header>
+            <p class="gw-v2-brand-book__eyebrow">Structural colour</p>
+            <h2>Material before atmosphere.</h2>
+            <p>Canvas, panels, seams, and elevation stay neutral in both themes. The peacock spectrum belongs to identity detail and small data emphasis.</p>
+          </header>
+          <div class="gw-v2-brand-book__surface-map" aria-label="v2 neutral surface roles">
+            <div><strong>Canvas</strong><small>page field</small></div>
+            <div><strong>Muted</strong><small>supporting rail</small></div>
+            <div><strong>Raised</strong><small>focused surface</small></div>
+            <div><strong>Recessed</strong><small>background depth</small></div>
+            <div><strong>Strong</strong><small>seam / boundary</small></div>
+          </div>
+        </section>
+
+        <section id="foundation-roles" data-catalogue-section data-section-label="Colour roles" class="gw-v2-brand-book__section">
+          <header>
+            <p class="gw-v2-brand-book__eyebrow">Peacock identity · restrained signal · semantic state</p>
+            <h2>Colour has an ownership boundary.</h2>
+            <p>Brand, interaction, and state are distinct families. A success state must never become the Greenways atmosphere, and a brand colour must never replace danger or warning.</p>
+          </header>
+          <div class="gw-v2-brand-book__spectrum" aria-label="Greenways peacock spectrum">
+            <span>Emerald</span><span>Aqua</span><span>Sapphire</span><span>Violet</span>
+          </div>
+          <div class="gw-v2-brand-book__role-grid">
+            <article class="gw-v2-brand-book__role" style="--gw-v2-role: var(--gw-v2-brand-emerald)"><strong>Brand</strong><h3>Identity detail</h3><p>Mark, sigil, and small data emphasis.</p></article>
+            <article class="gw-v2-brand-book__role" style="--gw-v2-role: var(--gw-v2-signal)"><strong>Signal</strong><h3>Primary interaction</h3><p>Selection, links, commands, and small badges.</p></article>
+            <article class="gw-v2-brand-book__role" style="--gw-v2-role: var(--gw-v2-state-success)"><strong>State</strong><h3>Semantic feedback</h3><p>Neutral, info, success, warning, and danger.</p></article>
+            <article class="gw-v2-brand-book__role" style="--gw-v2-role: var(--gw-v2-focus-ring)"><strong>Focus</strong><h3>Keyboard confidence</h3><p>Aqua ring plus a neutral offset.</p></article>
+          </div>
+        </section>
+
+        <section id="foundation-surfaces" data-catalogue-section data-section-label="Surface roles" class="gw-v2-brand-book__section">
+          <header>
+            <p class="gw-v2-brand-book__eyebrow">Host-specific expression</p>
+            <h2>One contract, different densities.</h2>
+            <p>The document layer is the calm base. Workbench, popup, panel, and public web surfaces choose their density and composition without changing the identity contract.</p>
+          </header>
+          <div class="gw-v2-brand-book__grid">
+            <article class="gw-v2-brand-book__card"><span class="gw-v2-brand-book__label">Document</span><h3>Read and orient</h3><p>Prose, examples, references, and local navigation.</p></article>
+            <article class="gw-v2-brand-book__card"><span class="gw-v2-brand-book__label">Workbench</span><h3>Compose and inspect</h3><p>Rails, workspace, inspector, and explicit status.</p></article>
+            <article class="gw-v2-brand-book__card"><span class="gw-v2-brand-book__label">Host surface</span><h3>Adapt to authority</h3><p>Native, browser, panel, popup, and web boundaries.</p></article>
+          </div>
+        </section>
+
+        <section id="foundation-states" data-catalogue-section data-section-label="States" class="gw-v2-brand-book__section">
+          <header>
+            <p class="gw-v2-brand-book__eyebrow">State completeness</p>
+            <h2>Truthful states are part of the brand.</h2>
+          </header>
+          <div class="gw-v2-brand-book__state-grid">
+            <article class="gw-v2-brand-book__state" data-gw-v2-state="info"><strong>Information</strong><h3>Context available</h3><p>Explain what the surface knows and what it does not.</p></article>
+            <article class="gw-v2-brand-book__state" data-gw-v2-state="success"><strong>Success</strong><h3>Receipt returned</h3><p>Show the verified result, not just a completed animation.</p></article>
+            <article class="gw-v2-brand-book__state" data-gw-v2-state="warning"><strong>Warning</strong><h3>Review required</h3><p>Make the pending decision and its boundary explicit.</p></article>
+            <article class="gw-v2-brand-book__state" data-gw-v2-state="danger"><strong>Danger</strong><h3>Recovery path</h3><p>Describe the failure and the next safe action.</p></article>
+          </div>
+        </section>
+      </div>
       <CataloguePageFooter currentPath="/v2/foundations/" />
     </main>
   </body>

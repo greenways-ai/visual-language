@@ -1,0 +1,61 @@
+---
+import { greenwaysOsProductSurfaces } from "../../greenways-os-v2-surfaces";
+
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+const root = `${base}concepts/greenways-v2/`;
+---
+
+<details class="gw2-app-launcher" data-gw2-app-launcher>
+  <summary class="gw2-concept-button gw2-app-launcher__summary" aria-label="Open Greenways OS surfaces">
+    <svg viewBox="0 0 20 20" aria-hidden="true">
+      <rect x="3" y="3" width="5" height="5" rx="1"></rect>
+      <rect x="12" y="3" width="5" height="5" rx="1"></rect>
+      <rect x="3" y="12" width="5" height="5" rx="1"></rect>
+      <rect x="12" y="12" width="5" height="5" rx="1"></rect>
+    </svg>
+    <span>Surfaces</span>
+    <kbd>⇧A</kbd>
+  </summary>
+
+  <section class="gw2-app-launcher__panel" data-gw2-app-launcher-panel aria-label="Greenways OS primary surfaces">
+    <header class="gw2-app-launcher__header">
+      <div>
+        <p>Greenways OS</p>
+        <h2>Open a primary surface.</h2>
+        <span>Files, context, history, work and publication stay in one system.</span>
+      </div>
+      <div class="gw2-app-launcher__health" aria-label="Product model status">
+        <span><i class="gw2-live-dot" aria-hidden="true"></i> Product model</span>
+        <span>Five surfaces</span>
+      </div>
+    </header>
+
+    <div class="gw2-app-launcher__groups">
+      <section class="gw2-app-launcher__group" aria-labelledby="gw2-launcher-primary">
+        <header>
+          <div>
+            <h3 id="gw2-launcher-primary">Primary</h3>
+            <p>Ordinary work in Greenways OS.</p>
+          </div>
+        </header>
+        <div class="gw2-app-launcher__grid">
+          {greenwaysOsProductSurfaces.map((surface) => (
+            <a class="gw2-app-launcher__app" href={`${root}#${surface.id}`} data-gw2-launch-surface={surface.id}>
+              <span class="gw2-app-launcher__mark">{surface.code}</span>
+              <span class="gw2-app-launcher__copy">
+                <strong>{surface.label}</strong>
+                <small>{surface.purpose}</small>
+                <em>View product model</em>
+              </span>
+            </a>
+          ))}
+        </div>
+      </section>
+    </div>
+
+    <footer class="gw2-app-launcher__footer">
+      <span>Execution environments remain visible through the interface atlas.</span>
+      <a href={`${root}#greenways-v2-surfaces`}>View environments ↗</a>
+    </footer>
+  </section>
+</details>

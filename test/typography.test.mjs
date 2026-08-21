@@ -13,7 +13,7 @@ test("the package and Astro site use one explicit typography hierarchy", async (
   ]);
 
   assert.match(pkg, /"\.\/typography\.css": "\.\/src\/typography\.css"/);
-  assert.match(typography, /--gw-font-display: "Bodoni Moda"/);
+  assert.match(typography, /--gw-font-display: "Marcellus"/);
   assert.match(typography, /--gw-font-sans: "Manrope"/);
   assert.match(typography, /--gw-font-mono: "IBM Plex Mono"/);
   assert.match(config, /@astrojs\/starlight/);

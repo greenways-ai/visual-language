@@ -31,8 +31,8 @@ if (!overview.includes("data-gw2-system-map")) {
 if (!overview.includes("data-gw2-architecture")) {
   throw new Error("Greenways OS V2 overview is missing the portable-core architecture");
 }
-if (!overview.includes("One workspace.")) {
-  throw new Error("Greenways OS V2 overview is missing its shared-workspace premise");
+if (!overview.includes("Five primary surfaces.")) {
+  throw new Error("Greenways OS V2 overview is missing its product-surface model");
 }
 if (!overview.includes("data-gw2-command-layer")) {
   throw new Error("Greenways OS V2 overview is missing the shared command palette");

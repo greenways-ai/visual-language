@@ -35,6 +35,7 @@
   .gw2-overview-hero { grid-template-columns: 1fr; }
   .gw2-system-orbit { max-width: 34rem; width: 100%; margin: 0 auto; }
   .gw2-surface-card:nth-child(n) { grid-column: span 6; }
+  .gw2-product-card:nth-child(n) { grid-column: span 6; }
   .gw2-architecture-layer { grid-template-columns: 1fr; }
 }
 
@@ -93,6 +94,9 @@
   .gw2-system-orbit { min-height: 28rem; transform: scale(0.86); }
   .gw2-overview-principle { grid-template-columns: 1fr; }
   .gw2-surface-card:nth-child(n) { grid-column: 1 / -1; }
+  .gw2-product-card:nth-child(n) { grid-column: 1 / -1; }
+  .gw2-product-surfaces > header, .gw2-surface-atlas > header, .gw2-architecture > header { display: grid; grid-template-columns: 1fr; }
+  .gw2-product-surfaces > header span, .gw2-surface-atlas > header span { text-align: left; }
   .gw2-surface-atlas > header, .gw2-architecture > header { display: grid; grid-template-columns: 1fr; }
   .gw2-surface-atlas > header span { text-align: left; }
   .gw2-architecture-layer > div, .gw2-architecture-layer--core > div { grid-template-columns: 1fr 1fr; }

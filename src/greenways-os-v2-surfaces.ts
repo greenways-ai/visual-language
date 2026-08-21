@@ -1,3 +1,109 @@
+export interface GreenwaysOsProductSurface {
+  id: "fabric" | "search" | "timeline" | "cowork" | "spaces";
+  label: string;
+  code: string;
+  purpose: string;
+  abstraction: string;
+  environments: readonly string[];
+  systemBoundary: string;
+  states: readonly string[];
+}
+
+export const greenwaysOsProductSurfaces = [
+  {
+    id: "fabric",
+    label: "Fabric",
+    code: "FB",
+    purpose: "Selected files, identity, devices and storage under the person's control.",
+    abstraction: "Tahto semantic roots, identities, revisions and synchronisation over Hara filesystem contracts.",
+    environments: ["Hara local runtime", "Hoplite service boundary"],
+    systemBoundary: "OS custody, storage providers and explicit device grants",
+    states: ["available", "offline", "syncing", "conflicted", "recovery-required"],
+  },
+  {
+    id: "search",
+    label: "Search",
+    code: "SR",
+    purpose: "Classify, relate and recontextualise material without rewriting its source.",
+    abstraction: "Hestia sources, anchors, evidence and retrieval linked to Tahto roots.",
+    environments: ["Hara package", "Hoplite service boundary", "Hodos client projection"],
+    systemBoundary: "Only user-approved Fabric and provider scopes are searchable",
+    states: ["proposal", "accepted", "rejected", "low-confidence", "stale"],
+  },
+  {
+    id: "timeline",
+    label: "Timeline",
+    code: "TL",
+    purpose: "Keep chats, decisions, project relationships and meaningful activity together.",
+    abstraction: "Hestia archives and evidence with Tahto identity and relationship references.",
+    environments: ["Hara package", "Hoplite service boundary", "Hodos client projection"],
+    systemBoundary: "Selected activity only; no ambient device surveillance",
+    states: ["imported", "linked", "accepted", "unresolved", "source-unavailable"],
+  },
+  {
+    id: "cowork",
+    label: "Cowork",
+    code: "CW",
+    purpose: "Coordinate people and agents around bounded context, authority and outcomes.",
+    abstraction: "Tahto authority and project values with Hestia context, evidence and approvals.",
+    environments: ["Hara package", "Hoplite service boundary", "Ignatius execution", "Hodos client projection"],
+    systemBoundary: "Scoped files, context packs, capabilities and human checkpoints",
+    states: ["proposed", "active", "waiting", "blocked", "uncertain", "accepted"],
+  },
+  {
+    id: "spaces",
+    label: "Spaces",
+    code: "SP",
+    purpose: "Turn selected private work into reviewed public releases.",
+    abstraction: "Tahto release roots and provenance with Hestia source evidence and Platform delivery.",
+    environments: ["Hara package", "Hoplite serving", "Ignatius release execution", "Hodos client projection"],
+    systemBoundary: "An immutable release is public; the source Fabric remains private",
+    states: ["draft", "review", "signed", "published", "superseded", "revoked"],
+  },
+] as const satisfies readonly GreenwaysOsProductSurface[];
+
+export const greenwaysOsExecutionEnvironments = [
+  {
+    id: "hara",
+    label: "Hara",
+    role: "Portable contracts, packages, validators and programs.",
+    authority: "No ambient host authority.",
+  },
+  {
+    id: "hoplite",
+    label: "Hoplite",
+    role: "Network-serving and streaming execution for Hara applications.",
+    authority: "Runs only installed, bounded service operations.",
+  },
+  {
+    id: "ignatius",
+    label: "Ignatius",
+    role: "Effectful execution, ordered transitions, shared finality and receipts.",
+    authority: "Accepts only validated, signed and scoped transitions.",
+  },
+  {
+    id: "hodos",
+    label: "Hodos",
+    role: "Client-side Hara package resolution and visible materialisation.",
+    authority: "Materialises approved packages without owning keys or storage.",
+  },
+] as const;
+
+export const greenwaysOsAbstractionOwners = [
+  {
+    id: "tahto",
+    label: "Tahto",
+    role: "Semantic fabric: identities, objects, links, roots, revisions, authority and synchronisation.",
+    builtWith: "Hara packages and deterministic kernels.",
+  },
+  {
+    id: "hestia",
+    label: "Hestia",
+    role: "Knowledge fabric: sources, anchors, evidence, assertions, lineage and retrieval.",
+    builtWith: "Hara packages and replaceable providers.",
+  },
+] as const;
+
 export interface GreenwaysOsV2Application {
   id: "today" | "workrooms" | "studio" | "campaigns" | "packages" | "keyring" | "receipts";
   label: string;

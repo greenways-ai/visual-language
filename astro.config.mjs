@@ -33,7 +33,7 @@ export default defineConfig({
       pagefind: true,
       tableOfContents: { minHeadingLevel: 2, maxHeadingLevel: 3 },
       sidebar: [
-        { label: "Overview", slug: "index" },
+        { label: "Documentation", slug: "docs" },
         {
           label: "Foundations",
           items: [

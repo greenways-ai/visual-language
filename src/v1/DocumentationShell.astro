@@ -1,0 +1,78 @@
+---
+import GreenwaysThemeProvider from "../site/components/GreenwaysThemeProvider.astro";
+import MosaicLogo from "../MosaicLogo.astro";
+import ThemeButton from "../ThemeButton.astro";
+import "./document.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "v1 documentation style",
+  description = "The Greenways v1 documentation shell and visual language specimen.",
+} = Astro.props;
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+const href = (path: string) => `${base}${path.replace(/^\/+/, "")}`;
+---
+
+<!doctype html>
+<html lang="en" data-project="visual-language">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <link rel="icon" href={`${base}favicon.svg`} />
+    <title>{title} · Greenways visual language</title>
+    <GreenwaysThemeProvider />
+  </head>
+  <body class="gw-v1">
+    <div class="gw-v1-shell">
+      <a class="gw-v1-skip" href="#gw-v1-main">Skip to content</a>
+      <header class="gw-v1-header">
+        <a class="gw-v1-brand" href={href("")}>
+          <MosaicLogo project="greenways" label="Greenways" class="gw-v1-brand__mark" />
+          <span>
+            <strong>Greenways</strong>
+            <small>Visual layout · v1</small>
+          </span>
+        </a>
+        <span class="gw-v1-header__status">Documentation system</span>
+        <ThemeButton />
+      </header>
+
+      <div class="gw-v1-layout">
+        <aside class="gw-v1-sidebar" aria-label="v1 brand book sections">
+          <h2>Brand book</h2>
+          <nav>
+            <a href="#overview">Overview</a>
+            <a href="#typography">Typography</a>
+            <a href="#colour">Colour &amp; material</a>
+            <a href="#shell">Shell anatomy</a>
+            <a href="#components">Components</a>
+            <a href="#states">States</a>
+          </nav>
+        </aside>
+
+        <main id="gw-v1-main" class="gw-v1-main" tabindex="-1">
+          <slot />
+        </main>
+
+        <aside class="gw-v1-toc" aria-label="v1 visual rules">
+          <h2>Rules</h2>
+          <nav>
+            <a href="#rule-readable">Readable first</a>
+            <a href="#rule-material">Material, not atmosphere</a>
+            <a href="#rule-project">Project accents</a>
+          </nav>
+        </aside>
+      </div>
+
+      <footer class="gw-v1-footer">
+        <span>Greenways visual language · v1 documentation style</span>
+        <a href={href("v2/foundations/")}>Compare v2 system ↗</a>
+      </footer>
+    </div>
+  </body>
+</html>

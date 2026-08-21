@@ -23,31 +23,27 @@ const surfaceIds = [
   "web",
 ];
 
-test("the shared shell mounts a native app launcher with a dedicated keyboard shortcut", async () => {
+test("the shared shell mounts a primary-surface launcher with a dedicated keyboard shortcut", async () => {
   const shell = await read("src/site/layouts/GreenwaysOsV2Shell.astro");
 
-  assert.match(shell, /import GreenwaysOsV2AppLauncher/);
-  assert.match(shell, /<GreenwaysOsV2AppLauncher \/>/);
+  assert.match(shell, /import GreenwaysOsProductLauncher/);
+  assert.match(shell, /<GreenwaysOsProductLauncher \/>/);
   assert.match(shell, /data-gw2-app-launcher/);
   assert.match(shell, /event\.shiftKey && event\.key\.toLowerCase\(\) === "a"/);
-  assert.match(shell, /greenways-os-v2-last-app/);
+  assert.match(shell, /greenways-os-v2-last-surface/);
   assert.match(shell, /closeAppLauncher\(\)/);
 });
 
-test("the launcher derives all seven applications from the earlier product-screen model", async () => {
-  const launcher = await read("src/site/components/GreenwaysOsV2AppLauncher.astro");
+test("the launcher derives the five primary surfaces from the product model", async () => {
+  const launcher = await read("src/site/components/GreenwaysOsProductLauncher.astro");
 
-  assert.match(launcher, /greenwaysProductScreens/);
-  assert.match(launcher, /greenwaysOsV2Applications/);
+  assert.match(launcher, /greenwaysOsProductSurfaces/);
   assert.match(launcher, /data-gw2-app-launcher-panel/);
-  assert.match(launcher, /data-gw2-launcher-resume/);
-  assert.match(launcher, /Earlier Greenways product screens/);
+  assert.match(launcher, /Five surfaces/);
+  assert.match(launcher, /data-gw2-launch-surface/);
   assert.match(launcher, /concepts\/greenways-v2\//);
-  assert.match(launcher, /concepts\/greenways\//);
 
-  for (const id of applicationIds) {
-    assert.match(launcher, new RegExp(`${id}: "(?:desktop|extension-desktop|web)"`));
-  }
+  assert.match(launcher, /surface\.id/);
 });
 
 test("the continuity layer carries earlier product strengths into every host surface", async () => {
@@ -128,11 +124,11 @@ test("the launcher remains a navigation aid rather than a false execution surfac
   assert.match(continuity, /No publication authority/);
 });
 
-test("the application-layer decision is recorded for later atlas and runtime work", async () => {
-  const document = await read("docs/greenways-os-atlas-applications.md");
+test("the product architecture gate is recorded for later atlas and runtime work", async () => {
+  const document = await read("docs/greenways-os-product-architecture.md");
 
-  assert.match(document, /Application launcher/);
-  assert.match(document, /Earlier Greenways product screens are feature sources/);
-  assert.match(document, /five host surfaces/);
-  assert.match(document, /does not claim that a runtime action occurred/);
+  assert.match(document, /composition and authority layer/);
+  assert.match(document, /Tahto \/ Hestia abstractions/);
+  assert.match(document, /Hoplite · Ignatius · Hodos/);
+  assert.match(document, /before Greenways OS implementation[\s\S]*can begin/);
 });

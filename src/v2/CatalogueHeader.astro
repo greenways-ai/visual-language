@@ -23,6 +23,7 @@ const {
 const href = (path: string) => catalogueHref(path, basePath);
 const isCurrent = (path: string) => isCatalogueRouteCurrent(path, currentPath, basePath);
 const isActive = (path: string) => isCatalogueRouteActive(path, currentPath, basePath);
+const isVisualLayoutRoot = isCurrent(greenwaysV2CatalogueHome.path);
 const groupIsActive = (routes: (typeof greenwaysV2Catalogue)[number]["routes"]) =>
   routes.some((route) => isActive(route.path) || route.children?.some((child) => isActive(child.path)));
 ---
@@ -36,7 +37,7 @@ const groupIsActive = (routes: (typeof greenwaysV2Catalogue)[number]["routes"]) 
     <MosaicLogo project="greenways" label="Greenways" class="gw-v2-catalogue-brand__mark" />
     <span>
       <strong>Greenways</strong>
-      <small>Visual language v2</small>
+      <small>{isVisualLayoutRoot ? "v1 · v2 · wireframes" : "Visual language v2"}</small>
     </span>
   </a>
 

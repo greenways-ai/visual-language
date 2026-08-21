@@ -4,6 +4,9 @@ import { readFile } from "node:fs/promises";
 
 test("foundations laboratory is a neutral structure specimen", async () => {
   const source = await readFile("src/pages/v2/foundations/index.astro", "utf8");
-  assert.match(source, /Neutral structure\. Peacock identity\./);
+  assert.match(source, /Neutral structure\.<br \/>Peacock identity\./);
   assert.match(source, /Issue #33/);
+  assert.match(source, /brand-book\.css/);
+  assert.match(source, /foundation-typography/);
+  assert.match(source, /foundation-roles/);
 });

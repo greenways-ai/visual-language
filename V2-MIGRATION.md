@@ -1,6 +1,16 @@
 # Greenways v2 migration map
 
-This map records the additive migration boundary for issue #31. Treatments mean: **retain** unchanged, **adapt** only through a new opt-in contract, **replace** as the preferred v2 equivalent without removing v1, **deprecate** for compatibility-only use, and **laboratory-only** for executable site specimens that must not be package exports.
+The public site root now uses the v2 catalogue. The canonical entry point is
+`/visual-language/`; `/visual-language/v2/` remains a compatibility entry for
+existing links, and the former Starlight home is available at
+`/visual-language/docs/`. This changes the site entry point without deleting
+the documentation, package exports, or historical concept routes.
+
+This map records the migration boundary for issue #31 and the root migration.
+Treatments mean: **retain** unchanged, **adapt** only through a new opt-in
+contract, **replace** as the preferred v2 equivalent without removing v1,
+**deprecate** for compatibility-only use, and **laboratory-only** for
+executable site specimens that must not be package exports.
 
 ## Ownership rules
 

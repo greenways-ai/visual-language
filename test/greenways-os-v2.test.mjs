@@ -12,7 +12,7 @@ const surfaceIds = [
   "web",
 ];
 
-test("the V2 model defines five host-specific surfaces over seven shared applications", async () => {
+test("the V2 model defines five host-specific execution surfaces and five product surfaces", async () => {
   const source = await read("src/greenways-os-v2-surfaces.ts");
   const surfaceSection = source.slice(
     source.indexOf("export const greenwaysOsV2Surfaces"),
@@ -29,9 +29,12 @@ test("the V2 model defines five host-specific surfaces over seven shared applica
   assert.match(source, /No workspace editing; launch and status only/);
   assert.match(source, /optional greenwaysd/);
 
-  for (const application of ["today", "workrooms", "studio", "campaigns", "packages", "keyring", "receipts"]) {
-    assert.match(source, new RegExp(`id: "${application}"`));
+  for (const product of ["fabric", "search", "timeline", "cowork", "spaces"]) {
+    assert.match(source, new RegExp(`id: "${product}"`));
   }
+  assert.match(source, /greenwaysOsProductSurfaces/);
+  assert.match(source, /greenwaysOsExecutionEnvironments/);
+  assert.match(source, /greenwaysOsAbstractionOwners/);
 });
 
 test("the V2 overview explains one portable workspace and links every manifestation", async () => {
@@ -39,13 +42,11 @@ test("the V2 overview explains one portable workspace and links every manifestat
 
   assert.match(source, /data-gw2-system-map/);
   assert.match(source, /data-gw2-architecture/);
-  assert.match(source, /One workspace\./);
-  assert.match(source, /The shell changes\.<br \/>The work does not/);
-  assert.match(source, /A portable core/);
-  assert.match(source, /Browser broker/);
-  assert.match(source, /Hara sandbox/);
-  assert.match(source, /Hestia \/ cloud/);
-  assert.match(source, /greenwaysd/);
+  assert.match(source, /A personal file<br \/>and work environment/);
+  assert.match(source, /The system should stay<br \/>out of the way/);
+  assert.match(source, /Five primary surfaces/);
+  assert.match(source, /Tahto and Hestia define the feature abstractions using Hara/);
+  assert.match(source, /Hoplite, Ignatius and Hodos provide the\s+environments/);
 
   for (const surface of surfaceIds) {
     assert.match(source, new RegExp(`surfaceHref\\("${surface}"\\)`));
@@ -178,6 +179,8 @@ test("V2 styling covers all five viewports, light and dark modes, and reduced mo
     ".gw2-popup-stage",
     ".gw2-device--web",
     ".gw2-command-palette",
+    ".gw2-product-surfaces",
+    ".gw2-product-card",
     ".gw2-surface-atlas",
     ".gw2-architecture",
   ]) {

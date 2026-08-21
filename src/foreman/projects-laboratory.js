@@ -23,6 +23,7 @@ import { foremanExperienceStates, foremanStateFamilies } from "./states.js";
  * @property {ForemanProgress} progress
  * @property {string} currentStep
  * @property {string | null} attention
+ * @property {string} [evidence]
  * @property {string} updatedAt
  * @property {readonly string[]} providers
  * @property {ForemanIssue | null} issue

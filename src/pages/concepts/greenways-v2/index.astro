@@ -1,5 +1,8 @@
 ---
 import {
+  greenwaysOsAbstractionOwners,
+  greenwaysOsExecutionEnvironments,
+  greenwaysOsProductSurfaces,
   greenwaysOsV2Surfaces,
 } from "../../../greenways-os-v2-surfaces";
 import GreenwaysOsV2Shell from "../../../site/layouts/GreenwaysOsV2Shell.astro";
@@ -16,16 +19,16 @@ const surfaceHref = (id: string) => `${rootHref}${id}/`;
   <article class="gw2-overview" data-gw2-system-map data-gw2-architecture>
     <section class="gw2-overview-hero" aria-labelledby="greenways-v2-title">
       <div class="gw2-overview-hero__copy">
-        <p>Portable workspace · five interface surfaces</p>
-        <h1 id="greenways-v2-title">One workspace.<br />Five manifestations.</h1>
+        <p>Personal files · work · publication</p>
+        <h1 id="greenways-v2-title">A personal file<br />and work environment.</h1>
         <p>
-          Greenways OS V2 is not a miniature window manager. It is one programmable environment of objects,
-          buffers, panes, commands, grants and receipts, expressed at the scale and authority of each host.
+          Greenways OS keeps selected files available across devices, helps sort them with AI, preserves the history
+          around them, coordinates bounded work with people and agents, and publishes selected results.
         </p>
         <div class="gw2-overview-hero__actions">
-          <a href={surfaceHref("desktop")}>Enter the desktop</a>
-          <a href={surfaceHref("extension-panel")}>Open the browser companion</a>
-          <button type="button" data-gw2-command-open>Search the system</button>
+          <a href="#gw2-product-surfaces">View the product surfaces</a>
+          <a href="#gw2-architecture">View the architecture</a>
+          <button type="button" data-gw2-command-open>Open a command</button>
         </div>
       </div>
 
@@ -33,8 +36,8 @@ const surfaceHref = (id: string) => `${rootHref}${id}/`;
         <div class="gw2-system-core">
           <div>
             <span class="gw2-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-            <strong>Workspace model</strong>
-            <small>portable · serialisable</small>
+            <strong>Greenways OS</strong>
+            <small>composed · bounded</small>
           </div>
         </div>
         <a class="gw2-orbit-node gw2-orbit-node--desktop" href={surfaceHref("desktop")}>
@@ -60,17 +63,42 @@ const surfaceHref = (id: string) => `${rootHref}${id}/`;
 
     <section class="gw2-overview-principle" aria-labelledby="greenways-v2-principle">
       <span>01</span>
-      <h2 id="greenways-v2-principle">The shell changes.<br />The work does not.</h2>
+      <h2 id="greenways-v2-principle">The system should stay<br />out of the way.</h2>
       <p>
-        A captured page can begin in the side panel, become a source in a Workroom, open as a Studio buffer on
-        desktop, receive an explicit publishing grant, and appear on the web with the same identity and receipt trace.
+        Files, history, context and authority should remain understandable as work moves between devices, providers
+        and public releases.
       </p>
+    </section>
+
+    <section class="gw2-product-surfaces" id="gw2-product-surfaces" aria-labelledby="gw2-product-surfaces-title">
+      <header>
+        <div><p>Product model</p><h2 id="gw2-product-surfaces-title">Five primary surfaces.</h2></div>
+        <span>System controls support the work. They do not compete with it.</span>
+      </header>
+      <div class="gw2-product-grid">
+        {greenwaysOsProductSurfaces.map((product) => (
+          <article class:list={["gw2-product-card", `gw2-product-card--${product.id}`]} id={product.id}>
+            <header>
+              <span>{product.code}</span>
+              <small>{product.label}</small>
+            </header>
+            <h3>{product.label}</h3>
+            <p>{product.purpose}</p>
+            <dl>
+              <div><dt>Abstraction</dt><dd>{product.abstraction}</dd></div>
+              <div><dt>Execution</dt><dd>{product.environments.join(" · ")}</dd></div>
+              <div><dt>Boundary</dt><dd>{product.systemBoundary}</dd></div>
+            </dl>
+            <footer>{product.states.map((state) => <span>{state}</span>)}</footer>
+          </article>
+        ))}
+      </div>
     </section>
 
     <section class="gw2-surface-atlas" aria-labelledby="greenways-v2-surfaces">
       <header>
-        <div><p>Interface atlas</p><h2 id="greenways-v2-surfaces">Every surface, at its proper scale.</h2></div>
-        <span>The five views share vocabulary and state, but deliberately do not share one compressed layout.</span>
+        <div><p>Execution environments</p><h2 id="greenways-v2-surfaces">The product runs in different environments.</h2></div>
+        <span>These host studies show where the abstractions run. They are not additional product destinations.</span>
       </header>
 
       <div class="gw2-surface-grid">
@@ -109,40 +137,33 @@ const surfaceHref = (id: string) => `${rootHref}${id}/`;
 
     <section class="gw2-architecture" aria-labelledby="greenways-v2-architecture-title">
       <header>
-        <h2 id="greenways-v2-architecture-title">A portable core,<br />not a browser-shaped kernel.</h2>
+        <h2 id="greenways-v2-architecture-title">Abstractions above<br />execution environments.</h2>
         <p>
-          Presentation shells adapt to the host. The workspace model stays serialisable. Privileged effects cross a
-          named provider boundary and produce a receipt.
+          Tahto and Hestia define the feature abstractions using Hara. Hoplite, Ignatius and Hodos provide the
+          environments in which those abstractions run. Greenways OS selects, authorises and composes them.
         </p>
       </header>
 
       <div class="gw2-architecture-stack">
         <section class="gw2-architecture-layer gw2-architecture-layer--shells">
-          <header><span>03 · PRESENTATION</span><strong>Host-specific shells</strong></header>
+          <header><span>03 · PRODUCT</span><strong>Greenways OS surfaces</strong></header>
           <div>
-            <article><strong>Native frame</strong><small>Wide workbench and local status line</small></article>
-            <article><strong>Browser desktop</strong><small>Full tab and durable restoration</small></article>
-            <article><strong>Panel + popup</strong><small>Context and invocation, not a shrunken OS</small></article>
-            <article><strong>Public web</strong><small>Publishing doorway and remote workspace</small></article>
+            {greenwaysOsProductSurfaces.map((product) => <article><strong>{product.label}</strong><small>{product.purpose}</small></article>)}
           </div>
         </section>
 
         <section class="gw2-architecture-layer gw2-architecture-layer--core">
-          <header><span>02 · PORTABLE CORE</span><strong>Greenways workspace</strong></header>
+          <header><span>02 · ABSTRACTIONS</span><strong>Tahto and Hestia on Hara</strong></header>
           <div>
-            <article><strong>Objects</strong><small>Sources, rooms, publications and packages</small></article>
-            <article><strong>Frames</strong><small>Buffers, panes, inspectors and commands</small></article>
-            <article><strong>Authority</strong><small>Scoped grants, pending work and receipts</small></article>
+            {greenwaysOsAbstractionOwners.map((owner) => <article><strong>{owner.label}</strong><small>{owner.role}</small></article>)}
+            <article><strong>Hara</strong><small>Portable contracts, packages, validators and programs</small></article>
           </div>
         </section>
 
         <section class="gw2-architecture-layer gw2-architecture-layer--providers">
-          <header><span>01 · CAPABILITIES</span><strong>Replaceable providers</strong></header>
+          <header><span>01 · EXECUTION</span><strong>Runtime environments</strong></header>
           <div>
-            <article><strong>Browser broker</strong><small>Tabs, capture, downloads and identity</small></article>
-            <article><strong>Hara sandbox</strong><small>Pure and approved package execution</small></article>
-            <article><strong>Hestia / cloud</strong><small>Documents, collaboration and publication</small></article>
-            <article><strong>greenwaysd</strong><small>Optional files, repositories, jobs and key custody</small></article>
+            {greenwaysOsExecutionEnvironments.map((environment) => <article><strong>{environment.label}</strong><small>{environment.role}</small></article>)}
           </div>
         </section>
       </div>

@@ -5,10 +5,12 @@ import { access, readFile } from "node:fs/promises";
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
 test("the Visual Language website is an Astro Starlight application", async () => {
-  const [pkg, config, collection] = await Promise.all([
+  const [pkg, config, collection, root, catalogue] = await Promise.all([
     read("package.json"),
     read("astro.config.mjs"),
     read("src/content.config.ts"),
+    read("src/pages/index.astro"),
+    read("src/site/components/GreenwaysV2CatalogueHome.astro"),
   ]);
   assert.match(pkg, /"version": "5\.1\.0"/);
   assert.match(pkg, /"astro": "\^7\.1\.6"/);
@@ -20,6 +22,23 @@ test("the Visual Language website is an Astro Starlight application", async () =
   assert.match(config, /site-overrides\.css/);
   assert.match(config, /logo: \{ src: "\.\/src\/site\/assets\/peacock-feather\.svg"/);
   assert.match(collection, /docsLoader/);
+  assert.match(root, /GreenwaysV2CatalogueHome/);
+  assert.match(catalogue, /Greenways v2 keeps reusable foundations/);
+  assert.match(catalogue, /data-gw-v2-catalogue-home/);
+});
+
+test("the public root is v2 and the Starlight documentation root is explicitly moved to docs", async () => {
+  const [config, docs, root, verify] = await Promise.all([
+    read("astro.config.mjs"),
+    read("src/content/docs/index.mdx"),
+    read("src/pages/index.astro"),
+    read("scripts/verify-site-output.mjs"),
+  ]);
+  assert.match(config, /\{ label: "Documentation", slug: "docs" \}/);
+  assert.match(docs, /slug: docs/);
+  assert.match(root, /GreenwaysV2CatalogueHome/);
+  assert.match(verify, /dist\/docs\/index\.html/);
+  assert.match(verify, /data-gw-v2-catalogue-home/);
 });
 
 test("the static page shells were removed instead of being copied into the Astro build", async () => {

@@ -36,7 +36,7 @@ const href = (path: string) => catalogueHref(path, basePath);
       <a href={href(context.parentTarget.path)}>
         {context.parent ? `Back to ${context.parent.label}` : "Catalogue home"}
       </a>
-      <a href={href("/v2/")}>All catalogue routes</a>
+      <a href={href("/")}>Catalogue home</a>
       <span>{context.statusLabel}</span>
     </div>
   </footer>

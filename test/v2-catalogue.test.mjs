@@ -21,7 +21,7 @@ const allowedOwnership = new Set(["shared-contract", "product-laboratory", "hist
 
 test("the typed manifest has the required groups and unique routes", () => {
   assert.deepEqual(greenwaysV2Catalogue.map((group) => group.id), ["foundations", "library", "applications"]);
-  assert.equal(greenwaysV2CatalogueHome.path, "/v2/");
+  assert.equal(greenwaysV2CatalogueHome.path, "/");
   assert.equal(greenwaysV2CatalogueHome.status, "ready");
 
   assert.equal(new Set(routes.map((route) => route.id)).size, routes.length);
@@ -96,19 +96,25 @@ test("the shared header derives one semantic disclosure tree from the manifest",
 });
 
 test("catalogue home and planned pages are generated from the same manifest", async () => {
-  const [home, route, shell, navigation] = await Promise.all([
+  const [home, root, route, shell, navigation] = await Promise.all([
     read("src/pages/v2/index.astro"),
+    read("src/site/components/GreenwaysV2CatalogueHome.astro"),
     read("src/pages/v2/[...route].astro"),
     read("src/v2/CatalogueShell.astro"),
     read("src/v2/CatalogueNavigation.astro"),
   ]);
-  assert.match(home, /greenwaysV2Catalogue\.map/);
-  assert.match(home, /route\.children\.map/);
+  assert.match(home, /GreenwaysV2CatalogueHome/);
+  assert.match(root, /greenwaysV2Catalogue\.map/);
+  assert.match(root, /route\.children\.map/);
+  assert.match(root, /visualLayoutSections/);
+  assert.match(root, /href=\{href\("\/v1\/"\)\}/);
+  assert.match(root, /href=\{route\.external \? route\.path : href\(route\.path\)\}/);
   assert.match(route, /getCatalogueStaticRoutes\(\)\.map/);
   assert.match(route, /getStaticPaths/);
   assert.match(route, /Declared now\. Detailed later\./);
   assert.match(shell, /CatalogueNavigation/);
   assert.match(shell, /CataloguePageFooter/);
+  assert.match(shell, /canonicalPath/);
   assert.match(shell, /"gw-v2", "gw-v2-document", "gw-v2-catalogue"/);
   assert.match(navigation, /CatalogueHeader/);
   assert.match(navigation, /CatalogueRouteBar/);

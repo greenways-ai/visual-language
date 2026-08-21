@@ -176,6 +176,7 @@ html[data-theme="light"] .gw2-theme-moon { display: none; }
 .gw2-surface-menu__item > span:last-child { min-width: 0; display: grid; }
 .gw2-surface-menu__item strong { color: var(--gw2-text); font-size: 0.82rem; font-weight: 600; }
 .gw2-surface-menu__item small { margin-top: 0.15rem; overflow: hidden; color: var(--gw2-muted); font-size: 0.68rem; text-overflow: ellipsis; white-space: nowrap; }
+.gw2-surface-menu__divider { margin: 0.45rem 0.7rem 0.2rem; padding-top: 0.55rem; color: var(--gw2-faint); border-top: 1px solid var(--gw2-line); font: 0.55rem var(--gw2-mono); letter-spacing: 0.08em; text-transform: uppercase; }
 
 .gw2-main { min-height: calc(100vh - 3.6rem); }
 

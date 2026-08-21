@@ -105,6 +105,7 @@ export interface ForemanBuildout {
   readonly progress: ForemanProgress;
   readonly currentStep: string;
   readonly attention: string | null;
+  readonly evidence?: string;
   readonly updatedAt: string;
   readonly providers: readonly string[];
   readonly issue: ForemanIssue | null;

@@ -1,0 +1,132 @@
+---
+import CatalogueShell from "../../v2/CatalogueShell.astro";
+import {
+  catalogueHref,
+  catalogueOwnershipLabels,
+  catalogueStatusLabels,
+  greenwaysV2Catalogue,
+  greenwaysV2CatalogueHome,
+} from "../../v2/catalogue-manifest.js";
+import {
+  visualLayoutDestinationKinds,
+  visualLayoutSections,
+} from "../../v2/visual-layout-manifest.js";
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = Astro.url.pathname } = Astro.props;
+const basePath = import.meta.env.BASE_URL;
+const href = (path: string) => catalogueHref(path, basePath);
+---
+
+<CatalogueShell
+  title={greenwaysV2CatalogueHome.label}
+  description={greenwaysV2CatalogueHome.summary}
+  currentPath={currentPath}
+  canonicalPath={catalogueHref("/", basePath)}
+>
+  <header id="catalogue-overview" data-catalogue-section data-section-label="Overview" class="gw-v2-catalogue-hero">
+    <div class="gw-v2-catalogue-hero__copy">
+      <p class="gw-v2-catalogue-eyebrow">Shared contracts · executable laboratories</p>
+      <h1>One catalogue.<br />Clear ownership.</h1>
+      <p>
+        Greenways v2 keeps reusable foundations separate from application studies. The catalogue is the public root for
+        the visual language, while documentation, product concepts, and historical explorations remain clearly owned.
+      </p>
+      <div class="gw-v2-catalogue-hero__actions">
+        <a class="gw-v2-button gw-v2-button--primary" href={href("/v1/")}>Open v1 brand book</a>
+        <a class="gw-v2-button" href={href("/v2/foundations/")}>Open v2 brand book</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="visual-layout-map" data-catalogue-section data-section-label="Visual layout map" class="gw-v2-visual-layout-map">
+    <header class="gw-v2-visual-layout-map__header">
+      <div>
+        <p class="gw-v2-catalogue-eyebrow">Visual layout map</p>
+        <h2>One root for styles and wireframes.</h2>
+      </div>
+      <p>Start with a shared contract, compare the documentation family, then move into application surfaces and the wireframes that explain where the system travels.</p>
+    </header>
+
+    <div class="gw-v2-visual-layout-map__groups">
+      {visualLayoutSections.map((section) => (
+        <section class="gw-v2-visual-layout-map__group" aria-labelledby={`visual-layout-${section.id}`}>
+          <header>
+            <p class="gw-v2-catalogue-eyebrow">{section.id}</p>
+            <h3 id={`visual-layout-${section.id}`}>{section.label}</h3>
+            <p>{section.summary}</p>
+          </header>
+          <div class="gw-v2-visual-layout-map__routes">
+            {section.routes.map((route) => (
+              <a
+                class="gw-v2-visual-layout-destination"
+                href={route.external ? route.path : href(route.path)}
+                data-kind={route.kind}
+                data-external={route.external ? "true" : undefined}
+              >
+                <span class="gw-v2-visual-layout-destination__meta">
+                  {visualLayoutDestinationKinds[route.kind]} · {route.status}
+                </span>
+                <strong>{route.label}</strong>
+                <span>{route.summary}</span>
+                <small>{route.external ? "Open reference ↗" : "Open route →"}</small>
+              </a>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  </section>
+
+  <div class="gw-v2-catalogue-groups" data-gw-v2-catalogue-home>
+    {greenwaysV2Catalogue.map((group) => (
+      <section
+        id={`catalogue-${group.id}`}
+        data-catalogue-section
+        data-section-label={group.label}
+        class="gw-v2-catalogue-group"
+        aria-labelledby={`gw-v2-group-${group.id}`}
+      >
+        <header>
+          <p class="gw-v2-catalogue-eyebrow">{group.id}</p>
+          <h2 id={`gw-v2-group-${group.id}`}>{group.label}</h2>
+          <p>{group.summary}</p>
+        </header>
+
+        <div class="gw-v2-catalogue-grid">
+          {group.routes.map((route) => (
+            <article
+              class="gw-v2-route-card"
+              data-route-id={route.id}
+              data-primary={route.primary === false ? "false" : "true"}
+              data-ownership={route.ownership}
+            >
+              <p class="gw-v2-route-card__meta">
+                {catalogueStatusLabels[route.status]} · {catalogueOwnershipLabels[route.ownership]}
+              </p>
+              <h3>{route.label}</h3>
+              <p>{route.summary}</p>
+              <a href={href(route.path)}>Open route →</a>
+
+              {route.children && route.children.length > 0 && (
+                <ul class="gw-v2-route-card__children">
+                  {route.children.map((child) => (
+                    <li data-route-id={child.id} data-primary={child.primary === false ? "false" : "true"}>
+                      <a href={href(child.path)}>
+                        <span>{child.label}</span>
+                        <small>{catalogueStatusLabels[child.status]}</small>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </article>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+</CatalogueShell>

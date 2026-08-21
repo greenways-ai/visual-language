@@ -1,10 +1,10 @@
 ---
 import {
-  greenwaysOsV2Applications,
+  greenwaysOsProductSurfaces,
   greenwaysOsV2Surfaces,
   type GreenwaysOsV2SurfaceId,
 } from "../../greenways-os-v2-surfaces";
-import GreenwaysOsV2AppLauncher from "../components/GreenwaysOsV2AppLauncher.astro";
+import GreenwaysOsProductLauncher from "../components/GreenwaysOsProductLauncher.astro";
 import "../styles/greenways-os-v2.css";
 
 interface Props {
@@ -61,7 +61,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
         <button class="gw2-concept-button" type="button" data-gw2-command-open>
           <span>Command</span><kbd>⌘K</kbd>
         </button>
-        <GreenwaysOsV2AppLauncher />
+        <GreenwaysOsProductLauncher />
         <button
           class="gw2-concept-button gw2-concept-button--icon"
           type="button"
@@ -87,13 +87,20 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
 
     <aside id="gw2-surface-menu" class="gw2-surface-menu" data-gw2-surface-menu hidden>
       <header>
-        <span>Interface atlas</span>
+        <span>Greenways OS navigation</span>
         <button type="button" data-gw2-surface-close aria-label="Close interface atlas">×</button>
       </header>
       <a class:list={["gw2-surface-menu__item", { "is-active": !surfaceId }]} href={rootHref}>
         <span class="gw2-surface-code">00</span>
-        <span><strong>System map</strong><small>One workspace, five manifestations</small></span>
+        <span><strong>System map</strong><small>Product surfaces and execution environments</small></span>
       </a>
+      {greenwaysOsProductSurfaces.map((product) => (
+        <a class="gw2-surface-menu__item" href={`${rootHref}#${product.id}`}>
+          <span class="gw2-surface-code">{product.code}</span>
+          <span><strong>{product.label}</strong><small>{product.purpose}</small></span>
+        </a>
+      ))}
+      <div class="gw2-surface-menu__divider">Execution environments</div>
       {greenwaysOsV2Surfaces.map((surface) => (
         <a
           class:list={["gw2-surface-menu__item", { "is-active": surface.id === surfaceId }]}
@@ -115,25 +122,25 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
       <section class="gw2-command-palette" role="dialog" aria-modal="true" aria-label="Greenways command palette">
         <label class="gw2-command-input">
           <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8" cy="8" r="4.5"/><path d="m11.5 11.5 4 4"/></svg>
-          <input type="search" data-gw2-command-input placeholder="Open a surface, application or command…" autocomplete="off" />
+          <input type="search" data-gw2-command-input placeholder="Open a product surface or command…" autocomplete="off" />
           <kbd>esc</kbd>
         </label>
         <div class="gw2-command-results" data-gw2-command-results>
-          <p class="gw2-command-group">Surfaces</p>
+          <p class="gw2-command-group">Product surfaces</p>
+          {greenwaysOsProductSurfaces.map((product) => (
+            <a data-gw2-command-item href={`${rootHref}#${product.id}`}>
+              <span class="gw2-command-code">{product.code}</span>
+              <span><strong>Open {product.label}</strong><small>{product.purpose}</small></span>
+              <kbd>↵</kbd>
+            </a>
+          ))}
+          <p class="gw2-command-group">Execution environments</p>
           {greenwaysOsV2Surfaces.map((surface) => (
             <a data-gw2-command-item href={surfaceHref(surface.id)}>
               <span class="gw2-command-code">{surface.code}</span>
               <span><strong>Open {surface.label}</strong><small>{surface.boundary}</small></span>
               <kbd>↵</kbd>
             </a>
-          ))}
-          <p class="gw2-command-group">Applications</p>
-          {greenwaysOsV2Applications.map((application) => (
-            <button type="button" data-gw2-command-item data-gw2-toast={`Opened ${application.label} buffer`}>
-              <span class:list={["gw2-command-code", `gw2-signal--${application.signal}`]}>{application.code}</span>
-              <span><strong>Open {application.label}</strong><small>{application.purpose}</small></span>
-              <kbd>⌘</kbd>
-            </button>
           ))}
         </div>
         <footer><span>Named commands request capabilities; they do not inherit ambient authority.</span><span>↑ ↓ navigate · ↵ open</span></footer>
@@ -236,11 +243,11 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
           }
           if (target.closest("[data-gw2-surface-close]")) closeSurfaceMenu();
 
-          const launchedApp = target.closest("[data-gw2-launch-app]");
-          if (launchedApp) {
-            const appId = launchedApp.getAttribute("data-gw2-launch-app");
-            if (appId) {
-              try { localStorage.setItem("greenways-os-v2-last-app", appId); } catch {}
+          const launchedSurface = target.closest("[data-gw2-launch-app], [data-gw2-launch-surface]");
+          if (launchedSurface) {
+            const surfaceId = launchedSurface.getAttribute("data-gw2-launch-surface") || launchedSurface.getAttribute("data-gw2-launch-app");
+            if (surfaceId) {
+              try { localStorage.setItem("greenways-os-v2-last-surface", surfaceId); } catch {}
             }
             closeAppLauncher();
           }

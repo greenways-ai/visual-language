@@ -54,7 +54,7 @@ export const catalogueOwnershipLabels = deepFreeze({
 export const greenwaysV2CatalogueHome = deepFreeze({
   id: "catalogue-home",
   label: "Greenways v2 catalogue",
-  path: "/v2/",
+  path: "/",
   summary: "The shared route index for Greenways foundations, reusable interface studies, and application laboratories.",
   status: "ready",
   ownership: "shared-contract",
@@ -351,7 +351,9 @@ export function catalogueHref(path, basePath = "/") {
  * @param {string} [basePath]
  */
 export function isCatalogueRouteCurrent(routePath, currentPath, basePath = "/") {
-  return normaliseCataloguePath(routePath) === normaliseCataloguePath(currentPath, basePath);
+  const route = normaliseCataloguePath(routePath);
+  const current = normaliseCataloguePath(currentPath, basePath);
+  return route === current || (route === "/" && current === "/v2/");
 }
 
 /**
@@ -362,13 +364,13 @@ export function isCatalogueRouteCurrent(routePath, currentPath, basePath = "/") 
 export function isCatalogueRouteActive(routePath, currentPath, basePath = "/") {
   const route = normaliseCataloguePath(routePath);
   const current = normaliseCataloguePath(currentPath, basePath);
-  return route === current || (route !== "/" && current.startsWith(route));
+  return route === current || (route === "/" && current === "/v2/") || (route !== "/" && current.startsWith(route));
 }
 
 /** @param {string} path */
 export function getCatalogueRoute(path) {
   const target = normaliseCataloguePath(path);
-  if (target === greenwaysV2CatalogueHome.path) return greenwaysV2CatalogueHome;
+  if (target === greenwaysV2CatalogueHome.path || target === "/v2/") return greenwaysV2CatalogueHome;
   return flattenCatalogueRoutes().find((route) => normaliseCataloguePath(route.path) === target);
 }
 

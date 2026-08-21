@@ -9,6 +9,7 @@
     "assets",
     "bin",
     "BRAND-ASSETS.md",
+    "V1-PACKAGE.md",
     "V2-PACKAGE.md",
     "V2-MIGRATION.md",
     "NOTICE"
@@ -17,6 +18,9 @@
     "./theme.css": "./src/theme.css",
     "./typography.css": "./src/typography.css",
     "./theme.js": "./src/theme.js",
+    "./v1/tokens.css": "./src/v1/tokens.css",
+    "./v1/document.css": "./src/v1/document.css",
+    "./v1/contract.js": "./src/v1/contract.js",
     "./ThemeToggle.astro": "./src/ThemeToggle.astro",
     "./ThemeMenu.astro": "./src/ThemeMenu.astro",
     "./ThemeButton.astro": "./src/ThemeButton.astro",
