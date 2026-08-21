@@ -159,7 +159,7 @@ export const greenwaysV2Catalogue = deepFreeze([
             label: "Projects and buildouts",
             path: "/v2/applications/foreman/projects/",
             summary: "The project index, buildout board, selected buildout workbench, evidence, and human attention.",
-            status: "planned",
+            status: "in-progress",
             ownership: "product-laboratory",
             issue: 36,
             primary: true,
