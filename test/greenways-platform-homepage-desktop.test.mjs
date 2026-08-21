@@ -3,43 +3,54 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
+const stylePaths = [
+  "src/v2/greenways-platform-homepage.css",
+  "src/v2/greenways-platform-homepage-publication.css",
+  "src/v2/greenways-platform-homepage-workspace.css",
+  "src/v2/greenways-platform-homepage-editorial.css",
+  "src/v2/greenways-platform-homepage-responsive.css",
+];
+const readStyles = async () => (await Promise.all(stylePaths.map(read))).join("\n");
 
-test("the Fabric homepage emits its desktop editorial calibration after the mobile contract", async () => {
-  const shell = await read("src/v2/CatalogueShell.astro");
-
-  assert.match(shell, /greenways-platform-homepage-editorial\.css\?raw/);
-  assert.match(shell, /data-greenways-fabric-editorial-calibration/);
-  assert.match(shell, /set:html=\{greenwaysFabricEditorialCss\}/);
-
-  const responsiveStyle = shell.indexOf("data-greenways-fabric-responsive-cascade");
-  const editorialStyle = shell.indexOf("data-greenways-fabric-editorial-calibration");
-  assert.ok(responsiveStyle >= 0, "the established mobile cascade remains present");
-  assert.ok(editorialStyle > responsiveStyle, "desktop calibration must follow the responsive contract");
-});
-
-test("desktop typography is restrained and repeated content uses equal grid units", async () => {
-  const css = await read("src/v2/greenways-platform-homepage-editorial.css");
-
-  assert.match(css, /@media \(min-width: 58\.01rem\)/);
-  assert.match(css, /\.gwf-home__hero h2\s*\{[\s\S]*?font-size:\s*clamp\(3rem,\s*4\.4vw,\s*4\.75rem\)/);
-  assert.match(css, /\.gwf-section__heading\s*\{[\s\S]*?grid-template-columns:\s*repeat\(4,\s*minmax\(0,\s*1fr\)\)/);
-  assert.match(css, /\.gwf-capability-grid,[\s\S]*?grid-auto-rows:\s*1fr/);
-  assert.match(css, /\.gwf-storage-plate > ol\s*\{[\s\S]*?grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/);
-  assert.match(css, /\.gwf-identity-map > ol\s*\{[\s\S]*?grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\)/);
-  assert.match(css, /\.gwf-agent-grid\s*\{[\s\S]*?grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\)/);
-  assert.match(css, /\.gwf-surface-track\s*\{[\s\S]*?grid-template-columns:\s*repeat\(5,\s*minmax\(0,\s*1fr\)\)/);
-  assert.match(css, /\.gwf-boundary\s*\{[\s\S]*?grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/);
-  assert.match(css, /\.gwf-application-grid article\s*\{[\s\S]*?min-block-size:\s*14\.5rem/);
-  assert.match(css, /box-shadow:\s*none/);
-  assert.match(css, /border-radius:\s*0/);
-  assert.doesNotMatch(css, /#[\da-f]{3,8}\b/i);
-  assert.doesNotMatch(css, /\b(?:rgb|rgba|hsl|hsla)\(/i);
-  assert.doesNotMatch(css, /!important/);
-  assert.doesNotMatch(css, /white-space:\s*nowrap/i);
-});
-
-test("the fashion and systems references stay visual rather than becoming public brand copy", async () => {
+test("the desktop homepage is one experiential field rather than a catalogue of prose cards", async () => {
   const page = await read("src/pages/v2/applications/greenways-platform/homepage.astro");
-  const css = await read("src/v2/greenways-platform-homepage-editorial.css");
+
+  assert.match(page, /class="gwf-declutter-stage"/);
+  assert.match(page, /class="gwf-workspace"/);
+  assert.match(page, /class="gwf-view-ribbon"/);
+  assert.match(page, /class="gwf-boundary-plane"/);
+  assert.equal((page.match(/<h1\b/g) || []).length, 1);
+  assert.ok((page.match(/<section\b/g) || []).length < 16, "the page should not return to the previous feature-section wall");
+  assert.doesNotMatch(page, /Production handoff|product laboratory|High-fidelity static specimen|Operating plate/);
+});
+
+test("texture, depth, and interface motion carry the desktop story", async () => {
+  const css = await readStyles();
+
+  assert.match(css, /\.gwf-declutter-stage\s*\{[\s\S]*?min-block-size:\s*clamp\(38rem,\s*68vw,\s*55rem\)/);
+  assert.match(css, /\.gwf-declutter-stage\s*\{[\s\S]*?radial-gradient/);
+  assert.match(css, /\.gwf-workspace\s*\{[\s\S]*?backdrop-filter:\s*blur\(28px\)/);
+  assert.match(css, /\[data-gwf-mode="scatter"\] \.gwf-workspace\s*\{[\s\S]*?scale\(0\.92\)/);
+  assert.match(css, /\[data-gwf-mode="fabric"\] \.gwf-workspace\s*\{[\s\S]*?transform:\s*none/);
+  assert.match(css, /\.gwf-fragment\s*\{[\s\S]*?transition:/);
+  assert.match(css, /@keyframes gwf-dock-arrival/);
+});
+
+test("the main workspace stays balanced at desktop scale", async () => {
+  const css = await readStyles();
+
+  assert.match(css, /\.gwf-workspace__body\s*\{[\s\S]*?grid-template-columns:\s*3\.25rem\s+11\.5rem\s+minmax\(0,\s*1fr\) 13rem/);
+  assert.match(css, /\.gwf-spaces-view\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0,\s*1fr\)\s+11rem/);
+  assert.match(css, /\.gwf-flow-lanes\s*\{[\s\S]*?grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\)/);
+  assert.match(css, /\.gwf-view-ribbon\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0,\s*1fr\)\s+auto\s+minmax\(0,\s*1fr\)\s+auto\s+minmax\(0,\s*1fr\)/);
+  assert.match(css, /\.gwf-boundary-plane\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0,\s*1fr\)\s+minmax\(8rem,\s*0\.32fr\)\s+minmax\(0,\s*0\.8fr\)/);
+});
+
+test("the Greenways V2 reference remains a visual lineage rather than homepage copy", async () => {
+  const page = await read("src/pages/v2/applications/greenways-platform/homepage.astro");
+  const css = await readStyles();
+
+  assert.match(css, /greenways-os-v2-foundation\.css/);
   assert.doesNotMatch(`${page}\n${css}`, /\b(?:IBM|Dior)\b/i);
+  assert.doesNotMatch(page, /one workspace.*five manifestations/i);
 });

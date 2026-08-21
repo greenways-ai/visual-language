@@ -1,105 +1,78 @@
-# Greenways Fabric homepage laboratory
+# Greenways Fabric homepage experience
 
 Issue: [#54](https://github.com/greenways-ai/visual-language/issues/54)
 
 Route: `/v2/applications/greenways-platform/homepage/`
 
-## Purpose
+## Decision
 
-This route is the proposed public doorway for `www.greenways.ai`. It supersedes the earlier publishing-led homepage study while preserving its neutral editorial grammar and stable route.
+The homepage is an interface experience, not an explanatory catalogue.
 
-The public proposition is now:
+The page demonstrates the product by beginning in a scattered state and settling into one coherent Fabric workspace. The visitor can replay the transition, switch the same underlying workspace between Spaces and Flow, and move one selected projection across the optional Platform boundary.
 
-> Greenways Fabric keeps your storage, identity, agents, applications, and history connected under your control.
+The visible copy is deliberately sparse:
 
-The Fabric is presented as the personal operating system. Spaces, Build, Studio, Socials, publishing, collaboration, public works, and delivery are capabilities and applications on top of it—not the product foundation itself.
+- `Everything settles into place.`
+- `Your work. Your identity. Clear roles.`
+- `One Fabric. Two current views.`
+- `Only the selected piece crosses.`
+- `Keep the centre.`
 
-The route is an executable visual-language specimen. It does not change the production homepage, install Greenways OS, mount storage, create keys, enrol identities, invoke agents, launch applications, connect Platform, or publish work.
+Everything else is communicated through texture, spatial continuity, controls, state, and interface composition.
 
-## Public disclosure order
+## Experience sequence
 
-The homepage uses this order:
-
-1. **Greenways Fabric** — the personal OS and durable layer beneath every window.
-2. **Storage you host** — computer, home server, or chosen infrastructure using open source, open standards, and portable formats.
-3. **Identity you carry** — one person linked through keys to distinct devices, applications, collaborators, agents, and optional hosted accounts.
-4. **Agents you direct** — named participants with a purpose, bounded context, expiry, revocation, and attributable return.
-5. **Same Fabric, different windows** — Desktop, browser, CLI, and home server reach the same personal Fabric.
-6. **Applications on top** — Spaces, Build, Studio, and Socials as focused views and tools.
-7. **Private Fabric and optional Platform** — only explicitly selected references, releases, invitations, or profile fields cross into hosted services.
-8. **Open by construction** — open source and standards expressed as ownership, portability, replaceability, and durability.
-
-This order is intentional. It prevents the public site from becoming a publishing landing page, application catalogue, cloud-account pitch, infrastructure diagram, or open-source project index.
-
-## Editorial laws
-
-- Say what the Fabric enables before explaining how it is built.
-- Name Greenways Fabric in the first viewport.
-- Describe self-hosting as a choice over location, operation, movement, backup, and recovery.
-- Do not imply that self-hosting alone guarantees backup, uptime, security, or recovery.
-- Explain keys through durable identity and verifiable relationships rather than cryptographic mechanics.
-- Keep person, device, application, collaborator, agent, and hosted account distinct.
-- Give agents names, roles, boundaries, expiry, revocation, and attributable results.
-- Present applications after the Fabric is understood.
-- Use the line: “The application is a view. The Fabric is the OS.”
-- Keep Greenways Platform optional and separately authenticated.
-- Never imply automatic upload, sync, publication, or transfer of private Fabric state.
-
-## Application relationship
-
-The current foreground applications are exactly:
-
-```text
-Spaces   understand
-Build    coordinate
-Studio   create
-Socials  connect
-```
-
-They share Fabric identity, storage choices, agents, references, and history. They remain application-owned views and domains rather than separate silos or identity roots.
-
-No fifth Publish, Research, Home, Packages, Keyring, or Receipts application is introduced by the homepage.
+1. **Scattered** — detached tabs, downloads, notes, accounts, tasks, agent output, receipts, and sources occupy the field.
+2. **Fabric** — those fragments settle into a workspace with one storage context, one identity thread, bounded agents, and retained history.
+3. **Applications as views** — Spaces and Flow switch over the same Fabric frame rather than opening separate product silos.
+4. **Explicit boundary** — one selected projection may move into Greenways Platform while the private stack remains in place.
+5. **Quiet close** — applications may change; the Fabric remains.
 
 ## Visual contract
 
-- Structural canvas, header, panels, diagrams, and footer use shared neutral v2 roles.
-- The Greenways mosaic mark is the strongest multicolour moment.
-- Emerald, aqua, sapphire, and violet appear as restrained threads, node identifiers, and application signals.
-- Brand colours never become broad structural backgrounds.
-- Semantic success, warning, danger, stale, disconnected, and approval states remain separate from brand/application identity.
-- The Fabric is shown as a calm neutral core linked to storage, identity, agents, and applications—not a glowing cloud.
-- The page uses numbered plates, rules, grids, labels, and terse instructional copy in the discipline of a 1970s technical manual.
-- Light and dark themes preserve equivalent hierarchy.
+- Reuse the atmosphere, glass, depth, fine grid, restrained peacock signal, and interface scale established by `/concepts/greenways-v2/`.
+- The workspace is the primary explanatory object.
+- Body copy never carries the product story by itself.
+- The mosaic mark remains the strongest multicolour event.
+- Surfaces are layered and tactile rather than repeated documentation cards.
+- Clutter is shown as temporary spatial disorder, not a before/after marketing table.
+- Decluttering is reversible and replayable.
+- Light and dark modes preserve equivalent hierarchy.
+- Desktop, tablet, 390px, and 320px layouts remain deliberate and overflow-free.
+- Reduced-motion users receive the settled state without the transition.
 
-The route-specific stylesheets contain no literal colour palette. They consume shared `--gw-v2-*` tokens.
+## Current product boundary
 
-## Truthfulness boundary
+Only the current applications appear:
 
-All visible calls to action are in-page anchors. The specimen explicitly states that no storage, identity, agent, application, account, or hosted-service action is performed.
+```text
+Spaces   understand
+Flow     coordinate
+```
 
-The storage section states that self-hosting is control rather than a guarantee. The Platform section states that only an explicitly selected boundary crossing moves into hosted services. The application section makes no claim that the applications are installed or available.
+Build and Research are compatibility lineage. Imagine, World, Studio, and Socials are not announced or teased.
 
-A later production adoption must replace anchors only when the corresponding route, state, and operation exist and can be read back authoritatively.
+Greenways Platform remains optional. The boundary interaction moves one visual specimen only; it does not imply upload, sync, publication, account creation, or unrestricted access to the private Fabric.
 
-## Production adoption checklist
+## Truthfulness
 
-- Keep the first viewport centred on Greenways Fabric as the personal OS.
-- Preserve the “storage you host · identity you carry · agents you direct · applications you choose” hierarchy.
-- Use self-hosted, open-source, open-standard, and portable language as user freedoms rather than project badges.
-- Keep applications below the Fabric explanation.
-- Keep Greenways Platform optional and visibly separate from private Fabric authority.
-- Connect calls to action only to truthful, available destinations.
-- Show installed, connected, backed-up, recovered, synced, public, or verified state only after authoritative evidence exists.
-- Keep internal technology and provider names in developer documentation or diagnostic disclosure.
-- Review light and dark rendering at desktop, 820px, 390px, and 320px.
-- Verify keyboard focus, reduced motion, contrast, accessible diagram alternatives, and no document-level horizontal overflow.
+All controls alter the local visual specimen only:
+
+- `Scattered / Fabric` changes the decluttering state.
+- `Spaces / Flow` changes the application view over the same frame.
+- `Share selected piece` demonstrates an explicit boundary crossing.
+- Theme and replay controls change presentation only.
+
+No storage, identity, agent, application, account, upload, sync, collaboration, publication, or hosted operation is connected.
 
 ## Source ownership
 
-- `src/v2/greenways-platform-homepage.js` owns the closed Fabric-first editorial and section contract plus compatibility exports for the earlier laboratory name.
-- `src/pages/v2/applications/greenways-platform/homepage.astro` owns the executable catalogue composition.
-- `src/v2/greenways-platform-homepage*.css` owns route-specific core, ownership, identity, application, and responsive presentation using shared tokens. The historical filenames remain stable to keep the change additive.
-- `src/v2/catalogue-manifest.js` owns route discovery and Fabric-first application-family copy.
-- `test/greenways-platform-homepage.test.mjs` owns focused contract enforcement.
-
-Production installation, storage, identity, authority, agents, application runtime, hosted connections, and deployment remain outside `@greenways-ai/visual-language`.
+- `src/v2/greenways-platform-homepage.js` owns the closed, current, sparse experience model.
+- `src/pages/v2/applications/greenways-platform/homepage.astro` owns the standalone executable experience.
+- `src/v2/greenways-platform-homepage.css` is the route entry and imports the atmosphere, workspace, scene, and responsive modules.
+- `src/v2/greenways-platform-homepage-publication.css` owns the atmospheric field and scattered-to-Fabric transition.
+- `src/v2/greenways-platform-homepage-workspace.css` owns the shared Fabric frame and Spaces/Flow views.
+- `src/v2/greenways-platform-homepage-editorial.css` owns the application ribbon, optional Platform boundary, and quiet close.
+- `src/v2/greenways-platform-homepage-responsive.css` owns deliberate desktop-to-320px composition and reduced motion.
+- `src/v2/CatalogueShell.astro` no longer injects legacy homepage cascade repairs because the homepage owns a standalone shell.
+- `test/greenways-platform-homepage*.test.mjs` owns product, interaction, visual-density, responsive, accessibility, and non-announcement contracts.
