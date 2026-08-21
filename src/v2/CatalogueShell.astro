@@ -7,6 +7,7 @@ import greenwaysFabricResponsiveCss from "./greenways-platform-homepage-responsi
 import greenwaysFabricEditorialCss from "./greenways-platform-homepage-editorial.css?raw";
 import "./document.css";
 import "./catalogue.css";
+import "./catalogue-atlas.css";
 
 interface Props {
   title: string;
@@ -36,7 +37,7 @@ const isGreenwaysFabricHomepage =
 ---
 
 <!doctype html>
-<html lang="en" data-project="visual-language">
+<html lang="en" data-project="visual-language" data-gw-v2-atlas-frame>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -64,20 +65,27 @@ const isGreenwaysFabricHomepage =
       </>
     )}
   </head>
-  <body class:list={["gw-v2", "gw-v2-document", "gw-v2-catalogue", bodyClass]}>
+  <body
+    class:list={["gw-v2", "gw-v2-document", "gw-v2-catalogue", "gw-v2-atlas-frame", bodyClass]}
+    data-gw-v2-current-path={currentPath}
+  >
     <CatalogueNavigation
       currentPath={currentPath}
       basePath={basePath}
       sectionNavigation={sectionNavigation}
     />
 
-    <main id="gw-v2-main" class:list={["gw-v2-catalogue-main", "gw-v2-page", mainClass]} tabindex="-1">
+    <main
+      id="gw-v2-main"
+      class:list={["gw-v2-catalogue-main", "gw-v2-page", mainClass]}
+      tabindex="-1"
+    >
       <slot />
       <CataloguePageFooter currentPath={currentPath} basePath={basePath} />
     </main>
 
     <footer class="gw-v2-catalogue-footer">
-      <span>Greenways visual language · v2 catalogue</span>
+      <span>Greenways visual language · executable atlas</span>
       <a href="https://github.com/greenways-ai/visual-language">Source ↗</a>
     </footer>
   </body>

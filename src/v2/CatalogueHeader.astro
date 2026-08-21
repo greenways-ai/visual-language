@@ -36,40 +36,76 @@ const groupIsActive = (routes: (typeof greenwaysV2Catalogue)[number]["routes"]) 
     <MosaicLogo project="greenways" label="Greenways" class="gw-v2-catalogue-brand__mark" />
     <span>
       <strong>Greenways</strong>
-      <small>Visual language v2</small>
+      <small>Visual language · v2</small>
     </span>
   </a>
 
-  <details class="gw-v2-catalogue-nav" data-gw-v2-catalogue-nav>
+  <div class="gw-v2-catalogue-folio" aria-label="Catalogue character">
+    <span>Executable atlas</span>
+    <strong>System · applications · surfaces</strong>
+  </div>
+
+  <details class="gw-v2-catalogue-nav" data-gw-v2-catalogue-nav data-gw-v2-atlas-index>
     <summary>
-      <span>Browse catalogue</span>
+      <span>Atlas index</span>
       <span aria-hidden="true">＋</span>
     </summary>
 
     <div class="gw-v2-catalogue-nav__body">
+      <header class="gw-v2-catalogue-nav__masthead">
+        <div>
+          <p>Greenways visual language · v2</p>
+          <h2>Atlas index</h2>
+          <span>Browse by visual layer. Open a specimen at full scale.</span>
+        </div>
+        <button type="button" data-gw-v2-catalogue-close>
+          <span>Close</span>
+          <span aria-hidden="true">×</span>
+        </button>
+      </header>
+
       <nav aria-label="Greenways v2 catalogue">
         <ul class="gw-v2-catalogue-nav__groups">
-          {greenwaysV2Catalogue.map((group) => {
+          {greenwaysV2Catalogue.map((group, groupIndex) => {
             const active = groupIsActive(group.routes);
             return (
               <li>
-                <details class="gw-v2-catalogue-nav__group" data-current={active ? "true" : undefined} open={active}>
+                <details
+                  class="gw-v2-catalogue-nav__group"
+                  data-current={active ? "true" : undefined}
+                  open={active}
+                >
                   <summary>
+                    <span class="gw-v2-catalogue-nav__group-code">
+                      {String(groupIndex + 1).padStart(2, "0")}
+                    </span>
                     <span>{group.label}</span>
                     <small>{group.routes.length}</small>
                   </summary>
                   <ul class="gw-v2-catalogue-nav__routes">
                     {group.routes.map((route) => (
-                      <li data-primary={route.primary === false ? "false" : "true"} data-ownership={route.ownership}>
-                        <a href={href(route.path)} aria-current={isCurrent(route.path) ? "page" : undefined}>
+                      <li
+                        data-primary={route.primary === false ? "false" : "true"}
+                        data-ownership={route.ownership}
+                      >
+                        <a
+                          href={href(route.path)}
+                          aria-current={isCurrent(route.path) ? "page" : undefined}
+                        >
                           <span>{route.label}</span>
                           <small>{catalogueStatusLabels[route.status]}</small>
                         </a>
                         {route.children && route.children.length > 0 && (
                           <ul>
                             {route.children.map((child) => (
-                              <li data-primary={child.primary === false ? "false" : "true"} data-ownership={child.ownership}>
-                                <a href={href(child.path)} aria-current={isCurrent(child.path) ? "page" : undefined}>
+                              <li
+                                data-primary={child.primary === false ? "false" : "true"}
+                                data-ownership={child.ownership}
+                              >
+                                <a
+                                  href={href(child.path)}
+                                  aria-current={isCurrent(child.path) ? "page" : undefined}
+                                >
                                   <span>{child.label}</span>
                                   <small>{catalogueStatusLabels[child.status]}</small>
                                 </a>
@@ -86,6 +122,12 @@ const groupIsActive = (routes: (typeof greenwaysV2Catalogue)[number]["routes"]) 
           })}
         </ul>
       </nav>
+
+      <footer class="gw-v2-catalogue-nav__footer">
+        <span>Current applications</span>
+        <strong>Spaces · Flow</strong>
+        <small>Catalogue metadata remains available here, outside the specimen frame.</small>
+      </footer>
     </div>
   </details>
 
