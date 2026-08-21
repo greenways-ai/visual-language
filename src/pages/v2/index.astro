@@ -1,8 +1,10 @@
 ---
 import CatalogueShell from "../../v2/CatalogueShell.astro";
+import MosaicLogo from "../../MosaicLogo.astro";
 import {
   catalogueHref,
   catalogueOwnershipLabels,
+  flattenCatalogueRoutes,
   catalogueStatusLabels,
   greenwaysV2Catalogue,
   greenwaysV2CatalogueHome,
@@ -10,70 +12,272 @@ import {
 
 const basePath = import.meta.env.BASE_URL;
 const href = (path: string) => catalogueHref(path, basePath);
+const routeCount = flattenCatalogueRoutes().length;
+const currentPaths = {
+  suite: href("/v2/applications/greenways-suite/"),
+  spaces: href("/v2/applications/greenways-suite/desktop/"),
+  flow: href("/v2/applications/greenways-suite/browser/"),
+  foundations: href("/v2/foundations/"),
+  library: href("/v2/library/"),
+  platform: href("/v2/applications/greenways-platform/homepage/"),
+  concept: href("/concepts/greenways-v2/"),
+};
 ---
 
 <CatalogueShell
   title={greenwaysV2CatalogueHome.label}
   description={greenwaysV2CatalogueHome.summary}
   currentPath={greenwaysV2CatalogueHome.path}
+  bodyClass="gw-v2-atlas-body"
+  mainClass="gw-v2-atlas-main"
+  sectionNavigation={false}
 >
-  <header id="catalogue-overview" data-catalogue-section data-section-label="Overview" class="gw-v2-catalogue-hero">
-    <div class="gw-v2-catalogue-hero__copy">
-      <p class="gw-v2-catalogue-eyebrow">Shared contracts · executable laboratories</p>
-      <h1>One catalogue.<br />Clear ownership.</h1>
-      <p>
-        Greenways v2 keeps reusable foundations separate from application studies. Foreman is the current application
-        laboratory; earlier Greenways OS screens remain available as explicitly historical explorations.
-      </p>
-    </div>
-  </header>
-
-  <div class="gw-v2-catalogue-groups" data-gw-v2-catalogue-home>
-    {greenwaysV2Catalogue.map((group) => (
-      <section
-        id={`catalogue-${group.id}`}
-        data-catalogue-section
-        data-section-label={group.label}
-        class="gw-v2-catalogue-group"
-        aria-labelledby={`gw-v2-group-${group.id}`}
-      >
-        <header>
-          <p class="gw-v2-catalogue-eyebrow">{group.id}</p>
-          <h2 id={`gw-v2-group-${group.id}`}>{group.label}</h2>
-          <p>{group.summary}</p>
-        </header>
-
-        <div class="gw-v2-catalogue-grid">
-          {group.routes.map((route) => (
-            <article
-              class="gw-v2-route-card"
-              data-route-id={route.id}
-              data-primary={route.primary === false ? "false" : "true"}
-              data-ownership={route.ownership}
-            >
-              <p class="gw-v2-route-card__meta">
-                {catalogueStatusLabels[route.status]} · {catalogueOwnershipLabels[route.ownership]}
-              </p>
-              <h3>{route.label}</h3>
-              <p>{route.summary}</p>
-              <a href={href(route.path)}>Open route →</a>
-
-              {route.children && route.children.length > 0 && (
-                <ul class="gw-v2-route-card__children">
-                  {route.children.map((child) => (
-                    <li data-route-id={child.id} data-primary={child.primary === false ? "false" : "true"}>
-                      <a href={href(child.path)}>
-                        <span>{child.label}</span>
-                        <small>{catalogueStatusLabels[child.status]}</small>
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </article>
-          ))}
+  <article class="gw-v2-atlas" data-v2-atlas-home>
+    <section
+      id="atlas-overview"
+      class="gw-v2-atlas-hero"
+      data-catalogue-section
+      data-section-label="Overview"
+      aria-labelledby="gw-v2-atlas-title"
+    >
+      <div class="gw-v2-atlas-hero__copy">
+        <p class="gw-v2-atlas-kicker">Greenways visual language · executable atlas</p>
+        <h1 id="gw-v2-atlas-title">One visual language.<br />Every surface in its proper form.</h1>
+        <p>
+          The catalogue is a place to experience the system, not a directory wrapped around it.
+          Foundations, components and product laboratories share one vocabulary while each specimen
+          keeps the scale, density and rhythm its host requires.
+        </p>
+        <div class="gw-v2-atlas-actions">
+          <a class="is-primary" href={currentPaths.suite}>Enter the current suite</a>
+          <a href={currentPaths.foundations}>Read the foundations</a>
         </div>
-      </section>
-    ))}
-  </div>
+        <dl class="gw-v2-atlas-folio">
+          <div><dt>Current applications</dt><dd>Spaces · Flow</dd></div>
+          <div><dt>Atlas entries</dt><dd>{routeCount} full-scale routes</dd></div>
+          <div><dt>Contract</dt><dd>Neutral structure · peacock signal</dd></div>
+        </dl>
+      </div>
+
+      <div class="gw-v2-atlas-orbit" aria-label="Greenways v2 visual system map">
+        <span class="gw-v2-atlas-orbit__ring is-outer" aria-hidden="true"></span>
+        <span class="gw-v2-atlas-orbit__ring is-inner" aria-hidden="true"></span>
+        <div class="gw-v2-atlas-orbit__core">
+          <MosaicLogo project="greenways" label="Greenways" class="gw-v2-atlas-orbit__mark" />
+          <strong>Visual language</strong>
+          <small>tokens · grammar · evidence</small>
+        </div>
+        <a class="gw-v2-atlas-orbit__node is-foundations" href={currentPaths.foundations}>
+          <span>01</span><strong>Foundations</strong><small>shared laws</small>
+        </a>
+        <a class="gw-v2-atlas-orbit__node is-library" href={currentPaths.library}>
+          <span>02</span><strong>Library</strong><small>reusable parts</small>
+        </a>
+        <a class="gw-v2-atlas-orbit__node is-spaces" href={currentPaths.spaces}>
+          <span>03</span><strong>Spaces</strong><small>understand</small>
+        </a>
+        <a class="gw-v2-atlas-orbit__node is-flow" href={currentPaths.flow}>
+          <span>04</span><strong>Flow</strong><small>coordinate</small>
+        </a>
+        <a class="gw-v2-atlas-orbit__node is-platform" href={currentPaths.platform}>
+          <span>05</span><strong>Platform</strong><small>selected public work</small>
+        </a>
+      </div>
+    </section>
+
+    <section
+      id="atlas-principle"
+      class="gw-v2-atlas-principle"
+      data-catalogue-section
+      data-section-label="Principle"
+      aria-labelledby="gw-v2-atlas-principle-title"
+    >
+      <span>01</span>
+      <h2 id="gw-v2-atlas-principle-title">The specimen leads.<br />The catalogue recedes.</h2>
+      <p>
+        Route ownership, maturity and issue references remain available in the atlas index and folio.
+        They no longer compete with the interface being studied. Each page opens as a composition first
+        and documentation second.
+      </p>
+    </section>
+
+    <section
+      id="atlas-current-suite"
+      class="gw-v2-atlas-current"
+      data-catalogue-section
+      data-section-label="Current suite"
+      aria-labelledby="gw-v2-atlas-current-title"
+    >
+      <header class="gw-v2-atlas-section-heading">
+        <div>
+          <p class="gw-v2-atlas-kicker">Current application plane</p>
+          <h2 id="gw-v2-atlas-current-title">Two applications.<br />One Fabric beneath them.</h2>
+        </div>
+        <p>
+          Spaces and Flow share identity, references and handoff laws. They do not collapse into the same
+          dashboard, and the system layer does not present itself as another application.
+        </p>
+      </header>
+
+      <div class="gw-v2-atlas-current__grid">
+        <a class="gw-v2-atlas-application is-spaces" href={currentPaths.spaces}>
+          <header><span>SP</span><small>03 · understand</small></header>
+          <div class="gw-v2-atlas-application__preview" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <footer>
+            <h3>Spaces</h3>
+            <p>Sources, maps, evidence, questions and cited briefs held in one exact Space.</p>
+            <span>Open the native workspace →</span>
+          </footer>
+        </a>
+
+        <a class="gw-v2-atlas-application is-flow" href={currentPaths.flow}>
+          <header><span>FL</span><small>04 · coordinate</small></header>
+          <div class="gw-v2-atlas-application__preview" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <footer>
+            <h3>Flow</h3>
+            <p>Projects coordinating people, agents, work, hosts, handoffs and verified outcomes.</p>
+            <span>Open the browser Control Room →</span>
+          </footer>
+        </a>
+      </div>
+    </section>
+
+    <section
+      id="atlas-chapters"
+      class="gw-v2-atlas-chapters"
+      data-catalogue-section
+      data-section-label="Atlas chapters"
+      aria-labelledby="gw-v2-atlas-chapters-title"
+    >
+      <header class="gw-v2-atlas-section-heading">
+        <div>
+          <p class="gw-v2-atlas-kicker">Complete route family</p>
+          <h2 id="gw-v2-atlas-chapters-title">Browse by visual layer,<br />not by file tree.</h2>
+        </div>
+        <p>
+          Every chapter has its own density and purpose. The same neutral grammar holds the family together;
+          route status stays legible without becoming the dominant design motif.
+        </p>
+      </header>
+
+      <div class="gw-v2-atlas-chapter-list">
+        {greenwaysV2Catalogue.map((group, groupIndex) => (
+          <article
+            class="gw-v2-atlas-chapter"
+            data-atlas-group={group.id}
+            data-atlas-index={String(groupIndex + 1).padStart(2, "0")}
+          >
+            <div class="gw-v2-atlas-chapter__visual" aria-hidden="true">
+              <span>{String(groupIndex + 1).padStart(2, "0")}</span>
+              <div><i></i><i></i><i></i><i></i></div>
+              <small>{group.routes.length} families</small>
+            </div>
+
+            <div class="gw-v2-atlas-chapter__body">
+              <header>
+                <p>{group.id}</p>
+                <h3>{group.label}</h3>
+                <span>{group.summary}</span>
+              </header>
+
+              <ol>
+                {group.routes.map((route, routeIndex) => (
+                  <li
+                    data-primary={route.primary === false ? "false" : "true"}
+                    data-ownership={route.ownership}
+                  >
+                    <a href={href(route.path)}>
+                      <span class="gw-v2-atlas-route-code">
+                        {String(groupIndex + 1).padStart(2, "0")}.{String(routeIndex + 1).padStart(2, "0")}
+                      </span>
+                      <span>
+                        <strong>{route.label}</strong>
+                        <small>{route.summary}</small>
+                      </span>
+                      <em>{catalogueStatusLabels[route.status]}</em>
+                    </a>
+
+                    {route.children && route.children.length > 0 && (
+                      <details class="gw-v2-atlas-route-children">
+                        <summary>
+                          <span>{route.children.length} related surfaces</span>
+                          <span aria-hidden="true">＋</span>
+                        </summary>
+                        <div>
+                          {route.children.map((child) => (
+                            <a href={href(child.path)}>
+                              <span>{child.label}</span>
+                              <small>
+                                {catalogueStatusLabels[child.status]} · {catalogueOwnershipLabels[child.ownership]}
+                              </small>
+                            </a>
+                          ))}
+                        </div>
+                      </details>
+                    )}
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section
+      id="atlas-laws"
+      class="gw-v2-atlas-laws"
+      data-catalogue-section
+      data-section-label="Composition laws"
+      aria-labelledby="gw-v2-atlas-laws-title"
+    >
+      <header>
+        <span>02</span>
+        <div>
+          <p class="gw-v2-atlas-kicker">Composition laws</p>
+          <h2 id="gw-v2-atlas-laws-title">Elegance comes from hierarchy,<br />not decoration.</h2>
+        </div>
+      </header>
+      <div>
+        <article>
+          <span>01</span>
+          <h3>One compact global bar</h3>
+          <p>Navigation stays available, but route taxonomy moves into the atlas index instead of occupying every viewport.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>Numbered editorial chapters</h3>
+          <p>Large transitions establish pace and meaning before dense tables, editors or operational surfaces begin.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>Full-scale product compositions</h3>
+          <p>Desktop, browser, compact and public surfaces preserve their own proportions rather than inheriting a documentation card grid.</p>
+        </article>
+      </div>
+    </section>
+
+    <section
+      id="atlas-doorway"
+      class="gw-v2-atlas-doorway"
+      data-catalogue-section
+      data-section-label="Doorway"
+      aria-labelledby="gw-v2-atlas-doorway-title"
+    >
+      <div>
+        <p class="gw-v2-atlas-kicker">Continue through the system</p>
+        <h2 id="gw-v2-atlas-doorway-title">Start with the suite.<br />Return to the atlas when you need the law.</h2>
+      </div>
+      <nav aria-label="Greenways v2 starting points">
+        <a href={currentPaths.suite}><span>Current suite</span><strong>Spaces · Flow</strong></a>
+        <a href={currentPaths.foundations}><span>Visual law</span><strong>Foundations</strong></a>
+        <a href={currentPaths.library}><span>Reusable system</span><strong>Library</strong></a>
+        <a href={currentPaths.concept}><span>Design lineage</span><strong>Originating host atlas</strong></a>
+      </nav>
+    </section>
+  </article>
 </CatalogueShell>
