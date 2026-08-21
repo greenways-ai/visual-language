@@ -3,6 +3,7 @@ import GreenwaysThemeProvider from "../site/components/GreenwaysThemeProvider.as
 import CatalogueNavigation from "./CatalogueNavigation.astro";
 import CataloguePageFooter from "./CataloguePageFooter.astro";
 import { catalogueHref } from "./catalogue-manifest.js";
+import greenwaysFabricResponsiveCss from "./greenways-platform-homepage-responsive.css?raw";
 import "./document.css";
 import "./catalogue.css";
 
@@ -28,6 +29,9 @@ const basePath = import.meta.env.BASE_URL;
 const base = catalogueHref("/", basePath);
 const origin = Astro.site ?? new URL(Astro.url.origin);
 const canonical = new URL(Astro.url.pathname, origin).toString();
+const fabricHomepagePath = "/v2/applications/greenways-platform/homepage/";
+const isGreenwaysFabricHomepage =
+  currentPath === fabricHomepagePath || currentPath.endsWith(fabricHomepagePath);
 ---
 
 <!doctype html>
@@ -44,6 +48,13 @@ const canonical = new URL(Astro.url.pathname, origin).toString();
     <meta property="og:url" content={canonical} />
     <title>{title} · Greenways visual language</title>
     <GreenwaysThemeProvider />
+    {isGreenwaysFabricHomepage && (
+      <style
+        is:inline
+        data-greenways-fabric-responsive-cascade
+        set:html={greenwaysFabricResponsiveCss}
+      ></style>
+    )}
   </head>
   <body class:list={["gw-v2", "gw-v2-document", "gw-v2-catalogue", bodyClass]}>
     <CatalogueNavigation
