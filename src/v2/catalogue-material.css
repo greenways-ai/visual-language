@@ -53,13 +53,101 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] {
   --gw-v2-material-thread: var(--gw-v2-brand-spectrum);
 
   min-inline-size: 0;
+  position: relative;
+  isolation: isolate;
   font-size: var(--gw-v2-type-md);
   line-height: var(--gw-v2-leading-body);
+  background-color: var(--gw-v2-canvas);
   background:
     var(--gw-v2-material-grid),
     var(--gw-v2-canvas);
   background-size: 3rem 3rem, 3rem 3rem;
   background-attachment: fixed;
+}
+
+/* Soft atmospheric light gives the transparent surfaces something to catch. */
+
+body.gw-v2-catalogue[data-gw-v2-material="delicate"]::before,
+body.gw-v2-catalogue[data-gw-v2-material="delicate"]::after {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  pointer-events: none;
+  content: "";
+}
+
+body.gw-v2-catalogue[data-gw-v2-material="delicate"]::before {
+  inset: -18vmax;
+  background:
+    radial-gradient(
+      circle at 14% 18%,
+      color-mix(in srgb, var(--gw-v2-brand-emerald) 24%, transparent),
+      transparent 28vmax
+    ),
+    radial-gradient(
+      circle at 84% 8%,
+      color-mix(in srgb, var(--gw-v2-brand-aqua) 28%, transparent),
+      transparent 31vmax
+    ),
+    radial-gradient(
+      circle at 78% 78%,
+      color-mix(in srgb, var(--gw-v2-brand-violet) 18%, transparent),
+      transparent 34vmax
+    );
+  filter: blur(34px) saturate(118%);
+  opacity: 0.72;
+  transform: translate3d(-4%, -2%, 0) scale(1.1);
+  animation: gw-v2-glass-drift 28s ease-in-out infinite alternate;
+}
+
+body.gw-v2-catalogue[data-gw-v2-material="delicate"]::after {
+  background:
+    var(--gw-v2-material-grain),
+    repeating-linear-gradient(
+      116deg,
+      transparent 0 11rem,
+      color-mix(in srgb, var(--gw-v2-brand-aqua) 7%, transparent) 11.05rem,
+      transparent 11.15rem 23rem
+    );
+  background-size: 0.55rem 0.55rem, 28rem 28rem;
+  background-position: 0 0, -12rem -12rem;
+  mix-blend-mode: soft-light;
+  opacity: 0.32;
+  animation: gw-v2-glass-sheen 34s linear infinite;
+}
+
+body.gw-v2-catalogue[data-gw-v2-material="delicate"] > :where(
+  .gw-v2-layered-navigation,
+  .gw-v2-catalogue-main,
+  .gw-v2-catalogue-footer
+) {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes gw-v2-glass-drift {
+  0% {
+    transform: translate3d(-4%, -2%, 0) scale(1.1);
+  }
+
+  50% {
+    transform: translate3d(3%, 2%, 0) scale(1.16);
+  }
+
+  100% {
+    transform: translate3d(-1%, 6%, 0) scale(1.12);
+  }
+}
+
+@keyframes gw-v2-glass-sheen {
+  from {
+    background-position: 0 0, -12rem -12rem;
+  }
+
+  to {
+    background-position: 0 0, 12rem 12rem;
+  }
 }
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-main h1 {
@@ -879,6 +967,79 @@ body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-rou
   background: color-mix(in srgb, var(--gw-v2-surface-overlay) 76%, transparent);
   border-radius: var(--gw-v2-material-card-radius);
   backdrop-filter: blur(16px);
+}
+
+/* Glass catches a quiet diagonal highlight and a slow, almost imperceptible drift. */
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] :is(
+  .gw-v2-catalogue-hero,
+  .gw-v2-visual-layout-map__group,
+  .gw-v2-visual-layout-destination,
+  .gw-v2-route-card
+) {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background-image:
+    linear-gradient(
+      118deg,
+      color-mix(in srgb, white 9%, transparent),
+      transparent 30%,
+      transparent 68%,
+      color-mix(in srgb, var(--gw-v2-brand-aqua) 8%, transparent)
+    ),
+    radial-gradient(
+      circle at 88% 12%,
+      color-mix(in srgb, var(--gw-v2-brand-aqua) 12%, transparent),
+      transparent 17rem
+    );
+  background-blend-mode: screen, normal;
+  transition: border-color var(--gw-v2-motion-fast) var(--gw-v2-ease-standard),
+    box-shadow var(--gw-v2-motion-fast) var(--gw-v2-ease-standard),
+    transform var(--gw-v2-motion-fast) var(--gw-v2-ease-standard);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] :is(
+  .gw-v2-catalogue-hero,
+  .gw-v2-visual-layout-map__group,
+  .gw-v2-visual-layout-destination,
+  .gw-v2-route-card
+)::after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      102deg,
+      transparent 16%,
+      color-mix(in srgb, white 10%, transparent) 46%,
+      transparent 58%
+    );
+  background-size: 220% 100%;
+  opacity: 0.32;
+  content: "";
+  pointer-events: none;
+  animation: gw-v2-surface-shimmer 18s ease-in-out infinite;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] :is(
+  .gw-v2-visual-layout-destination,
+  .gw-v2-route-card
+):is(:hover, :focus-within) {
+  border-color: color-mix(in srgb, var(--gw-v2-brand-aqua) 42%, var(--gw-v2-seam-strong));
+  box-shadow: 0 0.7rem 2rem color-mix(in srgb, var(--gw-v2-brand-aqua) 10%, transparent);
+  transform: translateY(-0.15rem);
+}
+
+@keyframes gw-v2-surface-shimmer {
+  0%,
+  100% {
+    background-position: 120% 0;
+  }
+
+  50% {
+    background-position: -20% 0;
+  }
 }
 
 /* Footer and route neighbours */

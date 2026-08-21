@@ -158,6 +158,9 @@ test("manual v2 catalogue pages opt into the shared atlas material", async () =>
   assert.match(material, /\.gw-v2-button--primary/);
   assert.match(material, /\.gw-v2-visual-layout-map__group/);
   assert.match(material, /backdrop-filter:\s*blur/);
+  assert.match(material, /gw-v2-glass-drift/);
+  assert.match(material, /gw-v2-surface-shimmer/);
+  assert.match(material, /prefers-reduced-motion/);
 });
 
 test("navigation styling is neutral, keyboard-visible and compact at 320px", async () => {
