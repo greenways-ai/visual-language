@@ -4,6 +4,7 @@ import CatalogueNavigation from "./CatalogueNavigation.astro";
 import CataloguePageFooter from "./CataloguePageFooter.astro";
 import { catalogueHref } from "./catalogue-manifest.js";
 import greenwaysFabricResponsiveCss from "./greenways-platform-homepage-responsive.css?raw";
+import greenwaysFabricEditorialCss from "./greenways-platform-homepage-editorial.css?raw";
 import "./document.css";
 import "./catalogue.css";
 
@@ -49,11 +50,18 @@ const isGreenwaysFabricHomepage =
     <title>{title} · Greenways visual language</title>
     <GreenwaysThemeProvider />
     {isGreenwaysFabricHomepage && (
-      <style
-        is:inline
-        data-greenways-fabric-responsive-cascade
-        set:html={greenwaysFabricResponsiveCss}
-      ></style>
+      <>
+        <style
+          is:inline
+          data-greenways-fabric-responsive-cascade
+          set:html={greenwaysFabricResponsiveCss}
+        ></style>
+        <style
+          is:inline
+          data-greenways-fabric-editorial-calibration
+          set:html={greenwaysFabricEditorialCss}
+        ></style>
+      </>
     )}
   </head>
   <body class:list={["gw-v2", "gw-v2-document", "gw-v2-catalogue", bodyClass]}>
