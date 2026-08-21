@@ -1,302 +1,401 @@
 ---
 import MosaicLogo from "../../../../MosaicLogo.astro";
-import CatalogueShell from "../../../../v2/CatalogueShell.astro";
 import {
   GREENWAYS_FABRIC_HOMEPAGE_VERSION,
   greenwaysFabricHomepage as homepage,
 } from "../../../../v2/greenways-platform-homepage.js";
 import "../../../../v2/greenways-platform-homepage.css";
 
-const currentPath = "/v2/applications/greenways-platform/homepage/";
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+const visualLanguageHref = `${base}v2/`;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
 ---
 
-<CatalogueShell title={homepage.meta.title} description={homepage.meta.description} currentPath={currentPath}>
-  <header class="gwf-review" data-greenways-fabric-homepage={GREENWAYS_FABRIC_HOMEPAGE_VERSION}>
-    <div class="gwf-review__copy">
-      <p>Issue #54 · product laboratory · public website</p>
-      <h1>{homepage.meta.title}</h1>
-      <p>
-        Greenways Fabric is now the product centre: storage under the person’s control, one durable identity,
-        bounded agents, and applications that remain replaceable views on the same personal OS.
-      </p>
-    </div>
-    <div class="gwf-review__badges" aria-label="Specimen contract">
-      <span>High-fidelity static specimen</span>
-      <span>Fabric-first</span>
-      <span>Neutral structure</span>
-      <span>Peacock identity</span>
-    </div>
-  </header>
+<!doctype html>
+<html lang="en" data-theme="dark" data-greenways-fabric-homepage={GREENWAYS_FABRIC_HOMEPAGE_VERSION}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={homepage.meta.description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={`${base}favicon.svg`} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={`${homepage.meta.title} · Greenways`} />
+    <meta property="og:description" content={homepage.meta.description} />
+    <meta property="og:url" content={canonical} />
+    <title>{homepage.meta.title} · Greenways</title>
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem("greenways-fabric-home-theme");
+          const preferred = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+          document.documentElement.dataset.theme = stored || preferred;
+        } catch {
+          document.documentElement.dataset.theme = "dark";
+        }
+      })();
+    </script>
+  </head>
 
-  <article id="top" class="gwf-home" aria-label="Proposed Fabric-first www.greenways.ai homepage">
-    <aside class="gwf-home__truth" role="note" aria-label="Prototype limitation">
-      <strong>{homepage.meta.specimenLabel}</strong>
-      <span>{homepage.meta.truthfulnessNote}</span>
-    </aside>
+  <body
+    class="gw2-body gwf-experience-body"
+    data-gwf-mode="scatter"
+    data-gwf-app="spaces"
+    data-gwf-share="private"
+  >
+    <a class="gwf-skip-link" href="#greenways-fabric-main">Skip to the Fabric experience</a>
 
-    <header class="gwf-home__header">
-      <a class="gwf-home__brand" href="#top" aria-label="Greenways homepage specimen">
-        <MosaicLogo project="greenways" label="Greenways mosaic mark" class="gwf-home__mark" />
-        <span><strong>Greenways</strong><small>Personal Fabric</small></span>
+    <header class="gwf-experience-bar">
+      <a class="gwf-experience-brand" href="#top" aria-label="Greenways Fabric homepage">
+        <MosaicLogo project="greenways" label="Greenways mosaic mark" class="gwf-experience-brand__mark" />
+        <span><strong>Greenways</strong><small>Fabric</small></span>
       </a>
-      <nav class="gwf-home__nav" aria-label="Homepage specimen navigation">
-        {homepage.navigation.items.map((item) => <a href={item.href}>{item.label}</a>)}
-      </nav>
-      <a class="gwf-home__enter" href={homepage.navigation.command.href}>
-        {homepage.navigation.command.label}<span aria-hidden="true">↓</span>
-      </a>
+
+      <div class="gwf-experience-status">
+        <span aria-hidden="true"></span>
+        <span>{homepage.meta.specimenLabel}</span>
+      </div>
+
+      <div class="gwf-experience-controls">
+        <div class="gwf-mode-switch" role="group" aria-label="Decluttering view">
+          {homepage.modes.map((mode) => (
+            <button
+              type="button"
+              data-gwf-mode-select={mode.id}
+              aria-pressed={mode.id === "scatter" ? "true" : "false"}
+            >
+              {mode.label}
+            </button>
+          ))}
+        </div>
+        <button
+          class="gwf-theme-toggle"
+          type="button"
+          data-gwf-theme-toggle
+          aria-label="Switch colour theme"
+          aria-pressed="false"
+        >
+          <svg class="gwf-theme-sun" viewBox="0 0 20 20" aria-hidden="true">
+            <circle cx="10" cy="10" r="3"></circle>
+            <path d="M10 1.8v2M10 16.2v2M1.8 10h2M16.2 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"></path>
+          </svg>
+          <svg class="gwf-theme-moon" viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M16.6 12.8A7 7 0 0 1 7.2 3.4a7 7 0 1 0 9.4 9.4Z"></path>
+          </svg>
+        </button>
+      </div>
     </header>
 
-    <section class="gwf-home__hero" aria-labelledby="gwf-hero-title">
-      <div class="gwf-home__hero-copy">
-        <p class="gwf-home__kicker"><span aria-hidden="true">00</span>{homepage.hero.kicker}</p>
-        <h2 id="gwf-hero-title">{homepage.hero.headline}</h2>
-        <p class="gwf-home__lede">{homepage.hero.introduction}</p>
-        <div class="gwf-home__actions" aria-label="Homepage specimen actions">
-          <a class="gwf-home__action gwf-home__action--primary" href={homepage.hero.primaryAction.href}>
-            {homepage.hero.primaryAction.label}<span aria-hidden="true">↓</span>
-          </a>
-          <a class="gwf-home__action" href={homepage.hero.secondaryAction.href}>
-            {homepage.hero.secondaryAction.label}<span aria-hidden="true">↘</span>
-          </a>
+    <main id="greenways-fabric-main">
+      <section id="top" class="gwf-arrival" aria-labelledby="gwf-arrival-title">
+        <div class="gwf-arrival__copy">
+          <p>{homepage.hero.kicker}</p>
+          <h1 id="gwf-arrival-title">{homepage.hero.headline}</h1>
+          <span>{homepage.hero.introduction}</span>
         </div>
-        <dl class="gwf-home__hero-index">
-          <div><dt>Storage</dt><dd>Where you choose</dd></div>
-          <div><dt>Identity</dt><dd>One durable thread</dd></div>
-          <div><dt>Agents</dt><dd>Named and bounded</dd></div>
-          <div><dt>Applications</dt><dd>Replaceable views</dd></div>
-        </dl>
-      </div>
 
-      <figure class="gwf-core" aria-labelledby="gwf-core-title" aria-describedby="gwf-core-note">
-        <figcaption>
-          <span>Operating plate · 01</span>
-          <strong id="gwf-core-title">{homepage.core.statement}</strong>
-        </figcaption>
-        <div class="gwf-core__field">
-          <span class="gwf-core__axis gwf-core__axis--horizontal" aria-hidden="true"></span>
-          <span class="gwf-core__axis gwf-core__axis--vertical" aria-hidden="true"></span>
-          <div class="gwf-core__centre">
-            <MosaicLogo project="greenways" label="Greenways Fabric mosaic identity" class="gwf-core__mark" />
-            <span>{homepage.core.label}</span>
-            <strong>Personal OS</strong>
+        <figure class="gwf-declutter-stage" aria-labelledby="gwf-declutter-title">
+          <figcaption id="gwf-declutter-title" class="gwf-sr-only">
+            A scattered set of tabs, files, notes, accounts, agent outputs, tasks, receipts, and sources settles into one Greenways Fabric workspace with shared storage, identity, agent scopes, Spaces, and Flow.
+          </figcaption>
+
+          <div class="gwf-stage-atmosphere" aria-hidden="true">
+            <span></span><span></span><span></span>
           </div>
-          <ol class="gwf-core__pillars" aria-label="What the Greenways Fabric keeps connected">
-            {homepage.core.pillars.map((pillar) => (
-              <li data-pillar={pillar.id}>
-                <span>{pillar.index}</span>
-                <div><strong>{pillar.label}</strong><small>{pillar.detail}</small></div>
-              </li>
+
+          <div class="gwf-fragment-field" aria-hidden="true">
+            {homepage.fragments.map((fragment, index) => (
+              <article
+                class="gwf-fragment"
+                data-gwf-fragment={fragment.id}
+                style={`--gwf-fragment-order:${index}`}
+              >
+                <span>{fragment.glyph}</span>
+                <div><strong>{fragment.label}</strong><small>{fragment.detail}</small></div>
+              </article>
             ))}
-          </ol>
-        </div>
-        <p id="gwf-core-note"><span aria-hidden="true">↳</span>{homepage.core.note}</p>
-      </figure>
-    </section>
-
-    <section id="fabric" class="gwf-section gwf-fabric" aria-labelledby="gwf-fabric-title">
-      <header class="gwf-section__heading">
-        <p>{homepage.fabric.kicker}</p>
-        <h2 id="gwf-fabric-title">{homepage.fabric.headline}</h2>
-        <span>{homepage.fabric.introduction}</span>
-      </header>
-      <div class="gwf-capability-grid">
-        {homepage.fabric.capabilities.map((capability) => (
-          <article data-fabric-capability={capability.id}>
-            <header><span>{capability.index}</span><h3>{capability.label}</h3></header>
-            <p>{capability.statement}</p>
-            <small>{capability.detail}</small>
-            <i aria-hidden="true"></i>
-          </article>
-        ))}
-      </div>
-      <p class="gwf-fabric__law"><strong>The application is a view.</strong><span>The Fabric is the OS.</span></p>
-    </section>
-
-    <section id="storage" class="gwf-section gwf-storage" aria-labelledby="gwf-storage-title">
-      <div class="gwf-storage__copy">
-        <p class="gwf-home__kicker"><span aria-hidden="true">02</span>{homepage.storage.kicker}</p>
-        <h2 id="gwf-storage-title">{homepage.storage.headline}</h2>
-        <p>{homepage.storage.introduction}</p>
-        <dl class="gwf-storage__principles">
-          {homepage.storage.principles.map((principle, index) => (
-            <div><dt>{String(index + 1).padStart(2, "0")} · {principle.label}</dt><dd>{principle.detail}</dd></div>
-          ))}
-        </dl>
-        <p class="gwf-storage__caveat" role="note"><span aria-hidden="true">!</span>{homepage.storage.caveat}</p>
-      </div>
-
-      <figure class="gwf-storage-plate" aria-labelledby="gwf-storage-plate-title">
-        <figcaption><span>Storage choice</span><strong id="gwf-storage-plate-title">One Fabric · several homes</strong></figcaption>
-        <ol>
-          {homepage.storage.locations.map((location) => (
-            <li data-storage-location={location.id}>
-              <span>{location.index}</span>
-              <div><strong>{location.label}</strong><small>{location.detail}</small></div>
-              <i aria-hidden="true"></i>
-            </li>
-          ))}
-        </ol>
-        <div class="gwf-storage-plate__work">
-          <span>Same work</span>
-          <strong>Stable identity · open format · exact history</strong>
-          <small>Move deliberately. Verify the copy. Keep the old home until recovery is proven.</small>
-        </div>
-      </figure>
-    </section>
-
-    <section id="identity" class="gwf-section gwf-identity" aria-labelledby="gwf-identity-title">
-      <header class="gwf-section__heading gwf-section__heading--split">
-        <div><p>{homepage.identity.kicker}</p><h2 id="gwf-identity-title">{homepage.identity.headline}</h2></div>
-        <span>{homepage.identity.introduction}</span>
-      </header>
-
-      <div class="gwf-identity__layout">
-        <figure class="gwf-identity-map" aria-labelledby="gwf-identity-map-title">
-          <figcaption id="gwf-identity-map-title">Identity relationship plate</figcaption>
-          <div class="gwf-identity-map__centre">
-            <MosaicLogo project="greenways" label="Greenways identity mark" class="gwf-identity-map__mark" />
-            <strong>{homepage.identity.centre.label}</strong>
-            <small>{homepage.identity.centre.detail}</small>
           </div>
-          <ol aria-label="Identities and surfaces linked to the person">
-            {homepage.identity.links.map((link) => (
-              <li data-identity-link={link.id}>
-                <span>{link.index}</span>
-                <div><strong>{link.label}</strong><small>{link.detail}</small></div>
-              </li>
-            ))}
-          </ol>
+
+          <section class="gwf-workspace" aria-label="Greenways Fabric workspace">
+            <header class="gwf-workspace__chrome">
+              <div class="gwf-window-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+              <div class="gwf-workspace__identity">
+                <MosaicLogo project="greenways" label="" class="gwf-workspace__mark" />
+                <span><strong>{homepage.fabric.label}</strong><small>home · private</small></span>
+              </div>
+              <dl class="gwf-workspace__health">
+                {homepage.fabric.status.map((item) => (
+                  <div data-gwf-dock={item.id}><dt>{item.label}</dt><dd>{item.value}</dd></div>
+                ))}
+              </dl>
+            </header>
+
+            <div class="gwf-workspace__body">
+              <nav class="gwf-workspace__dock" aria-label="Current applications">
+                {homepage.applications.items.map((application) => (
+                  <button
+                    type="button"
+                    data-gwf-app-select={application.id}
+                    aria-pressed={application.id === "spaces" ? "true" : "false"}
+                    aria-label={`Open ${application.label} specimen`}
+                  >
+                    <span aria-hidden="true">{application.id === "spaces" ? "S" : "F"}</span>
+                    <small>{application.label}</small>
+                  </button>
+                ))}
+              </nav>
+
+              <aside class="gwf-object-rail" aria-label="Fabric objects">
+                <header><span>Fabric</span><button type="button" disabled aria-label="Add object is not connected in this specimen">+</button></header>
+                <ol>
+                  {homepage.workspace.objects.map((object) => (
+                    <li data-object={object.id} data-state={object.state} data-gwf-dock={object.id === "brief" ? "notes" : object.id === "release" ? "tasks" : "source"}>
+                      <span aria-hidden="true"></span>
+                      <div><strong>{object.label}</strong><small>{object.kind}</small></div>
+                    </li>
+                  ))}
+                </ol>
+                <footer><span aria-hidden="true">⌁</span><small>All references remain linked</small></footer>
+              </aside>
+
+              <section class="gwf-workspace__canvas">
+                <header class="gwf-canvas-bar">
+                  <div class="gwf-app-tabs" role="tablist" aria-label="Fabric application views">
+                    {homepage.applications.items.map((application) => (
+                      <button
+                        type="button"
+                        role="tab"
+                        data-gwf-app-select={application.id}
+                        aria-selected={application.id === "spaces" ? "true" : "false"}
+                        aria-controls={`gwf-${application.id}-panel`}
+                      >
+                        <span>{application.label}</span><small>{application.verb}</small>
+                      </button>
+                    ))}
+                  </div>
+                  <button class="gwf-canvas-command" type="button" data-gwf-mode-select="fabric">
+                    <span aria-hidden="true">⌘</span><span>Settle</span>
+                  </button>
+                </header>
+
+                <div id="gwf-spaces-panel" class="gwf-app-panel gwf-spaces-view" role="tabpanel" data-gwf-app-panel="spaces">
+                  <div class="gwf-spaces-map" aria-label="Spaces relationship map">
+                    <span class="gwf-map-thread gwf-map-thread--a" aria-hidden="true"></span>
+                    <span class="gwf-map-thread gwf-map-thread--b" aria-hidden="true"></span>
+                    <span class="gwf-map-thread gwf-map-thread--c" aria-hidden="true"></span>
+                    <article class="gwf-focus-card">
+                      <span>Selected Space</span>
+                      <MosaicLogo project="greenways" label="" class="gwf-focus-card__mark" />
+                      <h2>{homepage.workspace.spaces.title}</h2>
+                      <small>{homepage.workspace.spaces.meta}</small>
+                    </article>
+                    {homepage.workspace.spaces.sources.map((source, index) => (
+                      <article class="gwf-source-node" data-source-node={source.id} style={`--gwf-source-order:${index}`}>
+                        <span aria-hidden="true"></span>
+                        <div><strong>{source.label}</strong><small>{source.state}</small></div>
+                      </article>
+                    ))}
+                  </div>
+                  <aside class="gwf-spaces-document">
+                    <header><span>Cited brief</span><small>current</small></header>
+                    <div class="gwf-document-lines" aria-hidden="true">
+                      <i></i><i></i><i></i><i></i><i></i><i></i>
+                    </div>
+                    <footer><span>12 references</span><span>3 agent notes</span></footer>
+                  </aside>
+                </div>
+
+                <div id="gwf-flow-panel" class="gwf-app-panel gwf-flow-view" role="tabpanel" data-gwf-app-panel="flow" hidden>
+                  <header>
+                    <div><span>{homepage.workspace.flow.verb}</span><h2>{homepage.workspace.flow.title}</h2></div>
+                    <small>{homepage.workspace.flow.meta}</small>
+                  </header>
+                  <ol class="gwf-flow-lanes">
+                    {homepage.workspace.flow.lanes.map((lane) => (
+                      <li data-flow-lane={lane.id}>
+                        <header><span>{lane.label}</span><small>{lane.count}</small></header>
+                        <article><i aria-hidden="true"></i><strong>{lane.item}</strong><small>linked to Fabric history</small></article>
+                      </li>
+                    ))}
+                  </ol>
+                  <footer><span>1 approval</span><span>3 attributable returns</span><span>0 hidden effects</span></footer>
+                </div>
+              </section>
+
+              <aside class="gwf-inspector" aria-label="Identity and agent scopes">
+                <section class="gwf-identity-card" data-gwf-dock="identity">
+                  <header><span>Identity</span><i aria-hidden="true"></i></header>
+                  <div>
+                    <MosaicLogo project="greenways" label="" class="gwf-identity-card__mark" />
+                    <span><strong>{homepage.identity.label}</strong><small>{homepage.identity.detail}</small></span>
+                  </div>
+                  <footer><span>Desktop</span><span>Browser</span></footer>
+                </section>
+
+                <section class="gwf-agent-stack" data-gwf-dock="agent">
+                  <header><span>Agents</span><small>bounded</small></header>
+                  {homepage.agents.map((agent) => (
+                    <article data-agent={agent.id}>
+                      <div><i aria-hidden="true"></i><span><strong>{agent.label}</strong><small>{agent.application}</small></span></div>
+                      <dl><dt>Scope</dt><dd>{agent.scope}</dd><dt>Access</dt><dd>{agent.state}</dd></dl>
+                    </article>
+                  ))}
+                </section>
+              </aside>
+            </div>
+
+            <footer class="gwf-workspace__status" data-gwf-dock="receipt">
+              <span>home-server-01</span>
+              <span>identity linked</span>
+              <span>agent scopes current</span>
+              <span>history retained</span>
+            </footer>
+          </section>
         </figure>
-        <ol class="gwf-identity__laws" aria-label="Identity separation laws">
-          {homepage.identity.laws.map((law, index) => <li><span>{String(index + 1).padStart(2, "0")}</span><p>{law}</p></li>)}
-        </ol>
-      </div>
-    </section>
 
-    <section id="agents" class="gwf-section gwf-agents" aria-labelledby="gwf-agents-title">
-      <header class="gwf-section__heading">
-        <p>{homepage.agents.kicker}</p>
-        <h2 id="gwf-agents-title">{homepage.agents.headline}</h2>
-        <span>{homepage.agents.introduction}</span>
-      </header>
-      <div class="gwf-agent-grid">
-        {homepage.agents.examples.map((agent) => (
-          <article data-agent-example={agent.id}>
-            <header><span>{agent.index}</span><div><strong>{agent.label}</strong><small>{agent.application}</small></div></header>
-            <p>{agent.purpose}</p>
-            <dl>
-              <div><dt>Can see</dt><dd>{agent.scope}</dd></div>
-              <div><dt>Access</dt><dd>{agent.expiry}</dd></div>
-              <div><dt>Returns</dt><dd>{agent.return}</dd></div>
-            </dl>
-            <footer><span>Named participant</span><strong>Revocable independently</strong></footer>
-          </article>
-        ))}
-      </div>
-      <p class="gwf-agents__rule">{homepage.agents.rule}</p>
-    </section>
+        <footer class="gwf-arrival__status">
+          <dl>
+            {homepage.fabric.status.map((item) => (
+              <div><dt>{item.label}</dt><dd>{item.value}</dd></div>
+            ))}
+          </dl>
+          <button type="button" data-gwf-replay>
+            <span aria-hidden="true">↻</span><span>Replay declutter</span>
+          </button>
+        </footer>
+      </section>
 
-    <section id="surfaces" class="gwf-section gwf-surfaces" aria-labelledby="gwf-surfaces-title">
-      <header class="gwf-section__heading gwf-section__heading--split">
-        <div><p>{homepage.surfaces.kicker}</p><h2 id="gwf-surfaces-title">{homepage.surfaces.headline}</h2></div>
-        <span>{homepage.surfaces.introduction}</span>
-      </header>
-      <div class="gwf-surface-track" aria-label="Surfaces connected to the same Greenways Fabric">
-        <div class="gwf-surface-track__fabric"><MosaicLogo project="greenways" label="Shared Greenways Fabric" /><strong>Same Fabric</strong><small>Same identity · stable references</small></div>
-        <ol>
-          {homepage.surfaces.items.map((surface) => (
-            <li data-surface={surface.id}>
-              <span>{surface.index}</span>
-              <div><small>{surface.verb}</small><strong>{surface.label}</strong><p>{surface.detail}</p></div>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </section>
-
-    <section id="applications" class="gwf-section gwf-applications" aria-labelledby="gwf-applications-title">
-      <header class="gwf-section__heading">
-        <p>{homepage.applications.kicker}</p>
-        <h2 id="gwf-applications-title">{homepage.applications.headline}</h2>
-        <span>{homepage.applications.introduction}</span>
-      </header>
-      <div class="gwf-application-grid">
-        {homepage.applications.items.map((application) => (
-          <article data-application={application.id}>
-            <header><span>{application.index}</span><small>{application.verb}</small></header>
-            <h3>{application.label}</h3>
-            <p>{application.detail}</p>
-            <footer><span>Uses your Fabric</span><i aria-hidden="true"></i></footer>
-          </article>
-        ))}
-      </div>
-    </section>
-
-    <section id="platform" class="gwf-section gwf-platform" aria-labelledby="gwf-platform-title">
-      <header class="gwf-section__heading">
-        <p>{homepage.platform.kicker}</p>
-        <h2 id="gwf-platform-title">{homepage.platform.headline}</h2>
-        <span>{homepage.platform.introduction}</span>
-      </header>
-      <div class="gwf-boundary" aria-label="Private Fabric and optional Greenways Platform boundary">
-        <article class="gwf-boundary__side" data-boundary="private">
-          <header><span>Private · local</span><h3>{homepage.platform.privateSide.label}</h3></header>
-          <p>{homepage.platform.privateSide.detail}</p>
-          <ul>{homepage.platform.privateSide.items.map((item) => <li>{item}</li>)}</ul>
-        </article>
-        <div class="gwf-boundary__crossing">
-          <span aria-hidden="true">→</span>
-          <strong>{homepage.platform.crossing.label}</strong>
-          <p>{homepage.platform.crossing.detail}</p>
-          <span aria-hidden="true">←</span>
+      <section id="applications" class="gwf-views" aria-labelledby="gwf-views-title">
+        <header>
+          <p>Current application views</p>
+          <h2 id="gwf-views-title">{homepage.applications.headline}</h2>
+        </header>
+        <div class="gwf-view-ribbon" aria-hidden="true">
+          <div><span>S</span><strong>Spaces</strong><small>sources · maps · briefs</small></div>
+          <i></i>
+          <div><span class="gwf-view-ribbon__fabric"><MosaicLogo project="greenways" label="" /></span><strong>Fabric</strong><small>identity · storage · history</small></div>
+          <i></i>
+          <div><span>F</span><strong>Flow</strong><small>people · agents · outcomes</small></div>
         </div>
-        <article class="gwf-boundary__side" data-boundary="hosted">
-          <header><span>Optional · hosted</span><h3>{homepage.platform.hostedSide.label}</h3></header>
-          <p>{homepage.platform.hostedSide.detail}</p>
-          <ul>{homepage.platform.hostedSide.items.map((item) => <li>{item}</li>)}</ul>
-        </article>
-      </div>
-    </section>
+      </section>
 
-    <section id="open" class="gwf-section gwf-open" aria-labelledby="gwf-open-title">
-      <header class="gwf-section__heading gwf-section__heading--split">
-        <div><p>{homepage.openPrinciples.kicker}</p><h2 id="gwf-open-title">{homepage.openPrinciples.headline}</h2></div>
-        <span>Open source and open standards matter because the person can keep operating, moving, inspecting, and rebuilding without asking one application for permission.</span>
-      </header>
-      <ol>
-        {homepage.openPrinciples.items.map((principle) => (
-          <li data-open-principle={principle.id}><span>{principle.index}</span><h3>{principle.label}</h3><p>{principle.detail}</p></li>
-        ))}
-      </ol>
-    </section>
+      <section id="platform" class="gwf-boundary-scene" aria-labelledby="gwf-boundary-title">
+        <header>
+          <p>Optional Platform</p>
+          <h2 id="gwf-boundary-title">{homepage.platform.headline}</h2>
+        </header>
 
-    <section id="start" class="gwf-home__doorway" aria-labelledby="gwf-doorway-title">
-      <div class="gwf-home__doorway-mark" aria-hidden="true">
-        <MosaicLogo project="greenways" label="" class="gwf-home__doorway-logo" />
-      </div>
-      <div>
-        <p>{homepage.finalDoorway.kicker}</p>
-        <h2 id="gwf-doorway-title">{homepage.finalDoorway.headline}</h2>
-        <span>{homepage.finalDoorway.introduction}</span>
-      </div>
-      <a href={homepage.finalDoorway.action.href}>{homepage.finalDoorway.action.label}<span aria-hidden="true">↑</span></a>
-      <small>{homepage.finalDoorway.secondary}</small>
-    </section>
+        <div class="gwf-boundary-plane">
+          <section class="gwf-private-plane" aria-label="Private Fabric">
+            <header><span>Private Fabric</span><small>default</small></header>
+            <div class="gwf-private-stack">
+              {homepage.platform.privateItems.map((item, index) => (
+                <article style={`--gwf-private-order:${index}`}><i aria-hidden="true"></i><strong>{item}</strong></article>
+              ))}
+            </div>
+          </section>
 
-    <footer class="gwf-home__footer">
-      <span>Greenways Fabric</span>
-      <nav aria-label="Homepage specimen footer"><a href="#fabric">About the Fabric</a><a href="#applications">Applications</a><a href="#open">Open foundations</a></nav>
-      <small>Public homepage study · not a live application</small>
-    </footer>
-  </article>
+          <div class="gwf-crossing" aria-hidden="true">
+            <span></span><span></span><span></span>
+            <article class="gwf-selected-projection">
+              <i></i><strong>{homepage.platform.selected.label}</strong><small>{homepage.platform.selected.detail}</small>
+            </article>
+          </div>
 
-  <section class="gwf-adoption" aria-labelledby="gwf-adoption-title">
-    <header><p>Production handoff</p><h2 id="gwf-adoption-title">What the production site must preserve.</h2></header>
-    <ol>{homepage.adoptionNotes.map((note, index) => <li><span>{String(index + 1).padStart(2, "0")}</span><p>{note}</p></li>)}</ol>
-    <p>
-      Production navigation, installation, storage, identity, agent authority, application state, hosted connections,
-      and deployment remain owned by the systems that serve <code>www.greenways.ai</code> and Greenways OS.
-    </p>
-  </section>
-</CatalogueShell>
+          <section class="gwf-platform-plane" aria-label="Optional Greenways Platform">
+            <header><span>Greenways Platform</span><small>optional</small></header>
+            <div>
+              {homepage.platform.hostedItems.map((item) => <span>{item}</span>)}
+            </div>
+          </section>
+        </div>
+
+        <footer>
+          <button type="button" data-gwf-share-toggle aria-pressed="false">
+            <span data-gwf-share-label>Share selected piece</span><span aria-hidden="true">→</span>
+          </button>
+          <small>Nothing else moves.</small>
+        </footer>
+      </section>
+
+      <section id="start" class="gwf-closing" aria-labelledby="gwf-closing-title">
+        <MosaicLogo project="greenways" label="Greenways Fabric" class="gwf-closing__mark" />
+        <div><h2 id="gwf-closing-title">{homepage.closing.headline}</h2><p>{homepage.closing.detail}</p></div>
+        <nav aria-label="Homepage specimen closing links">
+          <button type="button" data-gwf-replay>Replay</button>
+          <a href={visualLanguageHref}>Visual Language</a>
+        </nav>
+        <small>{homepage.meta.truthfulnessNote}</small>
+      </section>
+    </main>
+
+    <script is:inline>
+      (() => {
+        const body = document.body;
+        const root = document.documentElement;
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+        const modeButtons = [...document.querySelectorAll("[data-gwf-mode-select]")];
+        const appButtons = [...document.querySelectorAll("[data-gwf-app-select]")];
+        const appPanels = [...document.querySelectorAll("[data-gwf-app-panel]")];
+        const shareToggle = document.querySelector("[data-gwf-share-toggle]");
+        const shareLabel = document.querySelector("[data-gwf-share-label]");
+
+        const setMode = (mode) => {
+          body.dataset.gwfMode = mode;
+          modeButtons.forEach((button) => {
+            button.setAttribute("aria-pressed", String(button.getAttribute("data-gwf-mode-select") === mode));
+          });
+        };
+
+        const settle = () => {
+          setMode("scatter");
+          window.setTimeout(() => setMode("fabric"), reducedMotion.matches ? 0 : 720);
+        };
+
+        const setApp = (app) => {
+          body.dataset.gwfApp = app;
+          appButtons.forEach((button) => {
+            const active = button.getAttribute("data-gwf-app-select") === app;
+            if (button.getAttribute("role") === "tab") button.setAttribute("aria-selected", String(active));
+            else button.setAttribute("aria-pressed", String(active));
+          });
+          appPanels.forEach((panel) => {
+            panel.hidden = panel.getAttribute("data-gwf-app-panel") !== app;
+          });
+        };
+
+        modeButtons.forEach((button) => {
+          button.addEventListener("click", () => setMode(button.getAttribute("data-gwf-mode-select") || "fabric"));
+        });
+
+        document.querySelectorAll("[data-gwf-replay]").forEach((button) => {
+          button.addEventListener("click", settle);
+        });
+
+        appButtons.forEach((button) => {
+          button.addEventListener("click", () => setApp(button.getAttribute("data-gwf-app-select") || "spaces"));
+        });
+
+        shareToggle?.addEventListener("click", () => {
+          const selected = body.dataset.gwfShare === "selected";
+          body.dataset.gwfShare = selected ? "private" : "selected";
+          shareToggle.setAttribute("aria-pressed", String(!selected));
+          if (shareLabel) shareLabel.textContent = selected ? "Share selected piece" : "Return it private";
+        });
+
+        const themeToggle = document.querySelector("[data-gwf-theme-toggle]");
+        themeToggle?.setAttribute("aria-pressed", String(root.dataset.theme === "light"));
+        themeToggle?.addEventListener("click", (event) => {
+          const button = event.currentTarget;
+          const next = root.dataset.theme === "dark" ? "light" : "dark";
+          root.dataset.theme = next;
+          button?.setAttribute("aria-pressed", String(next === "light"));
+          try { localStorage.setItem("greenways-fabric-home-theme", next); } catch {}
+        });
+
+        if (reducedMotion.matches) setMode("fabric");
+        else requestAnimationFrame(() => window.setTimeout(() => setMode("fabric"), 520));
+      })();
+    </script>
+  </body>
+</html>
