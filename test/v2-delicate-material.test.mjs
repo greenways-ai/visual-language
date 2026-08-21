@@ -5,17 +5,21 @@ import { greenwaysSuiteApplications } from "../src/v2/greenways-application-suit
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
-test("CatalogueShell emits one late material calibration across every v2 route", async () => {
-  const shell = await read("src/v2/CatalogueShell.astro");
+test("CatalogueShell emits one late material calibration while the Fabric homepage owns a standalone experience", async () => {
+  const [shell, homepage] = await Promise.all([
+    read("src/v2/CatalogueShell.astro"),
+    read("src/pages/v2/applications/greenways-platform/homepage.astro"),
+  ]);
 
   assert.match(shell, /catalogue-material\.css\?raw/);
   assert.match(shell, /data-greenways-v2-delicate-material/);
   assert.match(shell, /data-gw-v2-material="delicate"/);
+  assert.doesNotMatch(shell, /data-greenways-fabric-editorial-calibration/);
 
-  const homepageCalibration = shell.indexOf("data-greenways-fabric-editorial-calibration");
-  const sharedCalibration = shell.indexOf("data-greenways-v2-delicate-material");
-  assert.ok(homepageCalibration >= 0);
-  assert.ok(sharedCalibration > homepageCalibration);
+  assert.match(homepage, /<!doctype html>/);
+  assert.match(homepage, /greenways-platform-homepage\.css/);
+  assert.match(homepage, /class="gw2-body gwf-experience-body"/);
+  assert.doesNotMatch(homepage, /CatalogueShell/);
 });
 
 test("the compact direct menu and complete Atlas index coexist", async () => {
