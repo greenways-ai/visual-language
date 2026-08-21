@@ -1,0 +1,269 @@
+---
+import MosaicLogo from "../../../../MosaicLogo.astro";
+import CatalogueShell from "../../../../v2/CatalogueShell.astro";
+import "../../../../v2/greenways-fabric-homepage-cleanroom.css";
+
+const currentPath = "/v2/applications/greenways-platform/homepage-cleanroom/";
+
+const ownership = [
+  {
+    index: "01",
+    title: "Storage you host",
+    body: "Keep your work on your computer, a home server, or infrastructure you choose.",
+    detail: "Open formats · deliberate backup · recoverable copies",
+  },
+  {
+    index: "02",
+    title: "Identity you carry",
+    body: "One person can move across devices and applications without making any one account the root of identity.",
+    detail: "Key-linked · device-aware · independently revocable",
+  },
+  {
+    index: "03",
+    title: "Agents you direct",
+    body: "Give every agent a name, a purpose, a bounded view, and a clear end date.",
+    detail: "Scoped access · attributed return · no ambient authority",
+  },
+  {
+    index: "04",
+    title: "History you can inspect",
+    body: "Keep decisions, changes, handoffs, and results attached to the work they affected.",
+    detail: "Exact references · visible ancestry · portable evidence",
+  },
+] as const;
+
+const surfaces = [
+  { index: "01", name: "Desktop", verb: "Work deeply", detail: "A full workspace over the same personal Fabric." },
+  { index: "02", name: "Browser", verb: "Work in context", detail: "Open a focused view without creating a second identity." },
+  { index: "03", name: "CLI", verb: "Automate precisely", detail: "Address the same objects and permissions from commands." },
+  { index: "04", name: "Home server", verb: "Keep it running", detail: "Host durable storage and services under your control." },
+] as const;
+
+const applications = [
+  {
+    index: "01",
+    id: "spaces",
+    name: "Spaces",
+    verb: "Understand",
+    detail: "Bring sources, questions, maps, evidence, and briefs into one considered view.",
+    footer: "Reads shared Fabric identity, references, and history.",
+  },
+  {
+    index: "02",
+    id: "flow",
+    name: "Flow",
+    verb: "Coordinate",
+    detail: "Organise projects, people, agents, work, handoffs, artifacts, and verified outcomes.",
+    footer: "Coordinates work without becoming the owner of it.",
+  },
+] as const;
+
+const platform = [
+  {
+    index: "01",
+    title: "Private Fabric",
+    body: "Your full work, keys, agent scopes, and local history remain useful without a hosted account.",
+    detail: "Local and private by default",
+  },
+  {
+    index: "02",
+    title: "Chosen crossing",
+    body: "Select the exact reference, invitation, release, or profile field that may cross the boundary.",
+    detail: "No automatic upload or unrestricted local access",
+  },
+  {
+    index: "03",
+    title: "Greenways Platform",
+    body: "Add hosted collaboration, discovery, public availability, and delivery only where they are useful.",
+    detail: "Optional service · separate account · reversible connection",
+  },
+] as const;
+
+const standards = [
+  { index: "01", title: "Self-hosted", detail: "Choose where the durable copy lives." },
+  { index: "02", title: "Open source", detail: "Inspect, operate, and rebuild the software." },
+  { index: "03", title: "Open standards", detail: "Keep relationships understandable outside one product." },
+  { index: "04", title: "Portable formats", detail: "Move the work without surrendering its meaning." },
+] as const;
+---
+
+<CatalogueShell
+  title="Greenways Fabric homepage — clean-room study"
+  description="A separate clean-room homepage concept for Greenways Fabric with restrained typography, equal modules, current Spaces and Flow exposure, and no dependency on the existing homepage composition."
+  currentPath={currentPath}
+  sectionNavigation={false}
+  mainClass="gwn-shell"
+>
+  <aside class="gwn-review" aria-label="Clean-room specimen status">
+    <span>Clean-room homepage study · issue #54</span>
+    <strong>New route · current page unchanged</strong>
+    <span>Current public applications · Spaces / Flow</span>
+  </aside>
+
+  <article id="top" class="gwn-page" aria-label="New Greenways Fabric homepage concept">
+    <header class="gwn-masthead">
+      <a class="gwn-brand" href="#top" aria-label="Greenways Fabric homepage concept">
+        <MosaicLogo project="greenways" label="Greenways mosaic mark" class="gwn-brand__mark" />
+        <span><strong>Greenways</strong><small>Fabric</small></span>
+      </a>
+      <nav class="gwn-nav" aria-label="Homepage concept navigation">
+        <a href="#ownership">Ownership</a>
+        <a href="#continuity">Continuity</a>
+        <a href="#applications">Applications</a>
+        <a href="#platform">Platform</a>
+      </nav>
+      <a class="gwn-masthead__action" href="#start">Begin with the Fabric</a>
+    </header>
+
+    <section class="gwn-hero" aria-labelledby="gwn-hero-title">
+      <div class="gwn-hero__copy">
+        <p class="gwn-kicker">Greenways Fabric / personal operating system</p>
+        <h1 id="gwn-hero-title">One place for the things you keep, make, and delegate.</h1>
+        <p class="gwn-hero__lede">
+          Keep your work on infrastructure you choose. Carry one identity across devices. Give agents exact roles.
+          Open Spaces or Flow without moving the underlying Fabric.
+        </p>
+        <div class="gwn-actions" aria-label="Homepage concept actions">
+          <a class="gwn-action gwn-action--primary" href="#ownership">See what stays yours <span aria-hidden="true">↓</span></a>
+          <a class="gwn-action" href="#applications">See current applications <span aria-hidden="true">↘</span></a>
+        </div>
+      </div>
+
+      <dl class="gwn-ledger" aria-label="Greenways Fabric product summary">
+        <div>
+          <dt>Storage</dt>
+          <dd>Where you choose</dd>
+          <small>Computer, home server, or selected infrastructure.</small>
+        </div>
+        <div>
+          <dt>Identity</dt>
+          <dd>One durable thread</dd>
+          <small>One person; distinct devices, collaborators, and agents.</small>
+        </div>
+        <div>
+          <dt>Agents</dt>
+          <dd>Named and bounded</dd>
+          <small>Purpose, scope, expiry, revocation, and attributable return.</small>
+        </div>
+        <div>
+          <dt>Applications</dt>
+          <dd>Replaceable views</dd>
+          <small>Spaces and Flow use the same underlying Fabric.</small>
+        </div>
+      </dl>
+    </section>
+
+    <p class="gwn-law"><strong>The Fabric is the OS.</strong><span>Applications are views.</span></p>
+
+    <section id="ownership" class="gwn-section gwn-ownership" aria-labelledby="gwn-ownership-title">
+      <header class="gwn-section__header">
+        <span>01</span>
+        <h2 id="gwn-ownership-title">What stays yours</h2>
+        <p>The operating system begins with continuity and control—not with a cloud account or an application catalogue.</p>
+      </header>
+      <ol class="gwn-grid gwn-grid--four">
+        {ownership.map((item) => (
+          <li class="gwn-cell">
+            <span class="gwn-cell__index">{item.index}</span>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+            <small>{item.detail}</small>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section id="continuity" class="gwn-section gwn-continuity-section" aria-labelledby="gwn-continuity-title">
+      <header class="gwn-section__header">
+        <span>02</span>
+        <h2 id="gwn-continuity-title">The same Fabric, wherever you work</h2>
+        <p>Each surface reaches the same identity and references. None becomes a separate copy of you or your work.</p>
+      </header>
+      <div class="gwn-continuity" aria-label="Surfaces over one Greenways Fabric">
+        <div class="gwn-continuity__fabric">
+          <MosaicLogo project="greenways" label="Greenways Fabric" class="gwn-continuity__mark" />
+          <strong>One Fabric</strong>
+          <small>Stable identity · shared references · inspectable history</small>
+        </div>
+        {surfaces.map((surface) => (
+          <article>
+            <span>{surface.index}</span>
+            <small>{surface.verb}</small>
+            <h3>{surface.name}</h3>
+            <p>{surface.detail}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section id="applications" class="gwn-section gwn-applications" aria-labelledby="gwn-applications-title">
+      <header class="gwn-section__header">
+        <span>03</span>
+        <h2 id="gwn-applications-title">Current applications on top</h2>
+        <p>Applications focus the work. They do not replace the Fabric, its identity, or its durable storage.</p>
+      </header>
+      <div class="gwn-grid gwn-grid--two">
+        {applications.map((application) => (
+          <article class="gwn-app" data-current-application={application.id}>
+            <header><span>{application.index}</span><small>Current application</small></header>
+            <h3>{application.name}</h3>
+            <strong>{application.verb}</strong>
+            <p>{application.detail}</p>
+            <footer>{application.footer}</footer>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section id="platform" class="gwn-section gwn-platform" aria-labelledby="gwn-platform-title">
+      <header class="gwn-section__header">
+        <span>04</span>
+        <h2 id="gwn-platform-title">Private by default. Hosted by choice.</h2>
+        <p>Greenways Platform extends selected work into collaboration and public availability without becoming the private Fabric.</p>
+      </header>
+      <ol class="gwn-grid gwn-grid--three">
+        {platform.map((item) => (
+          <li class="gwn-cell" data-platform-step={item.index}>
+            <span class="gwn-cell__index">{item.index}</span>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+            <small>{item.detail}</small>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="gwn-section gwn-open" aria-labelledby="gwn-open-title">
+      <header class="gwn-section__header">
+        <span>05</span>
+        <h2 id="gwn-open-title">Open by construction</h2>
+        <p>Openness matters because you can keep operating, moving, inspecting, and rebuilding without asking one application for permission.</p>
+      </header>
+      <ol class="gwn-grid gwn-grid--four">
+        {standards.map((item) => (
+          <li class="gwn-open__item">
+            <span>{item.index}</span>
+            <h3>{item.title}</h3>
+            <p>{item.detail}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section id="start" class="gwn-start" aria-labelledby="gwn-start-title">
+      <div>
+        <p class="gwn-kicker">Start with the layer that remains</p>
+        <h2 id="gwn-start-title">Begin with your Fabric, not an account.</h2>
+        <span>Choose where the durable copy lives, establish identity, then add applications and hosted services deliberately.</span>
+      </div>
+      <a href="#ownership">Review storage and identity <span aria-hidden="true">↑</span></a>
+      <small>Static specimen · no storage, identity, agent, application, or hosted action is connected.</small>
+    </section>
+
+    <footer class="gwn-footer">
+      <strong>Greenways Fabric</strong>
+      <span>Storage you host · identity you carry · agents you direct</span>
+      <a href="#top">Back to top ↑</a>
+    </footer>
+  </article>
+</CatalogueShell>
