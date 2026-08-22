@@ -46,24 +46,24 @@
 :root[data-theme="light"] {
   color-scheme: light;
 
-  /* Shaded lavender structure keeps glass surfaces luminous without going flat. */
-  --gw-v2-canvas: #f1eff7;
-  --gw-v2-canvas-subtle: #e9e6f1;
-  --gw-v2-canvas-strong: #d9d4e5;
-  --gw-v2-canvas-inverse: #17151e;
-  --gw-v2-text: #1b1922;
-  --gw-v2-text-muted: #625e6e;
-  --gw-v2-text-subtle: #878291;
-  --gw-v2-text-inverse: #f8f7fb;
-  --gw-v2-surface: #fbfaff;
-  --gw-v2-surface-muted: #e8e4ef;
+  /* Neutral structure remains token-safe; atmospheric colour lives in the v2 material layer. */
+  --gw-v2-canvas: #f2f3f2;
+  --gw-v2-canvas-subtle: #eceeed;
+  --gw-v2-canvas-strong: #d8dad9;
+  --gw-v2-canvas-inverse: #14171b;
+  --gw-v2-text: #17191c;
+  --gw-v2-text-muted: #626970;
+  --gw-v2-text-subtle: #838991;
+  --gw-v2-text-inverse: #f6f7f8;
+  --gw-v2-surface: #fafaf8;
+  --gw-v2-surface-muted: #e7e9e8;
   --gw-v2-surface-raised: #ffffff;
-  --gw-v2-surface-recessed: #dfdbe9;
-  --gw-v2-surface-overlay: rgba(251, 250, 255, 0.94);
-  --gw-v2-material-grain: radial-gradient(circle at 20% 20%, rgba(31, 26, 47, 0.025) 0 0.6px, transparent 0.8px);
-  --gw-v2-seam: rgba(31, 26, 47, 0.14);
-  --gw-v2-seam-subtle: rgba(31, 26, 47, 0.07);
-  --gw-v2-seam-strong: rgba(31, 26, 47, 0.28);
+  --gw-v2-surface-recessed: #dfe1e0;
+  --gw-v2-surface-overlay: rgba(250, 250, 248, 0.96);
+  --gw-v2-material-grain: radial-gradient(circle at 20% 20%, rgba(23, 25, 28, 0.025) 0 0.6px, transparent 0.8px);
+  --gw-v2-seam: rgba(23, 25, 28, 0.14);
+  --gw-v2-seam-subtle: rgba(23, 25, 28, 0.07);
+  --gw-v2-seam-strong: rgba(23, 25, 28, 0.28);
 
   /* Peacock identity: strongest in the mark, restrained in interaction. */
   --gw-v2-brand-emerald: #2f836d;
@@ -102,24 +102,24 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  /* Deep violet shadow gives the dark glass a more dimensional, shaded base. */
-  --gw-v2-canvas: #110e1a;
-  --gw-v2-canvas-subtle: #171324;
-  --gw-v2-canvas-strong: #28223a;
-  --gw-v2-canvas-inverse: #f7f4ff;
-  --gw-v2-text: #f0edf7;
-  --gw-v2-text-muted: #afa8bc;
-  --gw-v2-text-subtle: #817a8f;
-  --gw-v2-text-inverse: #17121f;
-  --gw-v2-surface: #191621;
-  --gw-v2-surface-muted: #211d2d;
-  --gw-v2-surface-raised: #2b2538;
-  --gw-v2-surface-recessed: #130f1d;
-  --gw-v2-surface-overlay: rgba(25, 22, 33, 0.94);
-  --gw-v2-material-grain: radial-gradient(circle at 20% 20%, rgba(242, 237, 251, 0.025) 0 0.6px, transparent 0.8px);
-  --gw-v2-seam: rgba(242, 237, 251, 0.13);
-  --gw-v2-seam-subtle: rgba(242, 237, 251, 0.065);
-  --gw-v2-seam-strong: rgba(242, 237, 251, 0.27);
+  /* Neutral structure remains token-safe; atmospheric colour lives in the v2 material layer. */
+  --gw-v2-canvas: #0c0e11;
+  --gw-v2-canvas-subtle: #101318;
+  --gw-v2-canvas-strong: #1c2127;
+  --gw-v2-canvas-inverse: #f5f6f7;
+  --gw-v2-text: #edf0f3;
+  --gw-v2-text-muted: #a5adb6;
+  --gw-v2-text-subtle: #747d87;
+  --gw-v2-text-inverse: #111419;
+  --gw-v2-surface: #14181d;
+  --gw-v2-surface-muted: #1b2026;
+  --gw-v2-surface-raised: #20262d;
+  --gw-v2-surface-recessed: #0f1216;
+  --gw-v2-surface-overlay: rgba(20, 24, 29, 0.96);
+  --gw-v2-material-grain: radial-gradient(circle at 20% 20%, rgba(237, 240, 243, 0.025) 0 0.6px, transparent 0.8px);
+  --gw-v2-seam: rgba(237, 240, 243, 0.13);
+  --gw-v2-seam-subtle: rgba(237, 240, 243, 0.065);
+  --gw-v2-seam-strong: rgba(237, 240, 243, 0.27);
 
   --gw-v2-brand-emerald: #55b89a;
   --gw-v2-brand-aqua: #70dbe0;
@@ -173,19 +173,19 @@
     --gw-v2-seam-subtle: rgba(237, 240, 243, 0.065);
     --gw-v2-seam-strong: rgba(237, 240, 243, 0.27);
     --gw-v2-brand-emerald: #55b89a;
-    --gw-v2-brand-aqua: #62c7d1;
-    --gw-v2-brand-sapphire: #7aa2ff;
-    --gw-v2-brand-violet: #a18ae6;
+    --gw-v2-brand-aqua: #70dbe0;
+    --gw-v2-brand-sapphire: #67ced0;
+    --gw-v2-brand-violet: #aa92ee;
     --gw-v2-brand-spectrum: linear-gradient(135deg, var(--gw-v2-brand-emerald), var(--gw-v2-brand-aqua) 34%, var(--gw-v2-brand-sapphire) 67%, var(--gw-v2-brand-violet));
     --gw-v2-signal: var(--gw-v2-brand-sapphire);
-    --gw-v2-signal-hover: #a0bcff;
-    --gw-v2-signal-soft: #1c2944;
+    --gw-v2-signal-hover: #91e5e5;
+    --gw-v2-signal-soft: #203a40;
     --gw-v2-on-signal: #0c0e11;
     --gw-v2-text-link: var(--gw-v2-signal);
     --gw-v2-state-neutral: #a5adb6;
     --gw-v2-state-neutral-soft: #242a31;
-    --gw-v2-state-info: #7fa9e6;
-    --gw-v2-state-info-soft: #1b2b3f;
+    --gw-v2-state-info: #7bd0d8;
+    --gw-v2-state-info-soft: #1b343a;
     --gw-v2-state-success: #62c594;
     --gw-v2-state-success-soft: #173129;
     --gw-v2-state-warning: #e3bd69;

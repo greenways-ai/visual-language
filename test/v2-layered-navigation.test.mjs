@@ -193,11 +193,14 @@ test("delicate material keeps the shared title bar floating and rounded", async 
 });
 
 test("v2 tokens carry the aquamarine and shaded-violet direction across themes", async () => {
-  const css = await read("src/v2/tokens.css");
-  assert.match(css, /--gw-v2-canvas:\s*#f1eff7/);
-  assert.match(css, /--gw-v2-canvas:\s*#110e1a/);
-  assert.match(css, /--gw-v2-brand-sapphire:\s*#55b2c1/);
-  assert.match(css, /--gw-v2-brand-sapphire:\s*#67ced0/);
-  assert.match(css, /--gw-v2-brand-violet:\s*#7861c9/);
-  assert.match(css, /--gw-v2-brand-violet:\s*#aa92ee/);
+  const [tokens, material] = await Promise.all([
+    read("src/v2/tokens.css"),
+    read("src/v2/catalogue-material.css"),
+  ]);
+  assert.match(tokens, /--gw-v2-brand-sapphire:\s*#55b2c1/);
+  assert.match(tokens, /--gw-v2-brand-sapphire:\s*#67ced0/);
+  assert.match(tokens, /--gw-v2-brand-violet:\s*#7861c9/);
+  assert.match(tokens, /--gw-v2-brand-violet:\s*#aa92ee/);
+  assert.match(material, /color-mix\(in srgb, var\(--gw-v2-brand-violet\) 14%/);
+  assert.match(material, /color-mix\(in srgb, var\(--gw-v2-brand-aqua\) 10%/);
 });

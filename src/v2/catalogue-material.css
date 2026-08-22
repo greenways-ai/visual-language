@@ -60,6 +60,16 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] {
   background-color: var(--gw-v2-canvas);
   background:
     var(--gw-v2-material-grid),
+    radial-gradient(
+      circle at 18% 8%,
+      color-mix(in srgb, var(--gw-v2-brand-violet) 14%, transparent),
+      transparent 34rem
+    ),
+    radial-gradient(
+      circle at 86% 72%,
+      color-mix(in srgb, var(--gw-v2-brand-aqua) 10%, transparent),
+      transparent 38rem
+    ),
     var(--gw-v2-canvas);
   background-size: 3rem 3rem, 3rem 3rem;
   background-attachment: fixed;
