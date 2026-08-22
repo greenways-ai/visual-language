@@ -30,6 +30,7 @@ test("visual-layout root covers Brand, OS, Product and Infra", () => {
 
 test("root component renders a minimal data-driven directory and preserves the v2 shell", async () => {
   const source = await readFile(new URL("../src/site/components/GreenwaysV2CatalogueHome.astro", import.meta.url), "utf8");
+  const flame = await readFile(new URL("../src/GreenwaysFlame.astro", import.meta.url), "utf8");
   assert.match(source, /visualLayoutSections/);
   assert.match(source, /gw-v2-visual-layout-root/);
   assert.match(source, /showVisualNavigator=\{false\}/);
@@ -40,4 +41,19 @@ test("root component renders a minimal data-driven directory and preserves the v
   assert.match(source, /gw-v2-directory-shader/);
   assert.match(source, /gw-v2-directory-host/);
   assert.match(source, /visualLayoutSections\.map/);
+  assert.match(flame, /gw-flame-outline/);
+  assert.match(flame, /stroke-width/);
+  assert.match(flame, /gw-flame-core/);
+  const material = await readFile(new URL("../src/v2/catalogue-material.css", import.meta.url), "utf8");
+  assert.match(material, /perspective\(/);
+  assert.match(material, /transform-style:\s*preserve-3d/);
+  assert.match(material, /gw-v2-directory-pet-float/);
+});
+
+test("secondary section hubs share a denser title rhythm and atmospheric material", async () => {
+  const source = await readFile(new URL("../src/v2/visual-layout-hubs.css", import.meta.url), "utf8");
+  assert.match(source, /--gw-hub-atmosphere/);
+  assert.match(source, /min-block-size: min\(28rem, 52vh\)/);
+  assert.match(source, /gw-v2-section-hub__hero::before/);
+  assert.match(source, /backdrop-filter: blur\(22px\)/);
 });
