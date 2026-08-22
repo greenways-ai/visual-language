@@ -192,14 +192,17 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] :where(
 /* Compact floating atlas frame */
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-layered-navigation {
-  inset-block-start: 0.45rem;
-  margin-inline: 0.45rem;
+  inset-block-start: clamp(0.55rem, 1.2vw, 0.9rem);
+  margin-block: clamp(0.55rem, 1.2vw, 0.9rem) 0.55rem;
+  margin-inline: clamp(0.55rem, 2vw, 1.25rem);
   color: var(--gw-v2-text);
-  background: color-mix(in srgb, var(--gw-v2-surface-overlay) 82%, transparent);
-  border: 1px solid color-mix(in srgb, var(--gw-v2-seam-strong) 72%, transparent);
-  border-radius: var(--gw-v2-material-menu-radius);
-  box-shadow: 0 0.35rem 1.5rem color-mix(in srgb, var(--gw-v2-text) 10%, transparent);
-  backdrop-filter: blur(28px) saturate(125%);
+  background: color-mix(in srgb, var(--gw-v2-surface-overlay) 76%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gw-v2-seam-strong) 78%, transparent);
+  border-radius: 1.5rem;
+  box-shadow:
+    0 1rem 3.5rem color-mix(in srgb, var(--gw-v2-canvas-inverse) 16%, transparent),
+    inset 0 1px color-mix(in srgb, white 16%, transparent);
+  backdrop-filter: blur(30px) saturate(135%);
 }
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-layered-navigation::before {
@@ -1332,7 +1335,9 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] :where(a, button, input, se
   body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-layered-navigation {
     position: sticky;
     inset-block-start: 0.3rem;
-    margin-inline: 0.3rem;
+    margin-block: 0.35rem 0.45rem;
+    margin-inline: 0.35rem;
+    border-radius: 1.15rem;
   }
 
   body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-route-bar {

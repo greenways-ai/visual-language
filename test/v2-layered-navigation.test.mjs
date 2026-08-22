@@ -183,3 +183,21 @@ test("navigation styling is neutral, keyboard-visible and compact at 320px", asy
   assert.doesNotMatch(css, /#[0-9a-f]{3,8}\b/i);
   assert.doesNotMatch(css, /min-width:\s*(?:3[2-9][1-9]|[4-9]\d{2,})px/);
 });
+
+test("delicate material keeps the shared title bar floating and rounded", async () => {
+  const css = await read("src/v2/catalogue-material.css");
+  assert.match(css, /inset-block-start:\s*clamp\(0\.55rem, 1\.2vw, 0\.9rem\)/);
+  assert.match(css, /margin-block:\s*clamp\(0\.55rem, 1\.2vw, 0\.9rem\) 0\.55rem/);
+  assert.match(css, /border-radius:\s*1\.5rem/);
+  assert.match(css, /backdrop-filter:\s*blur\(30px\) saturate\(135%\)/);
+});
+
+test("v2 tokens carry the aquamarine and shaded-violet direction across themes", async () => {
+  const css = await read("src/v2/tokens.css");
+  assert.match(css, /--gw-v2-canvas:\s*#f1eff7/);
+  assert.match(css, /--gw-v2-canvas:\s*#110e1a/);
+  assert.match(css, /--gw-v2-brand-sapphire:\s*#55b2c1/);
+  assert.match(css, /--gw-v2-brand-sapphire:\s*#67ced0/);
+  assert.match(css, /--gw-v2-brand-violet:\s*#7861c9/);
+  assert.match(css, /--gw-v2-brand-violet:\s*#aa92ee/);
+});
