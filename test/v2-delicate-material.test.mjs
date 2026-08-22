@@ -22,7 +22,7 @@ test("CatalogueShell emits one late material calibration while the Fabric homepa
   assert.doesNotMatch(homepage, /CatalogueShell/);
 });
 
-test("the compact direct menu and complete Atlas index coexist", async () => {
+test("the visual navigator and selective rail share one section manifest", async () => {
   const header = await read("src/v2/CatalogueHeader.astro");
 
   assert.match(header, /data-gw-v2-catalogue-rail/);
@@ -32,10 +32,10 @@ test("the compact direct menu and complete Atlas index coexist", async () => {
 
   assert.match(header, /<details class="gw-v2-catalogue-nav"/);
   assert.match(header, /data-gw-v2-atlas-index/);
-  assert.match(header, /greenwaysV2Catalogue\.map/);
-  assert.match(header, /route\.children\.map/);
-  assert.match(header, /Current applications/);
-  assert.match(header, /Spaces · Flow/);
+  assert.match(header, /visualLayoutSections\.map/);
+  assert.match(header, /Visual navigator/);
+  assert.match(header, /Brand · OS · Product · Infra/);
+  assert.match(header, /data-gw-v2-mobile-nav-toggle/);
   assert.doesNotMatch(header, /<script/);
 });
 

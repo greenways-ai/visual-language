@@ -1,0 +1,83 @@
+---
+import CatalogueShell from "../../../v2/CatalogueShell.astro";
+import "../../../v2/visual-documentation-demo.css";
+
+const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+const rootHref = `${base}brand/`;
+---
+
+<CatalogueShell
+  title="Documentation demo · Brand"
+  description="The canonical Greenways v2 documentation shell: calm reading, icon-led navigation, and explicit visual states."
+  currentPath={Astro.url.pathname}
+  canonicalPath={`${base}brand/documentation/`}
+  bodyClass="gw-v2-atlas-body gw-v2-documentation-demo"
+  mainClass="gw-v2-documentation-main"
+  sectionNavigation={false}
+  showVisualNavigator={true}
+  showRail={true}
+>
+  <div class="gw-v2-documentation-demo__frame">
+    <aside class="gw-v2-documentation-demo__sidebar" aria-label="Brand documentation sections">
+      <div class="gw-v2-documentation-demo__sidebar-head">
+        <span>Brand / docs</span>
+        <strong>v2</strong>
+      </div>
+      <nav>
+        <a class="is-active" href="#overview"><span class="gw-v2-doc-icon">⌂</span><span>Overview</span></a>
+        <a href="#foundations"><span class="gw-v2-doc-icon">✦</span><span>Foundations</span></a>
+        <a href="#components"><span class="gw-v2-doc-icon">▦</span><span>Components</span></a>
+        <a href="#surfaces"><span class="gw-v2-doc-icon">◌</span><span>Surfaces</span></a>
+        <a href="#migration"><span class="gw-v2-doc-icon">↗</span><span>Migration</span></a>
+      </nav>
+      <a class="gw-v2-documentation-demo__sidebar-back" href={rootHref}>← Brand overview</a>
+    </aside>
+
+    <article class="gw-v2-documentation-demo__article" id="overview">
+      <header class="gw-v2-documentation-demo__article-head">
+        <p class="gw-v2-catalogue-eyebrow">Documentation demo · canonical template</p>
+        <h1>A place for the language to become legible.</h1>
+        <p class="gw-v2-documentation-demo__lede">This is the first v2 documentation specimen: a stable reading column, an iconed local index, quiet surfaces, and the visual navigator above it.</p>
+        <div class="gw-v2-documentation-demo__meta"><span>Updated 22 Aug 2026</span><span>Brand / documentation</span><span>v2 framework</span></div>
+      </header>
+
+      <section id="foundations" class="gw-v2-doc-section">
+        <p class="gw-v2-doc-section__number">01 / Foundations</p>
+        <h2>Read first. Then make it beautiful.</h2>
+        <p>Greenways documentation uses the same font family as the OS and product surfaces, while density changes with the host. Marcellus carries the memorable titles; Manrope keeps the work readable; IBM Plex Mono names the system.</p>
+        <div class="gw-v2-doc-callout"><strong>Shared font contract</strong><span>Marcellus · Manrope · IBM Plex Mono</span><small>The scale can move. The voice stays related.</small></div>
+      </section>
+
+      <section id="components" class="gw-v2-doc-section">
+        <p class="gw-v2-doc-section__number">02 / Components</p>
+        <h2>Quiet controls, strong orientation.</h2>
+        <div class="gw-v2-doc-specimen-grid">
+          <article><span class="gw-v2-doc-specimen-label">Navigation</span><strong>Visual navigator</strong><p>A large, forgiving panel for moving across the system.</p><button type="button">Open navigator ↗</button></article>
+          <article><span class="gw-v2-doc-specimen-label">Action</span><strong>Compact command</strong><p>A rectangular command bar that belongs to the surface, not a floating pill.</p><kbd>⌘ K</kbd></article>
+          <article><span class="gw-v2-doc-specimen-label">State</span><strong>Soft material</strong><p>Glass, texture, and motion support hierarchy without hiding content.</p><span class="gw-v2-doc-state"><i></i> Ready to read</span></article>
+        </div>
+      </section>
+
+      <section id="surfaces" class="gw-v2-doc-section">
+        <p class="gw-v2-doc-section__number">03 / Surfaces</p>
+        <h2>The shell changes. The work does not.</h2>
+        <p>Documentation is the calmest host. It borrows the OS material vocabulary, retains the title while scrolling, and gives navigation a predictable place on desktop and mobile.</p>
+        <div class="gw-v2-doc-surface-line"><span>Document</span><i></i><span>Workbench</span><i></i><span>Panel</span><i></i><span>Public web</span></div>
+      </section>
+
+      <section id="migration" class="gw-v2-doc-section gw-v2-doc-section--last">
+        <p class="gw-v2-doc-section__number">04 / Migration</p>
+        <h2>One template before many pages.</h2>
+        <p>Brand owns the framework first. Existing docs can move into this structure as their content is reviewed, keeping compatibility routes while letting every new page start from the v2 contract.</p>
+      </section>
+    </article>
+
+    <aside class="gw-v2-documentation-demo__toc" aria-label="On this page">
+      <span>On this page</span>
+      <a href="#foundations">Foundations</a>
+      <a href="#components">Components</a>
+      <a href="#surfaces">Surfaces</a>
+      <a href="#migration">Migration</a>
+    </aside>
+  </div>
+</CatalogueShell>

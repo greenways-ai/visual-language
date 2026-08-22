@@ -9,19 +9,30 @@ interface Props {
   currentPath: string;
   basePath?: string;
   sectionNavigation?: boolean;
+  showVisualNavigator?: boolean;
+  showRail?: boolean;
+  showRouteBar?: boolean;
 }
 
 const {
   currentPath,
   basePath = import.meta.env.BASE_URL,
   sectionNavigation = true,
+  showVisualNavigator = true,
+  showRail = false,
+  showRouteBar = true,
 } = Astro.props;
 ---
 
 <a class="gw-v2-catalogue-skip" href="#gw-v2-main">Skip to content</a>
 <div class="gw-v2-layered-navigation" data-gw-v2-layered-navigation>
-  <CatalogueHeader currentPath={currentPath} basePath={basePath} />
-  <CatalogueRouteBar currentPath={currentPath} basePath={basePath} />
+  <CatalogueHeader
+    currentPath={currentPath}
+    basePath={basePath}
+    showVisualNavigator={showVisualNavigator}
+    showRail={showRail}
+  />
+  {showRouteBar && <CatalogueRouteBar currentPath={currentPath} basePath={basePath} />}
 </div>
 <CatalogueSectionNav enabled={sectionNavigation} />
 
@@ -55,8 +66,8 @@ const {
     });
   };
 
-  const railToggle = document.querySelector<HTMLButtonElement>("[data-gw-v2-rail-toggle]");
-  if (railToggle && railToggle.dataset.ready !== "true") {
+  document.querySelectorAll<HTMLButtonElement>("[data-gw-v2-rail-toggle]").forEach((railToggle) => {
+    if (railToggle.dataset.ready === "true") return;
     railToggle.dataset.ready = "true";
     railToggle.addEventListener("click", () => {
       const expanded = document.body.dataset.gwV2RailExpanded === "true";
@@ -64,7 +75,27 @@ const {
       railToggle.setAttribute("aria-expanded", String(!expanded));
       railToggle.setAttribute("aria-label", expanded ? "Expand section navigation" : "Collapse section navigation");
     });
-  }
+  });
+
+  document.querySelectorAll<HTMLButtonElement>("[data-gw-v2-mobile-nav-toggle]").forEach((toggle) => {
+    if (toggle.dataset.ready === "true") return;
+    toggle.dataset.ready = "true";
+    const close = () => {
+      document.body.dataset.gwV2MobileNavOpen = "false";
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-label", "Open section navigation");
+    };
+    toggle.addEventListener("click", () => {
+      const open = document.body.dataset.gwV2MobileNavOpen === "true";
+      document.body.dataset.gwV2MobileNavOpen = String(!open);
+      toggle.setAttribute("aria-expanded", String(!open));
+      toggle.setAttribute("aria-label", open ? "Open section navigation" : "Close section navigation");
+    });
+    document.querySelectorAll<HTMLAnchorElement>("[data-gw-v2-catalogue-rail] a").forEach((anchor) => anchor.addEventListener("click", close));
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") close();
+    });
+  });
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initialiseGreenwaysAtlasIndex, { once: true });

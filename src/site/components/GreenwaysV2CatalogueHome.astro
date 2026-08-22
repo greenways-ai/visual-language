@@ -1,10 +1,7 @@
 ---
 import CatalogueShell from "../../v2/CatalogueShell.astro";
 import { catalogueHref, greenwaysV2CatalogueHome } from "../../v2/catalogue-manifest.js";
-import {
-  visualLayoutDestinationKinds,
-  visualLayoutSections,
-} from "../../v2/visual-layout-manifest.js";
+import { visualLayoutSections } from "../../v2/visual-layout-manifest.js";
 
 interface Props {
   currentPath?: string;
@@ -13,55 +10,6 @@ interface Props {
 const { currentPath = Astro.url.pathname } = Astro.props;
 const basePath = import.meta.env.BASE_URL;
 const href = (path: string) => catalogueHref(path, basePath);
-const artwork = (path: string) => `${basePath.replace(/\/+$/, "")}/artwork/${path}`;
-const visualWorlds = [
-  {
-    project: "Greenways",
-    label: "Peacock garden",
-    route: "/concepts/greenways/",
-    day: "greenways/peacock-garden-day.webp",
-    night: "greenways/peacock-garden-night.webp",
-  },
-  {
-    project: "Hodos",
-    label: "Reflecting pool",
-    route: "/concepts/hodos/",
-    day: "hodos/reflecting-pool-day.webp",
-    night: "hodos/reflecting-pool-night.webp",
-  },
-  {
-    project: "Tahto",
-    label: "Paired observatories",
-    route: "/concepts/tahto/",
-    day: "tahto/paired-observatories-day.webp",
-    night: "tahto/paired-observatories-night.webp",
-  },
-  {
-    project: "Hestia",
-    label: "Recovery room",
-    route: "/concepts/hestia/",
-    day: "hestia/recovery-room-day.webp",
-    night: "hestia/recovery-room-night.webp",
-  },
-  {
-    project: "Historia",
-    label: "Raven library",
-    route: "/concepts/historia/",
-    day: "historia/raven-library-day.webp",
-    night: "historia/raven-library-night.webp",
-  },
-  {
-    project: "Hoplite",
-    label: "Open horizon",
-    route: "/concepts/hoplite/",
-    day: "hoplite/open-horizon-day.webp",
-    night: "hoplite/open-horizon-night.webp",
-  },
-];
-
-const destinationHref = (route: { path?: string; external?: boolean }) =>
-  route.path ? (route.external ? route.path : href(route.path)) : undefined;
-const statusLabel = (status: string) => status === "placeholder" ? "Coming later" : status;
 ---
 
 <CatalogueShell
@@ -69,104 +17,43 @@ const statusLabel = (status: string) => status === "placeholder" ? "Coming later
   description={greenwaysV2CatalogueHome.summary}
   currentPath={currentPath}
   canonicalPath={catalogueHref("/", basePath)}
-  bodyClass="gw-v2-atlas-body"
+  bodyClass="gw-v2-directory-body"
+  mainClass="gw-v2-directory-main"
+  sectionNavigation={false}
+  showVisualNavigator={false}
+  showRail={false}
+  showRouteBar={false}
 >
-  <header id="catalogue-overview" data-catalogue-section data-section-label="Overview" class="gw-v2-catalogue-hero">
-    <div class="gw-v2-catalogue-hero__art" aria-hidden="true">
-      <img class="mode-light" src={artwork("greenways/peacock-garden-day.webp")} alt="" loading="eager" decoding="async" />
-      <img class="mode-dark" src={artwork("greenways/peacock-garden-night.webp")} alt="" loading="eager" decoding="async" />
-    </div>
-    <div class="gw-v2-catalogue-hero__copy">
-      <p class="gw-v2-catalogue-eyebrow">Greenways visual language · executable atlas</p>
-      <h1>One language.<br />Many places to live.</h1>
-      <p>
-        A calm visual index for Greenways themes, the OS Fabric, product studies, and the infrastructure that carries
-        the work. Open a route at full scale, or stay here to compare the family at a glance.
-      </p>
-      <div class="gw-v2-catalogue-hero__actions">
-        <a class="gw-v2-button gw-v2-button--primary" href="#visual-layout-themes">Explore themes</a>
-        <a class="gw-v2-button" href="#visual-layout-os">Open the OS</a>
-      </div>
-    </div>
-  </header>
+  <main class="gw-v2-directory" data-gw-v2-visual-layout-root>
+    <header class="gw-v2-directory__intro">
+      <p class="gw-v2-catalogue-eyebrow">Greenways visual language · v2</p>
+      <h1>Visual layout.</h1>
+      <p>Four places to begin. Each section opens into its own system of documentation, interfaces, wireframes, and working material.</p>
+    </header>
 
-  <div id="visual-layout-map" class="gw-v2-visual-layout-root" data-gw-v2-visual-layout-root>
-    {visualLayoutSections.map((section) => (
-      <section
-        id={`visual-layout-${section.id}`}
-        data-catalogue-section
-        data-section-label={section.label}
-        class:list={["gw-v2-root-section", `gw-v2-root-section--${section.id}`]}
-        aria-labelledby={`visual-layout-${section.id}-title`}
-      >
-        <header class="gw-v2-root-section__header">
-          <div class="gw-v2-root-section__identity">
-            <span class="gw-v2-root-section__icon" aria-hidden="true">{section.shortLabel.slice(0, 2).toUpperCase()}</span>
-            <div>
-              <p class="gw-v2-catalogue-eyebrow">{section.id}</p>
-              <h2 id={`visual-layout-${section.id}-title`}>{section.label}</h2>
-            </div>
-          </div>
-          <p>{section.summary}</p>
-        </header>
+    <nav class="gw-v2-directory__sections" aria-label="Visual language sections">
+      {visualLayoutSections.map((section, index) => (
+        <a class:list={["gw-v2-directory-card", `gw-v2-directory-card--${section.id}`]} href={href(section.hubPath)}>
+          <span class="gw-v2-directory-card__index">{String(index + 1).padStart(2, "0")}</span>
+          <span class="gw-v2-directory-card__icon" aria-hidden="true">
+            {section.icon === "spark" && <svg viewBox="0 0 24 24"><path d="M12 2.5 14 10l7.5 2-7.5 2-2 7.5-7.5-2 7.5-2Z" /></svg>}
+            {section.icon === "layers" && <svg viewBox="0 0 24 24"><path d="m12 3 8 4.5-8 4.5-8-4.5Z" /><path d="m4 12 8 4.5 8-4.5M4 16.5l8 4.5 8-4.5" /></svg>}
+            {section.icon === "grid" && <svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.5" /><rect x="14" y="4" width="6" height="6" rx="1.5" /><rect x="4" y="14" width="6" height="6" rx="1.5" /><rect x="14" y="14" width="6" height="6" rx="1.5" /></svg>}
+            {section.icon === "network" && <svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5" /><circle cx="18" cy="6" r="2.5" /><circle cx="18" cy="18" r="2.5" /><path d="m8.3 10.8 7.4-3.6M8.3 13.2l7.4 3.6" /></svg>}
+          </span>
+          <span class="gw-v2-directory-card__copy">
+            <small>{section.label} · section {String(index + 1).padStart(2, "0")}</small>
+            <strong>{section.label}</strong>
+            <span>{section.summary}</span>
+          </span>
+          <span class="gw-v2-directory-card__count">{section.routes.length} routes <b>↗</b></span>
+        </a>
+      ))}
+    </nav>
 
-        <div class="gw-v2-root-section__routes">
-          {section.routes.map((route) => route.path ? (
-            <a
-              class="gw-v2-visual-layout-destination"
-              href={destinationHref(route)}
-              data-kind={route.kind}
-              data-status={route.status}
-              data-external={route.external ? "true" : undefined}
-            >
-              <span class="gw-v2-visual-layout-destination__meta">
-                {visualLayoutDestinationKinds[route.kind]} · {statusLabel(route.status)}
-              </span>
-              <strong>{route.label}</strong>
-              <span>{route.summary}</span>
-              <small>{route.external ? "Open documentation ↗" : "Open route →"}</small>
-            </a>
-          ) : (
-            <article
-              class="gw-v2-visual-layout-destination gw-v2-visual-layout-destination--placeholder"
-              data-kind={route.kind}
-              data-status={route.status}
-              aria-label={`${route.label}, placeholder`}
-            >
-              <span class="gw-v2-visual-layout-destination__meta">
-                {visualLayoutDestinationKinds[route.kind]} · {statusLabel(route.status)}
-              </span>
-              <strong>{route.label}</strong>
-              <span>{route.summary}</span>
-              <small>Route to be defined</small>
-            </article>
-          ))}
-        </div>
-
-        {section.id === "themes" && (
-          <section class="gw-v2-root-worlds" aria-labelledby="visual-worlds-title">
-            <header>
-              <div>
-                <p class="gw-v2-catalogue-eyebrow">Backgrounds · textures · moods</p>
-                <h3 id="visual-worlds-title">The language has places to live.</h3>
-              </div>
-              <p>Earlier generated worlds remain available as a visual moodboard for future themes and product surfaces.</p>
-            </header>
-            <div class="gw-v2-visual-layout-gallery__grid">
-              {visualWorlds.map((world) => (
-                <a class="gw-v2-visual-layout-artwork" href={href(world.route)}>
-                  <span class="gw-v2-visual-layout-artwork__image">
-                    <img class="mode-light" src={artwork(world.day)} alt="" loading="lazy" decoding="async" />
-                    <img class="mode-dark" src={artwork(world.night)} alt="" loading="lazy" decoding="async" />
-                  </span>
-                  <span class="gw-v2-visual-layout-artwork__meta">{world.project} · visual study</span>
-                  <strong>{world.label}</strong>
-                </a>
-              ))}
-            </div>
-          </section>
-        )}
-      </section>
-    ))}
-  </div>
+    <footer class="gw-v2-directory__footer">
+      <span>Brand / OS / Product / Infra</span>
+      <span>v2 framework · in progress</span>
+    </footer>
+  </main>
 </CatalogueShell>

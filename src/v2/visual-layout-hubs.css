@@ -1,0 +1,72 @@
+.gw-v2-section-hub-main {
+  max-inline-size: 112rem;
+}
+
+.gw-v2-section-hub {
+  display: grid;
+  gap: clamp(2.2rem, 6vw, 5rem);
+  padding-block: clamp(2rem, 5vw, 5rem) clamp(4rem, 8vw, 8rem);
+}
+
+.gw-v2-section-hub__hero {
+  min-block-size: min(34rem, 60vh);
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(16rem, 0.75fr);
+  align-items: end;
+  gap: clamp(1.5rem, 5vw, 5rem);
+  padding: clamp(1.5rem, 5vw, 4.5rem);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 76% 22%, color-mix(in srgb, var(--gw-v2-signal) 22%, transparent), transparent 22rem),
+    linear-gradient(145deg, color-mix(in srgb, var(--gw-v2-surface-raised) 85%, transparent), color-mix(in srgb, var(--gw-v2-surface) 62%, transparent));
+  border: 1px solid var(--gw-v2-seam-strong);
+  border-radius: 1.8rem;
+  box-shadow: 0 1.5rem 5rem color-mix(in srgb, var(--gw-v2-canvas) 28%, transparent), inset 0 1px color-mix(in srgb, white 9%, transparent);
+}
+
+.gw-v2-section-hub__hero-copy { max-inline-size: 48rem; display: grid; gap: 0.95rem; }
+.gw-v2-section-hub__back { inline-size: fit-content; color: var(--gw-v2-text-muted); font-family: var(--gw-v2-font-code); font-size: var(--gw-v2-type-xs); text-decoration: none; }
+.gw-v2-section-hub__back:hover { color: var(--gw-v2-text); }
+.gw-v2-section-hub__hero h1 { margin: 0; font-family: var(--gw-v2-font-display); font-size: clamp(4rem, 10vw, 9rem); font-weight: 400; letter-spacing: -0.07em; line-height: 0.82; }
+.gw-v2-section-hub__hero-copy > p:last-child { max-inline-size: 44rem; margin: 0; color: var(--gw-v2-text-muted); font-size: clamp(1rem, 1.7vw, 1.25rem); line-height: 1.65; }
+.gw-v2-section-hub__hero-note { display: grid; gap: 0.65rem; align-self: stretch; align-content: end; padding-block-start: 4rem; border-block-start: 1px solid var(--gw-v2-seam); }
+.gw-v2-section-hub__hero-note span { color: var(--gw-v2-signal); font-family: var(--gw-v2-font-code); font-size: var(--gw-v2-type-xs); letter-spacing: 0.08em; text-transform: uppercase; }
+.gw-v2-section-hub__hero-note strong { max-inline-size: 19rem; font-family: var(--gw-v2-font-display); font-size: clamp(1.35rem, 2.6vw, 2.25rem); font-weight: 400; line-height: 1.05; }
+.gw-v2-section-hub__hero-note small { max-inline-size: 24rem; color: var(--gw-v2-text-subtle); line-height: 1.55; }
+
+.gw-v2-section-hub__routes,
+.gw-v2-section-hub__mood { display: grid; gap: 1.4rem; }
+.gw-v2-section-hub__routes > header { display: grid; grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.65fr); gap: 2rem; align-items: end; padding-inline: 0.4rem; }
+.gw-v2-section-hub__routes h2,
+.gw-v2-section-hub__mood h2 { margin: 0; font-family: var(--gw-v2-font-display); font-size: clamp(2rem, 4vw, 4rem); font-weight: 400; letter-spacing: -0.05em; line-height: 0.95; }
+.gw-v2-section-hub__routes > header > p,
+.gw-v2-section-hub__mood > p { margin: 0; color: var(--gw-v2-text-muted); line-height: 1.6; }
+.gw-v2-section-hub__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 0.85rem; }
+
+.gw-v2-section-route { min-block-size: 15rem; display: grid; align-content: start; gap: 0.7rem; padding: 1.15rem; color: var(--gw-v2-text); background: color-mix(in srgb, var(--gw-v2-surface-raised) 64%, transparent); border: 1px solid var(--gw-v2-seam); border-radius: 1.3rem; text-decoration: none; transition: transform 180ms ease, border-color 180ms ease, background 180ms ease; }
+.gw-v2-section-route:hover,
+.gw-v2-section-route:focus-visible { background: color-mix(in srgb, var(--gw-v2-surface-raised) 86%, transparent); border-color: color-mix(in srgb, var(--gw-v2-signal) 48%, var(--gw-v2-seam-strong)); outline: none; transform: translateY(-2px); }
+.gw-v2-section-route__top { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; color: var(--gw-v2-text-subtle); font-family: var(--gw-v2-font-code); font-size: var(--gw-v2-type-xs); text-transform: uppercase; }
+.gw-v2-section-route__top b { color: var(--gw-v2-signal); font-weight: 400; }
+.gw-v2-section-route strong { margin-block-start: 1rem; font-family: var(--gw-v2-font-display); font-size: clamp(1.5rem, 2.8vw, 2.4rem); font-weight: 400; letter-spacing: -0.035em; }
+.gw-v2-section-route > span:not(.gw-v2-section-route__top) { color: var(--gw-v2-text-muted); font-size: var(--gw-v2-type-sm); line-height: 1.55; }
+.gw-v2-section-route em { align-self: end; margin-block-start: auto; color: var(--gw-v2-text-subtle); font-family: var(--gw-v2-font-code); font-size: var(--gw-v2-type-xs); font-style: normal; }
+.gw-v2-section-route--placeholder { background: color-mix(in srgb, var(--gw-v2-surface-recessed) 62%, transparent); border-style: dashed; }
+
+.gw-v2-section-hub__mood { grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.7fr); padding-block-start: clamp(1.6rem, 4vw, 3rem); border-block-start: 1px solid var(--gw-v2-seam); }
+.gw-v2-section-hub__mood-images { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.85rem; }
+.gw-v2-section-hub__mood figure { min-block-size: 15rem; position: relative; margin: 0; overflow: hidden; border: 1px solid var(--gw-v2-seam); border-radius: 1.25rem; background: var(--gw-v2-surface); }
+.gw-v2-section-hub__mood img { inline-size: 100%; block-size: 100%; min-block-size: 15rem; display: block; object-fit: cover; opacity: 0.8; transition: transform 500ms ease; }
+.gw-v2-section-hub__mood figure:hover img { transform: scale(1.04); }
+.gw-v2-section-hub__mood figcaption { position: absolute; inset-inline: 0; inset-block-end: 0; display: grid; gap: 0.2rem; padding: 3rem 1rem 1rem; color: white; background: linear-gradient(transparent, rgba(0, 0, 0, 0.76)); }
+.gw-v2-section-hub__mood figcaption small { font-family: var(--gw-v2-font-code); font-size: var(--gw-v2-type-xs); text-transform: uppercase; }
+.gw-v2-section-hub__mood figcaption strong { font-family: var(--gw-v2-font-display); font-size: 1.45rem; font-weight: 400; }
+
+@media (max-width: 52.5rem) {
+  .gw-v2-section-hub { padding-block-start: 1.35rem; }
+  .gw-v2-section-hub__hero { min-block-size: auto; grid-template-columns: 1fr; padding: 1.25rem; border-radius: 1.3rem; }
+  .gw-v2-section-hub__hero-note { padding-block-start: 1rem; }
+  .gw-v2-section-hub__routes > header,
+  .gw-v2-section-hub__mood { grid-template-columns: 1fr; }
+  .gw-v2-section-hub__mood-images { grid-template-columns: 1fr; }
+}

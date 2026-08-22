@@ -28,9 +28,8 @@ test("the active v2 shell uses one compact atlas frame while retaining route tru
   assert.match(navigation, /CatalogueRouteBar/);
   assert.match(navigation, /CatalogueSectionNav/);
   assert.match(header, /data-gw-v2-atlas-index/);
-  assert.match(header, /Atlas index/);
-  assert.match(header, /Current applications/);
-  assert.match(header, /Spaces · Flow/);
+  assert.match(header, /Visual navigator/);
+  assert.match(header, /Brand · OS · Product · Infra/);
   assert.match(routeBar, /data-status=\{context\.item\.status\}/);
   assert.match(routeBar, /data-ownership=\{context\.item\.ownership\}/);
   assert.match(routeBar, /context\.item\.issue/);

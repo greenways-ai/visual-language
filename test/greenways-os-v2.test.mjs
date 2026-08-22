@@ -88,8 +88,8 @@ test("the V2 shell owns shared navigation, commands, theme and lightweight inter
   assert.match(source, /data-gw2-command-layer/);
   assert.match(source, /gw2-concept-button--command/);
   assert.match(source, /Open Greenways command palette/);
-  assert.match(source, /Open interface atlas/);
-  assert.match(source, />Atlas<\/span>/);
+  assert.match(source, /Open visual navigator/);
+  assert.match(source, />Navigator<\/span>/);
   assert.match(source, /Named commands request capabilities/);
   assert.match(source, /greenways-os-v2-theme/);
   assert.match(source, /event\.metaKey \|\| event\.ctrlKey/);

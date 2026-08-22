@@ -23,9 +23,9 @@ test("the Visual Language website is an Astro Starlight application", async () =
   assert.match(config, /logo: \{ src: "\.\/src\/site\/assets\/peacock-feather\.svg"/);
   assert.match(collection, /docsLoader/);
   assert.match(root, /GreenwaysV2CatalogueHome/);
-  assert.match(catalogue, /One language\.<br \/>Many places to live\./);
+  assert.match(catalogue, /Visual layout\./);
   assert.match(catalogue, /data-gw-v2-visual-layout-root/);
-  assert.match(catalogue, /visual-layout-\$\{section\.id\}/);
+  assert.match(catalogue, /section\.hubPath/);
 });
 
 test("the public root is v2 and the Starlight documentation root is explicitly moved to docs", async () => {

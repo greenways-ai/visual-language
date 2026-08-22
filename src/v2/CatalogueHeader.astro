@@ -3,32 +3,42 @@ import MosaicLogo from "../MosaicLogo.astro";
 import ThemeButton from "../ThemeButton.astro";
 import {
   catalogueHref,
-  catalogueStatusLabels,
-  greenwaysV2Catalogue,
   greenwaysV2CatalogueHome,
-  isCatalogueRouteActive,
   isCatalogueRouteCurrent,
 } from "./catalogue-manifest.js";
-import { visualLayoutSections } from "./visual-layout-manifest.js";
+import {
+  visualLayoutDestinationKinds,
+  visualLayoutSections,
+} from "./visual-layout-manifest.js";
 
 interface Props {
   currentPath: string;
   basePath?: string;
+  showVisualNavigator?: boolean;
+  showRail?: boolean;
 }
 
 const {
   currentPath,
   basePath = import.meta.env.BASE_URL,
+  showVisualNavigator = true,
+  showRail = false,
 } = Astro.props;
 
 const href = (path: string) => catalogueHref(path, basePath);
 const isCurrent = (path: string) => isCatalogueRouteCurrent(path, currentPath, basePath);
-const isActive = (path: string) => isCatalogueRouteActive(path, currentPath, basePath);
-const groupIsActive = (routes: (typeof greenwaysV2Catalogue)[number]["routes"]) =>
-  routes.some((route) => isActive(route.path) || route.children?.some((child) => isActive(child.path)));
+const visualHref = (path: string, external = false) => external ? path : href(path);
+const routeIsCurrent = (path?: string, external = false) => Boolean(path && !external && currentPath.startsWith(path.split("#")[0]));
+const sectionIsCurrent = (section: (typeof visualLayoutSections)[number]) =>
+  currentPath === section.hubPath || currentPath.startsWith(`${section.hubPath.replace(/\/$/, "")}/`) || section.routes.some((route) => routeIsCurrent(route.path, route.external));
 ---
 
-<header class="gw-v2-catalogue-header" data-gw-v2-catalogue-header>
+<header
+  class="gw-v2-catalogue-header"
+  data-gw-v2-catalogue-header
+  data-gw-v2-visual-navigator={showVisualNavigator ? "true" : undefined}
+  data-gw-v2-rail-enabled={showRail ? "true" : undefined}
+>
   <a
     class="gw-v2-catalogue-brand"
     href={href(greenwaysV2CatalogueHome.path)}
@@ -43,15 +53,15 @@ const groupIsActive = (routes: (typeof greenwaysV2Catalogue)[number]["routes"]) 
 
   <div class="gw-v2-catalogue-folio" aria-label="Catalogue character">
     <span>Executable atlas</span>
-    <strong>System · applications · surfaces</strong>
+    <strong>Brand · OS · Product · Infra</strong>
   </div>
 
-  <nav class="gw-v2-catalogue-rail" aria-label="Visual language sections" data-gw-v2-catalogue-rail>
+  {showRail && <nav id="gw-v2-catalogue-rail" class="gw-v2-catalogue-rail" aria-label="Visual language sections" data-gw-v2-catalogue-rail>
     <div class="gw-v2-catalogue-rail__items">
       {visualLayoutSections.map((section) => (
         <a
           class="gw-v2-catalogue-rail__link"
-          href={`${href(greenwaysV2CatalogueHome.path)}#visual-layout-${section.id}`}
+          href={visualHref(section.hubPath)}
           data-section={section.id}
           aria-label={section.label}
           title={section.label}
@@ -69,11 +79,22 @@ const groupIsActive = (routes: (typeof greenwaysV2Catalogue)[number]["routes"]) 
     <button class="gw-v2-catalogue-rail__toggle" type="button" data-gw-v2-rail-toggle aria-expanded="false" aria-label="Expand section navigation">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 16 12 9 19" /></svg>
     </button>
-  </nav>
+  </nav>}
 
-  <details class="gw-v2-catalogue-nav" data-gw-v2-catalogue-nav data-gw-v2-atlas-index>
+  {showRail && <button
+    class="gw-v2-catalogue-mobile-toggle"
+    type="button"
+    data-gw-v2-mobile-nav-toggle
+    aria-controls="gw-v2-catalogue-rail"
+    aria-expanded="false"
+    aria-label="Open section navigation"
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+  </button>}
+
+  {showVisualNavigator && <details class="gw-v2-catalogue-nav" data-gw-v2-catalogue-nav data-gw-v2-atlas-index>
     <summary>
-      <span>Atlas index</span>
+      <span>Visual navigator</span>
       <span aria-hidden="true">＋</span>
     </summary>
 
@@ -81,8 +102,8 @@ const groupIsActive = (routes: (typeof greenwaysV2Catalogue)[number]["routes"]) 
       <header class="gw-v2-catalogue-nav__masthead">
         <div>
           <p>Greenways visual language · v2</p>
-          <h2>Atlas index</h2>
-          <span>Browse by visual layer. Open a specimen at full scale.</span>
+          <h2>Visual navigator</h2>
+          <span>Move between the four sections without leaving the current visual system.</span>
         </div>
         <button type="button" data-gw-v2-catalogue-close>
           <span>Close</span>
@@ -90,10 +111,10 @@ const groupIsActive = (routes: (typeof greenwaysV2Catalogue)[number]["routes"]) 
         </button>
       </header>
 
-      <nav aria-label="Greenways v2 catalogue">
+      <nav aria-label="Greenways visual language sections">
         <ul class="gw-v2-catalogue-nav__groups">
-          {greenwaysV2Catalogue.map((group, groupIndex) => {
-            const active = groupIsActive(group.routes);
+          {visualLayoutSections.map((section, groupIndex) => {
+            const active = sectionIsCurrent(section);
             return (
               <li>
                 <details
@@ -102,43 +123,27 @@ const groupIsActive = (routes: (typeof greenwaysV2Catalogue)[number]["routes"]) 
                   open={active}
                 >
                   <summary>
-                    <span class="gw-v2-catalogue-nav__group-code">
-                      {String(groupIndex + 1).padStart(2, "0")}
-                    </span>
-                    <span>{group.label}</span>
-                    <small>{group.routes.length}</small>
+                    <span class="gw-v2-catalogue-nav__group-code">{String(groupIndex + 1).padStart(2, "0")}</span>
+                    <span>{section.label}</span>
+                    <small>{section.routes.length}</small>
                   </summary>
                   <ul class="gw-v2-catalogue-nav__routes">
-                    {group.routes.map((route) => (
-                      <li
-                        data-primary={route.primary === false ? "false" : "true"}
-                        data-ownership={route.ownership}
-                      >
-                        <a
-                          href={href(route.path)}
-                          aria-current={isCurrent(route.path) ? "page" : undefined}
-                        >
+                    <li data-primary="true" data-ownership="visual-language">
+                      <a href={visualHref(section.hubPath)} aria-current={currentPath === section.hubPath ? "page" : undefined}>
+                        <span>Section overview</span>
+                        <small>Directory</small>
+                      </a>
+                    </li>
+                    {section.routes.map((route) => route.path ? (
+                      <li data-primary="true" data-ownership="visual-language">
+                        <a href={visualHref(route.path, route.external)} aria-current={routeIsCurrent(route.path, route.external) ? "page" : undefined}>
                           <span>{route.label}</span>
-                          <small>{catalogueStatusLabels[route.status]}</small>
+                          <small>{visualLayoutDestinationKinds[route.kind]}</small>
                         </a>
-                        {route.children && route.children.length > 0 && (
-                          <ul>
-                            {route.children.map((child) => (
-                              <li
-                                data-primary={child.primary === false ? "false" : "true"}
-                                data-ownership={child.ownership}
-                              >
-                                <a
-                                  href={href(child.path)}
-                                  aria-current={isCurrent(child.path) ? "page" : undefined}
-                                >
-                                  <span>{child.label}</span>
-                                  <small>{catalogueStatusLabels[child.status]}</small>
-                                </a>
-                              </li>
-                            ))}
-                          </ul>
-                        )}
+                      </li>
+                    ) : (
+                      <li data-primary="true" data-ownership="visual-language">
+                        <span class="gw-v2-catalogue-nav__placeholder"><span>{route.label}</span><small>Placeholder</small></span>
                       </li>
                     ))}
                   </ul>
@@ -150,12 +155,12 @@ const groupIsActive = (routes: (typeof greenwaysV2Catalogue)[number]["routes"]) 
       </nav>
 
       <footer class="gw-v2-catalogue-nav__footer">
-        <span>Current applications</span>
-        <strong>Spaces · Flow</strong>
-        <small>Catalogue metadata remains available here, outside the specimen frame.</small>
+        <span>Current layer</span>
+        <strong>Brand · OS · Product · Infra</strong>
+        <small>Every section can grow independently while sharing the same v2 visual contract.</small>
       </footer>
     </div>
-  </details>
+  </details>}
 
   <ThemeButton />
 </header>

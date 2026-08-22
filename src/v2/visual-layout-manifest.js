@@ -14,32 +14,41 @@ const freeze = (value) => Object.freeze(value);
  * @property {boolean=} external
  */
 
-/** @typedef {{ id: string, label: string, shortLabel: string, icon: string, summary: string, routes: readonly VisualLayoutDestination[] }} VisualLayoutSection */
+/** @typedef {{ id: string, label: string, shortLabel: string, icon: string, hubPath: string, summary: string, routes: readonly VisualLayoutDestination[] }} VisualLayoutSection */
 
 /** @type {readonly VisualLayoutSection[]} */
 export const visualLayoutSections = freeze([
   {
-    id: "themes",
-    label: "Themes",
-    shortLabel: "Themes",
+    id: "brand",
+    label: "Brand",
+    shortLabel: "Brand",
     icon: "spark",
-    summary: "Brand books, documentation moods, and the generated worlds that give the language a place to live.",
+    hubPath: "/brand/",
+    summary: "The shared visual contract: documentation, grids, typography, surfaces, backgrounds, textures, and moods.",
     routes: [
       {
-        id: "v1-documentation-brand-book",
-        label: "v1 documentation style",
-        path: "/v1/",
-        summary: "The shared documentation shell: route hierarchy, reading space, material surfaces, and project accents.",
-        kind: "brand-book",
+        id: "brand-documentation-demo",
+        label: "Documentation demo",
+        path: "/brand/documentation/",
+        summary: "The canonical v2 documentation shell for reading, navigating, searching, and moving between evidence.",
+        kind: "documentation",
         status: "ready",
       },
       {
         id: "v2-greenways-brand-book",
-        label: "v2 Greenways system",
+        label: "v2 foundations",
         path: "/v2/foundations/",
         summary: "Neutral structure, peacock identity, semantic states, and host-specific density.",
         kind: "brand-book",
         status: "ready",
+      },
+      {
+        id: "v1-documentation-brand-book",
+        label: "v1 reference",
+        path: "/v1/",
+        summary: "The previous documentation shell retained as a comparison specimen while the v2 migration completes.",
+        kind: "brand-book",
+        status: "reference",
       },
       {
         id: "historia-documentation",
@@ -54,7 +63,7 @@ export const visualLayoutSections = freeze([
         id: "hodos-documentation",
         label: "Hodos documentation",
         path: "https://oss.greenways.ai/hodos/",
-        summary: "Host-composition and visual-language documentation for the Hodos runtime.",
+        summary: "Host composition and visual-language documentation for the Hodos runtime.",
         kind: "documentation",
         status: "reference",
         external: true,
@@ -66,7 +75,8 @@ export const visualLayoutSections = freeze([
     label: "OS",
     shortLabel: "OS",
     icon: "layers",
-    summary: "The Greenways Fabric, its authority boundaries, and the extensions that carry one workspace across hosts.",
+    hubPath: "/os/",
+    summary: "The Greenways OS Fabric, its authority boundaries, and the extensions that carry one workspace across hosts.",
     routes: [
       {
         id: "greenways-fabric",
@@ -74,7 +84,7 @@ export const visualLayoutSections = freeze([
         path: "/v2/applications/greenways-platform/homepage/",
         summary: "Storage, identity, agents, applications, and explicit hosted crossings beneath the OS experience.",
         kind: "application",
-        status: "reference",
+        status: "ready",
       },
       {
         id: "greenways-os-v2-wireframes",
@@ -82,7 +92,7 @@ export const visualLayoutSections = freeze([
         path: "/concepts/greenways-v2/",
         summary: "Native desktop, browser desktop, side panel, popup, and public web studies at their proper scale.",
         kind: "wireframe",
-        status: "reference",
+        status: "ready",
       },
     ],
   },
@@ -91,6 +101,7 @@ export const visualLayoutSections = freeze([
     label: "Product",
     shortLabel: "Product",
     icon: "grid",
+    hubPath: "/product/",
     summary: "The product vocabulary people and agents use to search, relate, imagine, coordinate, and publish.",
     routes: [
       {
@@ -146,6 +157,7 @@ export const visualLayoutSections = freeze([
     label: "Infra",
     shortLabel: "Infra",
     icon: "network",
+    hubPath: "/infra/",
     summary: "The infrastructure projects that make the Greenways Fabric portable, observable, and effectful.",
     routes: [
       {
@@ -198,4 +210,11 @@ export const visualLayoutDestinationKinds = freeze({
 
 export function flattenVisualLayoutDestinations(sections = visualLayoutSections) {
   return sections.flatMap((section) => section.routes);
+}
+
+export function visualLayoutSectionForPath(pathname, sections = visualLayoutSections) {
+  return sections.find((section) => {
+    if (pathname === section.hubPath || pathname.startsWith(`${section.hubPath.replace(/\/$/, "")}/`)) return true;
+    return section.routes.some((route) => route.path && !route.external && pathname.startsWith(route.path.split("#")[0]));
+  });
 }
