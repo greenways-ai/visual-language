@@ -67,15 +67,15 @@
 
   /* Peacock identity: strongest in the mark, restrained in interaction. */
   --gw-v2-brand-emerald: #2f836d;
-  --gw-v2-brand-aqua: #2da8ae;
-  --gw-v2-brand-sapphire: #55b2c1;
+  --gw-v2-brand-aqua: #167f87;
+  --gw-v2-brand-sapphire: #2f8f9f;
   --gw-v2-brand-violet: #7861c9;
   --gw-v2-brand-spectrum: linear-gradient(135deg, var(--gw-v2-brand-emerald), var(--gw-v2-brand-aqua) 34%, var(--gw-v2-brand-sapphire) 67%, var(--gw-v2-brand-violet));
 
   /* Signal is the primary interaction accent, not a structural or success colour. */
   --gw-v2-signal: var(--gw-v2-brand-sapphire);
-  --gw-v2-signal-hover: #3b8999;
-  --gw-v2-signal-soft: #e1f0f0;
+  --gw-v2-signal-hover: #246f7d;
+  --gw-v2-signal-soft: #dceced;
   --gw-v2-on-signal: #ffffff;
   --gw-v2-text-link: var(--gw-v2-signal);
 

@@ -19,7 +19,7 @@ body.gw-v2-section-hub--infra.gw-v2-catalogue[data-gw-v2-material="delicate"] { 
 .gw-v2-section-hub {
   display: grid;
   gap: clamp(1.6rem, 4vw, 3.5rem);
-  padding-block: clamp(0.7rem, 1.7vw, 1.4rem) clamp(3rem, 7vw, 6rem);
+  padding-block: clamp(0.35rem, 0.8vw, 0.7rem) clamp(3rem, 7vw, 6rem);
 }
 
 .gw-v2-section-hub__hero {
@@ -96,7 +96,7 @@ body.gw-v2-section-hub--infra.gw-v2-catalogue[data-gw-v2-material="delicate"] { 
 .gw-v2-section-hub__mood figcaption strong { font-family: var(--gw-v2-font-display); font-size: 1.45rem; font-weight: 400; }
 
 @media (max-width: 52.5rem) {
-  .gw-v2-section-hub { padding-block-start: 1.35rem; }
+  .gw-v2-section-hub { padding-block-start: 0.65rem; }
   .gw-v2-section-hub__hero { min-block-size: auto; grid-template-columns: 1fr; padding: 1.25rem; border-radius: 1.3rem; }
   .gw-v2-section-hub__hero-note { padding-block-start: 1rem; }
   .gw-v2-section-hub__routes > header,

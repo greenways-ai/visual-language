@@ -199,16 +199,15 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] :where(
   letter-spacing: 0.085em;
 }
 
-/* Compact floating atlas frame */
+/* The shared shell stays flush, like the v1 documentation frame. */
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-layered-navigation {
-  inset-block-start: clamp(0.55rem, 1.2vw, 0.9rem);
-  margin-block: clamp(0.55rem, 1.2vw, 0.9rem) 0.55rem;
-  margin-inline: clamp(0.55rem, 2vw, 1.25rem);
+  inset-block-start: 0;
+  margin: 0;
   color: var(--gw-v2-text);
   background: color-mix(in srgb, var(--gw-v2-surface-overlay) 76%, transparent);
   border: 1px solid color-mix(in srgb, var(--gw-v2-seam-strong) 78%, transparent);
-  border-radius: 1.5rem;
+  border-radius: 0;
   box-shadow:
     0 1rem 3.5rem color-mix(in srgb, var(--gw-v2-canvas-inverse) 16%, transparent),
     inset 0 1px color-mix(in srgb, white 16%, transparent);
@@ -217,12 +216,13 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-layered-navigation {
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-layered-navigation::before {
   position: absolute;
-  inset-block-start: -1px;
-  inset-inline: var(--gw-v2-space-sm);
+  inset-block-start: 0;
+  inset-inline: 0;
   block-size: 1px;
   background: var(--gw-v2-material-thread);
   opacity: 0.82;
   content: "";
+  z-index: 1;
   pointer-events: none;
 }
 
@@ -232,6 +232,46 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-layered-navigation .
   min-block-size: 3.35rem;
   padding: var(--gw-v2-space-2xs) var(--gw-v2-space-sm);
   border: 0;
+}
+
+body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-layered-navigation :where(button, summary) {
+  font-family: var(--gw-v2-font-body);
+  letter-spacing: 0.015em;
+}
+
+body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-nav > summary > span:first-child {
+  font-family: var(--gw-v2-font-body);
+  font-size: var(--gw-v2-type-sm);
+  letter-spacing: 0.015em;
+}
+
+body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-route-bar {
+  align-items: center;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--gw-v2-space-sm);
+  padding-block: var(--gw-v2-space-2xs);
+  background: color-mix(in srgb, var(--gw-v2-surface) 74%, transparent);
+  border-block-end: 1px solid var(--gw-v2-seam);
+}
+
+body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-route-identity {
+  display: flex;
+  align-items: center;
+  gap: var(--gw-v2-space-xs);
+  padding-block: 0;
+}
+
+body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-family-tabs {
+  display: none;
+}
+
+body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-route-tools {
+  padding-block: 0;
+}
+
+body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-route-tools :where(span, a) {
+  font-family: var(--gw-v2-font-body);
+  letter-spacing: 0;
 }
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-brand {
@@ -552,6 +592,14 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-section-li
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-main {
   inline-size: min(100%, 96rem);
   padding-inline: clamp(0.75rem, 2.2vw, 1.75rem);
+}
+
+/* The older atlas pages use the shared page class directly rather than the
+ * CatalogueShell main class. Keep those route specimens on the same wide
+ * reading canvas as the newer shell. */
+body.gw-v2-atlas-frame.gw-v2-catalogue[data-gw-v2-material="delicate"] > main.gw-v2-page:not(.gw-v2-catalogue-main) {
+  inline-size: min(100%, 112rem);
+  padding-inline: clamp(0.75rem, 3vw, 3rem);
 }
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] :where(
@@ -955,6 +1003,10 @@ body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-cat
   padding-block: clamp(0.9rem, 2vw, 1.5rem) clamp(2.5rem, 6vw, 5rem);
 }
 
+body.gw-v2-section-hub.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-main {
+  padding-block-start: clamp(0.45rem, 1vw, 0.8rem);
+}
+
 body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-hero {
   min-block-size: min(34rem, calc(100vh - 8rem));
   align-content: center;
@@ -1273,8 +1325,21 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-neighbours
 }
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-footer {
-  padding: var(--gw-v2-space-sm);
-  font-size: var(--gw-v2-type-xs);
+  align-items: center;
+  padding-block: 0.9rem;
+  font-family: var(--gw-v2-font-body);
+  font-size: 0.78rem;
+  letter-spacing: 0;
+}
+
+body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-footer span {
+  color: var(--gw-v2-text-muted);
+}
+
+body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-footer a {
+  color: var(--gw-v2-text);
+  font-weight: 600;
+  text-decoration: none;
 }
 
 /* Focus remains unambiguous even as the visual treatment becomes finer. */
@@ -1344,10 +1409,9 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] :where(a, button, input, se
 
   body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-layered-navigation {
     position: sticky;
-    inset-block-start: 0.3rem;
-    margin-block: 0.35rem 0.45rem;
-    margin-inline: 0.35rem;
-    border-radius: 1.15rem;
+    inset-block-start: 0;
+    margin: 0;
+    border-radius: 0;
   }
 
   body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-route-bar {
@@ -1596,9 +1660,9 @@ body.gw-v2-directory-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2
   inline-size: min(100%, 78rem);
   min-block-size: calc(100vh - 9rem);
   display: grid;
-  align-content: center;
+  align-content: start;
   gap: clamp(2.2rem, 7vw, 5.5rem);
-  padding-block: clamp(3.5rem, 10vw, 8rem);
+  padding-block: clamp(2.5rem, 6vw, 5rem) clamp(3.5rem, 10vw, 8rem);
 }
 
 .gw-v2-directory {

@@ -21,7 +21,7 @@ const {
   sectionNavigation = true,
   showVisualNavigator = true,
   showRail = false,
-  showRouteBar = true,
+  showRouteBar = false,
   useFlameMark = false,
 } = Astro.props;
 ---
@@ -35,8 +35,8 @@ const {
     showRail={showRail}
     useFlameMark={useFlameMark}
   />
-  {showRouteBar && <CatalogueRouteBar currentPath={currentPath} basePath={basePath} />}
 </div>
+{showRouteBar && <CatalogueRouteBar currentPath={currentPath} basePath={basePath} />}
 <CatalogueSectionNav enabled={sectionNavigation} />
 
 <script>

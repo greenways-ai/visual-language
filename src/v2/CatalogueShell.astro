@@ -32,7 +32,7 @@ const {
   sectionNavigation = true,
   showVisualNavigator = true,
   showRail = false,
-  showRouteBar = true,
+  showRouteBar = false,
   useFlameMark = false,
 } = Astro.props;
 
@@ -87,8 +87,8 @@ const canonical = new URL(canonicalPath, origin).toString();
     </main>
 
     <footer class="gw-v2-catalogue-footer">
-      <span>Greenways visual language · executable atlas</span>
-      <a href="https://github.com/greenways-ai/visual-language">Source ↗</a>
+      <span>Greenways visual language</span>
+      <a href="https://github.com/greenways-ai/visual-language">Source</a>
     </footer>
   </body>
 </html>
