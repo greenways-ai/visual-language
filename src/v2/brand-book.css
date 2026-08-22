@@ -95,6 +95,15 @@
 .gw-v2-brand-book__spectrum span:nth-child(2) { background: var(--gw-v2-brand-aqua); }
 .gw-v2-brand-book__spectrum span:nth-child(3) { background: var(--gw-v2-brand-sapphire); }
 .gw-v2-brand-book__spectrum span:nth-child(4) { background: var(--gw-v2-brand-violet); }
+.gw-v2-brand-book__colour-options { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gw-v2-space-xs); margin-block-start: var(--gw-v2-space-sm); }
+.gw-v2-brand-book__colour-option { min-block-size: 8rem; display: grid; align-content: end; gap: 0.2rem; padding: var(--gw-v2-space-sm); color: var(--gw-v2-on-signal); border: 1px solid color-mix(in srgb, white 18%, transparent); border-radius: var(--gw-v2-radius-md); box-shadow: inset 0 1px color-mix(in srgb, white 18%, transparent); }
+.gw-v2-brand-book__colour-option span { font: var(--gw-v2-type-xs) var(--gw-v2-font-code); letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.78; }
+.gw-v2-brand-book__colour-option strong { font-family: var(--gw-v2-font-display); font-size: 1.2rem; font-weight: 400; }
+.gw-v2-brand-book__colour-option small { font-size: var(--gw-v2-type-xs); opacity: 0.78; }
+.gw-v2-brand-book__colour-option--tone-emerald { background: var(--gw-v2-brand-emerald); }
+.gw-v2-brand-book__colour-option--tone-aqua { color: var(--gw-v2-canvas-inverse); background: var(--gw-v2-brand-aqua); }
+.gw-v2-brand-book__colour-option--gradient-spectrum { background: linear-gradient(120deg, var(--gw-v2-brand-emerald), var(--gw-v2-brand-aqua) 38%, var(--gw-v2-brand-sapphire) 68%, var(--gw-v2-brand-violet)); }
+.gw-v2-brand-book__colour-option--gradient-soft { background: linear-gradient(145deg, color-mix(in srgb, var(--gw-v2-brand-aqua) 78%, var(--gw-v2-surface-raised)), color-mix(in srgb, var(--gw-v2-brand-violet) 68%, var(--gw-v2-canvas))); }
 
 .gw-v2-brand-book__role-grid,
 .gw-v2-brand-book__state-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gw-v2-space-sm); }
@@ -135,4 +144,5 @@
   .gw-v2-brand-book__state-grid,
   .gw-v2-brand-book__surface-map { grid-template-columns: 1fr; }
   .gw-v2-brand-book__spectrum { min-block-size: 12rem; grid-template-columns: 1fr 1fr; }
+  .gw-v2-brand-book__colour-options { grid-template-columns: 1fr 1fr; }
 }

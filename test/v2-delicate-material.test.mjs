@@ -23,7 +23,11 @@ test("CatalogueShell emits one late material calibration while the Fabric homepa
 });
 
 test("the visual navigator and selective rail share one section manifest", async () => {
-  const header = await read("src/v2/CatalogueHeader.astro");
+  const [header, hubs, documentation] = await Promise.all([
+    read("src/v2/CatalogueHeader.astro"),
+    read("src/site/components/VisualLayoutSectionHub.astro"),
+    read("src/pages/brand/documentation/index.astro"),
+  ]);
 
   assert.match(header, /data-gw-v2-catalogue-rail/);
   assert.match(header, /visualLayoutSections\.map/);
@@ -37,6 +41,8 @@ test("the visual navigator and selective rail share one section manifest", async
   assert.match(header, /Brand · OS · Product · Infra/);
   assert.match(header, /data-gw-v2-mobile-nav-toggle/);
   assert.doesNotMatch(header, /<script/);
+  assert.match(hubs, /showRail=\{false\}/);
+  assert.match(documentation, /showRail=\{false\}/);
 });
 
 test("the material scale is smaller, rounded and deliberately fine", async () => {
@@ -96,6 +102,24 @@ test("the calibration covers desktop through 320px and respects reduced motion",
   assert.match(css, /transition-duration:\s*0ms/);
   assert.match(css, /animation-duration:\s*0ms/);
   assert.match(css, /inline-size:\s*calc\(100vw - 0\.7rem\)/);
+  assert.match(css, /gw-v2-no-rail/);
+  assert.match(css, /grid-template-columns:\s*minmax\(0, 1fr\) auto/);
+});
+
+test("issue 76 keeps responsive documentation and application surfaces in the v2 frame", async () => {
+  const [documentation, foundations, fabric, os] = await Promise.all([
+    read("src/v2/visual-documentation-demo.css"),
+    read("src/pages/v2/foundations/index.astro"),
+    read("src/v2/greenways-platform-homepage.css"),
+    read("src/site/styles/greenways-os-v2-foundation.css"),
+  ]);
+
+  assert.match(documentation, /overflow-x:\s*auto/);
+  assert.match(documentation, /scroll-margin-block-start:\s*5rem/);
+  assert.match(foundations, /gw-v2-brand-book__colour-options/);
+  assert.match(fabric, /gwf-experience-bar[\s\S]*border-radius/);
+  assert.match(fabric, /gwf-declutter-stage[\s\S]*border-radius/);
+  assert.match(os, /\.gw2-concept-bar[\s\S]*border-radius/);
 });
 
 test("the decision record keeps Hara as a density reference and Greenways as the identity", async () => {

@@ -52,6 +52,28 @@
 .gwf-visual-navigator__item b { color: var(--gw2-text); font-size: 0.75rem; font-weight: 600; }
 .gwf-visual-navigator__item.is-placeholder { opacity: 0.6; }
 
+/* Keep the Fabric specimen inside the same rounded, atmospheric v2 frame. */
+.gwf-experience-body {
+  background:
+    radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--gw2-green) 14%, transparent), transparent 30rem),
+    radial-gradient(circle at 88% 8%, color-mix(in srgb, var(--gw2-signal) 12%, transparent), transparent 34rem),
+    repeating-linear-gradient(90deg, transparent 0 3.95rem, color-mix(in srgb, var(--gw2-line) 36%, transparent) 4rem, transparent 4.04rem),
+    var(--gw2-bg-deep);
+}
+.gwf-experience-bar {
+  inset-block-start: 0.45rem;
+  inline-size: calc(100% - 0.9rem);
+  margin-inline: 0.45rem;
+  border: 1px solid var(--gw2-line-strong);
+  border-radius: var(--gw2-radius-lg);
+  background: color-mix(in srgb, var(--gw2-bg-deep) 82%, transparent);
+  box-shadow: var(--gw2-shadow-soft), inset 0 1px color-mix(in srgb, white 8%, transparent);
+  backdrop-filter: blur(24px) saturate(1.18);
+}
+.gwf-arrival { padding-block-start: clamp(3.8rem, 7vw, 6.5rem); }
+.gwf-declutter-stage { border-radius: 1.45rem; box-shadow: var(--gw2-shadow), inset 0 1px color-mix(in srgb, white 7%, transparent); }
+.gwf-fragment { border-radius: 0.78rem; }
+
 @media (max-width: 640px) {
   .gwf-navigator-toggle span { display: none; }
   .gwf-navigator-toggle { width: 2.2rem; justify-content: center; padding: 0; }

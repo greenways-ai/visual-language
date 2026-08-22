@@ -61,7 +61,7 @@ const canonical = new URL(canonicalPath, origin).toString();
     ></style>
   </head>
   <body
-    class:list={["gw-v2", "gw-v2-document", "gw-v2-catalogue", "gw-v2-atlas-frame", bodyClass]}
+    class:list={["gw-v2", "gw-v2-document", "gw-v2-catalogue", "gw-v2-atlas-frame", bodyClass, !showRail && "gw-v2-no-rail"]}
     data-gw-v2-current-path={currentPath}
     data-gw-v2-material="delicate"
   >
