@@ -55,6 +55,17 @@ const {
     });
   };
 
+  const railToggle = document.querySelector<HTMLButtonElement>("[data-gw-v2-rail-toggle]");
+  if (railToggle && railToggle.dataset.ready !== "true") {
+    railToggle.dataset.ready = "true";
+    railToggle.addEventListener("click", () => {
+      const expanded = document.body.dataset.gwV2RailExpanded === "true";
+      document.body.dataset.gwV2RailExpanded = String(!expanded);
+      railToggle.setAttribute("aria-expanded", String(!expanded));
+      railToggle.setAttribute("aria-label", expanded ? "Expand section navigation" : "Collapse section navigation");
+    });
+  }
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initialiseGreenwaysAtlasIndex, { once: true });
   } else {

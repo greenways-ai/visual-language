@@ -72,11 +72,16 @@ for (const name of ogCards) {
 }
 
 const home = await readFile("dist/index.html", "utf8");
-if (!home.includes("data-gw-v2-catalogue-home")) throw new Error("home page is not the v2 catalogue root");
-if (!home.includes("One catalogue.")) throw new Error("home page is missing the v2 catalogue premise");
-if (!home.includes("Clear ownership.")) throw new Error("home page is missing the v2 ownership premise");
-if (!home.includes("Foundations")) throw new Error("home page is missing the foundations route");
-if (!home.includes("Applications")) throw new Error("home page is missing the applications route");
+if (!home.includes("data-gw-v2-visual-layout-root")) throw new Error("home page is not the visual-layout root");
+if (!home.includes("One language.")) throw new Error("home page is missing the visual-layout premise");
+if (!home.includes("Many places to live.")) throw new Error("home page is missing the visual-layout premise");
+for (const section of ["themes", "os", "product", "infra"]) {
+  if (!home.includes(`id=\"visual-layout-${section}\"`)) {
+    throw new Error(`home page is missing the ${section} section`);
+  }
+}
+if (!home.includes("Backgrounds · textures · moods")) throw new Error("home page is missing the visual mood gallery");
+if (!home.includes("Coming later")) throw new Error("home page is missing placeholder destinations");
 if (home.includes("HomeDayNight") || home.includes("CatalogueDoors")) {
   throw new Error("home page still contains retired v1 component identifiers");
 }

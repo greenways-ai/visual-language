@@ -9,6 +9,7 @@ import {
   isCatalogueRouteActive,
   isCatalogueRouteCurrent,
 } from "./catalogue-manifest.js";
+import { visualLayoutSections } from "./visual-layout-manifest.js";
 
 interface Props {
   currentPath: string;
@@ -25,52 +26,6 @@ const isCurrent = (path: string) => isCatalogueRouteCurrent(path, currentPath, b
 const isActive = (path: string) => isCatalogueRouteActive(path, currentPath, basePath);
 const groupIsActive = (routes: (typeof greenwaysV2Catalogue)[number]["routes"]) =>
   routes.some((route) => isActive(route.path) || route.children?.some((child) => isActive(child.path)));
-
-const quickRoutes = [
-  {
-    id: "overview",
-    label: "Overview",
-    path: greenwaysV2CatalogueHome.path,
-    matches: [greenwaysV2CatalogueHome.path],
-    exact: true,
-  },
-  {
-    id: "foundations",
-    label: "Foundations",
-    path: "/v2/foundations/",
-    matches: ["/v2/foundations/"],
-    exact: false,
-  },
-  {
-    id: "library",
-    label: "Library",
-    path: "/v2/library/",
-    matches: ["/v2/library/"],
-    exact: false,
-  },
-  {
-    id: "spaces",
-    label: "Spaces",
-    path: "/v2/applications/greenways-suite/desktop/",
-    matches: ["/v2/applications/greenways-suite/desktop/"],
-    exact: false,
-  },
-  {
-    id: "flow",
-    label: "Flow",
-    path: "/v2/applications/greenways-suite/browser/",
-    matches: [
-      "/v2/applications/greenways-suite/browser/",
-      "/v2/applications/foreman/",
-    ],
-    exact: false,
-  },
-] as const;
-
-const quickRouteIsActive = (route: (typeof quickRoutes)[number]) =>
-  route.exact
-    ? isCurrent(route.path)
-    : route.matches.some((path) => isActive(path));
 ---
 
 <header class="gw-v2-catalogue-header" data-gw-v2-catalogue-header>
@@ -91,17 +46,29 @@ const quickRouteIsActive = (route: (typeof quickRoutes)[number]) =>
     <strong>System · applications · surfaces</strong>
   </div>
 
-  <nav class="gw-v2-catalogue-quick-nav" aria-label="Visual language sections" data-gw-v2-quick-nav>
-    {quickRoutes.map((route) => (
-      <a
-        href={href(route.path)}
-        aria-current={isCurrent(route.path) ? "page" : undefined}
-        data-active={quickRouteIsActive(route) ? "true" : undefined}
-        data-quick-route={route.id}
-      >
-        {route.label}
-      </a>
-    ))}
+  <nav class="gw-v2-catalogue-rail" aria-label="Visual language sections" data-gw-v2-catalogue-rail>
+    <div class="gw-v2-catalogue-rail__items">
+      {visualLayoutSections.map((section) => (
+        <a
+          class="gw-v2-catalogue-rail__link"
+          href={`${href(greenwaysV2CatalogueHome.path)}#visual-layout-${section.id}`}
+          data-section={section.id}
+          aria-label={section.label}
+          title={section.label}
+        >
+          <span class="gw-v2-catalogue-rail__icon" aria-hidden="true">
+            {section.icon === "spark" && <svg viewBox="0 0 24 24"><path d="M12 2.5 14 10l7.5 2-7.5 2-2 7.5-2-7.5-7.5-2 7.5-2Z" /></svg>}
+            {section.icon === "layers" && <svg viewBox="0 0 24 24"><path d="m12 3 8 4.5-8 4.5-8-4.5Z" /><path d="m4 12 8 4.5 8-4.5" /><path d="m4 16.5 8 4.5 8-4.5" /></svg>}
+            {section.icon === "grid" && <svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.5" /><rect x="14" y="4" width="6" height="6" rx="1.5" /><rect x="4" y="14" width="6" height="6" rx="1.5" /><rect x="14" y="14" width="6" height="6" rx="1.5" /></svg>}
+            {section.icon === "network" && <svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5" /><circle cx="18" cy="6" r="2.5" /><circle cx="18" cy="18" r="2.5" /><path d="m8.3 10.8 7.4-3.6M8.3 13.2l7.4 3.6" /></svg>}
+          </span>
+          <span class="gw-v2-catalogue-rail__label">{section.label}</span>
+        </a>
+      ))}
+    </div>
+    <button class="gw-v2-catalogue-rail__toggle" type="button" data-gw-v2-rail-toggle aria-expanded="false" aria-label="Expand section navigation">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 16 12 9 19" /></svg>
+    </button>
   </nav>
 
   <details class="gw-v2-catalogue-nav" data-gw-v2-catalogue-nav data-gw-v2-atlas-index>

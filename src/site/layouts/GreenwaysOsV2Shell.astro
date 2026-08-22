@@ -58,7 +58,8 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
         <span>{activeSurface?.label ?? "System map"}</span>
       </div>
       <div class="gw2-concept-bar__actions">
-        <button class="gw2-concept-button" type="button" data-gw2-command-open>
+        <button class="gw2-concept-button gw2-concept-button--command" type="button" data-gw2-command-open aria-label="Open Greenways command palette">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8" cy="8" r="4.5" /><path d="m11.5 11.5 4 4" /></svg>
           <span>Command</span><kbd>⌘K</kbd>
         </button>
         <GreenwaysOsProductLauncher />
@@ -68,9 +69,10 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
           data-gw2-surface-open
           aria-controls="gw2-surface-menu"
           aria-expanded="false"
-          aria-label="Choose interface surface"
+          aria-label="Open interface atlas"
         >
           <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 4h14v4H3zM3 12h6v4H3zM13 12h4v4h-4z" /></svg>
+          <span>Atlas</span>
         </button>
         <button
           class="gw2-concept-button gw2-concept-button--icon"

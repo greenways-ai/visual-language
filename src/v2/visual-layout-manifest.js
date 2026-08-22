@@ -1,26 +1,29 @@
 const freeze = (value) => Object.freeze(value);
 
-/** @typedef {"brand-book" | "documentation" | "application" | "wireframe"} VisualLayoutDestinationKind */
+/** @typedef {"brand-book" | "documentation" | "application" | "wireframe" | "placeholder"} VisualLayoutDestinationKind */
+/** @typedef {"ready" | "reference" | "placeholder"} VisualLayoutDestinationStatus */
 
 /**
  * @typedef {object} VisualLayoutDestination
  * @property {string} id
  * @property {string} label
- * @property {string} path
+ * @property {string=} path
  * @property {string} summary
  * @property {VisualLayoutDestinationKind} kind
- * @property {"ready" | "reference"} status
+ * @property {VisualLayoutDestinationStatus} status
  * @property {boolean=} external
  */
 
-/** @typedef {{ id: string, label: string, summary: string, routes: readonly VisualLayoutDestination[] }} VisualLayoutSection */
+/** @typedef {{ id: string, label: string, shortLabel: string, icon: string, summary: string, routes: readonly VisualLayoutDestination[] }} VisualLayoutSection */
 
 /** @type {readonly VisualLayoutSection[]} */
 export const visualLayoutSections = freeze([
   {
-    id: "brand-systems",
-    label: "Brand systems",
-    summary: "The two canonical visual contracts: documentation-first v1 and host-adaptive v2.",
+    id: "themes",
+    label: "Themes",
+    shortLabel: "Themes",
+    icon: "spark",
+    summary: "Brand books, documentation moods, and the generated worlds that give the language a place to live.",
     routes: [
       {
         id: "v1-documentation-brand-book",
@@ -38,12 +41,112 @@ export const visualLayoutSections = freeze([
         kind: "brand-book",
         status: "ready",
       },
+      {
+        id: "historia-documentation",
+        label: "Historia documentation",
+        path: "https://oss.greenways.ai/historia/",
+        summary: "Archive, evidence, and comparison language with a deep blue signal.",
+        kind: "documentation",
+        status: "reference",
+        external: true,
+      },
+      {
+        id: "hodos-documentation",
+        label: "Hodos documentation",
+        path: "https://oss.greenways.ai/hodos/",
+        summary: "Host-composition and visual-language documentation for the Hodos runtime.",
+        kind: "documentation",
+        status: "reference",
+        external: true,
+      },
     ],
   },
   {
-    id: "documentation-styles",
-    label: "Documentation styles",
-    summary: "Living product documentation surfaces that adopt the shared Greenways documentation relationship.",
+    id: "os",
+    label: "OS",
+    shortLabel: "OS",
+    icon: "layers",
+    summary: "The Greenways Fabric, its authority boundaries, and the extensions that carry one workspace across hosts.",
+    routes: [
+      {
+        id: "greenways-fabric",
+        label: "Greenways Fabric",
+        path: "/v2/applications/greenways-platform/homepage/",
+        summary: "Storage, identity, agents, applications, and explicit hosted crossings beneath the OS experience.",
+        kind: "application",
+        status: "reference",
+      },
+      {
+        id: "greenways-os-v2-wireframes",
+        label: "Greenways OS surfaces",
+        path: "/concepts/greenways-v2/",
+        summary: "Native desktop, browser desktop, side panel, popup, and public web studies at their proper scale.",
+        kind: "wireframe",
+        status: "reference",
+      },
+    ],
+  },
+  {
+    id: "product",
+    label: "Product",
+    shortLabel: "Product",
+    icon: "grid",
+    summary: "The product vocabulary people and agents use to search, relate, imagine, coordinate, and publish.",
+    routes: [
+      {
+        id: "greenways-product-search",
+        label: "Search",
+        path: "/concepts/greenways-v2/#search",
+        summary: "Classify, relate, and recontextualise material without rewriting its source.",
+        kind: "application",
+        status: "reference",
+      },
+      {
+        id: "greenways-product-timeline",
+        label: "Timeline",
+        path: "/concepts/greenways-v2/#timeline",
+        summary: "Keep conversations, decisions, relationships, and meaningful activity together.",
+        kind: "application",
+        status: "reference",
+      },
+      {
+        id: "greenways-product-imagine",
+        label: "Imagine",
+        summary: "A future place for visual thought, generated worlds, and material exploration.",
+        kind: "placeholder",
+        status: "placeholder",
+      },
+      {
+        id: "greenways-product-spaces",
+        label: "Spaces",
+        path: "/concepts/greenways-v2/#spaces",
+        summary: "Turn selected private work into reviewed public releases.",
+        kind: "application",
+        status: "reference",
+      },
+      {
+        id: "greenways-product-cowork",
+        label: "Cowork",
+        path: "/concepts/greenways-v2/#cowork",
+        summary: "Coordinate people and agents around bounded context, authority, and outcomes.",
+        kind: "application",
+        status: "reference",
+      },
+      {
+        id: "greenways-product-world",
+        label: "World",
+        summary: "A future publication space for places, books, and living releases.",
+        kind: "placeholder",
+        status: "placeholder",
+      },
+    ],
+  },
+  {
+    id: "infra",
+    label: "Infra",
+    shortLabel: "Infra",
+    icon: "network",
+    summary: "The infrastructure projects that make the Greenways Fabric portable, observable, and effectful.",
     routes: [
       {
         id: "hoplite-documentation",
@@ -64,19 +167,10 @@ export const visualLayoutSections = freeze([
         external: true,
       },
       {
-        id: "historia-documentation",
-        label: "Historia",
-        path: "https://oss.greenways.ai/historia/",
-        summary: "Historical analysis documentation with a blue project signal.",
-        kind: "documentation",
-        status: "reference",
-        external: true,
-      },
-      {
-        id: "hodos-documentation",
-        label: "Hodos",
-        path: "https://oss.greenways.ai/hodos/",
-        summary: "Visual language and host-composition documentation for the Hodos runtime.",
+        id: "ignatius-documentation",
+        label: "Ignatius",
+        path: "https://oss.greenways.ai/ignatius/",
+        summary: "Effectful execution, ordered transitions, and receipts at the provider boundary.",
         kind: "documentation",
         status: "reference",
         external: true,
@@ -85,82 +179,10 @@ export const visualLayoutSections = freeze([
         id: "hestia-documentation",
         label: "Hestia",
         path: "https://oss.greenways.ai/hestia/",
-        summary: "Fabric and cloud-boundary documentation with a terracotta project signal.",
+        summary: "Sources, evidence, retrieval, and the cloud boundary around the Fabric.",
         kind: "documentation",
         status: "reference",
         external: true,
-      },
-      {
-        id: "ignatius-documentation",
-        label: "Ignatius",
-        path: "https://oss.greenways.ai/ignatius/",
-        summary: "Language and tooling documentation with a gold signal on a dark technical field.",
-        kind: "documentation",
-        status: "reference",
-        external: true,
-      },
-    ],
-  },
-  {
-    id: "application-styles",
-    label: "Application styles",
-    summary: "Product-owned laboratories that compose the shared visual contract into real application language.",
-    routes: [
-      {
-        id: "foreman-application",
-        label: "Foreman",
-        path: "/v2/applications/foreman/",
-        summary: "Projects, buildouts, sessions, approvals, handoffs, execution, and activity.",
-        kind: "application",
-        status: "reference",
-      },
-      {
-        id: "greenways-platform-application",
-        label: "Greenways Platform",
-        path: "/v2/applications/greenways-platform/homepage/",
-        summary: "A publication-led public doorway for worlds, books, documents, sites, and workspaces.",
-        kind: "application",
-        status: "reference",
-      },
-      {
-        id: "greenways-public-site",
-        label: "Greenways public site",
-        path: "https://greenways.ai/",
-        summary: "The public Greenways doorway and product expression.",
-        kind: "application",
-        status: "reference",
-        external: true,
-      },
-    ],
-  },
-  {
-    id: "wireframes",
-    label: "Wireframes and concept studies",
-    summary: "Host surfaces and product wireframes retained as navigable visual evidence.",
-    routes: [
-      {
-        id: "greenways-os-v2-wireframes",
-        label: "Greenways OS v2 surfaces",
-        path: "/concepts/greenways-v2/",
-        summary: "Native desktop, browser desktop, side panel, popup, and public web studies.",
-        kind: "wireframe",
-        status: "reference",
-      },
-      {
-        id: "greenways-product-wireframes",
-        label: "Earlier Greenways product screens",
-        path: "/concepts/greenways/",
-        summary: "Historical product-screen studies retained for migration and visual comparison.",
-        kind: "wireframe",
-        status: "reference",
-      },
-      {
-        id: "statstrade-wireframes",
-        label: "Statstrade studies",
-        path: "/concepts/statstrade/",
-        summary: "A project-specific visual language study for feed and arena surfaces.",
-        kind: "wireframe",
-        status: "reference",
       },
     ],
   },
@@ -171,6 +193,7 @@ export const visualLayoutDestinationKinds = freeze({
   documentation: "Documentation",
   application: "Application",
   wireframe: "Wireframe",
+  placeholder: "Placeholder",
 });
 
 export function flattenVisualLayoutDestinations(sections = visualLayoutSections) {

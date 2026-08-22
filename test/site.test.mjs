@@ -23,8 +23,9 @@ test("the Visual Language website is an Astro Starlight application", async () =
   assert.match(config, /logo: \{ src: "\.\/src\/site\/assets\/peacock-feather\.svg"/);
   assert.match(collection, /docsLoader/);
   assert.match(root, /GreenwaysV2CatalogueHome/);
-  assert.match(catalogue, /Greenways v2 keeps reusable foundations/);
-  assert.match(catalogue, /data-gw-v2-catalogue-home/);
+  assert.match(catalogue, /One language\.<br \/>Many places to live\./);
+  assert.match(catalogue, /data-gw-v2-visual-layout-root/);
+  assert.match(catalogue, /visual-layout-\$\{section\.id\}/);
 });
 
 test("the public root is v2 and the Starlight documentation root is explicitly moved to docs", async () => {
@@ -38,7 +39,7 @@ test("the public root is v2 and the Starlight documentation root is explicitly m
   assert.match(docs, /slug: docs/);
   assert.match(root, /GreenwaysV2CatalogueHome/);
   assert.match(verify, /dist\/docs\/index\.html/);
-  assert.match(verify, /data-gw-v2-catalogue-home/);
+  assert.match(verify, /data-gw-v2-visual-layout-root/);
 });
 
 test("the static page shells were removed instead of being copied into the Astro build", async () => {

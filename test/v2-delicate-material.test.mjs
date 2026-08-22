@@ -25,11 +25,10 @@ test("CatalogueShell emits one late material calibration while the Fabric homepa
 test("the compact direct menu and complete Atlas index coexist", async () => {
   const header = await read("src/v2/CatalogueHeader.astro");
 
-  assert.match(header, /data-gw-v2-quick-nav/);
+  assert.match(header, /data-gw-v2-catalogue-rail/);
+  assert.match(header, /visualLayoutSections\.map/);
+  assert.match(header, /data-gw-v2-rail-toggle/);
   assert.match(header, /aria-label="Visual language sections"/);
-  for (const label of ["Overview", "Foundations", "Library", "Spaces", "Flow"]) {
-    assert.match(header, new RegExp(`label: "${label}"`));
-  }
 
   assert.match(header, /<details class="gw-v2-catalogue-nav"/);
   assert.match(header, /data-gw-v2-atlas-index/);
@@ -65,6 +64,7 @@ test("neutral patterning and bounded peacock threads cover the active route fami
     "--gw-v2-material-thread: var(--gw-v2-brand-spectrum)",
     ".gw-v2-layered-navigation::before",
     ".gw-v2-catalogue-quick-nav",
+    ".gw-v2-catalogue-rail",
     ".gw-v2-atlas-system-map",
     ".gw-suite-hero__system",
     "[class*=\"fm__panel\"]",
