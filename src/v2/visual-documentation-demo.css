@@ -45,11 +45,13 @@
 
 @media (max-width: 52.5rem) {
   .gw-v2-documentation-demo__frame { display: block; padding-block-start: 1.2rem; }
-  .gw-v2-documentation-demo__sidebar { position: static; margin-block-end: 1.2rem; }
-  .gw-v2-documentation-demo__sidebar nav { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-  .gw-v2-documentation-demo__sidebar nav a { grid-template-columns: 1fr; justify-items: center; gap: 0.3rem; padding-inline: 0.2rem; text-align: center; }
+  .gw-v2-documentation-demo__sidebar { position: static; margin-block-end: 1.2rem; padding: 0.6rem; }
+  .gw-v2-documentation-demo__sidebar nav { display: flex; gap: 0.25rem; overflow-x: auto; padding-block-end: 0.15rem; scrollbar-width: thin; }
+  .gw-v2-documentation-demo__sidebar nav a { min-inline-size: 5.4rem; grid-template-columns: 1fr; justify-items: center; gap: 0.3rem; padding: 0.45rem 0.3rem; text-align: center; white-space: nowrap; }
   .gw-v2-documentation-demo__sidebar-back { display: none; }
   .gw-v2-doc-specimen-grid { grid-template-columns: 1fr; }
   .gw-v2-doc-surface-line { flex-wrap: wrap; }
   .gw-v2-doc-surface-line i { min-inline-size: 1rem; }
+  .gw-v2-documentation-demo__article h1 { max-inline-size: 12ch; font-size: clamp(2.55rem, 11vw, 4.25rem); }
+  .gw-v2-doc-section { scroll-margin-block-start: 5rem; }
 }

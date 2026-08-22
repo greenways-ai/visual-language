@@ -96,7 +96,6 @@ const familyRoutes = (location) => {
  */
 const breadcrumbsFor = (location) => Object.freeze([
   { label: "Catalogue", path: greenwaysV2CatalogueHome.path, current: false, kind: /** @type {const} */ ("catalogue") },
-  { label: location.group.label, current: false, kind: /** @type {const} */ ("group") },
   ...(location.parent
     ? [{ label: location.parent.label, path: location.parent.path, current: false, kind: /** @type {const} */ ("route") }]
     : []),

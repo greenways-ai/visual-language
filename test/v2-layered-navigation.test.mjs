@@ -28,7 +28,6 @@ test("deep routes derive parent, family and breadcrumbs from one manifest", () =
   ]);
   assert.deepEqual(context.breadcrumbs.map((crumb) => crumb.label), [
     "Catalogue",
-    "Library",
     "Library overview",
     "Components",
   ]);
