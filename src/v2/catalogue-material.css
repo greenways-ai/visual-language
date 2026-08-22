@@ -1,10 +1,11 @@
 /*
  * Greenways v2 delicate material calibration.
  *
- * This late site-only cascade carries the compact, rounded and finely patterned
- * quality of the originating interface atlas through every CatalogueShell route.
- * Structural surfaces remain neutral. Peacock colour is reserved for the mark,
- * hairline identity threads, current selection and small application signals.
+ * This late site-only cascade carries a compact, rounded and glass-layered
+ * quality through every CatalogueShell route. Functional chrome may float above
+ * the specimen, while structural surfaces remain neutral. Peacock colour is
+ * reserved for the mark, hairline identity threads, current selection and
+ * small application signals.
  */
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] {
@@ -52,13 +53,107 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] {
   --gw-v2-material-thread: var(--gw-v2-brand-spectrum);
 
   min-inline-size: 0;
+  position: relative;
+  isolation: isolate;
   font-size: var(--gw-v2-type-md);
   line-height: var(--gw-v2-leading-body);
+  background-color: var(--gw-v2-canvas);
   background:
     var(--gw-v2-material-grid),
     var(--gw-v2-canvas);
   background-size: 3rem 3rem, 3rem 3rem;
   background-attachment: fixed;
+}
+
+body.gw-suite-catalogue-body.gw-v2-catalogue[data-gw-v2-material="delicate"] {
+  --gw-v2-material-control-radius: 0.72rem;
+  --gw-v2-material-card-radius: 1rem;
+  --gw-v2-material-frame-radius: 1.35rem;
+}
+
+/* Soft atmospheric light gives the transparent surfaces something to catch. */
+
+body.gw-v2-catalogue[data-gw-v2-material="delicate"]::before,
+body.gw-v2-catalogue[data-gw-v2-material="delicate"]::after {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  pointer-events: none;
+  content: "";
+}
+
+body.gw-v2-catalogue[data-gw-v2-material="delicate"]::before {
+  inset: -18vmax;
+  background:
+    radial-gradient(
+      circle at 14% 18%,
+      color-mix(in srgb, var(--gw-v2-brand-emerald) 24%, transparent),
+      transparent 28vmax
+    ),
+    radial-gradient(
+      circle at 84% 8%,
+      color-mix(in srgb, var(--gw-v2-brand-aqua) 28%, transparent),
+      transparent 31vmax
+    ),
+    radial-gradient(
+      circle at 78% 78%,
+      color-mix(in srgb, var(--gw-v2-brand-violet) 18%, transparent),
+      transparent 34vmax
+    );
+  filter: blur(34px) saturate(118%);
+  opacity: 0.72;
+  transform: translate3d(-4%, -2%, 0) scale(1.1);
+  animation: gw-v2-glass-drift 28s ease-in-out infinite alternate;
+}
+
+body.gw-v2-catalogue[data-gw-v2-material="delicate"]::after {
+  background:
+    var(--gw-v2-material-grain),
+    repeating-linear-gradient(
+      116deg,
+      transparent 0 11rem,
+      color-mix(in srgb, var(--gw-v2-brand-aqua) 7%, transparent) 11.05rem,
+      transparent 11.15rem 23rem
+    );
+  background-size: 0.55rem 0.55rem, 28rem 28rem;
+  background-position: 0 0, -12rem -12rem;
+  mix-blend-mode: soft-light;
+  opacity: 0.32;
+  animation: gw-v2-glass-sheen 34s linear infinite;
+}
+
+body.gw-v2-catalogue[data-gw-v2-material="delicate"] > :where(
+  .gw-v2-layered-navigation,
+  .gw-v2-catalogue-main,
+  .gw-v2-catalogue-footer
+) {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes gw-v2-glass-drift {
+  0% {
+    transform: translate3d(-4%, -2%, 0) scale(1.1);
+  }
+
+  50% {
+    transform: translate3d(3%, 2%, 0) scale(1.16);
+  }
+
+  100% {
+    transform: translate3d(-1%, 6%, 0) scale(1.12);
+  }
+}
+
+@keyframes gw-v2-glass-sheen {
+  from {
+    background-position: 0 0, -12rem -12rem;
+  }
+
+  to {
+    background-position: 0 0, 12rem 12rem;
+  }
 }
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-main h1 {
@@ -100,14 +195,11 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-layered-navigation {
   inset-block-start: 0.45rem;
   margin-inline: 0.45rem;
   color: var(--gw-v2-text);
-  background:
-    var(--gw-v2-material-paper),
-    color-mix(in srgb, var(--gw-v2-surface-overlay) 96%, transparent);
-  background-size: 1.25rem 1.25rem, auto;
-  border: 1px solid var(--gw-v2-seam);
+  background: color-mix(in srgb, var(--gw-v2-surface-overlay) 82%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gw-v2-seam-strong) 72%, transparent);
   border-radius: var(--gw-v2-material-menu-radius);
-  box-shadow: 0 0.25rem 1.25rem color-mix(in srgb, var(--gw-v2-seam) 24%, transparent);
-  backdrop-filter: blur(20px) saturate(108%);
+  box-shadow: 0 0.35rem 1.5rem color-mix(in srgb, var(--gw-v2-text) 10%, transparent);
+  backdrop-filter: blur(28px) saturate(125%);
 }
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-layered-navigation::before {
@@ -162,11 +254,12 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-quick-nav 
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.15rem;
+  gap: 0.2rem;
   padding: 0.2rem;
-  background: color-mix(in srgb, var(--gw-v2-surface-recessed) 64%, transparent);
-  border: 1px solid var(--gw-v2-seam-subtle);
-  border-radius: calc(var(--gw-v2-material-control-radius) + 0.1rem);
+  background: color-mix(in srgb, var(--gw-v2-surface-recessed) 58%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gw-v2-seam) 80%, transparent);
+  border-radius: var(--gw-v2-radius-pill);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, white 10%, transparent);
 }
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-quick-nav a {
@@ -191,7 +284,7 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-quick-nav 
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-quick-nav a[data-active="true"] {
   color: var(--gw-v2-text);
-  background: var(--gw-v2-surface-raised);
+  background: color-mix(in srgb, var(--gw-v2-surface-raised) 86%, transparent);
   box-shadow: inset 0 0 0 1px var(--gw-v2-seam);
 }
 
@@ -208,9 +301,9 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-nav > summ
   min-block-size: 2rem;
   gap: var(--gw-v2-space-2xs);
   padding: 0.28rem 0.5rem 0.28rem 0.62rem;
-  background: var(--gw-v2-surface-raised);
-  border: 1px solid var(--gw-v2-seam);
-  border-radius: var(--gw-v2-material-control-radius);
+  background: color-mix(in srgb, var(--gw-v2-surface-raised) 76%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gw-v2-seam-strong) 74%, transparent);
+  border-radius: var(--gw-v2-radius-pill);
   box-shadow: none;
 }
 
@@ -229,7 +322,20 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] [data-theme-button] {
   block-size: 2rem;
   min-inline-size: 2rem;
   min-block-size: 2rem;
-  border-radius: var(--gw-v2-material-control-radius);
+  border-radius: var(--gw-v2-radius-pill);
+  background: color-mix(in srgb, var(--gw-v2-surface-raised) 72%, transparent);
+  border-color: color-mix(in srgb, var(--gw-v2-seam-strong) 72%, transparent);
+}
+
+/* Keep the disclosure out of the layout until it is opened. The index is a
+ * floating navigation layer, not a second header row. */
+
+body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-nav:not([open]) > .gw-v2-catalogue-nav__body {
+  display: none;
+}
+
+body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-nav[open] > .gw-v2-catalogue-nav__body {
+  display: grid;
 }
 
 /* Atlas index: one delicate pane rather than a second page */
@@ -249,13 +355,11 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] :is(
   max-block-size: calc(100vh - 1.3rem);
   gap: var(--gw-v2-space-sm);
   padding: var(--gw-v2-space-md);
-  background:
-    var(--gw-v2-material-paper),
-    var(--gw-v2-surface-raised);
-  background-size: 1.4rem 1.4rem, auto;
-  border: 1px solid var(--gw-v2-seam-strong);
-  border-radius: var(--gw-v2-material-menu-radius);
-  box-shadow: 0 1rem 4rem color-mix(in srgb, var(--gw-v2-text) 12%, transparent);
+  background: color-mix(in srgb, var(--gw-v2-surface-raised) 86%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gw-v2-seam-strong) 82%, transparent);
+  border-radius: 1.2rem;
+  box-shadow: 0 1rem 4rem color-mix(in srgb, var(--gw-v2-text) 16%, transparent);
+  backdrop-filter: blur(32px) saturate(125%);
 }
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-nav__masthead {
@@ -367,34 +471,67 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-route-tool
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-section-nav {
   inset-inline-end: 0.65rem;
   inset-block-end: 0.65rem;
-  inline-size: min(17rem, calc(100vw - 1.3rem));
-  background:
-    var(--gw-v2-material-paper),
-    color-mix(in srgb, var(--gw-v2-surface-overlay) 97%, transparent);
-  background-size: 1.25rem 1.25rem, auto;
-  border-radius: var(--gw-v2-material-card-radius);
-  box-shadow: 0 0.45rem 1.8rem color-mix(in srgb, var(--gw-v2-text) 8%, transparent);
+  inline-size: fit-content;
+  max-inline-size: calc(100vw - 1.3rem);
+  padding: 0.2rem;
+  background: color-mix(in srgb, var(--gw-v2-surface-raised) 58%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gw-v2-seam-strong) 78%, transparent);
+  border-radius: var(--gw-v2-radius-pill);
+  box-shadow: 0 0.7rem 2rem color-mix(in srgb, var(--gw-v2-text) 12%, transparent),
+    inset 0 1px 0 color-mix(in srgb, white 14%, transparent);
+  backdrop-filter: blur(26px) saturate(145%);
 }
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-section-trigger {
   min-block-size: 2.45rem;
-  padding: 0.4rem 0.6rem;
+  padding: 0.4rem 0.65rem;
+  color: var(--gw-v2-text);
+  border-radius: var(--gw-v2-radius-pill);
+  font-family: var(--gw-v2-font-body);
 }
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-section-trigger > span:first-child,
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-section-trigger strong {
-  font-size: 0.64rem;
+  font-family: var(--gw-v2-font-body);
+  font-size: 0.68rem;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-section-links {
   max-block-size: min(48vh, 22rem);
-  padding: 0.35rem;
+  gap: 0.18rem;
+  padding: 0.1rem;
+  scrollbar-width: none;
 }
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-section-links a {
-  padding: 0.45rem 0.55rem;
-  border-radius: var(--gw-v2-material-control-radius);
-  font-size: var(--gw-v2-type-xs);
+  padding: 0.45rem 0.65rem;
+  color: var(--gw-v2-text-muted);
+  background: transparent;
+  border: 0;
+  border-radius: 0.65rem;
+  font-family: var(--gw-v2-font-body);
+  font-size: 0.68rem;
+  font-weight: 500;
+  line-height: 1.2;
+  transition: color var(--gw-v2-motion-fast) var(--gw-v2-ease-standard),
+    background-color var(--gw-v2-motion-fast) var(--gw-v2-ease-standard),
+    box-shadow var(--gw-v2-motion-fast) var(--gw-v2-ease-standard);
+}
+
+body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-section-links a:hover {
+  color: var(--gw-v2-text);
+  background: color-mix(in srgb, var(--gw-v2-surface-raised) 42%, transparent);
+}
+
+body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-section-links a[aria-current="location"] {
+  color: var(--gw-v2-text);
+  background: color-mix(in srgb, var(--gw-v2-surface-raised) 78%, transparent);
+  border: 0;
+  box-shadow: 0 1px 4px color-mix(in srgb, var(--gw-v2-text) 10%, transparent),
+    inset 0 1px 0 color-mix(in srgb, white 12%, transparent);
+  font-weight: 600;
 }
 
 /* Page scale and material surfaces */
@@ -798,6 +935,310 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] :where(
   gap: var(--gw-v2-space-sm);
 }
 
+/* Visual-layout home: a calm, layered front door for the atlas. */
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-main {
+  inline-size: min(100%, 92rem);
+  padding-block: clamp(0.9rem, 2vw, 1.5rem) clamp(2.5rem, 6vw, 5rem);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-hero {
+  min-block-size: min(34rem, calc(100vh - 8rem));
+  align-content: center;
+  padding: clamp(2rem, 6vw, 5.5rem);
+  background:
+    radial-gradient(circle at 82% 18%, color-mix(in srgb, var(--gw-v2-brand-aqua) 16%, transparent), transparent 28rem),
+    color-mix(in srgb, var(--gw-v2-surface-overlay) 84%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gw-v2-seam-strong) 78%, transparent);
+  border-radius: 1.4rem;
+  box-shadow: 0 1.25rem 4rem color-mix(in srgb, var(--gw-v2-text) 10%, transparent);
+  backdrop-filter: blur(28px) saturate(120%);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-hero__art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: clip;
+  background: var(--gw-v2-canvas-inverse);
+  opacity: 0.34;
+  pointer-events: none;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-hero__art::after {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--gw-v2-canvas) 90%, transparent),
+      color-mix(in srgb, var(--gw-v2-canvas) 68%, transparent) 52%,
+      color-mix(in srgb, var(--gw-v2-canvas) 58%, transparent)
+    ),
+    linear-gradient(180deg, transparent 42%, color-mix(in srgb, var(--gw-v2-canvas) 82%, transparent));
+  content: "";
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-hero__art img {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  opacity: 0.72;
+  transform: scale(1.06);
+  animation: gw-v2-artwork-drift 36s ease-in-out infinite alternate;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-hero__art .mode-dark,
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-artwork .mode-dark {
+  display: none;
+}
+
+:root[data-theme="dark"] body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-hero__art .mode-light,
+:root[data-theme="dark"] body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-artwork .mode-light {
+  display: none;
+}
+
+:root[data-theme="dark"] body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-hero__art .mode-dark,
+:root[data-theme="dark"] body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-artwork .mode-dark {
+  display: block;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-hero__copy {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes gw-v2-artwork-drift {
+  from {
+    transform: scale(1.06) translate3d(-1%, -1%, 0);
+  }
+
+  to {
+    transform: scale(1.12) translate3d(2%, 1%, 0);
+  }
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-gallery {
+  display: grid;
+  gap: clamp(1.25rem, 3vw, 2.4rem);
+  padding-block: clamp(2rem, 5vw, 4rem);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-gallery__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.78fr);
+  gap: clamp(1rem, 4vw, 4rem);
+  align-items: end;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-gallery__header > p {
+  max-inline-size: 42ch;
+  margin: 0;
+  color: var(--gw-v2-text-muted);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.65rem, 1.6vw, 1rem);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-artwork {
+  min-inline-size: 0;
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.55rem;
+  color: var(--gw-v2-text);
+  text-decoration: none;
+  background: color-mix(in srgb, var(--gw-v2-surface-overlay) 68%, transparent);
+  border: 1px solid var(--gw-v2-seam);
+  border-radius: var(--gw-v2-material-card-radius);
+  backdrop-filter: blur(16px) saturate(120%);
+  transition: border-color var(--gw-v2-motion-fast) var(--gw-v2-ease-standard),
+    box-shadow var(--gw-v2-motion-fast) var(--gw-v2-ease-standard),
+    transform var(--gw-v2-motion-fast) var(--gw-v2-ease-standard);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-artwork:is(:hover, :focus-visible) {
+  border-color: color-mix(in srgb, var(--gw-v2-brand-aqua) 42%, var(--gw-v2-seam-strong));
+  box-shadow: 0 0.7rem 2rem color-mix(in srgb, var(--gw-v2-brand-aqua) 10%, transparent);
+  transform: translateY(-0.18rem);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-artwork__image {
+  position: relative;
+  display: block;
+  overflow: clip;
+  aspect-ratio: 1.45 / 1;
+  background: var(--gw-v2-canvas-strong);
+  border-radius: calc(var(--gw-v2-material-card-radius) - 0.15rem);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-artwork__image::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 42%, color-mix(in srgb, var(--gw-v2-canvas-inverse) 56%, transparent));
+  content: "";
+  pointer-events: none;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-artwork__image img {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  transition: transform var(--gw-v2-motion-slow) var(--gw-v2-ease-standard);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-artwork:is(:hover, :focus-visible) .gw-v2-visual-layout-artwork__image img {
+  transform: scale(1.045);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-artwork__meta {
+  padding-inline: 0.25rem;
+  color: var(--gw-v2-text-subtle);
+  font-family: var(--gw-v2-font-body);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-artwork > strong {
+  padding-inline: 0.25rem 0.3rem;
+  font-family: var(--gw-v2-font-body);
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-hero__copy {
+  max-inline-size: 62ch;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-hero h1 {
+  max-inline-size: 13ch;
+  font-size: clamp(2.75rem, 7vw, 6.25rem);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-button {
+  border-radius: var(--gw-v2-radius-pill);
+  background: color-mix(in srgb, var(--gw-v2-surface-raised) 72%, transparent);
+  border-color: color-mix(in srgb, var(--gw-v2-seam-strong) 74%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, white 10%, transparent);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-button--primary {
+  color: var(--gw-v2-on-signal);
+  background: var(--gw-v2-signal);
+  border-color: var(--gw-v2-signal);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-map {
+  padding-block: clamp(2rem, 5vw, 4rem);
+  border-block: 0;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-map__group {
+  padding: clamp(1rem, 2.5vw, 1.75rem);
+  background: color-mix(in srgb, var(--gw-v2-surface-overlay) 70%, transparent);
+  border: 1px solid var(--gw-v2-seam);
+  border-radius: var(--gw-v2-material-frame-radius);
+  backdrop-filter: blur(18px) saturate(110%);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-destination {
+  background: color-mix(in srgb, var(--gw-v2-surface-raised) 74%, transparent);
+  border-color: var(--gw-v2-seam);
+  border-radius: var(--gw-v2-material-card-radius);
+  box-shadow: none;
+  backdrop-filter: blur(16px);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-group {
+  padding-block: clamp(2rem, 5vw, 4rem);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-route-card {
+  background: color-mix(in srgb, var(--gw-v2-surface-overlay) 76%, transparent);
+  border-radius: var(--gw-v2-material-card-radius);
+  backdrop-filter: blur(16px);
+}
+
+/* Glass catches a quiet diagonal highlight and a slow, almost imperceptible drift. */
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] :is(
+  .gw-v2-catalogue-hero,
+  .gw-v2-visual-layout-map__group,
+  .gw-v2-visual-layout-destination,
+  .gw-v2-route-card
+) {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background-image:
+    linear-gradient(
+      118deg,
+      color-mix(in srgb, white 9%, transparent),
+      transparent 30%,
+      transparent 68%,
+      color-mix(in srgb, var(--gw-v2-brand-aqua) 8%, transparent)
+    ),
+    radial-gradient(
+      circle at 88% 12%,
+      color-mix(in srgb, var(--gw-v2-brand-aqua) 12%, transparent),
+      transparent 17rem
+    );
+  background-blend-mode: screen, normal;
+  transition: border-color var(--gw-v2-motion-fast) var(--gw-v2-ease-standard),
+    box-shadow var(--gw-v2-motion-fast) var(--gw-v2-ease-standard),
+    transform var(--gw-v2-motion-fast) var(--gw-v2-ease-standard);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] :is(
+  .gw-v2-catalogue-hero,
+  .gw-v2-visual-layout-map__group,
+  .gw-v2-visual-layout-destination,
+  .gw-v2-route-card
+)::after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      102deg,
+      transparent 16%,
+      color-mix(in srgb, white 10%, transparent) 46%,
+      transparent 58%
+    );
+  background-size: 220% 100%;
+  opacity: 0.32;
+  content: "";
+  pointer-events: none;
+  animation: gw-v2-surface-shimmer 18s ease-in-out infinite;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] :is(
+  .gw-v2-visual-layout-destination,
+  .gw-v2-route-card
+):is(:hover, :focus-within) {
+  border-color: color-mix(in srgb, var(--gw-v2-brand-aqua) 42%, var(--gw-v2-seam-strong));
+  box-shadow: 0 0.7rem 2rem color-mix(in srgb, var(--gw-v2-brand-aqua) 10%, transparent);
+  transform: translateY(-0.15rem);
+}
+
+@keyframes gw-v2-surface-shimmer {
+  0%,
+  100% {
+    background-position: 120% 0;
+  }
+
+  50% {
+    background-position: -20% 0;
+  }
+}
+
 /* Footer and route neighbours */
 
 body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-page-footer {
@@ -867,6 +1308,10 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] :where(a, button, input, se
   body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-nav {
     grid-column: 3;
     grid-row: 1;
+  }
+
+  body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-nav > summary {
+    display: flex;
   }
 
   body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-atlas-hero {
@@ -940,6 +1385,19 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] :where(a, button, input, se
     padding-inline: 0.65rem;
   }
 
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-gallery__header {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-gallery__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-section-nav {
+    inline-size: calc(100vw - 1.3rem);
+    border-radius: 1rem;
+  }
+
   body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-main h1 {
     font-size: clamp(1.9rem, 11vw, 3.2rem);
   }
@@ -980,6 +1438,10 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] :where(a, button, input, se
     inline-size: calc(100vw - 0.7rem);
   }
 
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-gallery__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-suite-launcher__app {
     grid-template-columns: auto minmax(0, 1fr);
   }
@@ -1012,5 +1474,619 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] :where(a, button, input, se
     transition-duration: 0ms;
     animation-duration: 0ms;
     animation-iteration-count: 1;
+  }
+}
+
+/* The directory is intentionally quieter than the section specimens. It is
+ * a front door, not another catalogue wall. */
+body.gw-v2-directory-body.gw-v2-catalogue[data-gw-v2-material="delicate"] {
+  background:
+    radial-gradient(circle at 84% 10%, color-mix(in srgb, var(--gw-v2-brand-aqua) 10%, transparent), transparent 28rem),
+    radial-gradient(circle at 12% 78%, color-mix(in srgb, var(--gw-v2-brand-emerald) 12%, transparent), transparent 34rem),
+    var(--gw-v2-canvas);
+}
+
+body.gw-v2-directory-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-directory-main {
+  inline-size: min(100%, 78rem);
+  min-block-size: calc(100vh - 9rem);
+  display: grid;
+  align-content: center;
+  gap: clamp(2.2rem, 7vw, 5.5rem);
+  padding-block: clamp(3.5rem, 10vw, 8rem);
+}
+
+.gw-v2-directory {
+  display: grid;
+  gap: clamp(2.2rem, 7vw, 5.5rem);
+}
+
+.gw-v2-directory__intro {
+  max-inline-size: 46rem;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.gw-v2-directory__intro h1 {
+  margin: 0;
+  font-family: var(--gw-v2-font-display);
+  font-size: clamp(3.4rem, 10vw, 8.5rem);
+  font-weight: 400;
+  letter-spacing: -0.065em;
+  line-height: 0.9;
+}
+
+.gw-v2-directory__intro > p:last-child {
+  max-inline-size: 42rem;
+  margin: 0;
+  color: var(--gw-v2-text-muted);
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  line-height: 1.65;
+}
+
+.gw-v2-directory__sections {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.gw-v2-directory-card {
+  min-block-size: 13rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: auto 1fr auto;
+  gap: 0.85rem 1rem;
+  padding: clamp(1.1rem, 3vw, 1.7rem);
+  color: var(--gw-v2-text);
+  background: color-mix(in srgb, var(--gw-v2-surface-raised) 68%, transparent);
+  border: 1px solid var(--gw-v2-seam);
+  border-radius: 1.5rem;
+  box-shadow: 0 1.25rem 3rem color-mix(in srgb, var(--gw-v2-canvas) 28%, transparent), inset 0 1px color-mix(in srgb, white 8%, transparent);
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.gw-v2-directory-card:hover,
+.gw-v2-directory-card:focus-visible {
+  background: color-mix(in srgb, var(--gw-v2-surface-raised) 88%, transparent);
+  border-color: color-mix(in srgb, var(--gw-v2-signal) 48%, var(--gw-v2-seam-strong));
+  outline: none;
+  transform: translateY(-3px);
+}
+
+.gw-v2-directory-card__index,
+.gw-v2-directory-card__count,
+.gw-v2-directory-card__copy small {
+  color: var(--gw-v2-text-subtle);
+  font-family: var(--gw-v2-font-code);
+  font-size: var(--gw-v2-type-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.gw-v2-directory-card__icon {
+  grid-column: 3;
+  inline-size: 2.55rem;
+  block-size: 2.55rem;
+  display: grid;
+  place-items: center;
+  color: var(--gw-v2-signal);
+  background: color-mix(in srgb, var(--gw-v2-signal) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gw-v2-signal) 28%, transparent);
+  border-radius: 0.9rem;
+}
+
+.gw-v2-directory-card__icon svg { inline-size: 1.25rem; block-size: 1.25rem; }
+.gw-v2-directory-card__copy { grid-column: 1 / -1; display: grid; align-content: end; gap: 0.4rem; }
+.gw-v2-directory-card__copy strong { font-family: var(--gw-v2-font-display); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 400; letter-spacing: -0.04em; }
+.gw-v2-directory-card__copy span { max-inline-size: 34rem; color: var(--gw-v2-text-muted); font-size: var(--gw-v2-type-sm); line-height: 1.55; }
+.gw-v2-directory-card__count { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; }
+.gw-v2-directory-card__count b { color: var(--gw-v2-text); font-size: 1rem; }
+.gw-v2-directory-card--os .gw-v2-directory-card__icon { --gw-v2-signal: var(--gw-v2-brand-aqua); }
+.gw-v2-directory-card--product .gw-v2-directory-card__icon { --gw-v2-signal: var(--gw-v2-brand-violet); }
+.gw-v2-directory-card--infra .gw-v2-directory-card__icon { --gw-v2-signal: var(--gw-v2-brand-sapphire); }
+
+.gw-v2-directory__footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--gw-v2-text-subtle);
+  font-family: var(--gw-v2-font-code);
+  font-size: var(--gw-v2-type-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.gw-v2-catalogue-mobile-toggle { display: none; }
+
+@media (max-width: 52.5rem) {
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail,
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail:hover,
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail:focus-within {
+    position: fixed;
+    inset-block-start: 4.1rem;
+    inset-inline-start: 0.5rem;
+    inset-block-end: 0.5rem;
+    z-index: 140;
+    inline-size: min(18rem, calc(100vw - 1rem));
+    block-size: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin: 0;
+    padding: 0.55rem;
+    overflow: auto;
+    background: color-mix(in srgb, var(--gw-v2-surface-raised) 92%, transparent);
+    border-radius: 1.35rem;
+    box-shadow: 0 1.5rem 4rem color-mix(in srgb, var(--gw-v2-canvas) 42%, transparent);
+    transform: translateX(calc(-100% - 1rem));
+    transition: transform 180ms ease;
+  }
+
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"][data-gw-v2-mobile-nav-open="true"] .gw-v2-catalogue-rail {
+    transform: translateX(0);
+  }
+
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__items {
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__link {
+    min-block-size: 3.3rem;
+    inline-size: 100%;
+  }
+
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__label {
+    opacity: 1;
+    transform: none;
+  }
+
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__toggle { display: none; }
+
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-mobile-toggle {
+    inline-size: 2.45rem;
+    block-size: 2.45rem;
+    display: grid;
+    place-items: center;
+    grid-column: 2;
+    grid-row: 1;
+    padding: 0;
+    color: var(--gw-v2-text);
+    background: var(--gw-v2-surface);
+    border: 1px solid var(--gw-v2-seam-strong);
+    border-radius: 0.8rem;
+  }
+
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-mobile-toggle svg { inline-size: 1.05rem; block-size: 1.05rem; }
+
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-brand small { display: inline; }
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-brand strong { font-size: 0.92rem; }
+}
+
+@media (max-width: 42.5rem) {
+  body.gw-v2-directory-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-directory-main { padding-block: 2.5rem 4rem; }
+  .gw-v2-directory__sections { grid-template-columns: 1fr; }
+  .gw-v2-directory__footer { align-items: flex-start; flex-direction: column; }
+}
+
+/* Visual-layout root: a calm, icon-led rail around the atlas. */
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] {
+  --gw-v2-root-rail-width: 4.55rem;
+  --gw-v2-root-rail-expanded-width: 12.5rem;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-layered-navigation {
+  overflow: visible;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail {
+  position: fixed;
+  inset-block-start: 5.25rem;
+  inset-block-end: auto;
+  inset-inline-start: 0.8rem;
+  z-index: 70;
+  inline-size: var(--gw-v2-root-rail-width);
+  block-size: calc(100dvh - 6.05rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.45rem;
+  background: color-mix(in srgb, var(--gw-v2-surface-overlay) 78%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gw-v2-seam-strong) 74%, transparent);
+  border-radius: 1.35rem;
+  box-shadow: 0 1rem 3.5rem color-mix(in srgb, var(--gw-v2-canvas) 46%, transparent);
+  backdrop-filter: blur(26px) saturate(128%);
+  transition: inline-size 180ms ease, box-shadow 180ms ease;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail::before {
+  position: absolute;
+  inset-inline: 0.8rem;
+  inset-block-start: -1px;
+  block-size: 1px;
+  background: var(--gw-v2-material-thread);
+  opacity: 0.82;
+  content: "";
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__items {
+  display: grid;
+  gap: 0.35rem;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__link,
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__toggle {
+  min-block-size: 3.15rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.45rem;
+  color: var(--gw-v2-text-muted);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0.9rem;
+  text-decoration: none;
+  transition: color 160ms ease, background 160ms ease, border-color 160ms ease;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__link:hover,
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__link:focus-visible,
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__toggle:hover,
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__toggle:focus-visible {
+  color: var(--gw-v2-text);
+  background: color-mix(in srgb, var(--gw-v2-surface) 82%, transparent);
+  border-color: var(--gw-v2-seam-strong);
+  outline: none;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__link[data-section="themes"]:hover,
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__link[data-section="themes"]:focus-visible,
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-root-section--themes .gw-v2-root-section__icon {
+  --gw-v2-rail-signal: var(--gw-v2-brand-emerald);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__link[data-section="os"]:hover,
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__link[data-section="os"]:focus-visible,
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-root-section--os .gw-v2-root-section__icon {
+  --gw-v2-rail-signal: var(--gw-v2-brand-aqua);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__link[data-section="product"]:hover,
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__link[data-section="product"]:focus-visible,
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-root-section--product .gw-v2-root-section__icon {
+  --gw-v2-rail-signal: var(--gw-v2-brand-violet);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__link[data-section="infra"]:hover,
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__link[data-section="infra"]:focus-visible,
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-root-section--infra .gw-v2-root-section__icon {
+  --gw-v2-rail-signal: var(--gw-v2-brand-sapphire);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__icon,
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-root-section__icon {
+  flex: 0 0 2.25rem;
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  display: grid;
+  place-items: center;
+  color: var(--gw-v2-rail-signal, var(--gw-v2-signal));
+  background: color-mix(in srgb, var(--gw-v2-rail-signal, var(--gw-v2-signal)) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gw-v2-rail-signal, var(--gw-v2-signal)) 26%, transparent);
+  border-radius: 0.75rem;
+  font-family: var(--gw-v2-font-code);
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__icon svg {
+  inline-size: 1.12rem;
+  block-size: 1.12rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.65;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__label {
+  overflow: hidden;
+  color: var(--gw-v2-text);
+  font-size: var(--gw-v2-type-sm);
+  font-weight: 600;
+  opacity: 0;
+  transform: translateX(-0.35rem);
+  transition: opacity 140ms ease, transform 180ms ease;
+  white-space: nowrap;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__toggle {
+  justify-content: center;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__toggle svg {
+  inline-size: 1rem;
+  block-size: 1rem;
+  transition: transform 180ms ease;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"][data-gw-v2-rail-expanded="true"] .gw-v2-catalogue-rail,
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail:hover,
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail:focus-within {
+  inline-size: var(--gw-v2-root-rail-expanded-width);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"][data-gw-v2-rail-expanded="true"] .gw-v2-catalogue-rail__label,
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail:hover .gw-v2-catalogue-rail__label,
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail:focus-within .gw-v2-catalogue-rail__label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"][data-gw-v2-rail-expanded="true"] .gw-v2-catalogue-rail__toggle svg {
+  transform: rotate(180deg);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-main {
+  inline-size: min(calc(100% - var(--gw-v2-root-rail-width) - 2.7rem), 112rem);
+  margin-inline-start: calc(var(--gw-v2-root-rail-width) + 1.9rem);
+  margin-inline-end: 1.1rem;
+  transition: inline-size 180ms ease, margin 180ms ease;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"][data-gw-v2-rail-expanded="true"] .gw-v2-catalogue-main {
+  inline-size: min(calc(100% - var(--gw-v2-root-rail-expanded-width) - 2.7rem), 112rem);
+  margin-inline-start: calc(var(--gw-v2-root-rail-expanded-width) + 1.9rem);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-hero {
+  min-block-size: min(38rem, calc(100vh - 8rem));
+  overflow: hidden;
+  position: relative;
+  isolation: isolate;
+  align-items: end;
+  padding: clamp(2rem, 6vw, 5.5rem);
+  border: 1px solid color-mix(in srgb, var(--gw-v2-seam-strong) 75%, transparent);
+  border-radius: 1.7rem;
+  background: color-mix(in srgb, var(--gw-v2-surface-raised) 82%, transparent);
+  box-shadow: 0 1.5rem 5rem color-mix(in srgb, var(--gw-v2-canvas) 34%, transparent);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-hero::after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, color-mix(in srgb, var(--gw-v2-canvas) 92%, transparent) 0 42%, transparent 76%);
+  content: "";
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-hero__art {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-hero__art img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.7;
+  filter: saturate(0.86) contrast(0.94);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-hero__copy {
+  position: relative;
+  z-index: 1;
+  max-inline-size: 42rem;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-root {
+  display: grid;
+  gap: clamp(1.25rem, 3vw, 2.75rem);
+  padding-block-start: clamp(1.5rem, 4vw, 3rem);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-root-section {
+  display: grid;
+  gap: clamp(1.2rem, 3vw, 2.4rem);
+  padding: clamp(1.2rem, 3vw, 2.5rem);
+  overflow: hidden;
+  background: color-mix(in srgb, var(--gw-v2-surface-raised) 62%, transparent);
+  border: 1px solid var(--gw-v2-seam);
+  border-radius: 1.45rem;
+  box-shadow: 0 1rem 3rem color-mix(in srgb, var(--gw-v2-canvas) 25%, transparent);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-root-section__header,
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-root-worlds > header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.72fr);
+  gap: var(--gw-v2-space-lg);
+  align-items: end;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-root-section__identity {
+  display: flex;
+  align-items: center;
+  gap: var(--gw-v2-space-sm);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-root-section__header h2,
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-root-worlds h3 {
+  margin: 0;
+  color: var(--gw-v2-text);
+  font-family: var(--gw-v2-font-display);
+  font-size: clamp(1.75rem, 2.5vw, 3rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-root-section__header > p,
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-root-worlds > header > p {
+  margin: 0;
+  color: var(--gw-v2-text-muted);
+  font-size: var(--gw-v2-type-md);
+  line-height: 1.62;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-root-section__routes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-destination {
+  min-block-size: 10.5rem;
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+  padding: 1.1rem;
+  color: var(--gw-v2-text);
+  background: color-mix(in srgb, var(--gw-v2-surface) 70%, transparent);
+  border: 1px solid var(--gw-v2-seam);
+  border-radius: 1rem;
+  box-shadow: inset 0 1px color-mix(in srgb, white 5%, transparent);
+  text-decoration: none;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] a.gw-v2-visual-layout-destination:hover,
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] a.gw-v2-visual-layout-destination:focus-visible {
+  background: color-mix(in srgb, var(--gw-v2-surface-raised) 78%, transparent);
+  border-color: color-mix(in srgb, var(--gw-v2-signal) 48%, var(--gw-v2-seam-strong));
+  transform: translateY(-2px);
+  outline: none;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-destination--placeholder {
+  color: var(--gw-v2-text-muted);
+  background: color-mix(in srgb, var(--gw-v2-surface-recessed) 66%, transparent);
+  border-style: dashed;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-destination__meta {
+  color: var(--gw-v2-signal);
+  font-family: var(--gw-v2-font-code);
+  font-size: var(--gw-v2-type-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-destination strong {
+  font-family: var(--gw-v2-font-display);
+  font-size: var(--gw-v2-type-xl);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-destination > span:not(.gw-v2-visual-layout-destination__meta) {
+  color: var(--gw-v2-text-muted);
+  font-size: var(--gw-v2-type-sm);
+  line-height: 1.5;
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-visual-layout-destination small {
+  align-self: end;
+  margin-block-start: auto;
+  color: var(--gw-v2-text-subtle);
+  font-family: var(--gw-v2-font-code);
+  font-size: var(--gw-v2-type-xs);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-root-worlds {
+  display: grid;
+  gap: var(--gw-v2-space-md);
+  margin-block-start: 0.75rem;
+  padding-block-start: clamp(1.2rem, 3vw, 2.2rem);
+  border-block-start: 1px solid var(--gw-v2-seam);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-root-worlds > header > p {
+  font-size: var(--gw-v2-type-sm);
+}
+
+body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-root-worlds .gw-v2-visual-layout-gallery__grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 66rem) {
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-main {
+    inline-size: min(calc(100% - var(--gw-v2-root-rail-width) - 2.2rem), 112rem);
+    margin-inline-start: calc(var(--gw-v2-root-rail-width) + 1.45rem);
+  }
+
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"][data-gw-v2-rail-expanded="true"] .gw-v2-catalogue-main {
+    inline-size: min(calc(100% - var(--gw-v2-root-rail-expanded-width) - 2.2rem), 112rem);
+    margin-inline-start: calc(var(--gw-v2-root-rail-expanded-width) + 1.45rem);
+  }
+
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail {
+    inset-inline-start: 0.55rem;
+  }
+}
+
+@media (max-width: 52.5rem) {
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail,
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail:hover,
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail:focus-within {
+    position: static;
+    block-size: auto;
+    grid-column: 1 / -1;
+    inline-size: 100%;
+    min-inline-size: 0;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.4rem;
+    margin-block-start: 0.35rem;
+    padding: 0.35rem;
+    overflow-x: auto;
+    border-radius: 1rem;
+    box-shadow: none;
+  }
+
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__items {
+    display: flex;
+    min-inline-size: max-content;
+  }
+
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__link {
+    min-block-size: 2.6rem;
+    inline-size: auto;
+    padding-inline-end: 0.7rem;
+  }
+
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__label {
+    opacity: 1;
+    transform: none;
+  }
+
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-rail__toggle {
+    display: none;
+  }
+
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-main,
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"][data-gw-v2-rail-expanded="true"] .gw-v2-catalogue-main {
+    inline-size: 100%;
+    margin-inline: 0;
+  }
+
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-root-section__header,
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-root-worlds > header {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 42.5rem) {
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-root-section__routes,
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-root-worlds .gw-v2-visual-layout-gallery__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  body.gw-v2-atlas-body.gw-v2-catalogue[data-gw-v2-material="delicate"] .gw-v2-catalogue-hero {
+    min-block-size: 31rem;
+    padding: 1.35rem;
+    border-radius: 1.25rem;
   }
 }

@@ -5,6 +5,7 @@ import {
   type GreenwaysOsV2SurfaceId,
 } from "../../greenways-os-v2-surfaces";
 import GreenwaysOsProductLauncher from "../components/GreenwaysOsProductLauncher.astro";
+import { visualLayoutSections } from "../../v2/visual-layout-manifest.js";
 import "../styles/greenways-os-v2.css";
 
 interface Props {
@@ -17,6 +18,7 @@ const { title, description, surfaceId } = Astro.props;
 const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
 const rootHref = `${base}concepts/greenways-v2/`;
 const surfaceHref = (id: string) => `${rootHref}${id}/`;
+const visualHref = (path: string, external = false) => external ? path : `${base}${path.replace(/^\/+/, "")}`;
 const activeSurface = greenwaysOsV2Surfaces.find((surface) => surface.id === surfaceId);
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
 ---
@@ -58,7 +60,8 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
         <span>{activeSurface?.label ?? "System map"}</span>
       </div>
       <div class="gw2-concept-bar__actions">
-        <button class="gw2-concept-button" type="button" data-gw2-command-open>
+        <button class="gw2-concept-button gw2-concept-button--command" type="button" data-gw2-command-open aria-label="Open Greenways command palette">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8" cy="8" r="4.5" /><path d="m11.5 11.5 4 4" /></svg>
           <span>Command</span><kbd>⌘K</kbd>
         </button>
         <GreenwaysOsProductLauncher />
@@ -68,9 +71,10 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
           data-gw2-surface-open
           aria-controls="gw2-surface-menu"
           aria-expanded="false"
-          aria-label="Choose interface surface"
+          aria-label="Open visual navigator"
         >
           <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 4h14v4H3zM3 12h6v4H3zM13 12h4v4h-4z" /></svg>
+          <span>Navigator</span>
         </button>
         <button
           class="gw2-concept-button gw2-concept-button--icon"
@@ -87,30 +91,34 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
 
     <aside id="gw2-surface-menu" class="gw2-surface-menu" data-gw2-surface-menu hidden>
       <header>
-        <span>Greenways OS navigation</span>
-        <button type="button" data-gw2-surface-close aria-label="Close interface atlas">×</button>
+        <span>Greenways visual navigator</span>
+        <button type="button" data-gw2-surface-close aria-label="Close visual navigator">×</button>
       </header>
-      <a class:list={["gw2-surface-menu__item", { "is-active": !surfaceId }]} href={rootHref}>
-        <span class="gw2-surface-code">00</span>
-        <span><strong>System map</strong><small>Product surfaces and execution environments</small></span>
-      </a>
-      {greenwaysOsProductSurfaces.map((product) => (
-        <a class="gw2-surface-menu__item" href={`${rootHref}#${product.id}`}>
-          <span class="gw2-surface-code">{product.code}</span>
-          <span><strong>{product.label}</strong><small>{product.purpose}</small></span>
-        </a>
-      ))}
-      <div class="gw2-surface-menu__divider">Execution environments</div>
-      {greenwaysOsV2Surfaces.map((surface) => (
-        <a
-          class:list={["gw2-surface-menu__item", { "is-active": surface.id === surfaceId }]}
-          href={surfaceHref(surface.id)}
-          aria-current={surface.id === surfaceId ? "page" : undefined}
-        >
-          <span class="gw2-surface-code">{surface.code}</span>
-          <span><strong>{surface.label}</strong><small>{surface.eyebrow}</small></span>
-        </a>
-      ))}
+      <div class="gw2-surface-menu__sections">
+        {visualLayoutSections.map((section, sectionIndex) => (
+          <section class="gw2-surface-menu__section">
+            <a class="gw2-surface-menu__divider" href={visualHref(section.hubPath)}>
+              <span>{String(sectionIndex + 1).padStart(2, "0")} · {section.label}</span><small>Open section ↗</small>
+            </a>
+            <p>{section.summary}</p>
+            {section.routes.map((route, routeIndex) => route.path ? (
+              <a
+                class="gw2-surface-menu__item"
+                href={visualHref(route.path, route.external)}
+                aria-current={!route.external && route.path && Astro.url.pathname.startsWith(route.path.split("#")[0]) ? "page" : undefined}
+              >
+                <span class="gw2-surface-code">{String(routeIndex + 1).padStart(2, "0")}</span>
+                <span><strong>{route.label}</strong><small>{route.summary}</small></span>
+              </a>
+            ) : (
+              <span class="gw2-surface-menu__item gw2-surface-menu__item--placeholder">
+                <span class="gw2-surface-code">{String(routeIndex + 1).padStart(2, "0")}</span>
+                <span><strong>{route.label}</strong><small>{route.summary}</small></span>
+              </span>
+            ))}
+          </section>
+        ))}
+      </div>
     </aside>
 
     <main id="greenways-v2-main" class="gw2-main" tabindex="-1">

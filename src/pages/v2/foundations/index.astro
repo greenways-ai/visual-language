@@ -2,20 +2,31 @@
 import CatalogueNavigation from "../../../v2/CatalogueNavigation.astro";
 import CataloguePageFooter from "../../../v2/CataloguePageFooter.astro";
 import GreenwaysThemeProvider from "../../../site/components/GreenwaysThemeProvider.astro";
+import greenwaysV2DelicateMaterialCss from "../../../v2/catalogue-material.css?raw";
 import "../../../v2/document.css";
 import "../../../v2/workbench.css";
 import "../../../v2/brand-book.css";
+import "../../../v2/catalogue-atlas.css";
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-project="visual-language" data-gw-v2-atlas-frame>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <title>Greenways v2 foundations laboratory</title>
     <GreenwaysThemeProvider />
+    <style
+      is:inline
+      data-greenways-v2-delicate-material
+      set:html={greenwaysV2DelicateMaterialCss}
+    ></style>
   </head>
-  <body class="gw-v2 gw-v2-document gw-v2-catalogue">
+  <body
+    class="gw-v2 gw-v2-document gw-v2-catalogue gw-v2-atlas-frame"
+    data-gw-v2-current-path="/v2/foundations/"
+    data-gw-v2-material="delicate"
+  >
     <CatalogueNavigation currentPath="/v2/foundations/" />
     <main id="gw-v2-main" class="gw-v2-page" tabindex="-1">
       <div class="gw-v2-brand-book">

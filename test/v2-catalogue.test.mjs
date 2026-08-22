@@ -96,19 +96,21 @@ test("the shared header derives one semantic disclosure tree from the manifest",
 });
 
 test("catalogue home and planned pages are generated from the same manifest", async () => {
-  const [home, root, route, shell, navigation] = await Promise.all([
-    read("src/pages/v2/index.astro"),
+  const [home, root, route, shell, navigation, header] = await Promise.all([
+    read("src/pages/index.astro"),
     read("src/site/components/GreenwaysV2CatalogueHome.astro"),
     read("src/pages/v2/[...route].astro"),
     read("src/v2/CatalogueShell.astro"),
     read("src/v2/CatalogueNavigation.astro"),
+    read("src/v2/CatalogueHeader.astro"),
   ]);
   assert.match(home, /GreenwaysV2CatalogueHome/);
-  assert.match(root, /greenwaysV2Catalogue\.map/);
-  assert.match(root, /route\.children\.map/);
+  assert.match(root, /visualLayoutSections\.map/);
+  assert.match(root, /gw-v2-visual-layout-root/);
+  assert.match(root, /gw-v2-visual-layout-destination--placeholder/);
   assert.match(root, /visualLayoutSections/);
-  assert.match(root, /href=\{href\("\/v1\/"\)\}/);
-  assert.match(root, /href=\{route\.external \? route\.path : href\(route\.path\)\}/);
+  assert.match(root, /visual-worlds-title/);
+  assert.match(root, /destinationHref/);
   assert.match(route, /getCatalogueStaticRoutes\(\)\.map/);
   assert.match(route, /getStaticPaths/);
   assert.match(route, /Declared now\. Detailed later\./);
@@ -119,6 +121,7 @@ test("catalogue home and planned pages are generated from the same manifest", as
   assert.match(navigation, /CatalogueHeader/);
   assert.match(navigation, /CatalogueRouteBar/);
   assert.match(navigation, /CatalogueSectionNav/);
+  assert.match(header, /gw-v2-catalogue-rail/);
   assert.doesNotMatch(navigation, /CataloguePageFooter/);
 });
 

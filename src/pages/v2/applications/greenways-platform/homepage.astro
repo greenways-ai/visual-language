@@ -4,10 +4,12 @@ import {
   GREENWAYS_FABRIC_HOMEPAGE_VERSION,
   greenwaysFabricHomepage as homepage,
 } from "../../../../v2/greenways-platform-homepage.js";
+import { visualLayoutSections } from "../../../../v2/visual-layout-manifest.js";
 import "../../../../v2/greenways-platform-homepage.css";
 
 const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
 const visualLanguageHref = `${base}v2/`;
+const visualHref = (path: string, external = false) => external ? path : `${base}${path.replace(/^\/+/, "")}`;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
 ---
 
@@ -83,8 +85,29 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
             <path d="M16.6 12.8A7 7 0 0 1 7.2 3.4a7 7 0 1 0 9.4 9.4Z"></path>
           </svg>
         </button>
+        <button
+          class="gwf-navigator-toggle"
+          type="button"
+          data-gwf-navigator-open
+          aria-controls="gwf-visual-navigator"
+          aria-expanded="false"
+          aria-label="Open visual navigator"
+        >
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 4h14v4H3zM3 12h6v4H3zM13 12h4v4h-4z" /></svg>
+          <span>Navigator</span>
+        </button>
       </div>
     </header>
+
+    <aside id="gwf-visual-navigator" class="gwf-visual-navigator" data-gwf-navigator hidden>
+      <header><span>Greenways visual navigator</span><button type="button" data-gwf-navigator-close aria-label="Close visual navigator">×</button></header>
+      {visualLayoutSections.map((section, index) => (
+        <section>
+          <a class="gwf-visual-navigator__section" href={visualHref(section.hubPath)}><span>{String(index + 1).padStart(2, "0")} · {section.label}</span><small>Open section ↗</small></a>
+          {section.routes.map((route) => route.path ? <a class="gwf-visual-navigator__item" href={visualHref(route.path, route.external)}><b>{route.label}</b><small>{route.summary}</small></a> : <span class="gwf-visual-navigator__item is-placeholder"><b>{route.label}</b><small>{route.summary}</small></span>)}
+        </section>
+      ))}
+    </aside>
 
     <main id="greenways-fabric-main">
       <section id="top" class="gwf-arrival" aria-labelledby="gwf-arrival-title">
@@ -339,6 +362,22 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
         const appPanels = [...document.querySelectorAll("[data-gwf-app-panel]")];
         const shareToggle = document.querySelector("[data-gwf-share-toggle]");
         const shareLabel = document.querySelector("[data-gwf-share-label]");
+        const navigator = document.querySelector("[data-gwf-navigator]");
+        const navigatorOpen = document.querySelector("[data-gwf-navigator-open]");
+        const navigatorClose = document.querySelector("[data-gwf-navigator-close]");
+
+        const setNavigator = (open) => {
+          if (!navigator) return;
+          navigator.hidden = !open;
+          navigatorOpen?.setAttribute("aria-expanded", String(open));
+          document.body.dataset.gwfNavigator = String(open);
+        };
+
+        navigatorOpen?.addEventListener("click", () => setNavigator(navigator?.hidden !== false));
+        navigatorClose?.addEventListener("click", () => setNavigator(false));
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") setNavigator(false);
+        });
 
         const setMode = (mode) => {
           body.dataset.gwfMode = mode;

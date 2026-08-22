@@ -39,9 +39,9 @@
   overflow: auto;
   padding: 0.7rem;
   color: var(--gw2-text);
-  background: var(--gw2-overlay);
+  background: linear-gradient(145deg, color-mix(in srgb, var(--gw2-overlay) 90%, var(--gw2-surface-3)), var(--gw2-overlay));
   border: 1px solid var(--gw2-line-strong);
-  border-radius: var(--gw2-radius);
+  border-radius: 1.25rem;
   box-shadow: var(--gw2-shadow);
   backdrop-filter: blur(26px) saturate(1.08);
 }
@@ -109,7 +109,7 @@
   padding: 0.6rem;
   background: var(--gw2-field);
   border: 1px solid var(--gw2-line);
-  border-radius: var(--gw2-radius-sm);
+  border-radius: 1rem;
 }
 
 .gw2-app-launcher__group > header {
@@ -148,7 +148,8 @@
   color: var(--gw2-text-2);
   background: var(--gw2-surface);
   border: 1px solid var(--gw2-line);
-  border-radius: var(--gw2-radius-sm);
+  border-radius: 0.85rem;
+  box-shadow: inset 0 1px color-mix(in srgb, white 4%, transparent);
 }
 
 .gw2-app-launcher__app:hover,

@@ -16,6 +16,9 @@ interface Props {
   bodyClass?: string;
   mainClass?: string;
   sectionNavigation?: boolean;
+  showVisualNavigator?: boolean;
+  showRail?: boolean;
+  showRouteBar?: boolean;
 }
 
 const {
@@ -26,6 +29,9 @@ const {
   bodyClass,
   mainClass,
   sectionNavigation = true,
+  showVisualNavigator = true,
+  showRail = false,
+  showRouteBar = true,
 } = Astro.props;
 
 const basePath = import.meta.env.BASE_URL;
@@ -63,6 +69,9 @@ const canonical = new URL(canonicalPath, origin).toString();
       currentPath={currentPath}
       basePath={basePath}
       sectionNavigation={sectionNavigation}
+      showVisualNavigator={showVisualNavigator}
+      showRail={showRail}
+      showRouteBar={showRouteBar}
     />
 
     <main

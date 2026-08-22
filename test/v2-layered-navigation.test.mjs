@@ -87,6 +87,9 @@ test("section navigation progressively enhances meaningful page sections", async
   assert.match(source, /aria-current", "location"/);
   assert.match(source, /event\.key !== "Escape"/);
   assert.match(source, /prefers-reduced-motion/);
+  assert.match(source, /nav\.dataset\.open === "true"/);
+  assert.match(source, /links\.scrollTo/);
+  assert.doesNotMatch(source, /active\.scrollIntoView/);
   assert.match(source, /astro:page-load/);
 });
 
@@ -135,6 +138,37 @@ test("custom catalogue pages use the same layered navigation contract", async ()
     assert.match(source, /id="gw-v2-main"/, path);
     assert.match(source, /data-catalogue-section/, path);
   }
+});
+
+test("manual v2 catalogue pages opt into the shared atlas material", async () => {
+  const [foundations, library, home, material] = await Promise.all([
+    read("src/pages/v2/foundations/index.astro"),
+    read("src/pages/v2/library/index.astro"),
+    read("src/site/components/GreenwaysV2CatalogueHome.astro"),
+    read("src/v2/catalogue-material.css"),
+  ]);
+
+  for (const page of [foundations, library]) {
+    assert.match(page, /catalogue-material\.css\?raw/);
+    assert.match(page, /data-gw-v2-atlas-frame/);
+    assert.match(page, /data-gw-v2-material="delicate"/);
+  }
+  assert.match(home, /CatalogueShell/);
+  assert.match(home, /bodyClass="gw-v2-directory-body"/);
+  assert.match(home, /showVisualNavigator=\{false\}/);
+  assert.match(home, /showRail=\{false\}/);
+  assert.match(home, /gw-v2-directory-card/);
+  assert.doesNotMatch(home, /data-catalogue-section/);
+  assert.match(material, /\.gw-v2-button--primary/);
+  assert.match(material, /\.gw-v2-visual-layout-map__group/);
+  assert.match(material, /\.gw-v2-visual-layout-gallery/);
+  assert.match(material, /\.gw-v2-visual-layout-artwork/);
+  assert.match(material, /gw-v2-font-body/);
+  assert.match(material, /gw-v2-radius-pill/);
+  assert.match(material, /backdrop-filter:\s*blur/);
+  assert.match(material, /gw-v2-glass-drift/);
+  assert.match(material, /gw-v2-surface-shimmer/);
+  assert.match(material, /prefers-reduced-motion/);
 });
 
 test("navigation styling is neutral, keyboard-visible and compact at 320px", async () => {

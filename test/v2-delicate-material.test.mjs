@@ -22,21 +22,20 @@ test("CatalogueShell emits one late material calibration while the Fabric homepa
   assert.doesNotMatch(homepage, /CatalogueShell/);
 });
 
-test("the compact direct menu and complete Atlas index coexist", async () => {
+test("the visual navigator and selective rail share one section manifest", async () => {
   const header = await read("src/v2/CatalogueHeader.astro");
 
-  assert.match(header, /data-gw-v2-quick-nav/);
+  assert.match(header, /data-gw-v2-catalogue-rail/);
+  assert.match(header, /visualLayoutSections\.map/);
+  assert.match(header, /data-gw-v2-rail-toggle/);
   assert.match(header, /aria-label="Visual language sections"/);
-  for (const label of ["Overview", "Foundations", "Library", "Spaces", "Flow"]) {
-    assert.match(header, new RegExp(`label: "${label}"`));
-  }
 
   assert.match(header, /<details class="gw-v2-catalogue-nav"/);
   assert.match(header, /data-gw-v2-atlas-index/);
-  assert.match(header, /greenwaysV2Catalogue\.map/);
-  assert.match(header, /route\.children\.map/);
-  assert.match(header, /Current applications/);
-  assert.match(header, /Spaces · Flow/);
+  assert.match(header, /visualLayoutSections\.map/);
+  assert.match(header, /Visual navigator/);
+  assert.match(header, /Brand · OS · Product · Infra/);
+  assert.match(header, /data-gw-v2-mobile-nav-toggle/);
   assert.doesNotMatch(header, /<script/);
 });
 
@@ -49,6 +48,8 @@ test("the material scale is smaller, rounded and deliberately fine", async () =>
   assert.match(css, /--gw-v2-material-card-radius:\s*0\.75rem/);
   assert.match(css, /--gw-v2-material-frame-radius:\s*0\.875rem/);
   assert.match(css, /--gw-v2-material-menu-radius:\s*0\.875rem/);
+  assert.match(css, /body\.gw-suite-catalogue-body\.gw-v2-catalogue\[data-gw-v2-material="delicate"\]/);
+  assert.match(css, /--gw-v2-material-card-radius:\s*1rem/);
   assert.match(css, /border:\s*1px solid var\(--gw-v2-seam\)/);
   assert.match(css, /box-shadow:\s*none/);
   assert.match(css, /font-size:\s*0\.64rem/);
@@ -63,6 +64,7 @@ test("neutral patterning and bounded peacock threads cover the active route fami
     "--gw-v2-material-thread: var(--gw-v2-brand-spectrum)",
     ".gw-v2-layered-navigation::before",
     ".gw-v2-catalogue-quick-nav",
+    ".gw-v2-catalogue-rail",
     ".gw-v2-atlas-system-map",
     ".gw-suite-hero__system",
     "[class*=\"fm__panel\"]",

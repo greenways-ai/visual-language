@@ -1,0 +1,97 @@
+---
+import CatalogueShell from "../../v2/CatalogueShell.astro";
+import { catalogueHref } from "../../v2/catalogue-manifest.js";
+import {
+  visualLayoutDestinationKinds,
+  visualLayoutSections,
+} from "../../v2/visual-layout-manifest.js";
+import "../../v2/visual-layout-hubs.css";
+
+interface Props {
+  sectionId: string;
+}
+
+const { sectionId } = Astro.props;
+const section = visualLayoutSections.find((candidate) => candidate.id === sectionId) ?? visualLayoutSections[0];
+const basePath = import.meta.env.BASE_URL;
+const href = (path: string, external = false) => external ? path : catalogueHref(path, basePath);
+const statusLabel = (status: string) => status === "placeholder" ? "Coming later" : status;
+---
+
+<CatalogueShell
+  title={`${section.label} · visual language`}
+  description={section.summary}
+  currentPath={Astro.url.pathname}
+  canonicalPath={catalogueHref(section.hubPath, basePath)}
+  bodyClass={`gw-v2-atlas-body gw-v2-section-hub gw-v2-section-hub--${section.id}`}
+  mainClass="gw-v2-section-hub-main"
+  sectionNavigation={false}
+  showVisualNavigator={true}
+  showRail={true}
+>
+  <main class="gw-v2-section-hub" data-section={section.id}>
+    <header class="gw-v2-section-hub__hero">
+      <div class="gw-v2-section-hub__hero-copy">
+        <a class="gw-v2-section-hub__back" href={catalogueHref("/", basePath)}>← Visual layout</a>
+        <p class="gw-v2-catalogue-eyebrow">Section {section.id} · v2 framework</p>
+        <h1>{section.label}.</h1>
+        <p>{section.summary}</p>
+      </div>
+      <div class="gw-v2-section-hub__hero-note">
+        <span>Section principle</span>
+        <strong>{section.id === "brand" ? "A shared language should feel like a place." : section.id === "os" ? "The shell changes. The work does not." : section.id === "product" ? "Capabilities earn their surface." : "Authority remains visible at the boundary."}</strong>
+        <small>Use the visual navigator to move laterally. This page only establishes the section frame.</small>
+      </div>
+    </header>
+
+    <section class="gw-v2-section-hub__routes" aria-labelledby={`${section.id}-routes-title`}>
+      <header>
+        <div>
+          <p class="gw-v2-catalogue-eyebrow">Within {section.label}</p>
+          <h2 id={`${section.id}-routes-title`}>A small beginning.</h2>
+        </div>
+        <p>Each route is deliberately independent. The framework gives every future page the same title, panel navigation, typography, and material vocabulary.</p>
+      </header>
+
+      <div class="gw-v2-section-hub__grid">
+        {section.routes.map((route, index) => route.path ? (
+          <a class="gw-v2-section-route" href={href(route.path, route.external)} data-kind={route.kind} data-status={route.status}>
+            <span class="gw-v2-section-route__top"><b>{String(index + 1).padStart(2, "0")}</b><small>{visualLayoutDestinationKinds[route.kind]} · {statusLabel(route.status)}</small></span>
+            <strong>{route.label}</strong>
+            <span>{route.summary}</span>
+            <em>{route.external ? "Open documentation ↗" : "Open section →"}</em>
+          </a>
+        ) : (
+          <article class="gw-v2-section-route gw-v2-section-route--placeholder" data-kind={route.kind}>
+            <span class="gw-v2-section-route__top"><b>{String(index + 1).padStart(2, "0")}</b><small>Placeholder</small></span>
+            <strong>{route.label}</strong>
+            <span>{route.summary}</span>
+            <em>Route to be defined</em>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    {section.id === "brand" && (
+      <section class="gw-v2-section-hub__mood" aria-labelledby="brand-mood-title">
+        <div>
+          <p class="gw-v2-catalogue-eyebrow">Backgrounds · textures · moods</p>
+          <h2 id="brand-mood-title">The visual language has places to live.</h2>
+        </div>
+        <p>Worlds and generated studies stay in Brand as source material for future themes, documentation covers, and product atmospheres.</p>
+        <div class="gw-v2-section-hub__mood-images">
+          {[
+            ["Greenways", "Peacock garden", "greenways/peacock-garden-night.webp"],
+            ["Hodos", "Reflecting pool", "hodos/reflecting-pool-night.webp"],
+            ["Historia", "Raven library", "historia/raven-library-night.webp"],
+          ].map(([project, label, image]) => (
+            <figure>
+              <img src={`${basePath.replace(/\/+$/, "")}/artwork/${image}`} alt="" loading="lazy" decoding="async" />
+              <figcaption><small>{project}</small><strong>{label}</strong></figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+    )}
+  </main>
+</CatalogueShell>

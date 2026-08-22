@@ -1,19 +1,32 @@
 ---
 import CatalogueNavigation from "../../../v2/CatalogueNavigation.astro";
 import CataloguePageFooter from "../../../v2/CataloguePageFooter.astro";
+import GreenwaysThemeProvider from "../../../site/components/GreenwaysThemeProvider.astro";
+import greenwaysV2DelicateMaterialCss from "../../../v2/catalogue-material.css?raw";
 import "../../../v2/library.css";
+import "../../../v2/catalogue-atlas.css";
 const base = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
 ---
 
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en" data-project="visual-language" data-gw-v2-atlas-frame>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content="Greenways v2 shared component and workflow-state laboratory." />
     <title>Greenways v2 interface library</title>
+    <GreenwaysThemeProvider />
+    <style
+      is:inline
+      data-greenways-v2-delicate-material
+      set:html={greenwaysV2DelicateMaterialCss}
+    ></style>
   </head>
-  <body class="gw-v2 gw-v2-library gw-v2-catalogue">
+  <body
+    class="gw-v2 gw-v2-library gw-v2-catalogue gw-v2-atlas-frame"
+    data-gw-v2-current-path="/v2/library/"
+    data-gw-v2-material="delicate"
+  >
     <CatalogueNavigation currentPath="/v2/library/" />
     <header class="gw-v2-library__bar">
       <a class="gw-v2-library__identity" href={`${base}v2/`}><strong>Greenways v2</strong><small>Interface library</small></a>
