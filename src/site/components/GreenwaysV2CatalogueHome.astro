@@ -23,8 +23,15 @@ const href = (path: string) => catalogueHref(path, basePath);
   showVisualNavigator={false}
   showRail={false}
   showRouteBar={false}
+  useFlameMark={true}
 >
   <main class="gw-v2-directory" data-gw-v2-visual-layout-root>
+    <div class="gw-v2-directory-shader" aria-hidden="true">
+      <span class="gw-v2-directory-shader__orb gw-v2-directory-shader__orb--a"></span>
+      <span class="gw-v2-directory-shader__orb gw-v2-directory-shader__orb--b"></span>
+      <span class="gw-v2-directory-shader__orb gw-v2-directory-shader__orb--c"></span>
+      <span class="gw-v2-directory-shader__grain"></span>
+    </div>
     <header class="gw-v2-directory__intro">
       <p class="gw-v2-catalogue-eyebrow">Greenways visual language · v2</p>
       <h1>Visual layout.</h1>
@@ -55,5 +62,16 @@ const href = (path: string) => catalogueHref(path, basePath);
       <span>Brand / OS / Product / Infra</span>
       <span>v2 framework · in progress</span>
     </footer>
+
+    <details class="gw-v2-directory-host">
+      <summary aria-label="Open the visual language host">
+        <span class="gw-v2-directory-host__face" aria-hidden="true"><i></i><i></i><b></b></span>
+        <span class="gw-v2-directory-host__label">Need a way in?</span>
+      </summary>
+      <div class="gw-v2-directory-host__bubble">
+        <strong>Start with a section.</strong>
+        <span>I’ll keep the atlas warm while it grows.</span>
+      </div>
+    </details>
   </main>
 </CatalogueShell>

@@ -34,7 +34,10 @@ test("root component renders a minimal data-driven directory and preserves the v
   assert.match(source, /gw-v2-visual-layout-root/);
   assert.match(source, /showVisualNavigator=\{false\}/);
   assert.match(source, /showRail=\{false\}/);
+  assert.match(source, /useFlameMark=\{true\}/);
   assert.match(source, /section\.hubPath/);
   assert.match(source, /gw-v2-directory-card/);
+  assert.match(source, /gw-v2-directory-shader/);
+  assert.match(source, /gw-v2-directory-host/);
   assert.match(source, /visualLayoutSections\.map/);
 });

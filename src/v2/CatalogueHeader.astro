@@ -1,5 +1,6 @@
 ---
 import MosaicLogo from "../MosaicLogo.astro";
+import GreenwaysFlame from "../GreenwaysFlame.astro";
 import ThemeButton from "../ThemeButton.astro";
 import {
   catalogueHref,
@@ -16,6 +17,7 @@ interface Props {
   basePath?: string;
   showVisualNavigator?: boolean;
   showRail?: boolean;
+  useFlameMark?: boolean;
 }
 
 const {
@@ -23,6 +25,7 @@ const {
   basePath = import.meta.env.BASE_URL,
   showVisualNavigator = true,
   showRail = false,
+  useFlameMark = false,
 } = Astro.props;
 
 const href = (path: string) => catalogueHref(path, basePath);
@@ -44,7 +47,11 @@ const sectionIsCurrent = (section: (typeof visualLayoutSections)[number]) =>
     href={href(greenwaysV2CatalogueHome.path)}
     aria-current={isCurrent(greenwaysV2CatalogueHome.path) ? "page" : undefined}
   >
-    <MosaicLogo project="greenways" label="Greenways" class="gw-v2-catalogue-brand__mark" />
+    {useFlameMark ? (
+      <GreenwaysFlame label="Greenways flame" class="gw-v2-catalogue-brand__mark gw-v2-catalogue-brand__flame" />
+    ) : (
+      <MosaicLogo project="greenways" label="Greenways" class="gw-v2-catalogue-brand__mark" />
+    )}
     <span>
       <strong>Greenways</strong>
       <small>Visual language · v2</small>

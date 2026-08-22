@@ -12,6 +12,7 @@ interface Props {
   showVisualNavigator?: boolean;
   showRail?: boolean;
   showRouteBar?: boolean;
+  useFlameMark?: boolean;
 }
 
 const {
@@ -21,6 +22,7 @@ const {
   showVisualNavigator = true,
   showRail = false,
   showRouteBar = true,
+  useFlameMark = false,
 } = Astro.props;
 ---
 
@@ -31,6 +33,7 @@ const {
     basePath={basePath}
     showVisualNavigator={showVisualNavigator}
     showRail={showRail}
+    useFlameMark={useFlameMark}
   />
   {showRouteBar && <CatalogueRouteBar currentPath={currentPath} basePath={basePath} />}
 </div>
