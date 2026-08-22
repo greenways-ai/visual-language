@@ -5,12 +5,13 @@
 body.gw-v2-section-hub.gw-v2-catalogue[data-gw-v2-material="delicate"] {
   --gw-hub-atmosphere: var(--gw-v2-brand-aqua);
   background:
-    radial-gradient(circle at 12% 4%, color-mix(in srgb, var(--gw-hub-atmosphere) 13%, transparent), transparent 28rem),
-    radial-gradient(circle at 88% 52%, color-mix(in srgb, var(--gw-v2-brand-violet) 9%, transparent), transparent 34rem),
+    radial-gradient(circle at 12% 4%, color-mix(in srgb, var(--gw-v2-brand-violet) 17%, transparent), transparent 28rem),
+    radial-gradient(circle at 88% 52%, color-mix(in srgb, var(--gw-hub-atmosphere) 12%, transparent), transparent 34rem),
+    radial-gradient(circle at 42% 96%, color-mix(in srgb, var(--gw-v2-brand-violet) 7%, transparent), transparent 38rem),
     var(--gw-v2-canvas);
 }
 
-body.gw-v2-section-hub--brand.gw-v2-catalogue[data-gw-v2-material="delicate"] { --gw-hub-atmosphere: var(--gw-v2-brand-emerald); }
+body.gw-v2-section-hub--brand.gw-v2-catalogue[data-gw-v2-material="delicate"] { --gw-hub-atmosphere: var(--gw-v2-brand-aqua); }
 body.gw-v2-section-hub--os.gw-v2-catalogue[data-gw-v2-material="delicate"] { --gw-hub-atmosphere: var(--gw-v2-brand-aqua); }
 body.gw-v2-section-hub--product.gw-v2-catalogue[data-gw-v2-material="delicate"] { --gw-hub-atmosphere: var(--gw-v2-brand-violet); }
 body.gw-v2-section-hub--infra.gw-v2-catalogue[data-gw-v2-material="delicate"] { --gw-hub-atmosphere: var(--gw-v2-brand-sapphire); }

@@ -1496,8 +1496,9 @@ body.gw-v2-catalogue[data-gw-v2-material="delicate"] :where(a, button, input, se
  * a front door, not another catalogue wall. */
 body.gw-v2-directory-body.gw-v2-catalogue[data-gw-v2-material="delicate"] {
   background:
-    radial-gradient(circle at 84% 10%, color-mix(in srgb, var(--gw-v2-brand-aqua) 10%, transparent), transparent 28rem),
-    radial-gradient(circle at 12% 78%, color-mix(in srgb, var(--gw-v2-brand-emerald) 12%, transparent), transparent 34rem),
+    radial-gradient(circle at 84% 10%, color-mix(in srgb, var(--gw-v2-brand-violet) 16%, transparent), transparent 28rem),
+    radial-gradient(circle at 12% 78%, color-mix(in srgb, var(--gw-v2-brand-aqua) 12%, transparent), transparent 34rem),
+    radial-gradient(circle at 52% 52%, color-mix(in srgb, var(--gw-v2-brand-violet) 7%, transparent), transparent 42rem),
     var(--gw-v2-canvas);
 }
 
@@ -1526,8 +1527,8 @@ body.gw-v2-directory-body.gw-v2-catalogue[data-gw-v2-material="delicate"] {
   position: absolute;
   inset: -18%;
   background:
-    conic-gradient(from 215deg at 52% 48%, transparent 0 17%, color-mix(in srgb, var(--gw-v2-brand-aqua) 9%, transparent) 25%, transparent 34% 54%, color-mix(in srgb, var(--gw-v2-brand-violet) 8%, transparent) 65%, transparent 74%),
-    radial-gradient(circle at 50% 50%, transparent 0 28%, color-mix(in srgb, var(--gw-v2-brand-emerald) 8%, transparent) 56%, transparent 74%);
+    conic-gradient(from 215deg at 52% 48%, transparent 0 17%, color-mix(in srgb, var(--gw-v2-brand-aqua) 11%, transparent) 25%, transparent 34% 54%, color-mix(in srgb, var(--gw-v2-brand-violet) 14%, transparent) 65%, transparent 74%),
+    radial-gradient(circle at 50% 50%, transparent 0 28%, color-mix(in srgb, var(--gw-v2-brand-violet) 10%, transparent) 56%, transparent 74%);
   filter: blur(34px) saturate(120%);
   opacity: 0.78;
   animation: gw-v2-directory-shader-turn 28s linear infinite;

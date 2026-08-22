@@ -56,4 +56,6 @@ test("secondary section hubs share a denser title rhythm and atmospheric materia
   assert.match(source, /min-block-size: min\(28rem, 52vh\)/);
   assert.match(source, /gw-v2-section-hub__hero::before/);
   assert.match(source, /backdrop-filter: blur\(22px\)/);
+  assert.match(source, /brand-violet\) 17%/);
+  assert.match(source, /hub-atmosphere\) 12%/);
 });
